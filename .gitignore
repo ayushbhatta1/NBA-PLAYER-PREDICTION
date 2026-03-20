@@ -1,0 +1,59 @@
+# Cache & large data files (not tracked in git)
+predictions/cache/
+predictions/2026-*/
+catboost_info/
+data/
+
+# Model artifacts (retrained locally)
+predictions/*.pkl
+predictions/*.json
+!predictions/injury_impacts.json
+!predictions/player_trust.json
+
+# Secrets
+predictions/.env
+.env
+
+# Archive (old versions)
+predictions/archive/
+
+# Logs
+predictions/logs/
+
+# Nested predictions folder (artifact)
+predictions/predictions/
+
+# Analysis reports (generated)
+predictions/daft_analysis.md
+predictions/daft_full_analysis.md
+
+# Generated analysis
+predictions/daft_analysis.md
+predictions/daft_full_analysis.md
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code
+.claude/
+
+# Large database
+NBA Database (1947 - Present)/
+
+# Temp
+/tmp/
+*.tmp

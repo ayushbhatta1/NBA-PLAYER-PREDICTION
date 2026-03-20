@@ -1,0 +1,50 @@
+{
+  "_source": "484 real Underdog picks (Nov 2025 - Mar 2026)",
+  "_updated": "2026-03-18",
+  "trust": {
+    "Luka Doncic": {"record": "8/8", "hr": 100, "note": "perfect record"},
+    "Chet Holmgren": {"record": "5/5", "hr": 100, "note": "perfect record"},
+    "Ryan Rollins": {"record": "5/5", "hr": 100, "note": "perfect record"},
+    "Cooper Flagg": {"record": "9/10", "hr": 90, "note": "near perfect"},
+    "Derrick White": {"record": "5/6", "hr": 83, "note": "reliable"},
+    "Cade Cunningham": {"record": "9/11", "hr": 82, "note": "reliable"},
+    "Josh Hart": {"record": "4/5", "hr": 80, "note": "reliable"},
+    "Jalen Brunson": {"record": "10/13", "hr": 77, "note": "high volume reliable"},
+    "LeBron James": {"record": "7/10", "hr": 70, "note": "solid"},
+    "Jaylen Brown": {"record": "10/15", "hr": 67, "note": "solid volume"}
+  },
+  "blacklist": {
+    "Devin Booker": {"record": "1/7", "hr": 14, "note": "PTS OVER 0/5"},
+    "Stephen Curry": {"record": "2/8", "hr": 25, "note": "PTS OVER 0/3"},
+    "Karl-Anthony Towns": {"record": "3/10", "hr": 30, "note": "chronic miss"},
+    "Bam Adebayo": {"record": "3/9", "hr": 33, "note": "PTS OVER 1/5"},
+    "Anthony Edwards": {"record": "4/11", "hr": 36, "note": "unreliable"},
+    "Giannis Antetokounmpo": {"record": "3/8", "hr": 38, "note": "unreliable"},
+    "Victor Wembanyama": {"record": "0/5", "hr": 0, "note": "0 for 5"}
+  },
+  "golden_combos": {
+    "Jaylen Brown PTS OVER": "6/6 (100%)",
+    "Cade Cunningham PTS OVER": "5/5 (100%)",
+    "LeBron James PTS OVER": "4/4 (100%)",
+    "Luka Doncic PRA OVER": "4/4 (100%)",
+    "Derrick White PTS OVER": "3/3 (100%)",
+    "Chet Holmgren PRA OVER": "3/3 (100%)"
+  },
+  "death_combos": {
+    "Devin Booker PTS OVER": "0/5 (0%)",
+    "Franz Wagner PTS OVER": "0/4 (0%)",
+    "Stephen Curry PTS OVER": "0/3 (0%)",
+    "Keldon Johnson PRA OVER": "0/3 (0%)",
+    "Pascal Siakam PTS OVER": "1/6 (17%)",
+    "Bam Adebayo PTS OVER": "1/5 (20%)",
+    "Jamal Murray PTS OVER": "1/4 (25%)"
+  },
+  "rules": {
+    "line_sweet_spot": "OVER lines 0-16 hit 60%, lines 16-24 hit 42%",
+    "best_stats": "AST OVER 67%, REB OVER 60%, PTS OVER only 52%",
+    "miss_avg_shortfall_star": "Star lines (24+) miss by avg 9.1 points",
+    "miss_avg_shortfall_low": "Low lines (0-8) miss by avg 2.1 points",
+    "close_miss_rate": "34% of misses within 1.5 — floor safety prevents these",
+    "dnp_rate": "8% of misses are DNP/zeros — pregame check critical"
+  }
+}

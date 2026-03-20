@@ -1,0 +1,2021 @@
+{
+  "season": "2025-26",
+  "team_stars": {
+    "Hawks": [
+      {
+        "name": "Jalen Johnson",
+        "id": 1630552,
+        "avg_pts": 20.9,
+        "avg_ast": 7.1,
+        "avg_reb": 9.5,
+        "avg_min": 34.9,
+        "games": 64
+      },
+      {
+        "name": "Dyson Daniels",
+        "id": 1630700,
+        "avg_pts": 10.7,
+        "avg_ast": 5.7,
+        "avg_reb": 6.2,
+        "avg_min": 32.6,
+        "games": 67
+      },
+      {
+        "name": "Nickeil Alexander-Walker",
+        "id": 1629638,
+        "avg_pts": 18.8,
+        "avg_ast": 3.6,
+        "avg_reb": 3.3,
+        "avg_min": 32.5,
+        "games": 66
+      }
+    ],
+    "Celtics": [
+      {
+        "name": "Derrick White",
+        "id": 1628401,
+        "avg_pts": 16.9,
+        "avg_ast": 5.6,
+        "avg_reb": 4.4,
+        "avg_min": 33.8,
+        "games": 67
+      },
+      {
+        "name": "Jaylen Brown",
+        "id": 1627759,
+        "avg_pts": 25.3,
+        "avg_ast": 4.5,
+        "avg_reb": 6.4,
+        "avg_min": 33.2,
+        "games": 66
+      },
+      {
+        "name": "Payton Pritchard",
+        "id": 1630202,
+        "avg_pts": 16.5,
+        "avg_ast": 5.3,
+        "avg_reb": 4.0,
+        "avg_min": 32.0,
+        "games": 67
+      }
+    ],
+    "Nets": [
+      {
+        "name": "Michael Porter Jr.",
+        "id": 1629008,
+        "avg_pts": 22.7,
+        "avg_ast": 2.9,
+        "avg_reb": 6.7,
+        "avg_min": 31.3,
+        "games": 58
+      },
+      {
+        "name": "Nic Claxton",
+        "id": 1629651,
+        "avg_pts": 12.0,
+        "avg_ast": 3.8,
+        "avg_reb": 7.1,
+        "avg_min": 28.4,
+        "games": 62
+      },
+      {
+        "name": "Noah Clowney",
+        "id": 1641730,
+        "avg_pts": 12.3,
+        "avg_ast": 1.6,
+        "avg_reb": 4.0,
+        "avg_min": 26.9,
+        "games": 63
+      }
+    ],
+    "Hornets": [
+      {
+        "name": "Kon Knueppel",
+        "id": 1642851,
+        "avg_pts": 18.7,
+        "avg_ast": 3.4,
+        "avg_reb": 5.2,
+        "avg_min": 31.1,
+        "games": 69
+      },
+      {
+        "name": "Miles Bridges",
+        "id": 1628970,
+        "avg_pts": 16.4,
+        "avg_ast": 3.1,
+        "avg_reb": 5.7,
+        "avg_min": 30.8,
+        "games": 69
+      },
+      {
+        "name": "Brandon Miller",
+        "id": 1641706,
+        "avg_pts": 20.2,
+        "avg_ast": 3.4,
+        "avg_reb": 4.8,
+        "avg_min": 29.3,
+        "games": 52
+      }
+    ],
+    "Bulls": [
+      {
+        "name": "Nikola Vucevic",
+        "id": 202696,
+        "avg_pts": 16.1,
+        "avg_ast": 3.7,
+        "avg_reb": 9.0,
+        "avg_min": 30.0,
+        "games": 52
+      },
+      {
+        "name": "Josh Giddey",
+        "id": 1630581,
+        "avg_pts": 15.3,
+        "avg_ast": 7.3,
+        "avg_reb": 7.2,
+        "avg_min": 29.6,
+        "games": 53
+      },
+      {
+        "name": "Coby White",
+        "id": 1629632,
+        "avg_pts": 16.4,
+        "avg_ast": 4.1,
+        "avg_reb": 3.3,
+        "avg_min": 28.9,
+        "games": 33
+      }
+    ],
+    "Cavaliers": [
+      {
+        "name": "Donovan Mitchell",
+        "id": 1628378,
+        "avg_pts": 27.0,
+        "avg_ast": 5.5,
+        "avg_reb": 4.3,
+        "avg_min": 32.8,
+        "games": 61
+      },
+      {
+        "name": "Evan Mobley",
+        "id": 1630596,
+        "avg_pts": 16.9,
+        "avg_ast": 3.6,
+        "avg_reb": 8.2,
+        "avg_min": 32.0,
+        "games": 54
+      },
+      {
+        "name": "Darius Garland",
+        "id": 1629636,
+        "avg_pts": 16.1,
+        "avg_ast": 6.2,
+        "avg_reb": 2.2,
+        "avg_min": 30.3,
+        "games": 29
+      }
+    ],
+    "Mavericks": [
+      {
+        "name": "Cooper Flagg",
+        "id": 1642843,
+        "avg_pts": 19.2,
+        "avg_ast": 4.1,
+        "avg_reb": 6.3,
+        "avg_min": 32.1,
+        "games": 57
+      },
+      {
+        "name": "P.J. Washington",
+        "id": 1629023,
+        "avg_pts": 12.5,
+        "avg_ast": 1.9,
+        "avg_reb": 6.0,
+        "avg_min": 29.9,
+        "games": 55
+      },
+      {
+        "name": "Naji Marshall",
+        "id": 1630230,
+        "avg_pts": 14.3,
+        "avg_ast": 2.9,
+        "avg_reb": 4.5,
+        "avg_min": 28.7,
+        "games": 67
+      }
+    ],
+    "Nuggets": [
+      {
+        "name": "Jamal Murray",
+        "id": 1627750,
+        "avg_pts": 24.1,
+        "avg_ast": 6.7,
+        "avg_reb": 4.0,
+        "avg_min": 33.9,
+        "games": 65
+      },
+      {
+        "name": "Nikola Jokic",
+        "id": 203999,
+        "avg_pts": 27.8,
+        "avg_ast": 9.9,
+        "avg_reb": 12.1,
+        "avg_min": 33.3,
+        "games": 52
+      },
+      {
+        "name": "Christian Braun",
+        "id": 1631128,
+        "avg_pts": 10.1,
+        "avg_ast": 2.7,
+        "avg_reb": 4.3,
+        "avg_min": 30.2,
+        "games": 34
+      }
+    ],
+    "Pistons": [
+      {
+        "name": "Cade Cunningham",
+        "id": 1630595,
+        "avg_pts": 24.2,
+        "avg_ast": 9.4,
+        "avg_reb": 5.4,
+        "avg_min": 34.2,
+        "games": 61
+      },
+      {
+        "name": "Tobias Harris",
+        "id": 202699,
+        "avg_pts": 13.1,
+        "avg_ast": 2.1,
+        "avg_reb": 5.1,
+        "avg_min": 27.8,
+        "games": 51
+      },
+      {
+        "name": "Duncan Robinson",
+        "id": 1629130,
+        "avg_pts": 11.6,
+        "avg_ast": 2.0,
+        "avg_reb": 2.7,
+        "avg_min": 27.3,
+        "games": 65
+      }
+    ],
+    "Warriors": [
+      {
+        "name": "Stephen Curry",
+        "id": 201939,
+        "avg_pts": 26.4,
+        "avg_ast": 4.7,
+        "avg_reb": 3.6,
+        "avg_min": 30.2,
+        "games": 43
+      },
+      {
+        "name": "Jimmy Butler III",
+        "id": 202710,
+        "avg_pts": 18.2,
+        "avg_ast": 4.4,
+        "avg_reb": 5.0,
+        "avg_min": 29.4,
+        "games": 43
+      },
+      {
+        "name": "Brandin Podziemski",
+        "id": 1641764,
+        "avg_pts": 12.4,
+        "avg_ast": 3.7,
+        "avg_reb": 5.0,
+        "avg_min": 27.1,
+        "games": 68
+      }
+    ],
+    "Rockets": [
+      {
+        "name": "Amen Thompson",
+        "id": 1641708,
+        "avg_pts": 17.1,
+        "avg_ast": 5.1,
+        "avg_reb": 7.3,
+        "avg_min": 36.3,
+        "games": 66
+      },
+      {
+        "name": "Kevin Durant",
+        "id": 201142,
+        "avg_pts": 25.0,
+        "avg_ast": 4.3,
+        "avg_reb": 5.2,
+        "avg_min": 35.5,
+        "games": 64
+      },
+      {
+        "name": "Jabari Smith Jr.",
+        "id": 1631095,
+        "avg_pts": 14.5,
+        "avg_ast": 1.7,
+        "avg_reb": 6.4,
+        "avg_min": 34.1,
+        "games": 66
+      }
+    ],
+    "Pacers": [
+      {
+        "name": "Pascal Siakam",
+        "id": 1627783,
+        "avg_pts": 20.6,
+        "avg_ast": 3.4,
+        "avg_reb": 5.7,
+        "avg_min": 32.6,
+        "games": 66
+      },
+      {
+        "name": "Andrew Nembhard",
+        "id": 1629614,
+        "avg_pts": 15.0,
+        "avg_ast": 6.5,
+        "avg_reb": 2.5,
+        "avg_min": 30.4,
+        "games": 59
+      },
+      {
+        "name": "Bennedict Mathurin",
+        "id": 1631097,
+        "avg_pts": 17.1,
+        "avg_ast": 2.0,
+        "avg_reb": 5.1,
+        "avg_min": 29.9,
+        "games": 33
+      }
+    ],
+    "Clippers": [
+      {
+        "name": "James Harden",
+        "id": 201935,
+        "avg_pts": 24.2,
+        "avg_ast": 8.1,
+        "avg_reb": 4.7,
+        "avg_min": 34.3,
+        "games": 47
+      },
+      {
+        "name": "Kawhi Leonard",
+        "id": 202695,
+        "avg_pts": 27.2,
+        "avg_ast": 3.5,
+        "avg_reb": 6.1,
+        "avg_min": 31.5,
+        "games": 52
+      },
+      {
+        "name": "Ivica Zubac",
+        "id": 1627826,
+        "avg_pts": 13.9,
+        "avg_ast": 2.3,
+        "avg_reb": 10.6,
+        "avg_min": 29.8,
+        "games": 47
+      }
+    ],
+    "Lakers": [
+      {
+        "name": "Luka Doncic",
+        "id": 1629029,
+        "avg_pts": 30.7,
+        "avg_ast": 7.9,
+        "avg_reb": 7.3,
+        "avg_min": 35.0,
+        "games": 57
+      },
+      {
+        "name": "LeBron James",
+        "id": 2544,
+        "avg_pts": 19.6,
+        "avg_ast": 6.4,
+        "avg_reb": 5.2,
+        "avg_min": 32.9,
+        "games": 48
+      },
+      {
+        "name": "Austin Reaves",
+        "id": 1630559,
+        "avg_pts": 21.5,
+        "avg_ast": 4.9,
+        "avg_reb": 4.3,
+        "avg_min": 32.6,
+        "games": 45
+      }
+    ],
+    "Grizzlies": [
+      {
+        "name": "Jaren Jackson Jr.",
+        "id": 1628991,
+        "avg_pts": 17.9,
+        "avg_ast": 1.8,
+        "avg_reb": 5.3,
+        "avg_min": 30.3,
+        "games": 50
+      },
+      {
+        "name": "Ja Morant",
+        "id": 1629630,
+        "avg_pts": 16.2,
+        "avg_ast": 6.7,
+        "avg_reb": 2.7,
+        "avg_min": 28.2,
+        "games": 24
+      },
+      {
+        "name": "Santi Aldama",
+        "id": 1630583,
+        "avg_pts": 12.4,
+        "avg_ast": 2.6,
+        "avg_reb": 6.2,
+        "avg_min": 27.0,
+        "games": 52
+      }
+    ],
+    "Heat": [
+      {
+        "name": "Bam Adebayo",
+        "id": 1628389,
+        "avg_pts": 17.7,
+        "avg_ast": 2.8,
+        "avg_reb": 9.3,
+        "avg_min": 30.3,
+        "games": 64
+      },
+      {
+        "name": "Andrew Wiggins",
+        "id": 203952,
+        "avg_pts": 13.9,
+        "avg_ast": 2.5,
+        "avg_reb": 4.4,
+        "avg_min": 29.8,
+        "games": 68
+      },
+      {
+        "name": "Norman Powell",
+        "id": 1626181,
+        "avg_pts": 17.4,
+        "avg_ast": 2.0,
+        "avg_reb": 2.8,
+        "avg_min": 29.1,
+        "games": 68
+      }
+    ],
+    "Bucks": [
+      {
+        "name": "Kevin Porter Jr.",
+        "id": 1629645,
+        "avg_pts": 16.8,
+        "avg_ast": 7.1,
+        "avg_reb": 4.8,
+        "avg_min": 31.8,
+        "games": 39
+      },
+      {
+        "name": "Ryan Rollins",
+        "id": 1631157,
+        "avg_pts": 16.3,
+        "avg_ast": 5.2,
+        "avg_reb": 4.5,
+        "avg_min": 31.0,
+        "games": 65
+      },
+      {
+        "name": "AJ Green",
+        "id": 1631260,
+        "avg_pts": 10.0,
+        "avg_ast": 1.9,
+        "avg_reb": 2.6,
+        "avg_min": 28.9,
+        "games": 63
+      }
+    ],
+    "Timberwolves": [
+      {
+        "name": "Anthony Edwards",
+        "id": 1630162,
+        "avg_pts": 29.1,
+        "avg_ast": 3.6,
+        "avg_reb": 5.1,
+        "avg_min": 34.9,
+        "games": 57
+      },
+      {
+        "name": "Julius Randle",
+        "id": 203944,
+        "avg_pts": 21.2,
+        "avg_ast": 5.1,
+        "avg_reb": 6.9,
+        "avg_min": 32.7,
+        "games": 67
+      },
+      {
+        "name": "Jaden McDaniels",
+        "id": 1630183,
+        "avg_pts": 14.5,
+        "avg_ast": 2.8,
+        "avg_reb": 4.4,
+        "avg_min": 31.3,
+        "games": 65
+      }
+    ],
+    "Pelicans": [
+      {
+        "name": "Trey Murphy III",
+        "id": 1630530,
+        "avg_pts": 21.3,
+        "avg_ast": 3.6,
+        "avg_reb": 5.5,
+        "avg_min": 34.5,
+        "games": 61
+      },
+      {
+        "name": "Saddiq Bey",
+        "id": 1630180,
+        "avg_pts": 17.0,
+        "avg_ast": 2.4,
+        "avg_reb": 5.6,
+        "avg_min": 30.3,
+        "games": 63
+      },
+      {
+        "name": "Zion Williamson",
+        "id": 1629627,
+        "avg_pts": 20.5,
+        "avg_ast": 3.4,
+        "avg_reb": 5.7,
+        "avg_min": 28.5,
+        "games": 54
+      }
+    ],
+    "Knicks": [
+      {
+        "name": "Jalen Brunson",
+        "id": 1628973,
+        "avg_pts": 25.1,
+        "avg_ast": 6.2,
+        "avg_reb": 3.4,
+        "avg_min": 34.0,
+        "games": 66
+      },
+      {
+        "name": "Mikal Bridges",
+        "id": 1628969,
+        "avg_pts": 14.9,
+        "avg_ast": 3.8,
+        "avg_reb": 4.0,
+        "avg_min": 33.0,
+        "games": 71
+      },
+      {
+        "name": "OG Anunoby",
+        "id": 1628384,
+        "avg_pts": 15.5,
+        "avg_ast": 2.1,
+        "avg_reb": 5.0,
+        "avg_min": 32.6,
+        "games": 57
+      }
+    ],
+    "Thunder": [
+      {
+        "name": "Shai Gilgeous-Alexander",
+        "id": 1628983,
+        "avg_pts": 30.9,
+        "avg_ast": 6.4,
+        "avg_reb": 4.3,
+        "avg_min": 32.4,
+        "games": 56
+      },
+      {
+        "name": "Chet Holmgren",
+        "id": 1631096,
+        "avg_pts": 16.6,
+        "avg_ast": 1.7,
+        "avg_reb": 8.7,
+        "avg_min": 29.0,
+        "games": 59
+      },
+      {
+        "name": "Jalen Williams",
+        "id": 1631114,
+        "avg_pts": 16.9,
+        "avg_ast": 5.2,
+        "avg_reb": 4.5,
+        "avg_min": 27.8,
+        "games": 27
+      }
+    ],
+    "Magic": [
+      {
+        "name": "Paolo Banchero",
+        "id": 1631094,
+        "avg_pts": 21.7,
+        "avg_ast": 4.8,
+        "avg_reb": 8.4,
+        "avg_min": 33.9,
+        "games": 56
+      },
+      {
+        "name": "Desmond Bane",
+        "id": 1630217,
+        "avg_pts": 19.9,
+        "avg_ast": 4.1,
+        "avg_reb": 4.1,
+        "avg_min": 33.3,
+        "games": 66
+      },
+      {
+        "name": "Anthony Black",
+        "id": 1641710,
+        "avg_pts": 14.9,
+        "avg_ast": 3.8,
+        "avg_reb": 3.8,
+        "avg_min": 29.9,
+        "games": 64
+      }
+    ],
+    "76ers": [
+      {
+        "name": "Tyrese Maxey",
+        "id": 1630178,
+        "avg_pts": 28.3,
+        "avg_ast": 6.5,
+        "avg_reb": 4.0,
+        "avg_min": 37.0,
+        "games": 65
+      },
+      {
+        "name": "VJ Edgecombe",
+        "id": 1642845,
+        "avg_pts": 15.4,
+        "avg_ast": 3.9,
+        "avg_reb": 5.5,
+        "avg_min": 34.7,
+        "games": 60
+      },
+      {
+        "name": "Kelly Oubre Jr.",
+        "id": 1626162,
+        "avg_pts": 14.0,
+        "avg_ast": 1.8,
+        "avg_reb": 4.7,
+        "avg_min": 31.7,
+        "games": 43
+      }
+    ],
+    "Suns": [
+      {
+        "name": "Devin Booker",
+        "id": 1626164,
+        "avg_pts": 24.1,
+        "avg_ast": 5.9,
+        "avg_reb": 3.8,
+        "avg_min": 32.7,
+        "games": 52
+      },
+      {
+        "name": "Dillon Brooks",
+        "id": 1628415,
+        "avg_pts": 19.7,
+        "avg_ast": 1.7,
+        "avg_reb": 3.4,
+        "avg_min": 30.1,
+        "games": 55
+      },
+      {
+        "name": "Grayson Allen",
+        "id": 1628960,
+        "avg_pts": 16.6,
+        "avg_ast": 4.0,
+        "avg_reb": 2.9,
+        "avg_min": 29.5,
+        "games": 45
+      }
+    ],
+    "Trail Blazers": [
+      {
+        "name": "Toumani Camara",
+        "id": 1641739,
+        "avg_pts": 12.4,
+        "avg_ast": 2.4,
+        "avg_reb": 5.2,
+        "avg_min": 32.9,
+        "games": 69
+      },
+      {
+        "name": "Deni Avdija",
+        "id": 1630166,
+        "avg_pts": 18.0,
+        "avg_ast": 4.9,
+        "avg_reb": 5.3,
+        "avg_min": 32.2,
+        "games": 69
+      },
+      {
+        "name": "Shaedon Sharpe",
+        "id": 1631101,
+        "avg_pts": 17.0,
+        "avg_ast": 2.0,
+        "avg_reb": 3.6,
+        "avg_min": 29.0,
+        "games": 65
+      }
+    ],
+    "Kings": [
+      {
+        "name": "Keegan Murray",
+        "id": 1631099,
+        "avg_pts": 12.0,
+        "avg_ast": 1.4,
+        "avg_reb": 5.0,
+        "avg_min": 33.1,
+        "games": 28
+      },
+      {
+        "name": "DeMar DeRozan",
+        "id": 201942,
+        "avg_pts": 17.7,
+        "avg_ast": 3.8,
+        "avg_reb": 3.0,
+        "avg_min": 31.2,
+        "games": 67
+      },
+      {
+        "name": "Zach LaVine",
+        "id": 203897,
+        "avg_pts": 18.4,
+        "avg_ast": 2.4,
+        "avg_reb": 2.8,
+        "avg_min": 29.8,
+        "games": 44
+      }
+    ],
+    "Spurs": [
+      {
+        "name": "De'Aaron Fox",
+        "id": 1628368,
+        "avg_pts": 18.8,
+        "avg_ast": 6.3,
+        "avg_reb": 3.7,
+        "avg_min": 31.2,
+        "games": 56
+      },
+      {
+        "name": "Devin Vassell",
+        "id": 1630170,
+        "avg_pts": 14.0,
+        "avg_ast": 2.5,
+        "avg_reb": 4.0,
+        "avg_min": 30.0,
+        "games": 56
+      },
+      {
+        "name": "Stephon Castle",
+        "id": 1642264,
+        "avg_pts": 16.0,
+        "avg_ast": 6.9,
+        "avg_reb": 4.7,
+        "avg_min": 28.8,
+        "games": 58
+      }
+    ],
+    "Raptors": [
+      {
+        "name": "Scottie Barnes",
+        "id": 1630567,
+        "avg_pts": 18.2,
+        "avg_ast": 5.3,
+        "avg_reb": 7.8,
+        "avg_min": 33.5,
+        "games": 66
+      },
+      {
+        "name": "Brandon Ingram",
+        "id": 1627742,
+        "avg_pts": 21.2,
+        "avg_ast": 3.7,
+        "avg_reb": 5.6,
+        "avg_min": 33.4,
+        "games": 66
+      },
+      {
+        "name": "Immanuel Quickley",
+        "id": 1630193,
+        "avg_pts": 16.2,
+        "avg_ast": 5.8,
+        "avg_reb": 3.9,
+        "avg_min": 31.8,
+        "games": 68
+      }
+    ],
+    "Jazz": [
+      {
+        "name": "Lauri Markkanen",
+        "id": 1628374,
+        "avg_pts": 24.4,
+        "avg_ast": 2.1,
+        "avg_reb": 6.3,
+        "avg_min": 33.5,
+        "games": 47
+      },
+      {
+        "name": "Keyonte George",
+        "id": 1641718,
+        "avg_pts": 22.1,
+        "avg_ast": 5.9,
+        "avg_reb": 3.5,
+        "avg_min": 32.9,
+        "games": 59
+      },
+      {
+        "name": "Ace Bailey",
+        "id": 1642846,
+        "avg_pts": 12.1,
+        "avg_ast": 1.6,
+        "avg_reb": 3.9,
+        "avg_min": 26.7,
+        "games": 62
+      }
+    ],
+    "Wizards": [
+      {
+        "name": "CJ McCollum",
+        "id": 203468,
+        "avg_pts": 18.3,
+        "avg_ast": 3.4,
+        "avg_reb": 3.5,
+        "avg_min": 30.4,
+        "games": 38
+      },
+      {
+        "name": "Kyshawn George",
+        "id": 1642273,
+        "avg_pts": 13.9,
+        "avg_ast": 4.1,
+        "avg_reb": 4.8,
+        "avg_min": 28.3,
+        "games": 54
+      },
+      {
+        "name": "Alex Sarr",
+        "id": 1642259,
+        "avg_pts": 15.3,
+        "avg_ast": 2.5,
+        "avg_reb": 7.1,
+        "avg_min": 27.4,
+        "games": 48
+      }
+    ]
+  },
+  "teammate_impacts": {
+    "Hawks|Jalen Johnson|Dyson Daniels": {
+      "team": "Hawks",
+      "star_out": "Jalen Johnson",
+      "player_affected": "Dyson Daniels",
+      "games_without": 4,
+      "pts": -2.3,
+      "ast": -1.0,
+      "reb": -2.8,
+      "pts_with": 10.8,
+      "pts_without": 8.5,
+      "ast_with": 5.7,
+      "ast_without": 4.8
+    },
+    "Hawks|Jalen Johnson|Nickeil Alexander-Walker": {
+      "team": "Hawks",
+      "star_out": "Jalen Johnson",
+      "player_affected": "Nickeil Alexander-Walker",
+      "games_without": 4,
+      "pts": 4.7,
+      "ast": 0.5,
+      "reb": 3.2,
+      "pts_with": 18.6,
+      "pts_without": 23.3,
+      "ast_with": 3.5,
+      "ast_without": 4.0
+    },
+    "Nets|Michael Porter Jr.|Nic Claxton": {
+      "team": "Nets",
+      "star_out": "Michael Porter Jr.",
+      "player_affected": "Nic Claxton",
+      "games_without": 9,
+      "pts": 2.4,
+      "ast": -0.8,
+      "reb": -0.5,
+      "pts_with": 11.7,
+      "pts_without": 14.1,
+      "ast_with": 3.9,
+      "ast_without": 3.1
+    },
+    "Nets|Nic Claxton|Noah Clowney": {
+      "team": "Nets",
+      "star_out": "Nic Claxton",
+      "player_affected": "Noah Clowney",
+      "games_without": 5,
+      "pts": -4.0,
+      "ast": -0.4,
+      "reb": -2.1,
+      "pts_with": 12.6,
+      "pts_without": 8.6,
+      "ast_with": 1.6,
+      "ast_without": 1.2
+    },
+    "Nets|Noah Clowney|Michael Porter Jr.": {
+      "team": "Nets",
+      "star_out": "Noah Clowney",
+      "player_affected": "Michael Porter Jr.",
+      "games_without": 4,
+      "pts": 5.3,
+      "ast": 0.5,
+      "reb": -1.1,
+      "pts_with": 22.4,
+      "pts_without": 27.7,
+      "ast_with": 2.8,
+      "ast_without": 3.3
+    },
+    "Nets|Noah Clowney|Nic Claxton": {
+      "team": "Nets",
+      "star_out": "Noah Clowney",
+      "player_affected": "Nic Claxton",
+      "games_without": 4,
+      "pts": -3.7,
+      "ast": 0.5,
+      "reb": -2.0,
+      "pts_with": 12.2,
+      "pts_without": 8.5,
+      "ast_with": 3.8,
+      "ast_without": 4.2
+    },
+    "Hornets|Brandon Miller|Miles Bridges": {
+      "team": "Hornets",
+      "star_out": "Brandon Miller",
+      "player_affected": "Miles Bridges",
+      "games_without": 18,
+      "pts": 5.4,
+      "ast": 0.1,
+      "reb": 0.1,
+      "pts_with": 15.0,
+      "pts_without": 20.4,
+      "ast_with": 3.1,
+      "ast_without": 3.2
+    },
+    "Bulls|Nikola Vucevic|Josh Giddey": {
+      "team": "Bulls",
+      "star_out": "Nikola Vucevic",
+      "player_affected": "Josh Giddey",
+      "games_without": 17,
+      "pts": -6.7,
+      "ast": -3.3,
+      "reb": -3.1,
+      "pts_with": 17.1,
+      "pts_without": 10.4,
+      "ast_with": 8.2,
+      "ast_without": 4.9
+    },
+    "Bulls|Nikola Vucevic|Coby White": {
+      "team": "Bulls",
+      "star_out": "Nikola Vucevic",
+      "player_affected": "Coby White",
+      "games_without": 17,
+      "pts": -1.5,
+      "ast": -1.2,
+      "reb": 1.9,
+      "pts_with": 16.5,
+      "pts_without": 15.0,
+      "ast_with": 4.2,
+      "ast_without": 3.0
+    },
+    "Bulls|Josh Giddey|Nikola Vucevic": {
+      "team": "Bulls",
+      "star_out": "Josh Giddey",
+      "player_affected": "Nikola Vucevic",
+      "games_without": 16,
+      "pts": 3.1,
+      "ast": 1.7,
+      "reb": 0.1,
+      "pts_with": 15.3,
+      "pts_without": 18.4,
+      "ast_with": 3.3,
+      "ast_without": 4.9
+    },
+    "Bulls|Josh Giddey|Coby White": {
+      "team": "Bulls",
+      "star_out": "Josh Giddey",
+      "player_affected": "Coby White",
+      "games_without": 16,
+      "pts": -4.6,
+      "ast": -1.2,
+      "reb": 0.2,
+      "pts_with": 17.6,
+      "pts_without": 13.0,
+      "ast_with": 4.5,
+      "ast_without": 3.2
+    },
+    "Cavaliers|Evan Mobley|Donovan Mitchell": {
+      "team": "Cavaliers",
+      "star_out": "Evan Mobley",
+      "player_affected": "Donovan Mitchell",
+      "games_without": 14,
+      "pts": -3.1,
+      "ast": 0.2,
+      "reb": -2.3,
+      "pts_with": 27.6,
+      "pts_without": 24.5,
+      "ast_with": 5.4,
+      "ast_without": 5.6
+    },
+    "Cavaliers|Evan Mobley|Darius Garland": {
+      "team": "Cavaliers",
+      "star_out": "Evan Mobley",
+      "player_affected": "Darius Garland",
+      "games_without": 14,
+      "pts": 7.9,
+      "ast": 2.4,
+      "reb": 0.8,
+      "pts_with": 14.8,
+      "pts_without": 22.6,
+      "ast_with": 5.8,
+      "ast_without": 8.2
+    },
+    "Mavericks|Cooper Flagg|Naji Marshall": {
+      "team": "Mavericks",
+      "star_out": "Cooper Flagg",
+      "player_affected": "Naji Marshall",
+      "games_without": 11,
+      "pts": 3.7,
+      "ast": 0.4,
+      "reb": -0.2,
+      "pts_with": 13.7,
+      "pts_without": 17.4,
+      "ast_with": 2.9,
+      "ast_without": 3.3
+    },
+    "Mavericks|P.J. Washington|Cooper Flagg": {
+      "team": "Mavericks",
+      "star_out": "P.J. Washington",
+      "player_affected": "Cooper Flagg",
+      "games_without": 13,
+      "pts": 4.1,
+      "ast": -0.5,
+      "reb": -0.3,
+      "pts_with": 18.4,
+      "pts_without": 22.5,
+      "ast_with": 4.2,
+      "ast_without": 3.6
+    },
+    "Mavericks|P.J. Washington|Naji Marshall": {
+      "team": "Mavericks",
+      "star_out": "P.J. Washington",
+      "player_affected": "Naji Marshall",
+      "games_without": 13,
+      "pts": 6.4,
+      "ast": 1.4,
+      "reb": 1.6,
+      "pts_with": 13.0,
+      "pts_without": 19.5,
+      "ast_with": 2.6,
+      "ast_without": 4.1
+    },
+    "Nuggets|Jamal Murray|Christian Braun": {
+      "team": "Nuggets",
+      "star_out": "Jamal Murray",
+      "player_affected": "Christian Braun",
+      "games_without": 4,
+      "pts": -8.2,
+      "ast": -2.3,
+      "reb": -2.9,
+      "pts_with": 10.9,
+      "pts_without": 2.7,
+      "ast_with": 2.9,
+      "ast_without": 0.7
+    },
+    "Nuggets|Nikola Jokic|Christian Braun": {
+      "team": "Nuggets",
+      "star_out": "Nikola Jokic",
+      "player_affected": "Christian Braun",
+      "games_without": 17,
+      "pts": -10.0,
+      "ast": -2.7,
+      "reb": -2.5,
+      "pts_with": 11.6,
+      "pts_without": 1.6,
+      "ast_with": 3.1,
+      "ast_without": 0.4
+    },
+    "Nuggets|Christian Braun|Jamal Murray": {
+      "team": "Nuggets",
+      "star_out": "Christian Braun",
+      "player_affected": "Jamal Murray",
+      "games_without": 35,
+      "pts": 3.5,
+      "ast": 1.1,
+      "reb": -0.3,
+      "pts_with": 22.3,
+      "pts_without": 25.8,
+      "ast_with": 6.1,
+      "ast_without": 7.3
+    },
+    "Nuggets|Christian Braun|Nikola Jokic": {
+      "team": "Nuggets",
+      "star_out": "Christian Braun",
+      "player_affected": "Nikola Jokic",
+      "games_without": 35,
+      "pts": 3.0,
+      "ast": 1.3,
+      "reb": -1.1,
+      "pts_with": 26.4,
+      "pts_without": 29.5,
+      "ast_with": 9.3,
+      "ast_without": 10.6
+    },
+    "Pistons|Cade Cunningham|Duncan Robinson": {
+      "team": "Pistons",
+      "star_out": "Cade Cunningham",
+      "player_affected": "Duncan Robinson",
+      "games_without": 6,
+      "pts": 5.7,
+      "ast": 0.8,
+      "reb": 0.0,
+      "pts_with": 11.1,
+      "pts_without": 16.8,
+      "ast_with": 1.9,
+      "ast_without": 2.7
+    },
+    "Pistons|Tobias Harris|Cade Cunningham": {
+      "team": "Pistons",
+      "star_out": "Tobias Harris",
+      "player_affected": "Cade Cunningham",
+      "games_without": 16,
+      "pts": 4.7,
+      "ast": -0.2,
+      "reb": -0.3,
+      "pts_with": 23.2,
+      "pts_without": 27.9,
+      "ast_with": 9.4,
+      "ast_without": 9.2
+    },
+    "Pistons|Tobias Harris|Duncan Robinson": {
+      "team": "Pistons",
+      "star_out": "Tobias Harris",
+      "player_affected": "Duncan Robinson",
+      "games_without": 16,
+      "pts": 2.2,
+      "ast": 0.1,
+      "reb": -0.3,
+      "pts_with": 11.1,
+      "pts_without": 13.2,
+      "ast_with": 1.9,
+      "ast_without": 2.1
+    },
+    "Warriors|Stephen Curry|Brandin Podziemski": {
+      "team": "Warriors",
+      "star_out": "Stephen Curry",
+      "player_affected": "Brandin Podziemski",
+      "games_without": 25,
+      "pts": 3.3,
+      "ast": 0.7,
+      "reb": 2.3,
+      "pts_with": 11.2,
+      "pts_without": 14.5,
+      "ast_with": 3.5,
+      "ast_without": 4.2
+    },
+    "Warriors|Jimmy Butler III|Brandin Podziemski": {
+      "team": "Warriors",
+      "star_out": "Jimmy Butler III",
+      "player_affected": "Brandin Podziemski",
+      "games_without": 25,
+      "pts": 1.7,
+      "ast": 1.0,
+      "reb": 2.1,
+      "pts_with": 11.8,
+      "pts_without": 13.5,
+      "ast_with": 3.4,
+      "ast_without": 4.4
+    },
+    "Rockets|Kevin Durant|Amen Thompson": {
+      "team": "Rockets",
+      "star_out": "Kevin Durant",
+      "player_affected": "Amen Thompson",
+      "games_without": 3,
+      "pts": 1.0,
+      "ast": 1.0,
+      "reb": 3.5,
+      "pts_with": 17.0,
+      "pts_without": 18.0,
+      "ast_with": 5.0,
+      "ast_without": 6.0
+    },
+    "Rockets|Kevin Durant|Jabari Smith Jr.": {
+      "team": "Rockets",
+      "star_out": "Kevin Durant",
+      "player_affected": "Jabari Smith Jr.",
+      "games_without": 3,
+      "pts": 2.6,
+      "ast": -0.3,
+      "reb": -1.4,
+      "pts_with": 14.4,
+      "pts_without": 17.0,
+      "ast_with": 1.7,
+      "ast_without": 1.3
+    },
+    "Pacers|Andrew Nembhard|Pascal Siakam": {
+      "team": "Pacers",
+      "star_out": "Andrew Nembhard",
+      "player_affected": "Pascal Siakam",
+      "games_without": 9,
+      "pts": 1.5,
+      "ast": 1.7,
+      "reb": 1.3,
+      "pts_with": 20.4,
+      "pts_without": 21.9,
+      "ast_with": 3.1,
+      "ast_without": 4.9
+    },
+    "Clippers|James Harden|Kawhi Leonard": {
+      "team": "Clippers",
+      "star_out": "James Harden",
+      "player_affected": "Kawhi Leonard",
+      "games_without": 20,
+      "pts": 0.8,
+      "ast": 0.9,
+      "reb": 1.9,
+      "pts_with": 27.0,
+      "pts_without": 27.8,
+      "ast_with": 3.3,
+      "ast_without": 4.1
+    },
+    "Clippers|James Harden|Ivica Zubac": {
+      "team": "Clippers",
+      "star_out": "James Harden",
+      "player_affected": "Ivica Zubac",
+      "games_without": 20,
+      "pts": -2.9,
+      "ast": -0.1,
+      "reb": 0.2,
+      "pts_with": 14.2,
+      "pts_without": 11.3,
+      "ast_with": 2.3,
+      "ast_without": 2.2
+    },
+    "Clippers|Kawhi Leonard|James Harden": {
+      "team": "Clippers",
+      "star_out": "Kawhi Leonard",
+      "player_affected": "James Harden",
+      "games_without": 15,
+      "pts": 10.0,
+      "ast": 0.2,
+      "reb": 1.8,
+      "pts_with": 21.6,
+      "pts_without": 31.6,
+      "ast_with": 8.1,
+      "ast_without": 8.2
+    },
+    "Clippers|Kawhi Leonard|Ivica Zubac": {
+      "team": "Clippers",
+      "star_out": "Kawhi Leonard",
+      "player_affected": "Ivica Zubac",
+      "games_without": 15,
+      "pts": 2.1,
+      "ast": -0.5,
+      "reb": 1.0,
+      "pts_with": 13.2,
+      "pts_without": 15.4,
+      "ast_with": 2.4,
+      "ast_without": 1.9
+    },
+    "Clippers|Ivica Zubac|James Harden": {
+      "team": "Clippers",
+      "star_out": "Ivica Zubac",
+      "player_affected": "James Harden",
+      "games_without": 20,
+      "pts": 1.7,
+      "ast": -1.8,
+      "reb": -1.4,
+      "pts_with": 24.0,
+      "pts_without": 25.7,
+      "ast_with": 8.3,
+      "ast_without": 6.5
+    },
+    "Clippers|Ivica Zubac|Kawhi Leonard": {
+      "team": "Clippers",
+      "star_out": "Ivica Zubac",
+      "player_affected": "Kawhi Leonard",
+      "games_without": 20,
+      "pts": 7.4,
+      "ast": 0.5,
+      "reb": 1.6,
+      "pts_with": 24.5,
+      "pts_without": 31.9,
+      "ast_with": 3.4,
+      "ast_without": 3.8
+    },
+    "Lakers|Luka Doncic|LeBron James": {
+      "team": "Lakers",
+      "star_out": "Luka Doncic",
+      "player_affected": "LeBron James",
+      "games_without": 13,
+      "pts": 0.6,
+      "ast": 3.5,
+      "reb": 1.7,
+      "pts_with": 19.6,
+      "pts_without": 20.2,
+      "ast_with": 6.0,
+      "ast_without": 9.5
+    },
+    "Lakers|Luka Doncic|Austin Reaves": {
+      "team": "Lakers",
+      "star_out": "Luka Doncic",
+      "player_affected": "Austin Reaves",
+      "games_without": 13,
+      "pts": 9.4,
+      "ast": 3.2,
+      "reb": -0.4,
+      "pts_with": 19.4,
+      "pts_without": 28.8,
+      "ast_with": 4.2,
+      "ast_without": 7.4
+    },
+    "Lakers|LeBron James|Luka Doncic": {
+      "team": "Lakers",
+      "star_out": "LeBron James",
+      "player_affected": "Luka Doncic",
+      "games_without": 22,
+      "pts": 6.0,
+      "ast": 0.5,
+      "reb": 2.1,
+      "pts_with": 29.1,
+      "pts_without": 35.1,
+      "ast_with": 7.8,
+      "ast_without": 8.3
+    },
+    "Lakers|LeBron James|Austin Reaves": {
+      "team": "Lakers",
+      "star_out": "LeBron James",
+      "player_affected": "Austin Reaves",
+      "games_without": 22,
+      "pts": 8.3,
+      "ast": 4.1,
+      "reb": 0.4,
+      "pts_with": 18.4,
+      "pts_without": 26.6,
+      "ast_with": 3.3,
+      "ast_without": 7.5
+    },
+    "Lakers|Austin Reaves|Luka Doncic": {
+      "team": "Lakers",
+      "star_out": "Austin Reaves",
+      "player_affected": "Luka Doncic",
+      "games_without": 25,
+      "pts": 3.1,
+      "ast": 1.9,
+      "reb": -0.8,
+      "pts_with": 29.5,
+      "pts_without": 32.6,
+      "ast_with": 7.1,
+      "ast_without": 9.1
+    },
+    "Lakers|Austin Reaves|LeBron James": {
+      "team": "Lakers",
+      "star_out": "Austin Reaves",
+      "player_affected": "LeBron James",
+      "games_without": 25,
+      "pts": 7.8,
+      "ast": -0.1,
+      "reb": 1.6,
+      "pts_with": 16.4,
+      "pts_without": 24.2,
+      "ast_with": 6.5,
+      "ast_without": 6.4
+    },
+    "Grizzlies|Jaren Jackson Jr.|Santi Aldama": {
+      "team": "Grizzlies",
+      "star_out": "Jaren Jackson Jr.",
+      "player_affected": "Santi Aldama",
+      "games_without": 17,
+      "pts": -0.2,
+      "ast": -1.3,
+      "reb": -2.6,
+      "pts_with": 12.4,
+      "pts_without": 12.2,
+      "ast_with": 2.7,
+      "ast_without": 1.4
+    },
+    "Grizzlies|Ja Morant|Jaren Jackson Jr.": {
+      "team": "Grizzlies",
+      "star_out": "Ja Morant",
+      "player_affected": "Jaren Jackson Jr.",
+      "games_without": 43,
+      "pts": 2.1,
+      "ast": 0.6,
+      "reb": 0.5,
+      "pts_with": 16.8,
+      "pts_without": 19.0,
+      "ast_with": 1.5,
+      "ast_without": 2.1
+    },
+    "Grizzlies|Santi Aldama|Jaren Jackson Jr.": {
+      "team": "Grizzlies",
+      "star_out": "Santi Aldama",
+      "player_affected": "Jaren Jackson Jr.",
+      "games_without": 15,
+      "pts": 6.4,
+      "ast": 0.9,
+      "reb": 1.1,
+      "pts_with": 17.6,
+      "pts_without": 24.0,
+      "ast_with": 1.7,
+      "ast_without": 2.7
+    },
+    "Heat|Bam Adebayo|Andrew Wiggins": {
+      "team": "Heat",
+      "star_out": "Bam Adebayo",
+      "player_affected": "Andrew Wiggins",
+      "games_without": 7,
+      "pts": 2.6,
+      "ast": 1.5,
+      "reb": 0.5,
+      "pts_with": 13.7,
+      "pts_without": 16.3,
+      "ast_with": 2.3,
+      "ast_without": 3.8
+    },
+    "Heat|Bam Adebayo|Norman Powell": {
+      "team": "Heat",
+      "star_out": "Bam Adebayo",
+      "player_affected": "Norman Powell",
+      "games_without": 7,
+      "pts": 10.9,
+      "ast": 0.7,
+      "reb": -0.1,
+      "pts_with": 16.5,
+      "pts_without": 27.3,
+      "ast_with": 2.0,
+      "ast_without": 2.7
+    },
+    "Bucks|Kevin Porter Jr.|Ryan Rollins": {
+      "team": "Bucks",
+      "star_out": "Kevin Porter Jr.",
+      "player_affected": "Ryan Rollins",
+      "games_without": 28,
+      "pts": 3.7,
+      "ast": 1.7,
+      "reb": 0.2,
+      "pts_with": 14.7,
+      "pts_without": 18.4,
+      "ast_with": 4.5,
+      "ast_without": 6.2
+    },
+    "Bucks|AJ Green|Kevin Porter Jr.": {
+      "team": "Bucks",
+      "star_out": "AJ Green",
+      "player_affected": "Kevin Porter Jr.",
+      "games_without": 4,
+      "pts": 1.7,
+      "ast": 1.7,
+      "reb": 0.9,
+      "pts_with": 16.6,
+      "pts_without": 18.3,
+      "ast_with": 6.9,
+      "ast_without": 8.7
+    },
+    "Bucks|AJ Green|Ryan Rollins": {
+      "team": "Bucks",
+      "star_out": "AJ Green",
+      "player_affected": "Ryan Rollins",
+      "games_without": 4,
+      "pts": -3.5,
+      "ast": -0.5,
+      "reb": -1.1,
+      "pts_with": 16.5,
+      "pts_without": 13.0,
+      "ast_with": 5.3,
+      "ast_without": 4.8
+    },
+    "Timberwolves|Anthony Edwards|Julius Randle": {
+      "team": "Timberwolves",
+      "star_out": "Anthony Edwards",
+      "player_affected": "Julius Randle",
+      "games_without": 13,
+      "pts": 6.1,
+      "ast": -0.7,
+      "reb": 0.5,
+      "pts_with": 20.3,
+      "pts_without": 26.4,
+      "ast_with": 5.2,
+      "ast_without": 4.5
+    },
+    "Timberwolves|Anthony Edwards|Jaden McDaniels": {
+      "team": "Timberwolves",
+      "star_out": "Anthony Edwards",
+      "player_affected": "Jaden McDaniels",
+      "games_without": 13,
+      "pts": 4.1,
+      "ast": 0.7,
+      "reb": 0.3,
+      "pts_with": 13.8,
+      "pts_without": 17.9,
+      "ast_with": 2.6,
+      "ast_without": 3.4
+    },
+    "Timberwolves|Jaden McDaniels|Anthony Edwards": {
+      "team": "Timberwolves",
+      "star_out": "Jaden McDaniels",
+      "player_affected": "Anthony Edwards",
+      "games_without": 5,
+      "pts": -5.0,
+      "ast": -1.7,
+      "reb": -3.6,
+      "pts_with": 29.4,
+      "pts_without": 24.3,
+      "ast_with": 3.7,
+      "ast_without": 2.0
+    },
+    "Timberwolves|Jaden McDaniels|Julius Randle": {
+      "team": "Timberwolves",
+      "star_out": "Jaden McDaniels",
+      "player_affected": "Julius Randle",
+      "games_without": 5,
+      "pts": 2.6,
+      "ast": -1.9,
+      "reb": -0.3,
+      "pts_with": 21.1,
+      "pts_without": 23.7,
+      "ast_with": 5.2,
+      "ast_without": 3.3
+    },
+    "Pelicans|Trey Murphy III|Saddiq Bey": {
+      "team": "Pelicans",
+      "star_out": "Trey Murphy III",
+      "player_affected": "Saddiq Bey",
+      "games_without": 9,
+      "pts": 8.1,
+      "ast": 1.3,
+      "reb": 0.6,
+      "pts_with": 16.1,
+      "pts_without": 24.1,
+      "ast_with": 2.3,
+      "ast_without": 3.6
+    },
+    "Pelicans|Saddiq Bey|Trey Murphy III": {
+      "team": "Pelicans",
+      "star_out": "Saddiq Bey",
+      "player_affected": "Trey Murphy III",
+      "games_without": 7,
+      "pts": 7.9,
+      "ast": 0.2,
+      "reb": 1.2,
+      "pts_with": 20.7,
+      "pts_without": 28.6,
+      "ast_with": 3.6,
+      "ast_without": 3.8
+    },
+    "Pelicans|Saddiq Bey|Zion Williamson": {
+      "team": "Pelicans",
+      "star_out": "Saddiq Bey",
+      "player_affected": "Zion Williamson",
+      "games_without": 7,
+      "pts": 2.6,
+      "ast": 0.1,
+      "reb": -0.4,
+      "pts_with": 20.2,
+      "pts_without": 22.8,
+      "ast_with": 3.4,
+      "ast_without": 3.5
+    },
+    "Pelicans|Zion Williamson|Trey Murphy III": {
+      "team": "Pelicans",
+      "star_out": "Zion Williamson",
+      "player_affected": "Trey Murphy III",
+      "games_without": 16,
+      "pts": 2.2,
+      "ast": 0.3,
+      "reb": 1.6,
+      "pts_with": 20.8,
+      "pts_without": 22.9,
+      "ast_with": 3.6,
+      "ast_without": 3.9
+    },
+    "Knicks|Jalen Brunson|Mikal Bridges": {
+      "team": "Knicks",
+      "star_out": "Jalen Brunson",
+      "player_affected": "Mikal Bridges",
+      "games_without": 5,
+      "pts": 3.1,
+      "ast": -1.3,
+      "reb": -1.1,
+      "pts_with": 14.7,
+      "pts_without": 17.8,
+      "ast_with": 3.9,
+      "ast_without": 2.6
+    },
+    "Knicks|OG Anunoby|Mikal Bridges": {
+      "team": "Knicks",
+      "star_out": "OG Anunoby",
+      "player_affected": "Mikal Bridges",
+      "games_without": 14,
+      "pts": 4.0,
+      "ast": -1.2,
+      "reb": 0.4,
+      "pts_with": 14.1,
+      "pts_without": 18.1,
+      "ast_with": 4.0,
+      "ast_without": 2.8
+    },
+    "Thunder|Shai Gilgeous-Alexander|Chet Holmgren": {
+      "team": "Thunder",
+      "star_out": "Shai Gilgeous-Alexander",
+      "player_affected": "Chet Holmgren",
+      "games_without": 15,
+      "pts": -5.3,
+      "ast": 0.2,
+      "reb": -0.4,
+      "pts_with": 17.5,
+      "pts_without": 12.3,
+      "ast_with": 1.7,
+      "ast_without": 1.9
+    },
+    "Thunder|Shai Gilgeous-Alexander|Jalen Williams": {
+      "team": "Thunder",
+      "star_out": "Shai Gilgeous-Alexander",
+      "player_affected": "Jalen Williams",
+      "games_without": 15,
+      "pts": 10.2,
+      "ast": 0.9,
+      "reb": -0.9,
+      "pts_with": 15.3,
+      "pts_without": 25.5,
+      "ast_with": 5.1,
+      "ast_without": 6.0
+    },
+    "Thunder|Chet Holmgren|Shai Gilgeous-Alexander": {
+      "team": "Thunder",
+      "star_out": "Chet Holmgren",
+      "player_affected": "Shai Gilgeous-Alexander",
+      "games_without": 12,
+      "pts": -3.3,
+      "ast": -0.7,
+      "reb": 1.0,
+      "pts_with": 31.3,
+      "pts_without": 28.0,
+      "ast_with": 6.5,
+      "ast_without": 5.8
+    },
+    "Magic|Paolo Banchero|Desmond Bane": {
+      "team": "Magic",
+      "star_out": "Paolo Banchero",
+      "player_affected": "Desmond Bane",
+      "games_without": 11,
+      "pts": 3.8,
+      "ast": 0.5,
+      "reb": 0.8,
+      "pts_with": 19.3,
+      "pts_without": 23.1,
+      "ast_with": 4.0,
+      "ast_without": 4.5
+    },
+    "Magic|Anthony Black|Paolo Banchero": {
+      "team": "Magic",
+      "star_out": "Anthony Black",
+      "player_affected": "Paolo Banchero",
+      "games_without": 3,
+      "pts": 10.1,
+      "ast": -1.2,
+      "reb": -1.5,
+      "pts_with": 21.2,
+      "pts_without": 31.3,
+      "ast_with": 4.8,
+      "ast_without": 3.7
+    },
+    "Magic|Anthony Black|Desmond Bane": {
+      "team": "Magic",
+      "star_out": "Anthony Black",
+      "player_affected": "Desmond Bane",
+      "games_without": 3,
+      "pts": 0.1,
+      "ast": 2.7,
+      "reb": -0.5,
+      "pts_with": 19.9,
+      "pts_without": 20.0,
+      "ast_with": 4.0,
+      "ast_without": 6.7
+    },
+    "76ers|VJ Edgecombe|Tyrese Maxey": {
+      "team": "76ers",
+      "star_out": "VJ Edgecombe",
+      "player_affected": "Tyrese Maxey",
+      "games_without": 7,
+      "pts": -6.9,
+      "ast": -2.2,
+      "reb": -1.3,
+      "pts_with": 29.1,
+      "pts_without": 22.1,
+      "ast_with": 6.7,
+      "ast_without": 4.6
+    },
+    "76ers|Kelly Oubre Jr.|Tyrese Maxey": {
+      "team": "76ers",
+      "star_out": "Kelly Oubre Jr.",
+      "player_affected": "Tyrese Maxey",
+      "games_without": 24,
+      "pts": 2.1,
+      "ast": -0.3,
+      "reb": 0.7,
+      "pts_with": 27.6,
+      "pts_without": 29.7,
+      "ast_with": 6.6,
+      "ast_without": 6.3
+    },
+    "Suns|Devin Booker|Dillon Brooks": {
+      "team": "Suns",
+      "star_out": "Devin Booker",
+      "player_affected": "Dillon Brooks",
+      "games_without": 16,
+      "pts": 2.1,
+      "ast": 0.5,
+      "reb": 0.6,
+      "pts_with": 19.2,
+      "pts_without": 21.3,
+      "ast_with": 1.6,
+      "ast_without": 2.1
+    },
+    "Suns|Devin Booker|Grayson Allen": {
+      "team": "Suns",
+      "star_out": "Devin Booker",
+      "player_affected": "Grayson Allen",
+      "games_without": 16,
+      "pts": 4.2,
+      "ast": -0.4,
+      "reb": 0.5,
+      "pts_with": 15.3,
+      "pts_without": 19.6,
+      "ast_with": 4.1,
+      "ast_without": 3.7
+    },
+    "Suns|Dillon Brooks|Devin Booker": {
+      "team": "Suns",
+      "star_out": "Dillon Brooks",
+      "player_affected": "Devin Booker",
+      "games_without": 13,
+      "pts": 7.0,
+      "ast": 1.1,
+      "reb": 0.7,
+      "pts_with": 22.8,
+      "pts_without": 29.8,
+      "ast_with": 5.7,
+      "ast_without": 6.8
+    },
+    "Suns|Grayson Allen|Devin Booker": {
+      "team": "Suns",
+      "star_out": "Grayson Allen",
+      "player_affected": "Devin Booker",
+      "games_without": 23,
+      "pts": -2.5,
+      "ast": -0.1,
+      "reb": -0.0,
+      "pts_with": 25.1,
+      "pts_without": 22.6,
+      "ast_with": 6.0,
+      "ast_without": 5.9
+    },
+    "Suns|Grayson Allen|Dillon Brooks": {
+      "team": "Suns",
+      "star_out": "Grayson Allen",
+      "player_affected": "Dillon Brooks",
+      "games_without": 23,
+      "pts": 2.8,
+      "ast": -0.3,
+      "reb": -0.2,
+      "pts_with": 18.6,
+      "pts_without": 21.4,
+      "ast_with": 1.9,
+      "ast_without": 1.5
+    },
+    "Trail Blazers|Shaedon Sharpe|Toumani Camara": {
+      "team": "Trail Blazers",
+      "star_out": "Shaedon Sharpe",
+      "player_affected": "Toumani Camara",
+      "games_without": 4,
+      "pts": -0.7,
+      "ast": -0.7,
+      "reb": -1.8,
+      "pts_with": 12.4,
+      "pts_without": 11.8,
+      "ast_with": 2.5,
+      "ast_without": 1.8
+    },
+    "Trail Blazers|Shaedon Sharpe|Deni Avdija": {
+      "team": "Trail Blazers",
+      "star_out": "Shaedon Sharpe",
+      "player_affected": "Deni Avdija",
+      "games_without": 4,
+      "pts": -15.1,
+      "ast": -1.7,
+      "reb": -3.5,
+      "pts_with": 18.9,
+      "pts_without": 3.8,
+      "ast_with": 5.0,
+      "ast_without": 3.2
+    },
+    "Kings|Zach LaVine|Keegan Murray": {
+      "team": "Kings",
+      "star_out": "Zach LaVine",
+      "player_affected": "Keegan Murray",
+      "games_without": 25,
+      "pts": -3.3,
+      "ast": 0.1,
+      "reb": -3.3,
+      "pts_with": 13.6,
+      "pts_without": 10.4,
+      "ast_with": 1.4,
+      "ast_without": 1.4
+    },
+    "Spurs|De'Aaron Fox|Stephon Castle": {
+      "team": "Spurs",
+      "star_out": "De'Aaron Fox",
+      "player_affected": "Stephon Castle",
+      "games_without": 14,
+      "pts": 2.7,
+      "ast": -0.3,
+      "reb": 0.4,
+      "pts_with": 15.4,
+      "pts_without": 18.2,
+      "ast_with": 6.9,
+      "ast_without": 6.6
+    },
+    "Spurs|Devin Vassell|De'Aaron Fox": {
+      "team": "Spurs",
+      "star_out": "Devin Vassell",
+      "player_affected": "De'Aaron Fox",
+      "games_without": 14,
+      "pts": -0.3,
+      "ast": -0.5,
+      "reb": 1.6,
+      "pts_with": 18.9,
+      "pts_without": 18.5,
+      "ast_with": 6.4,
+      "ast_without": 5.9
+    },
+    "Spurs|Devin Vassell|Stephon Castle": {
+      "team": "Spurs",
+      "star_out": "Devin Vassell",
+      "player_affected": "Stephon Castle",
+      "games_without": 14,
+      "pts": -2.3,
+      "ast": 0.4,
+      "reb": 0.4,
+      "pts_with": 16.5,
+      "pts_without": 14.2,
+      "ast_with": 6.8,
+      "ast_without": 7.2
+    },
+    "Spurs|Stephon Castle|De'Aaron Fox": {
+      "team": "Spurs",
+      "star_out": "Stephon Castle",
+      "player_affected": "De'Aaron Fox",
+      "games_without": 12,
+      "pts": 9.4,
+      "ast": 0.0,
+      "reb": 0.1,
+      "pts_with": 17.3,
+      "pts_without": 26.7,
+      "ast_with": 6.3,
+      "ast_without": 6.3
+    },
+    "Spurs|Stephon Castle|Devin Vassell": {
+      "team": "Spurs",
+      "star_out": "Stephon Castle",
+      "player_affected": "Devin Vassell",
+      "games_without": 12,
+      "pts": 6.0,
+      "ast": -0.3,
+      "reb": 0.2,
+      "pts_with": 12.8,
+      "pts_without": 18.8,
+      "ast_with": 2.5,
+      "ast_without": 2.3
+    },
+    "Raptors|Scottie Barnes|Immanuel Quickley": {
+      "team": "Raptors",
+      "star_out": "Scottie Barnes",
+      "player_affected": "Immanuel Quickley",
+      "games_without": 3,
+      "pts": 2.9,
+      "ast": 3.0,
+      "reb": -1.6,
+      "pts_with": 16.1,
+      "pts_without": 19.0,
+      "ast_with": 5.7,
+      "ast_without": 8.7
+    },
+    "Raptors|Brandon Ingram|Immanuel Quickley": {
+      "team": "Raptors",
+      "star_out": "Brandon Ingram",
+      "player_affected": "Immanuel Quickley",
+      "games_without": 3,
+      "pts": 2.2,
+      "ast": 1.9,
+      "reb": -0.5,
+      "pts_with": 16.1,
+      "pts_without": 18.3,
+      "ast_with": 5.7,
+      "ast_without": 7.7
+    },
+    "Jazz|Lauri Markkanen|Keyonte George": {
+      "team": "Jazz",
+      "star_out": "Lauri Markkanen",
+      "player_affected": "Keyonte George",
+      "games_without": 21,
+      "pts": 3.7,
+      "ast": -1.3,
+      "reb": -0.5,
+      "pts_with": 21.1,
+      "pts_without": 24.8,
+      "ast_with": 6.2,
+      "ast_without": 4.9
+    },
+    "Jazz|Lauri Markkanen|Ace Bailey": {
+      "team": "Jazz",
+      "star_out": "Lauri Markkanen",
+      "player_affected": "Ace Bailey",
+      "games_without": 21,
+      "pts": 5.6,
+      "ast": 0.4,
+      "reb": 0.8,
+      "pts_with": 10.2,
+      "pts_without": 15.9,
+      "ast_with": 1.5,
+      "ast_without": 1.9
+    },
+    "Jazz|Keyonte George|Ace Bailey": {
+      "team": "Jazz",
+      "star_out": "Keyonte George",
+      "player_affected": "Ace Bailey",
+      "games_without": 9,
+      "pts": 2.3,
+      "ast": 0.1,
+      "reb": 2.0,
+      "pts_with": 11.8,
+      "pts_without": 14.1,
+      "ast_with": 1.6,
+      "ast_without": 1.7
+    },
+    "Wizards|CJ McCollum|Kyshawn George": {
+      "team": "Wizards",
+      "star_out": "CJ McCollum",
+      "player_affected": "Kyshawn George",
+      "games_without": 28,
+      "pts": -2.2,
+      "ast": -1.6,
+      "reb": -1.8,
+      "pts_with": 14.9,
+      "pts_without": 12.7,
+      "ast_with": 4.8,
+      "ast_without": 3.2
+    },
+    "Wizards|Kyshawn George|CJ McCollum": {
+      "team": "Wizards",
+      "star_out": "Kyshawn George",
+      "player_affected": "CJ McCollum",
+      "games_without": 12,
+      "pts": 6.3,
+      "ast": 0.4,
+      "reb": 0.8,
+      "pts_with": 16.9,
+      "pts_without": 23.2,
+      "ast_with": 3.3,
+      "ast_without": 3.8
+    },
+    "Wizards|Alex Sarr|CJ McCollum": {
+      "team": "Wizards",
+      "star_out": "Alex Sarr",
+      "player_affected": "CJ McCollum",
+      "games_without": 18,
+      "pts": 3.3,
+      "ast": 0.4,
+      "reb": -0.2,
+      "pts_with": 17.6,
+      "pts_without": 20.9,
+      "ast_with": 3.3,
+      "ast_without": 3.8
+    },
+    "Wizards|Alex Sarr|Kyshawn George": {
+      "team": "Wizards",
+      "star_out": "Alex Sarr",
+      "player_affected": "Kyshawn George",
+      "games_without": 18,
+      "pts": -4.6,
+      "ast": -1.2,
+      "reb": -2.0,
+      "pts_with": 15.3,
+      "pts_without": 10.7,
+      "ast_with": 4.4,
+      "ast_without": 3.2
+    }
+  }
+}
