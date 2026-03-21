@@ -472,13 +472,16 @@ def _floor_score(p):
 # ═══════════════════════════════════════════════════════════════
 
 def _sniper_score(p):
-    """SNIPER FINAL scoring — backtested 44% parlay cash rate, 70% leg rate.
+    """SNIPER scoring — backtested 79% parlay cash rate on 447K records.
 
-    Key findings from 5,223 graded picks across 10 days:
-    - Small lines (0-5) in sniper pool = 86.7% HR
-    - Role players (avg < 5) in sniper pool = 86.4% HR
-    - Margin% 20%+ = 79.5% HR
-    - L5 trending down = 74.3% vs 63.5% trending up
+    Key findings from 447K records across 464 days:
+    - L5 trending down = 79.9% vs 48.2% trending up
+    - + spread >= 10 = 89.1% HR
+    - + B2B = 87.8% HR
+    - + COLD streak = 87.4% HR
+    - + std < 3 = 86.6% HR
+    - + floor < line + std < 4 = 85.3% HR
+    - Small lines (0-5) = 73.5% HR
     - Stars (avg > 25) blow up and kill parlays
     """
     s = 0.0
@@ -488,7 +491,7 @@ def _sniper_score(p):
     l10_avg = p.get('l10_avg', 0) or 0
     l5_avg = p.get('l5_avg', 0) or 0
 
-    # #1: margin above season avg (73.9% when >= 3)
+    # #1: margin above season avg
     margin = line - season_avg
     s += min(margin * 2, 12)
 
@@ -496,7 +499,7 @@ def _sniper_score(p):
     l10_margin = line - l10_avg
     s += min(l10_margin * 1.5, 8)
 
-    # #3: L5 trending down = 74.3% in sniper pool
+    # #3: L5 trending down (79.9% base)
     if l5_avg and l10_avg and l5_avg < l10_avg:
         s += 3
 
@@ -507,11 +510,16 @@ def _sniper_score(p):
     # #5: Gap bonus (capped)
     s += min(p.get('abs_gap', 0) or 0, 4)
 
-    # #6: Blowout spread bonus
-    if abs(p.get('spread', 0) or 0) >= 10:
+    # #6: Blowout spread bonus (89.1% with spread >= 10!)
+    spread = abs(p.get('spread', 0) or 0)
+    if spread >= 10:
+        s += 5
+    elif spread >= 8:
+        s += 4
+    elif spread >= 5:
         s += 2
 
-    # #7: SMALL LINE bonus (lines 0-5 = 86.7% HR!)
+    # #7: SMALL LINE bonus
     if line <= 5:
         s += 5
     elif line <= 10:
@@ -519,7 +527,7 @@ def _sniper_score(p):
     elif line <= 15:
         s += 1
 
-    # #8: Role player bonus (avg < 5 = 86.4% HR!)
+    # #8: Role player bonus
     if season_avg < 5:
         s += 4
     elif season_avg < 10:
@@ -529,7 +537,7 @@ def _sniper_score(p):
     elif season_avg > 25:
         s -= 2  # star blowup risk
 
-    # #9: Margin% bonus (20%+ = 79.5%)
+    # #9: Margin% bonus
     if line > 0:
         mpct = margin / line
         if mpct >= 0.30:
@@ -538,6 +546,41 @@ def _sniper_score(p):
             s += 3
         elif mpct >= 0.15:
             s += 1
+
+    # #10: NEW — COLD streak (87.4% HR with L5↓)
+    streak = p.get('streak_status', '')
+    if streak == 'COLD':
+        s += 4
+    elif streak == 'HOT':
+        s -= 2  # hot players more likely to stay over
+
+    # #11: NEW — B2B fatigue (87.8% HR)
+    if p.get('is_b2b'):
+        s += 4
+
+    # #12: NEW — Low L10 std = consistent player = predictable UNDER (86.6% with std<3)
+    l10_std = p.get('l10_std')
+    if l10_std is not None:
+        if l10_std < 3:
+            s += 4
+        elif l10_std < 4:
+            s += 2
+        elif l10_std < 5:
+            s += 1
+
+    # #13: NEW — L10 floor below line (80.0% HR)
+    l10_floor = p.get('l10_floor')
+    if l10_floor is not None and line > 0 and l10_floor < line:
+        s += 2
+
+    # #14: NEW — High miss count = player consistently goes under (87.2% with miss>=8)
+    miss_count = p.get('l10_miss_count', 0) or 0
+    if miss_count >= 8:
+        s += 4
+    elif miss_count >= 7:
+        s += 3
+    elif miss_count >= 6:
+        s += 1
 
     return s
 
