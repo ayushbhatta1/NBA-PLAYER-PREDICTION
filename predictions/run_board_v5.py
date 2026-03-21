@@ -1366,6 +1366,75 @@ def main():
     except Exception as e:
         print(f"\n  NN EMBEDDER: skipped ({e})")
 
+    # ═══ PHASE 4c-MKT: MARKET SIGNAL ENRICHMENT (fair odds, consensus, vig) ═══
+    try:
+        from market_signal import MarketSignal
+        ms = MarketSignal(date_str)
+        if len(ms) > 0:
+            enriched = ms.enrich_picks(results)
+            print(f"\n  MARKET SIGNAL: Enriched {enriched}/{len(results)} picks with SGO fair odds + consensus from {len(ms)} cached props")
+        else:
+            print(f"\n  MARKET SIGNAL: No SGO data for {date_str} (run sgo_client.py --cache before games)")
+    except Exception as e:
+        print(f"\n  MARKET SIGNAL: skipped ({e})")
+
+    # ═══ PHASE 4c-REF: REF + COACH + SIM ENRICHMENT (Bob Voulgaris subsystems) ═══
+    try:
+        from ref_model import enrich_with_ref_features
+        ref_count = enrich_with_ref_features(results, GAMES)
+        print(f"\n  REF MODEL: Enriched {ref_count}/{len(results)} picks with referee crew features")
+    except Exception as e:
+        print(f"\n  REF MODEL: skipped ({e})")
+
+    try:
+        from coach_model import enrich_with_coach_features
+        coach_count = enrich_with_coach_features(results, GAMES)
+        print(f"  COACH MODEL: Enriched {coach_count}/{len(results)} picks with coach tendency features")
+    except Exception as e:
+        print(f"  COACH MODEL: skipped ({e})")
+
+    try:
+        from sim_model import enrich_with_sim
+        sim_count = enrich_with_sim(results)
+        print(f"  SIM MODEL: Enriched {sim_count}/{len(results)} picks with Monte Carlo sim_prob")
+    except Exception as e:
+        print(f"  SIM MODEL: skipped ({e})")
+
+    # ═══ PHASE 4c-EDGE: LINE EDGE ANALYSIS (multi-book consensus) ═══
+    try:
+        from line_movement import enrich_with_line_edges
+        edge_count = enrich_with_line_edges(results, date_str)
+        if edge_count > 0:
+            fav = sum(1 for r in results if r.get('line_edge', 0) > 0.5)
+            unfav = sum(1 for r in results if r.get('line_edge', 0) < -0.5)
+            print(f"\n  LINE EDGES: {edge_count} analyzed — {fav} favorable, {unfav} unfavorable")
+    except Exception as e:
+        print(f"\n  LINE EDGES: skipped ({e})")
+
+    # ═══ PHASE 4c-FLOW: GAME FLOW MODELING (game script → player impact) ═══
+    try:
+        from game_flow import enrich_with_game_flow
+        flow_count = enrich_with_game_flow(results, GAMES)
+        flips = sum(1 for r in results if r.get('flow_adj', 0) != 0)
+        print(f"  GAME FLOW: {flow_count} enriched, {flips} projections adjusted")
+    except Exception as e:
+        print(f"  GAME FLOW: skipped ({e})")
+
+    # ═══ PHASE 4c-REG: REGRESSION SCORING (margin predictions) ═══
+    try:
+        from regression_model import score_regression
+        reg_count = score_regression(results)
+        if reg_count > 0:
+            print(f"\n  REGRESSION: {reg_count}/{len(results)} props with margin predictions")
+            # Show top margin picks
+            margin_picks = sorted([r for r in results if r.get('reg_margin') is not None],
+                                  key=lambda r: abs(r.get('reg_margin', 0)), reverse=True)[:5]
+            for mp in margin_picks:
+                print(f"    {mp['player']:22s} {mp['stat'].upper():4s} {mp['direction']:5s} "
+                      f"line={mp['line']:5.1f}  pred={mp.get('reg_predicted',0):5.1f}  margin={mp.get('reg_margin',0):+5.1f}")
+    except Exception as e:
+        print(f"\n  REGRESSION: skipped ({e})")
+
     # ═══ PHASE 4c-ML: XGBoost ML Scoring (now sees enriched v11 + v8 + embedding features) ═══
     try:
         from xgb_model import score_props
@@ -1454,75 +1523,6 @@ def main():
     os.makedirs(os.path.dirname(pregame_file), exist_ok=True)
     with open(pregame_file, 'w') as f:
         json.dump(pregame_report, f, indent=2)
-
-    # ═══ PHASE 4b: MARKET SIGNAL ENRICHMENT (fair odds, consensus, vig) ═══
-    try:
-        from market_signal import MarketSignal
-        ms = MarketSignal(date_str)
-        if len(ms) > 0:
-            enriched = ms.enrich_picks(filtered_results)
-            print(f"\n  MARKET SIGNAL: Enriched {enriched}/{len(filtered_results)} picks with SGO fair odds + consensus from {len(ms)} cached props")
-        else:
-            print(f"\n  MARKET SIGNAL: No SGO data for {date_str} (run sgo_client.py --cache before games)")
-    except Exception as e:
-        print(f"\n  MARKET SIGNAL: skipped ({e})")
-
-    # ═══ PHASE 4c: REF + COACH + SIM ENRICHMENT (Bob Voulgaris subsystems) ═══
-    try:
-        from ref_model import enrich_with_ref_features
-        ref_count = enrich_with_ref_features(filtered_results, GAMES)
-        print(f"\n  REF MODEL: Enriched {ref_count}/{len(filtered_results)} picks with referee crew features")
-    except Exception as e:
-        print(f"\n  REF MODEL: skipped ({e})")
-
-    try:
-        from coach_model import enrich_with_coach_features
-        coach_count = enrich_with_coach_features(filtered_results, GAMES)
-        print(f"  COACH MODEL: Enriched {coach_count}/{len(filtered_results)} picks with coach tendency features")
-    except Exception as e:
-        print(f"  COACH MODEL: skipped ({e})")
-
-    try:
-        from sim_model import enrich_with_sim
-        sim_count = enrich_with_sim(filtered_results)
-        print(f"  SIM MODEL: Enriched {sim_count}/{len(filtered_results)} picks with Monte Carlo sim_prob")
-    except Exception as e:
-        print(f"  SIM MODEL: skipped ({e})")
-
-    # ═══ PHASE 4d: LINE EDGE ANALYSIS (multi-book consensus) ═══
-    try:
-        from line_movement import enrich_with_line_edges
-        edge_count = enrich_with_line_edges(filtered_results, date_str)
-        if edge_count > 0:
-            fav = sum(1 for r in filtered_results if r.get('line_edge', 0) > 0.5)
-            unfav = sum(1 for r in filtered_results if r.get('line_edge', 0) < -0.5)
-            print(f"\n  LINE EDGES: {edge_count} analyzed — {fav} favorable, {unfav} unfavorable")
-    except Exception as e:
-        print(f"\n  LINE EDGES: skipped ({e})")
-
-    # ═══ PHASE 4e: GAME FLOW MODELING (game script → player impact) ═══
-    try:
-        from game_flow import enrich_with_game_flow
-        flow_count = enrich_with_game_flow(filtered_results, GAMES)
-        flips = sum(1 for r in filtered_results if r.get('flow_adj', 0) != 0)
-        print(f"  GAME FLOW: {flow_count} enriched, {flips} projections adjusted")
-    except Exception as e:
-        print(f"  GAME FLOW: skipped ({e})")
-
-    # ═══ PHASE 4f: REGRESSION SCORING (margin predictions) ═══
-    try:
-        from regression_model import score_regression
-        reg_count = score_regression(filtered_results)
-        if reg_count > 0:
-            print(f"\n  REGRESSION: {reg_count}/{len(filtered_results)} props with margin predictions")
-            # Show top margin picks
-            margin_picks = sorted([r for r in filtered_results if r.get('reg_margin') is not None],
-                                  key=lambda r: abs(r.get('reg_margin', 0)), reverse=True)[:5]
-            for mp in margin_picks:
-                print(f"    {mp['player']:22s} {mp['stat'].upper():4s} {mp['direction']:5s} "
-                      f"line={mp['line']:5.1f}  pred={mp.get('reg_predicted',0):5.1f}  margin={mp.get('reg_margin',0):+5.1f}")
-    except Exception as e:
-        print(f"\n  REGRESSION: skipped ({e})")
 
     # ═══ PHASE 4g: MATCHUP SCANNER (defense-first selection) ═══
     scanner_picks = None
