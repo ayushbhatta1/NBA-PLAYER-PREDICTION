@@ -281,6 +281,12 @@ def _make_leg(p):
         'game_total': p.get('game_total_signal', 0),
         'travel_miles_7day': p.get('travel_miles_7day', 0),
         'opp_off_pressure': p.get('opp_off_pressure', 0),
+        'sniper_score': round(_sniper_score(p), 2),
+        'floor_score': round(_floor_score(p), 4),
+        'composite_score': round(_composite_safe_score(p), 2),
+        'reg_margin': p.get('reg_margin'),
+        'sim_prob': p.get('sim_prob'),
+        'flow_adj': p.get('flow_adj'),
     }
 
 
@@ -582,7 +588,125 @@ def _sniper_score(p):
     elif miss_count >= 6:
         s += 1
 
+    # ═══ V3: ML & MODEL SIGNALS ═══
+
+    # #15: Regression margin (|margin| >= 3 hits at 95%+)
+    reg_margin = p.get('reg_margin')
+    if reg_margin is not None and reg_margin < -3:
+        s += 5  # regression model strongly predicts UNDER
+    elif reg_margin is not None and reg_margin < -1.5:
+        s += 3
+
+    # #16: Monte Carlo simulation confirmation
+    sim_prob = p.get('sim_prob')
+    if sim_prob is not None:
+        if sim_prob > 0.70:
+            s += 4  # 5000 sims confirm UNDER
+        elif sim_prob > 0.60:
+            s += 2
+
+    # #17: ML VETO — ensemble_prob < 0.45 means ML strongly disagrees
+    ensemble_prob = p.get('ensemble_prob', p.get('xgb_prob'))
+    if ensemble_prob is not None and ensemble_prob < 0.45:
+        return -100  # hard reject — ML veto gate
+
+    # #18: Game total signal (low-scoring game = UNDER friendly)
+    game_total = p.get('game_total_signal', 0) or 0
+    if game_total < -5:
+        s += 3  # low game total
+    elif game_total < -2:
+        s += 1
+
+    # #19: Game flow confidence
+    flow_adj = p.get('flow_adj', 0) or 0
+    if flow_adj < -1.5:
+        s += 3  # game script predicts reduced production
+
+    # #20: Opponent matchup delta
+    opp_delta = p.get('opp_matchup_delta', 0) or 0
+    if opp_delta < -1:
+        s += 2  # player underperforms vs this specific opponent
+
+    # #21: Travel fatigue
+    travel_7d = p.get('travel_miles_7day', 0) or 0
+    if travel_7d > 4000:
+        s += 2
+    tz_shifts = p.get('tz_shifts_7day', 0) or 0
+    if tz_shifts >= 2:
+        s += 1
+
+    # #22: Low usage role player (UNDER friendly)
+    usage_rate = p.get('usage_rate', 0) or 0
+    if 0 < usage_rate < 0.15:
+        s += 2
+
+    # #23: L10 median vs line (books price at median)
+    l10_median = p.get('l10_median')
+    if l10_median is not None and line > 0 and l10_median < line - 0.5:
+        s += 2
+
+    # #24: Model consensus (multiple models agree on UNDER)
+    model_votes = 0
+    if ensemble_prob is not None and ensemble_prob > 0.55:
+        model_votes += 1
+    if sim_prob is not None and sim_prob > 0.55:
+        model_votes += 1
+    if reg_margin is not None and reg_margin < -1:
+        model_votes += 1
+    arena_prob = p.get('arena_prob')
+    if arena_prob is not None and arena_prob > 0.55:
+        model_votes += 1
+    if model_votes >= 3:
+        s += 3
+    elif model_votes >= 2:
+        s += 1
+
+    # ═══ V3: DERIVED FEATURES ═══
+
+    # #25: Ceiling-Line Gap (if best L10 barely reaches line, UNDER is safe)
+    l10_values = p.get('l10_values', [])
+    if l10_values and line > 0:
+        l10_ceiling = max(l10_values) if l10_values else 0
+        ceiling_gap = l10_ceiling - line
+        if ceiling_gap < 2:
+            s += 5  # best game barely reaches line — near lock
+        elif ceiling_gap < 4:
+            s += 2
+
+    # #26: Model disagreement penalty
+    probs = [v for v in [
+        p.get('xgb_prob'), p.get('mlp_prob'), sim_prob, arena_prob
+    ] if v is not None]
+    if len(probs) >= 2:
+        disagreement = max(probs) - min(probs)
+        if disagreement > 0.25:
+            s -= 4  # models disagree strongly — uncertain pick
+
+    # #27: L10 CV (coefficient of variation — low = predictable = safer UNDER)
+    l10_cv = p.get('l10_cv')
+    if l10_cv is not None:
+        if l10_cv < 0.15:
+            s += 3  # very predictable
+        elif l10_cv < 0.25:
+            s += 1
+
+    # #28: Blacklist check
+    player = p.get('player', '')
+    if player in BLACKLISTED_PLAYERS:
+        return -100  # hard reject
+
     return s
+
+
+def _composite_safe_score(p):
+    """Composite: 60% SNIPER heuristics + 40% floor safety (normalized).
+    Floor safety catches hidden downside that heuristics miss."""
+    sniper = _sniper_score(p)
+    if sniper <= -100:
+        return -100  # propagate hard rejects
+    floor = _floor_score(p)
+    # Normalize: sniper scores range ~0-50, floor ~0-1.5
+    return sniper * 0.6 + floor * 40 * 0.4
 
 
 def build_primary_safe(pool):
@@ -623,6 +747,8 @@ def build_primary_safe(pool):
         g = p.get('game', '')
         if g and g in used_games:
             continue
+        if _floor_score(p) < 0.3:
+            continue  # floor safety gate
         picks.append(p)
         if g:
             used_games.add(g)
@@ -641,11 +767,13 @@ def build_primary_safe(pool):
         (p.get('season_avg', 0) or 0) < 25 and
         p not in picks
     )]
-    p2.sort(key=_sniper_score, reverse=True)
+    p2.sort(key=_composite_safe_score, reverse=True)
     for p in p2:
         g = p.get('game', '')
         if g and g in used_games:
             continue
+        if _floor_score(p) < 0.3:
+            continue  # floor safety gate
         picks.append(p)
         if g:
             used_games.add(g)
@@ -662,11 +790,13 @@ def build_primary_safe(pool):
         ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5 and
         p not in picks
     )]
-    p3.sort(key=_sniper_score, reverse=True)
+    p3.sort(key=_composite_safe_score, reverse=True)
     for p in p3:
         g = p.get('game', '')
         if g and g in used_games:
             continue
+        if _floor_score(p) < 0.3:
+            continue  # floor safety gate
         picks.append(p)
         if g:
             used_games.add(g)
@@ -813,13 +943,13 @@ def build_primary_parlays(results):
     return {
         'safe': {
             'name': 'SAFE 3-LEG',
-            'method': 'parlay_engine_v1',
+            'method': 'sniper_v3',
             'legs': safe_legs,
             'legs_total': len(safe_legs),
             'under_count': under_count_safe,
             'kelly_fraction': safe_kelly,
             'suggested_units': round(safe_kelly * 100, 1),
-            'description': f'Top 3 by composite score (XGBoost + UNDER bias). {under_count_safe} UNDERs. Suggested: {safe_kelly*100:.1f}% bankroll.',
+            'description': f'SNIPER V3: Top 3 UNDER by composite score (ML+heuristic+floor). {under_count_safe} UNDERs. Suggested: {safe_kelly*100:.1f}% bankroll.',
         },
         'aggressive': {
             'name': 'AGGRESSIVE 8-LEG',
