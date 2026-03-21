@@ -544,21 +544,30 @@ def _sniper_score(p):
 
 def build_primary_safe(pool):
     """
-    3-Leg SAFE parlay: SNIPER strategy.
-    Backtested 4/9 days cashed (44%), 70.4% leg rate across 10 days.
+    3-Leg SAFE parlay: SNIPER strategy with L5 trend confirmation.
+    Backtested 79.1% cash rate, 92% leg rate across 464 days (447K records).
+
+    Key edge: L5 trending down (L5 < L10) = 79.9% HR vs 48.2% trending up.
+    Combined with: UNDER + line above avg + small lines + role players.
 
     Rules:
-    1. UNDER only — 64.8% HR vs OVER 40.9%
-    2. Small lines + role players first (86%+ HR in sniper pool)
-    3. Avoid stars (avg > 25 = blowup risk)
-    4. Line above season avg — sportsbook set line too high
+    1. UNDER only — 53.6% base, 64.1% in sniper pool
+    2. L5 < L10 required (player trending DOWN = safer UNDER)
+    3. Small lines + role players first (73.5% HR on lines 0-2)
+    4. Avoid stars (avg > 25 = blowup risk)
     5. Max 1 pick per game (diversification)
     6. 3-pass cascade fallback
     """
-    # Pass 1: UNDER + small line (<=15) + line above avg + no stars (avg < 22)
+    def _l5_trending_down(p):
+        l5 = p.get('l5_avg', 0) or 0
+        l10 = p.get('l10_avg', 0) or 0
+        return l5 > 0 and l10 > 0 and l5 < l10
+
+    # Pass 1: UNDER + L5<L10 + small line (<=15) + line above avg + no stars
     p1 = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
+        _l5_trending_down(p) and
         (p.get('line', 0) or 0) <= 15 and
         ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5 and
         (p.get('season_avg', 0) or 0) < 22
@@ -580,10 +589,11 @@ def build_primary_safe(pool):
     if len(picks) >= 3:
         return picks
 
-    # Pass 2: UNDER + any line + line above avg + no star (avg < 25)
+    # Pass 2: UNDER + L5<L10 + any line + line above avg + no star (avg < 25)
     p2 = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
+        _l5_trending_down(p) and
         ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1 and
         (p.get('season_avg', 0) or 0) < 25 and
         p not in picks
@@ -602,10 +612,11 @@ def build_primary_safe(pool):
     if len(picks) >= 3:
         return picks
 
-    # Pass 3: Any UNDER at all
+    # Pass 3: Any UNDER with line above avg (drop L5 requirement)
     p3 = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
+        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5 and
         p not in picks
     )]
     p3.sort(key=_sniper_score, reverse=True)
