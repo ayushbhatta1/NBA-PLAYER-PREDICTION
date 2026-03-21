@@ -472,10 +472,14 @@ def _floor_score(p):
 # ═══════════════════════════════════════════════════════════════
 
 def _sniper_score(p):
-    """SNIPER scoring — backtested 44% parlay cash rate, 70% leg rate.
+    """SNIPER FINAL scoring — backtested 44% parlay cash rate, 70% leg rate.
 
-    Core insight: UNDER + line above season average = 73.9% HR.
-    Stat reliability: BLK > STL > AST > 3PM > REB >> PTS.
+    Key findings from 5,223 graded picks across 10 days:
+    - Small lines (0-5) in sniper pool = 86.7% HR
+    - Role players (avg < 5) in sniper pool = 86.4% HR
+    - Margin% 20%+ = 79.5% HR
+    - L5 trending down = 74.3% vs 63.5% trending up
+    - Stars (avg > 25) blow up and kill parlays
     """
     s = 0.0
     stat = p.get('stat', '').lower()
@@ -484,31 +488,56 @@ def _sniper_score(p):
     l10_avg = p.get('l10_avg', 0) or 0
     l5_avg = p.get('l5_avg', 0) or 0
 
-    # #1 signal: line well above season average (73.9% when margin >= 3)
+    # #1: margin above season avg (73.9% when >= 3)
     margin = line - season_avg
     s += min(margin * 2, 12)
 
-    # #2: L10 avg also below line
+    # #2: L10 confirmation
     l10_margin = line - l10_avg
     s += min(l10_margin * 1.5, 8)
 
-    # #3: L5 trending down (momentum toward UNDER)
+    # #3: L5 trending down = 74.3% in sniper pool
     if l5_avg and l10_avg and l5_avg < l10_avg:
-        s += 2
+        s += 3
 
-    # #4: Stat reliability for UNDERs (from 5,223 graded picks)
-    # BLK UNDER 79.6%, STL 74.5%, AST 69.6%, 3PM 66.3%, REB 62.6%, PTS 57.7%
-    stat_bonus = {'blk': 5, 'stl': 4, 'ast': 3, '3pm': 2, 'reb': 1, 'pts': 0}
+    # #4: Stat reliability for UNDERs
+    stat_bonus = {'blk': 6, 'stl': 5, '3pm': 5, 'ast': 4, 'reb': 2, 'pts': 0}
     s += stat_bonus.get(stat, -1)
 
     # #5: Gap bonus (capped)
-    gap = p.get('abs_gap', 0) or 0
-    s += min(gap, 4)
+    s += min(p.get('abs_gap', 0) or 0, 4)
 
-    # #6: Blowout spread bonus (bench time helps UNDERs)
-    spread = abs(p.get('spread', 0) or 0)
-    if spread >= 10:
+    # #6: Blowout spread bonus
+    if abs(p.get('spread', 0) or 0) >= 10:
         s += 2
+
+    # #7: SMALL LINE bonus (lines 0-5 = 86.7% HR!)
+    if line <= 5:
+        s += 5
+    elif line <= 10:
+        s += 3
+    elif line <= 15:
+        s += 1
+
+    # #8: Role player bonus (avg < 5 = 86.4% HR!)
+    if season_avg < 5:
+        s += 4
+    elif season_avg < 10:
+        s += 2
+    elif season_avg < 15:
+        s += 1
+    elif season_avg > 25:
+        s -= 2  # star blowup risk
+
+    # #9: Margin% bonus (20%+ = 79.5%)
+    if line > 0:
+        mpct = margin / line
+        if mpct >= 0.30:
+            s += 4
+        elif mpct >= 0.20:
+            s += 3
+        elif mpct >= 0.15:
+            s += 1
 
     return s
 
@@ -520,33 +549,25 @@ def build_primary_safe(pool):
 
     Rules:
     1. UNDER only — 64.8% HR vs OVER 40.9%
-    2. Prefer non-PTS stats (PTS UNDER only 57.7%)
-    3. Line above season avg — sportsbook set line too high
-    4. Score by: margin above avg + stat reliability + gap
+    2. Small lines + role players first (86%+ HR in sniper pool)
+    3. Avoid stars (avg > 25 = blowup risk)
+    4. Line above season avg — sportsbook set line too high
     5. Max 1 pick per game (diversification)
-    6. Cascade fallback if not enough primary picks
+    6. 3-pass cascade fallback
     """
-    # Primary pool: UNDER + non-PTS + line above season avg by 1+
-    primary = []
-    for p in pool:
-        if not _is_eligible(p):
-            continue
-        if p.get('direction', '').upper() != 'UNDER':
-            continue
-        stat = p.get('stat', '').lower()
-        if stat == 'pts':
-            continue  # skip PTS first pass (57.7% — weakest UNDER stat)
-        sa = p.get('season_avg', 0) or 0
-        line = p.get('line', 0) or 0
-        if line - sa >= 1:  # line at least 1 above season avg
-            primary.append(p)
+    # Pass 1: UNDER + small line (<=15) + line above avg + no stars (avg < 22)
+    p1 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        (p.get('line', 0) or 0) <= 15 and
+        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5 and
+        (p.get('season_avg', 0) or 0) < 22
+    )]
+    p1.sort(key=_sniper_score, reverse=True)
 
-    primary.sort(key=_sniper_score, reverse=True)
-
-    # Pick 3, max 1 per game
     used_games = set()
     picks = []
-    for p in primary:
+    for p in p1:
         g = p.get('game', '')
         if g and g in used_games:
             continue
@@ -559,15 +580,16 @@ def build_primary_safe(pool):
     if len(picks) >= 3:
         return picks
 
-    # Fallback 1: Allow PTS UNDER with line above avg, and any UNDER with line >= avg + 1
-    fb1 = [p for p in pool if (
+    # Pass 2: UNDER + any line + line above avg + no star (avg < 25)
+    p2 = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
         ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1 and
+        (p.get('season_avg', 0) or 0) < 25 and
         p not in picks
     )]
-    fb1.sort(key=_sniper_score, reverse=True)
-    for p in fb1:
+    p2.sort(key=_sniper_score, reverse=True)
+    for p in p2:
         g = p.get('game', '')
         if g and g in used_games:
             continue
@@ -580,35 +602,14 @@ def build_primary_safe(pool):
     if len(picks) >= 3:
         return picks
 
-    # Fallback 2: Any UNDER with gap >= 1
-    fb2 = [p for p in pool if (
-        _is_eligible(p) and
-        p.get('direction', '').upper() == 'UNDER' and
-        (p.get('abs_gap', 0) or 0) >= 1 and
-        p not in picks
-    )]
-    fb2.sort(key=_sniper_score, reverse=True)
-    for p in fb2:
-        g = p.get('game', '')
-        if g and g in used_games:
-            continue
-        picks.append(p)
-        if g:
-            used_games.add(g)
-        if len(picks) >= 3:
-            break
-
-    if len(picks) >= 3:
-        return picks
-
-    # Fallback 3: Any UNDER at all
-    fb3 = [p for p in pool if (
+    # Pass 3: Any UNDER at all
+    p3 = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
         p not in picks
     )]
-    fb3.sort(key=_sniper_score, reverse=True)
-    for p in fb3:
+    p3.sort(key=_sniper_score, reverse=True)
+    for p in p3:
         g = p.get('game', '')
         if g and g in used_games:
             continue
