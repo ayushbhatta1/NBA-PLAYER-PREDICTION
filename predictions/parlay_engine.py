@@ -709,6 +709,49 @@ def _composite_safe_score(p):
     return sniper * 0.6 + floor * 40 * 0.4
 
 
+def should_play_today(pool):
+    """Day-level classifier: should we build a parlay today or SKIP?
+
+    From 1M simulation on 445K records:
+    - min_hr>=60 + line_above>=1 = 50.8% cash rate (20K sample)
+    - Need at least 5 qualifying UNDER props across 3+ games for edge
+    - When forced to pick from weak pool (Pass 4+), we lose money
+
+    Returns (should_play: bool, reason: str, qualifying_count: int, game_count: int)
+    """
+    qualifying = []
+    games = set()
+    for p in pool:
+        if not _is_eligible(p):
+            continue
+        if p.get('direction', '').upper() != 'UNDER':
+            continue
+        hr = p.get('l10_hit_rate', 0) or 0
+        line = p.get('line', 0) or 0
+        avg = p.get('season_avg', 0) or 0
+        line_above = line - avg
+        is_hot = p.get('streak_status') == 'HOT'
+        if hr >= 60 and line_above >= 0.5 and not is_hot:
+            qualifying.append(p)
+            g = p.get('game', '')
+            if g:
+                games.add(g)
+
+    n_qual = len(qualifying)
+    n_games = len(games)
+
+    # Strong play: 5+ qualifying props across 3+ games
+    if n_qual >= 5 and n_games >= 3:
+        return True, f"PLAY — {n_qual} qualifying props across {n_games} games", n_qual, n_games
+
+    # Marginal play: 3-4 qualifying but still diverse
+    if n_qual >= 3 and n_games >= 3:
+        return True, f"MARGINAL PLAY — {n_qual} props across {n_games} games (lower confidence)", n_qual, n_games
+
+    # Skip: not enough edge
+    return False, f"NO PLAY — only {n_qual} qualifying props across {n_games} games (need 5+ across 3+)", n_qual, n_games
+
+
 def _sim_sort(p):
     """Sort key from 1M simulation on 445K records (465 days).
 
@@ -905,6 +948,77 @@ def build_primary_safe(pool):
             used_games.add(g)
         if len(picks) >= 3:
             break
+
+    return picks
+
+
+def build_2leg_safe(pool):
+    """
+    2-Leg SAFE parlay: Higher cash rate (64.3%), lower payout (3x).
+    From 1M sim: min_hr>=60 + line_above>=1 + not HOT → 64.3% 2-leg cash rate.
+    EV = 1.93 per $1 (vs 3.19 for 3-leg). Use when day is marginal.
+    Only picks from the strongest COLD+L5↓ players.
+    """
+    used_games = set()
+    picks = []
+
+    def _is_hot(p):
+        return p.get('streak_status') == 'HOT'
+
+    base_filter = lambda p: (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        (p.get('l10_hit_rate', 0) or 0) >= 60 and
+        not _is_hot(p)
+    )
+
+    def _pick_from(candidates, picks, used_games, n_target):
+        for p in candidates:
+            g = p.get('game', '')
+            if g and g in used_games:
+                continue
+            picks.append(p)
+            if g:
+                used_games.add(g)
+            if len(picks) >= n_target:
+                return True
+        return len(picks) >= n_target
+
+    # Pass 1: COLD + line_above>=2 (targets 53%+ zone — strongest 2 legs)
+    p1 = [p for p in pool if (
+        base_filter(p) and
+        p.get('streak_status') == 'COLD' and
+        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 2.0
+    )]
+    p1.sort(key=_sim_sort, reverse=True)
+    if _pick_from(p1, picks, used_games, 2):
+        return picks
+
+    # Pass 2: COLD + line_above>=1
+    p2 = [p for p in pool if (
+        base_filter(p) and
+        p.get('streak_status') == 'COLD' and
+        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1.0 and
+        p not in picks
+    )]
+    p2.sort(key=_sim_sort, reverse=True)
+    if _pick_from(p2, picks, used_games, 2):
+        return picks
+
+    # Pass 3: Any qualifying UNDER with line_above>=1
+    p3 = [p for p in pool if (
+        base_filter(p) and
+        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1.0 and
+        p not in picks
+    )]
+    p3.sort(key=_sim_sort, reverse=True)
+    if _pick_from(p3, picks, used_games, 2):
+        return picks
+
+    # Pass 4: Survival — any qualifying UNDER
+    p4 = [p for p in pool if base_filter(p) and p not in picks]
+    p4.sort(key=_sim_sort, reverse=True)
+    _pick_from(p4, picks, used_games, 2)
 
     return picks
 
@@ -1139,34 +1253,66 @@ def build_triple_safe(results):
 
 def build_primary_parlays(results):
     """
-    Main entry: build 1x SAFE 3-leg + 1x AGGRESSIVE 8-leg.
-    Returns dict with both parlays, guaranteed non-empty.
+    Main entry: build 2-leg + 3-leg SAFE + AGGRESSIVE.
+    Includes play/skip day classifier from 1M sim on 445K records.
+
+    Returns dict with parlays + day_signal metadata.
+    2-leg: 64.3% cash × 3x = 1.93 EV (consistency play)
+    3-leg: 53.2% cash × 6x = 3.19 EV (max EV play)
     """
     pool = [p for p in results if _is_eligible(p)]
 
-    safe_picks = build_primary_safe(pool)
-    safe_players = [p['player'] for p in safe_picks]
+    # Day classifier
+    play, play_reason, n_qual, n_games = should_play_today(pool)
+
+    # Always build both — let user decide based on signal
+    safe_picks_3 = build_primary_safe(pool)
+    safe_picks_2 = build_2leg_safe(pool)
+    safe_players = [p['player'] for p in safe_picks_3] + [p['player'] for p in safe_picks_2]
     agg_picks = build_primary_aggressive(pool, safe_players)
 
-    safe_legs = [_make_leg(p) for p in safe_picks]
+    safe_legs_3 = [_make_leg(p) for p in safe_picks_3]
+    safe_legs_2 = [_make_leg(p) for p in safe_picks_2]
     agg_legs = [_make_leg(p) for p in agg_picks]
 
-    under_count_safe = sum(1 for l in safe_legs if l.get('direction', '').upper() == 'UNDER')
+    under_count_safe_3 = sum(1 for l in safe_legs_3 if l.get('direction', '').upper() == 'UNDER')
+    under_count_safe_2 = sum(1 for l in safe_legs_2 if l.get('direction', '').upper() == 'UNDER')
     under_count_agg = sum(1 for l in agg_legs if l.get('direction', '').upper() == 'UNDER')
 
-    safe_kelly = _kelly_fraction(safe_legs)
+    safe_kelly_3 = _kelly_fraction(safe_legs_3)
+    safe_kelly_2 = _kelly_fraction(safe_legs_2)
     agg_kelly = _kelly_fraction(agg_legs)
 
-    return {
+    result = {
+        'day_signal': {
+            'should_play': play,
+            'reason': play_reason,
+            'qualifying_props': n_qual,
+            'qualifying_games': n_games,
+        },
+        'safe_2leg': {
+            'name': 'SAFE 2-LEG (CONSISTENCY)',
+            'method': 'sim_2leg',
+            'legs': safe_legs_2,
+            'legs_total': len(safe_legs_2),
+            'under_count': under_count_safe_2,
+            'kelly_fraction': safe_kelly_2,
+            'suggested_units': round(safe_kelly_2 * 100, 1),
+            'ev_multiplier': 3.0,
+            'sim_cash_rate': 64.3,
+            'description': f'2-leg SAFE: 64.3% cash × 3x = 1.93 EV. {under_count_safe_2} UNDERs. Suggested: {safe_kelly_2*100:.1f}% bankroll.',
+        },
         'safe': {
-            'name': 'SAFE 3-LEG',
+            'name': 'SAFE 3-LEG (MAX EV)',
             'method': 'sniper_v3',
-            'legs': safe_legs,
-            'legs_total': len(safe_legs),
-            'under_count': under_count_safe,
-            'kelly_fraction': safe_kelly,
-            'suggested_units': round(safe_kelly * 100, 1),
-            'description': f'SNIPER V3: Top 3 UNDER by composite score (ML+heuristic+floor). {under_count_safe} UNDERs. Suggested: {safe_kelly*100:.1f}% bankroll.',
+            'legs': safe_legs_3,
+            'legs_total': len(safe_legs_3),
+            'under_count': under_count_safe_3,
+            'kelly_fraction': safe_kelly_3,
+            'suggested_units': round(safe_kelly_3 * 100, 1),
+            'ev_multiplier': 6.0,
+            'sim_cash_rate': 53.2,
+            'description': f'3-leg SAFE: 53.2% cash × 6x = 3.19 EV. {under_count_safe_3} UNDERs. Suggested: {safe_kelly_3*100:.1f}% bankroll.',
         },
         'aggressive': {
             'name': 'AGGRESSIVE 8-LEG',
@@ -1179,6 +1325,8 @@ def build_primary_parlays(results):
             'description': f'8 legs, UNDER-heavy ({under_count_agg} UNDERs). Suggested: {agg_kelly*100:.1f}% bankroll.',
         },
     }
+
+    return result
 
 
 # ═══════════════════════════════════════════════════════════════

@@ -2,8 +2,10 @@
 """
 Backtest SNIPER V3 — validates scoring upgrades against graded data.
 
-Simulates SNIPER V3 (with ML signals, floor gates, composite scoring)
-on historical graded days. Compares against original SNIPER baseline.
+Now includes:
+- Play/Skip day classifier from 1M simulation
+- 2-leg vs 3-leg comparison
+- EV tracking (cash rate × multiplier)
 
 Usage:
     python3 predictions/backtest_sniper_v3.py
@@ -21,7 +23,8 @@ PREDICTIONS_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, PREDICTIONS_DIR)
 from parlay_engine import (
     _sniper_score, _floor_score, _composite_safe_score,
-    _is_eligible, _make_leg, _kelly_fraction,
+    _is_eligible, _make_leg, _kelly_fraction, _sim_sort,
+    should_play_today, build_primary_safe, build_2leg_safe,
     BLACKLISTED_PLAYERS, COMBO_STATS
 )
 
@@ -79,10 +82,7 @@ def extract_hit(record):
 
 
 def simulate_sniper_v3(props, use_composite=False, use_floor_gate=True):
-    """Simulate SNIPER V3 pick selection on a set of graded props.
-
-    Returns list of selected picks (with hit/miss info preserved).
-    """
+    """Simulate SNIPER V3 pick selection on a set of graded props."""
     def _l5_trending_down(p):
         l5 = p.get('l5_avg', 0) or 0
         l10 = p.get('l10_avg', 0) or 0
@@ -90,9 +90,7 @@ def simulate_sniper_v3(props, use_composite=False, use_floor_gate=True):
 
     score_fn = _composite_safe_score if use_composite else _sniper_score
 
-    # Multi-pass selection (mirrors build_primary_safe)
     for pass_num, filters in enumerate([
-        # Pass 1: UNDER + L5<L10 + small line + line above avg + no stars
         lambda p: (
             _is_eligible(p) and
             p.get('direction', '').upper() == 'UNDER' and
@@ -101,7 +99,6 @@ def simulate_sniper_v3(props, use_composite=False, use_floor_gate=True):
             ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5 and
             (p.get('season_avg', 0) or 0) < 22
         ),
-        # Pass 2: UNDER + L5<L10 + any line + line above avg
         lambda p: (
             _is_eligible(p) and
             p.get('direction', '').upper() == 'UNDER' and
@@ -109,7 +106,6 @@ def simulate_sniper_v3(props, use_composite=False, use_floor_gate=True):
             ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1 and
             (p.get('season_avg', 0) or 0) < 25
         ),
-        # Pass 3: Any UNDER with line above avg
         lambda p: (
             _is_eligible(p) and
             p.get('direction', '').upper() == 'UNDER' and
@@ -122,10 +118,8 @@ def simulate_sniper_v3(props, use_composite=False, use_floor_gate=True):
         used_games = set()
         picks = []
         for p in candidates:
-            # Floor gate
             if use_floor_gate and _floor_score(p) < 0.3:
                 continue
-            # Game diversification
             g = p.get('game', '')
             if g and g in used_games:
                 continue
@@ -138,13 +132,8 @@ def simulate_sniper_v3(props, use_composite=False, use_floor_gate=True):
     return picks
 
 
-def simulate_original_sniper(props):
-    """Simulate original SNIPER (pre-V3) pick selection."""
-    return simulate_sniper_v3(props, use_composite=False, use_floor_gate=False)
-
-
 def grade_parlay(picks):
-    """Grade a 3-leg parlay. Returns (cashed, legs_hit, legs_total)."""
+    """Grade a parlay. Returns (cashed, legs_hit, legs_total)."""
     hits = 0
     total = 0
     for p in picks:
@@ -153,13 +142,13 @@ def grade_parlay(picks):
             total += 1
             if hit:
                 hits += 1
-    cashed = (hits == total and total >= 3)
+    cashed = (hits == total and total >= len(picks))
     return cashed, hits, total
 
 
 def main():
     print("=" * 70)
-    print("  SNIPER V3 BACKTEST — Graded Data Validation")
+    print("  SNIPER V3 BACKTEST — with Play/Skip + 2-Leg Options")
     print("=" * 70)
 
     days = load_graded_days()
@@ -169,17 +158,19 @@ def main():
 
     print(f"\n  Found {len(days)} graded days: {', '.join(sorted(days.keys()))}")
 
-    # Strategies to compare
+    # ═══ STRATEGY COMPARISON ═══
     strategies = {
-        'original_sniper': lambda props: simulate_original_sniper(props),
-        'sniper_v3_pure': lambda props: simulate_sniper_v3(props, use_composite=False, use_floor_gate=True),
-        'sniper_v3_composite': lambda props: simulate_sniper_v3(props, use_composite=True, use_floor_gate=True),
-        'sniper_v3_no_gate': lambda props: simulate_sniper_v3(props, use_composite=True, use_floor_gate=False),
+        'sim_3leg': lambda props: build_primary_safe([p for p in props if _is_eligible(p)]),
+        'sim_2leg': lambda props: build_2leg_safe([p for p in props if _is_eligible(p)]),
+        'composite_3leg': lambda props: simulate_sniper_v3(props, use_composite=True, use_floor_gate=True),
     }
 
-    # Track results per strategy
-    results = {name: {'wins': 0, 'losses': 0, 'dnp': 0, 'legs_hit': 0, 'legs_total': 0, 'daily': []}
+    results = {name: {'wins': 0, 'losses': 0, 'dnp': 0, 'skip': 0,
+                       'legs_hit': 0, 'legs_total': 0, 'daily': []}
                for name in strategies}
+
+    # Also track play/skip separately
+    play_skip_results = {'play': 0, 'skip': 0, 'play_win': 0, 'play_loss': 0}
 
     for date in sorted(days.keys()):
         props = days[date]
@@ -188,46 +179,94 @@ def main():
         if len(graded_props) < 10:
             continue
 
-        print(f"\n  {date}: {len(graded_props)} graded props")
+        # Day classifier
+        pool = [p for p in graded_props if _is_eligible(p)]
+        should_play, reason, n_qual, n_games = should_play_today(pool)
+
+        print(f"\n  {date}: {len(graded_props)} graded | {reason}")
 
         for name, strategy_fn in strategies.items():
             picks = strategy_fn(graded_props)
+            n_legs = 2 if '2leg' in name else 3
 
-            if len(picks) < 3:
+            if len(picks) < n_legs:
                 results[name]['dnp'] += 1
-                results[name]['daily'].append((date, 'DNP', 0, 0))
+                results[name]['daily'].append((date, 'DNP', 0, 0, should_play))
                 continue
 
             cashed, hits, total = grade_parlay(picks)
             results[name]['legs_hit'] += hits
             results[name]['legs_total'] += total
 
-            if cashed:
+            # Track with play/skip
+            if not should_play:
+                results[name]['skip'] += 1
+                results[name]['daily'].append((date, 'SKIP', hits, total, should_play))
+                if name == 'sim_3leg':
+                    play_skip_results['skip'] += 1
+            elif cashed:
                 results[name]['wins'] += 1
-                results[name]['daily'].append((date, 'WIN', hits, total))
+                results[name]['daily'].append((date, 'WIN', hits, total, should_play))
+                if name == 'sim_3leg':
+                    play_skip_results['play'] += 1
+                    play_skip_results['play_win'] += 1
             else:
                 results[name]['losses'] += 1
-                results[name]['daily'].append((date, 'LOSS', hits, total))
+                results[name]['daily'].append((date, 'LOSS', hits, total, should_play))
+                if name == 'sim_3leg':
+                    play_skip_results['play'] += 1
+                    play_skip_results['play_loss'] += 1
 
-            # Print picks for this strategy
+            # Print picks
             status = "WIN" if cashed else f"LOSS ({hits}/{total})"
-            player_names = [p.get('player', '?')[:15] for p in picks[:3]]
-            print(f"    {name:25s}: {status:12s}  [{', '.join(player_names)}]")
+            if not should_play:
+                status = f"SKIP ({status})"
+            player_names = [p.get('player', '?')[:15] for p in picks[:n_legs]]
+            print(f"    {name:20s}: {status:18s}  [{', '.join(player_names)}]")
 
-    # Summary
+    # ═══ SUMMARY ═══
     print(f"\n{'='*70}")
     print(f"  BACKTEST SUMMARY")
     print(f"{'='*70}")
-    print(f"\n  {'Strategy':<25s} {'W':>3s} {'L':>3s} {'DNP':>4s} {'Cash%':>7s} {'Leg HR':>8s}")
-    print(f"  {'-'*55}")
+    print(f"\n  {'Strategy':<20s} {'W':>3s} {'L':>3s} {'Skip':>5s} {'DNP':>4s} {'Cash%':>7s} {'EV':>7s} {'Leg HR':>8s}")
+    print(f"  {'-'*60}")
 
     for name, r in results.items():
         total_played = r['wins'] + r['losses']
         cash_rate = (r['wins'] / total_played * 100) if total_played > 0 else 0
         leg_hr = (r['legs_hit'] / r['legs_total'] * 100) if r['legs_total'] > 0 else 0
-        print(f"  {name:<25s} {r['wins']:3d} {r['losses']:3d} {r['dnp']:4d} {cash_rate:6.1f}% {leg_hr:7.1f}%")
+        mult = 3.0 if '2leg' in name else 6.0
+        ev = cash_rate / 100 * mult
+        print(f"  {name:<20s} {r['wins']:3d} {r['losses']:3d} {r['skip']:5d} {r['dnp']:4d} {cash_rate:6.1f}% {ev:6.2f}x {leg_hr:7.1f}%")
 
-    # Triple-SAFE simulation
+    # ═══ PLAY/SKIP ANALYSIS ═══
+    print(f"\n{'='*70}")
+    print(f"  PLAY/SKIP DAY CLASSIFIER (sim_3leg)")
+    print(f"{'='*70}")
+    ps = play_skip_results
+    if ps['play'] > 0:
+        play_cash = ps['play_win'] / ps['play'] * 100
+        print(f"  PLAY days:  {ps['play']} ({ps['play_win']}W / {ps['play_loss']}L = {play_cash:.1f}% cash)")
+    print(f"  SKIP days:  {ps['skip']}")
+
+    # What would have happened on skip days?
+    skip_would_have_won = 0
+    skip_would_have_lost = 0
+    for entry in results['sim_3leg']['daily']:
+        if len(entry) >= 5 and not entry[4]:  # not should_play
+            if entry[1] == 'SKIP':
+                # Check actual result
+                actual_hits = entry[2]
+                actual_total = entry[3]
+                if actual_hits == actual_total and actual_total >= 3:
+                    skip_would_have_won += 1
+                else:
+                    skip_would_have_lost += 1
+    if skip_would_have_won + skip_would_have_lost > 0:
+        print(f"  Skip days actual: {skip_would_have_won}W / {skip_would_have_lost}L "
+              f"(correctly skipped {skip_would_have_lost} losses)")
+
+    # ═══ TRIPLE-SAFE SIMULATION ═══
     print(f"\n{'='*70}")
     print(f"  TRIPLE-SAFE SIMULATION")
     print(f"{'='*70}")
@@ -279,7 +318,6 @@ def main():
     if triple_total > 0:
         rate = triple_at_least_1 / triple_total * 100
         print(f"\n  Triple-SAFE at-least-1 rate: {triple_at_least_1}/{triple_total} = {rate:.1f}%")
-        print(f"  Target: >= 95%")
 
     print(f"\n  Done.")
 

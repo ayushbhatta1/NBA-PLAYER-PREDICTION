@@ -1577,10 +1577,19 @@ def main():
     # ═══ PHASE 5b: ENGINE BACKUP (Parlay Engine v1.2 — background) ═══
     engine_parlays = build_primary_parlays(filtered_results)
 
+    # Day signal from 1M simulation classifier
+    day_signal = engine_parlays.get('day_signal', {})
+    print(f"\n{'='*60}")
+    print(f"  DAY SIGNAL: {day_signal.get('reason', 'N/A')}")
+    print(f"  Qualifying props: {day_signal.get('qualifying_props', '?')} | Games: {day_signal.get('qualifying_games', '?')}")
+    print(f"{'='*60}")
+
     print(f"\n{'='*60}")
     print(f"  ENGINE BACKUP (Parlay Engine v1.2)")
     print(f"{'='*60}")
     for pname, parlay in engine_parlays.items():
+        if pname == 'day_signal':
+            continue
         print(f"\n  {parlay['name']}:")
         print(f"  {parlay.get('description', '')}")
         for leg in parlay.get('legs', []):
