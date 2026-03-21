@@ -710,44 +710,63 @@ def _composite_safe_score(p):
 
 
 def _sim_sort(p):
-    """Sort key from 1M parlay simulation findings.
-    Prioritizes: line-above-avg > small season avg > small line > stat diversity."""
+    """Sort key from 1M simulation on 445K records (465 days).
+
+    Top edges (compound filter cash rates on 1M parlays):
+      COLD streak:     3 COLD = 61.9%, 1+ COLD = 18.2% vs 14.4% baseline
+      NO HOT:          34.6% vs 14.4% (2.4x improvement)
+      L5<L10:          winners 1.84 vs losers 1.18 (trending down = good)
+      line above avg:  >=2 = 21.7%, >=1 = 20.1%
+      min_hr>=60:      42.3% (but 70%+ = 12.2%, WORSE — regression trap)
+    """
+    s = 0.0
     line = p.get('line', 0) or 0
     avg = p.get('season_avg', 0) or 0
-    line_above = line - avg  # #1 predictor: bigger = better
+    line_above = line - avg
 
-    # Role player bonus (season avg <= 5 = 43.5% cash vs <=30 = 28.3%)
-    role_bonus = 0
-    if avg <= 5:
-        role_bonus = 8
-    elif avg <= 10:
-        role_bonus = 5
+    # #1: COLD streak is the strongest single signal (61.9% when all 3 COLD)
+    streak = p.get('streak_status', 'NEUTRAL')
+    if streak == 'COLD':
+        s += 10
+    elif streak == 'HOT':
+        s -= 15  # HOT is a TRAP (0 HOT = 34.6% vs baseline 14.4%)
+
+    # #2: L5 trending down (winners 1.84 vs losers 1.18)
+    l5 = p.get('l5_avg', 0) or 0
+    l10 = p.get('l10_avg', 0) or 0
+    if l5 > 0 and l10 > 0 and l5 < l10:
+        s += 5
+
+    # #3: Line above season avg (min_hr>=60 + line_above>=1 = 50.8%)
+    s += min(line_above * 2, 8)  # cap at 8
+
+    # #4: Role player bonus (max_avg<=10 = 45.2% with hr>=60)
+    if avg <= 10:
+        s += 3
     elif avg <= 15:
-        role_bonus = 2
+        s += 1
     elif avg > 25:
-        role_bonus = -5  # star penalty
+        s -= 3
 
-    # Small line bonus
-    line_bonus = 0
-    if line <= 3:
-        line_bonus = 4
-    elif line <= 5:
-        line_bonus = 3
-    elif line <= 8:
-        line_bonus = 1
+    # #5: Low std dev (more predictable)
+    l10_std = p.get('l10_std', 0) or 0
+    if l10_std > 0 and l10_std <= 3:
+        s += 2
+    elif l10_std > 6:
+        s -= 2
 
-    # L10 HR (still valuable as tiebreaker)
-    hr = p.get('l10_hit_rate', 0) or 0
-    hr_bonus = hr / 20  # 0-5 range
+    # #6: Stat type bonus (BLK+STL combos = 21-27% base)
+    stat = p.get('stat', '').lower()
+    if stat in ('blk', 'stl', 'stl_blk'):
+        s += 4
+    elif stat in ('pra', 'pr', 'pa', 'ra'):
+        s -= 1  # combo stats are bottom performers (10.5-11.7%)
 
-    # Away player preference (winners have fewer home players)
-    away_bonus = 2 if not p.get('is_home') else 0
+    # Away preference (small but consistent edge)
+    if not p.get('is_home'):
+        s += 1
 
-    # Miss count penalty (miss>=7 = 14.7% cash)
-    miss_count = p.get('l10_miss_count', 0) or 0
-    miss_pen = -3 if miss_count >= 7 else (-1 if miss_count >= 6 else 0)
-
-    return line_above * 3 + role_bonus + line_bonus + hr_bonus + away_bonus + miss_pen
+    return s
 
 
 def build_primary_safe(pool):
@@ -768,71 +787,65 @@ def build_primary_safe(pool):
     - XGBoost: winners 0.530 vs losers 0.543 (model favors losers!)
     - High miss count: >=7 = 14.7%, >=8 = 7.8%
     """
-    # ── STAT DIVERSITY: enforce different stat types across legs ──
-    def _pick_diverse(candidates, used_games, used_stats, picks, n_target):
-        """Pick legs prioritizing stat diversity (BLK+REB+STL >> PTS+PTS+PTS)."""
-        for p in candidates:
-            g = p.get('game', '')
-            if g and g in used_games:
-                continue
-            stat = p.get('stat', '').lower()
-            # Enforce stat diversity: no more than 1 of the same base stat type
-            base_stat = stat if stat in BASE_STATS else stat  # combo stats are unique enough
-            if base_stat in used_stats and base_stat in ('pts', '3pm', 'ast', 'reb'):
-                continue  # skip duplicate stat types for base stats
-            picks.append(p)
-            if g:
-                used_games.add(g)
-            used_stats.add(base_stat)
-            if len(picks) >= n_target:
-                return True
-        return len(picks) >= n_target
-
     used_games = set()
-    used_stats = set()
     picks = []
 
-    # ALL passes require: UNDER + L10 HR >= 60% + miss < 7 (the FLOOR)
-    # Then layer 1M-sim insights on top (role players, line above avg, stat diversity)
+    def _is_hot(p):
+        return p.get('streak_status') == 'HOT'
 
+    # ALL passes: UNDER + L10 HR >= 60% + NOT HOT (HOT = trap, 0 HOT = 34.6% vs 14.4%)
     base_filter = lambda p: (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
         (p.get('l10_hit_rate', 0) or 0) >= 60 and
-        (p.get('l10_miss_count', 0) or 0) < 7
+        not _is_hot(p)
     )
 
-    # Pass 1: GOLDEN — L10 HR >= 70% + role player (avg<=15) + line above avg >=1.5
+    def _pick_from(candidates, picks, used_games, n_target):
+        for p in candidates:
+            g = p.get('game', '')
+            if g and g in used_games:
+                continue
+            picks.append(p)
+            if g:
+                used_games.add(g)
+            if len(picks) >= n_target:
+                return True
+        return len(picks) >= n_target
+
+    # Pass 1: COLD + L5<L10 + line above avg >=1 (targets 53-62% cash zone)
     p1 = [p for p in pool if (
         base_filter(p) and
-        (p.get('l10_hit_rate', 0) or 0) >= 70 and
-        (p.get('season_avg', 0) or 0) <= 15 and
-        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1.5
+        p.get('streak_status') == 'COLD' and
+        (p.get('l5_avg', 0) or 0) > 0 and (p.get('l10_avg', 0) or 0) > 0 and
+        (p.get('l5_avg', 0) or 0) < (p.get('l10_avg', 0) or 0) and
+        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1.0
     )]
     p1.sort(key=_sim_sort, reverse=True)
-    if _pick_diverse(p1, used_games, used_stats, picks, 3):
+    if _pick_from(p1, picks, used_games, 3):
         return picks
 
-    # Pass 2: L10 HR >= 70% + line above avg (any player size)
+    # Pass 2: COLD + line above avg >=0.5 (relax L5<L10)
     p2 = [p for p in pool if (
         base_filter(p) and
-        (p.get('l10_hit_rate', 0) or 0) >= 70 and
+        p.get('streak_status') == 'COLD' and
         ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5 and
         p not in picks
     )]
     p2.sort(key=_sim_sort, reverse=True)
-    if _pick_diverse(p2, used_games, used_stats, picks, 3):
+    if _pick_from(p2, picks, used_games, 3):
         return picks
 
-    # Pass 3: L10 HR >= 60% + role player (avg<=15) + line above avg >=1.0
+    # Pass 3: L5<L10 + line above avg >=1 + no HOT (50.8% zone)
     p3 = [p for p in pool if (
         base_filter(p) and
-        (p.get('season_avg', 0) or 0) <= 15 and
+        (p.get('l5_avg', 0) or 0) > 0 and (p.get('l10_avg', 0) or 0) > 0 and
+        (p.get('l5_avg', 0) or 0) < (p.get('l10_avg', 0) or 0) and
         ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1.0 and
         p not in picks
     )]
     p3.sort(key=_sim_sort, reverse=True)
-    if _pick_diverse(p3, used_games, used_stats, picks, 3):
+    if _pick_from(p3, picks, used_games, 3):
         return picks
 
     # Pass 4: Any UNDER with L10 HR >= 60% + line above avg (drop diversity)
