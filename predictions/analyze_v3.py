@@ -800,11 +800,12 @@ def build_parlays(results):
     - L5 trend filter
     """
     # S/A tier OVERs
-    core_over = [r for r in results if r.get('tier') in ['S', 'A'] and r.get('direction') == 'OVER' and 'error' not in r]
-    # S-tier UNDERs (high-gap UNDERs are reliable)
-    core_under = [r for r in results if r.get('tier') == 'S' and r.get('direction') == 'UNDER' and 'error' not in r]
-    # B tier flex (OVER only)
-    flex = [r for r in results if r.get('tier') == 'B' and r.get('direction') == 'OVER' and 'error' not in r]
+    core_over = [r for r in results if r.get('direction') == 'OVER' and 'error' not in r
+                 and r.get('l10_hit_rate', 0) >= 60]
+    core_under = [r for r in results if r.get('direction') == 'UNDER' and 'error' not in r
+                  and r.get('l10_hit_rate', 0) >= 60]
+    flex = [r for r in results if r.get('direction') == 'OVER' and 'error' not in r
+            and r.get('l10_hit_rate', 0) >= 50]
 
     all_candidates = core_over + core_under + flex
     # Deduplicate
@@ -928,9 +929,9 @@ def build_game_locks(results):
     # ABSOLUTE lock: UNDER with bulletproof hit rates, or OVER near-perfect on simple stats
     candidates = [
         r for r in results
-        if r.get('tier') in ['S', 'A']
-        and 'error' not in r
+        if 'error' not in r
         and r.get('abs_gap', 0) >= 3.0
+        and r.get('l10_hit_rate', 0) >= 60
         and r.get('streak_status') != 'COLD'
         and not r.get('player_injury_status')  # no injury status at all
         and (r.get('stat') not in COMBO_STATS or r.get('stat') in ALLOWED_COMBOS)
@@ -995,9 +996,9 @@ def build_game_locks(results):
     if missing_games:
         fallback = [
             r for r in results
-            if r.get('tier') in ['S', 'A']
-            and 'error' not in r
+            if 'error' not in r
             and r.get('abs_gap', 0) >= 3.0
+            and r.get('l10_hit_rate', 0) >= 60
             and r.get('streak_status') != 'COLD'
             and (r.get('player_injury_status') or '').lower() not in ['doubtful', 'out', 'questionable', 'gtd']
             and r.get('game', '') in missing_games

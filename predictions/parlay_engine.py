@@ -485,8 +485,6 @@ def build_primary_safe(pool):
     def _safe_eligible(p):
         if not _is_eligible(p):
             return False
-        if p.get('tier', 'F') not in ('S', 'A', 'B'):
-            return False
         if p.get('mins_30plus_pct', 0) < 60:
             return False
         if p.get('l10_hit_rate', 0) < 60:
@@ -523,10 +521,9 @@ def build_primary_safe(pool):
     if len(picks) >= 3:
         return picks
 
-    # Level 2: Relax to SABC, miss_count<5, spread<15
+    # Level 2: Relax miss_count<5, spread<15
     filtered = [p for p in pool if (
         _is_eligible(p) and
-        p.get('tier', 'F') in ('S', 'A', 'B', 'C') and
         p.get('mins_30plus_pct', 0) >= 55 and
         p.get('l10_hit_rate', 0) >= 50 and
         p.get('l10_miss_count', 10) < 5 and
@@ -541,7 +538,6 @@ def build_primary_safe(pool):
     # Level 3: Survival with primary_score fallback
     filtered = [p for p in pool if (
         _is_eligible(p) and
-        p.get('tier', 'F') not in ('D', 'F') and
         p.get('l10_hit_rate', 0) >= 40
     )]
     picks = _greedy_select(filtered, 3, _primary_score, max_combo=1)
@@ -564,7 +560,6 @@ def build_primary_aggressive(pool, safe_players):
     # v10.1: Block OVERs in high-spread games (blowout benching)
     filtered = [p for p in pool if (
         _is_eligible(p) and
-        p.get('tier', 'F') in ('S', 'A', 'B', 'C') and
         p.get('mins_30plus_pct', 0) >= 55 and
         p.get('l10_hit_rate', 0) >= 50 and
         p.get('xgb_prob', 0) >= 0.52 and
@@ -572,12 +567,9 @@ def build_primary_aggressive(pool, safe_players):
         not (p.get('direction', '').upper() == 'OVER' and abs(p.get('spread', 0) or 0) >= 15)
     )]
 
-    # Split: UNDERs any tier SABC, OVERs S/A-tier only (expanded from S-only)
+    # Split: UNDERs + OVERs (no tier gating)
     unders = [p for p in filtered if p.get('direction', '').upper() == 'UNDER']
-    overs = [p for p in filtered if (
-        p.get('direction', '').upper() == 'OVER' and
-        p.get('tier') in ('S', 'A')
-    )]
+    overs = [p for p in filtered if p.get('direction', '').upper() == 'OVER']
 
     # Target 6 UNDERs (was 5), fill rest with S/A-tier OVERs
     under_picks = _greedy_select(unders, 6, _primary_score, excluded_players=excluded, max_combo=1)
@@ -593,12 +585,11 @@ def build_primary_aggressive(pool, safe_players):
     if len(picks) >= 8:
         return picks[:8]
 
-    # Fallback 1: Allow A/B tier OVERs too, fill remaining slots
+    # Fallback 1: Fill from remaining OVERs
     used_all = {p['player'] for p in picks} | excluded
     remaining_overs = [p for p in filtered if (
         p['player'] not in used_all and
-        p.get('direction', '').upper() == 'OVER' and
-        p.get('tier') in ('A', 'B')
+        p.get('direction', '').upper() == 'OVER'
     )]
     extra = _greedy_select(remaining_overs, 8 - len(picks), _primary_score, excluded_players=used_all, max_combo=1)
     picks.extend(extra)
@@ -611,7 +602,6 @@ def build_primary_aggressive(pool, safe_players):
     remaining = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
-        p.get('tier', 'F') not in ('F',) and
         p.get('l10_hit_rate', 0) >= 40 and
         p['player'] not in used_all
     )]
@@ -621,10 +611,9 @@ def build_primary_aggressive(pool, safe_players):
     if len(picks) >= 6:
         return picks[:8]
 
-    # Level 3: Survival — block D/F tier entirely
+    # Level 3: Survival
     filtered = [p for p in pool if (
         _is_eligible(p) and
-        p.get('tier', 'F') not in ('D', 'F') and
         p.get('l10_hit_rate', 0) >= 40 and
         p.get('player', '') not in excluded
     )]
@@ -729,23 +718,9 @@ def _apply_filters(pool, params):
     gap_min = params.get('gap_min', 0)
     mins_min = params.get('mins_min', 0)
 
-    allowed_tiers = set()
-    if tier_filter == 'S':
-        allowed_tiers = {'S'}
-    elif tier_filter == 'SA':
-        allowed_tiers = {'S', 'A'}
-    elif tier_filter == 'SAB':
-        allowed_tiers = {'S', 'A', 'B'}
-    elif tier_filter == 'SABC':
-        allowed_tiers = {'S', 'A', 'B', 'C'}
-    # 'any' = no tier filter
-
+    # Tier filtering removed — tiers were inversely correlated with accuracy
     for p in pool:
         if not _is_eligible(p):
-            continue
-
-        # Tier
-        if allowed_tiers and p.get('tier', 'F') not in allowed_tiers:
             continue
 
         # Direction
@@ -841,7 +816,7 @@ def build_parlay_from_params(params, pool, n_legs=3, excluded_players=None):
         return picks[:n_legs]
 
     # Level 3: Survival — any non-D/F/OUT prop, sort by xgb_prob or primary_score
-    survival = [p for p in pool if _is_eligible(p) and p.get('tier', 'F') not in ('D', 'F') and p['player'] not in excluded]
+    survival = [p for p in pool if _is_eligible(p) and p['player'] not in excluded]
     picks = _greedy_select(survival, n_legs, _primary_score, excluded_players=excluded, max_combo=3)
 
     return picks[:n_legs]
@@ -1070,7 +1045,7 @@ def _random_unused_trio(pool, used_trios, sort_fn=None):
     """Pick any 3 valid props whose player trio hasn't been used."""
     if sort_fn is None:
         sort_fn = _primary_score
-    eligible = [p for p in pool if _is_eligible(p) and p.get('tier', 'F') not in ('D', 'F')]
+    eligible = [p for p in pool if _is_eligible(p)]
     sorted_pool = sorted(eligible, key=sort_fn, reverse=True)
 
     # Try greedy with different starting offsets

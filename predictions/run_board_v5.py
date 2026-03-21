@@ -206,27 +206,16 @@ def backtest_pass2(results):
         if proj == 0:
             continue
 
+        # L5 trend warnings (logged but no tier downgrade — tiers removed)
         if direction == 'OVER' and l5 < proj * 0.85:
-            old_tier = r['tier']
-            tier_order = ['S', 'A', 'B', 'C', 'D', 'F']
-            if old_tier in tier_order:
-                idx = tier_order.index(old_tier)
-                if idx < len(tier_order) - 1:
-                    r['tier'] = tier_order[idx + 1]
-                    r['backtest_note'] = f"L5 trend downgrade: L5={l5:.1f} vs proj={proj:.1f} ({old_tier}->{r['tier']})"
-                    adjusted += 1
+            r['backtest_note'] = f"L5 trend warning: L5={l5:.1f} vs proj={proj:.1f}"
+            adjusted += 1
 
         if direction == 'UNDER':
             line = r.get('line', 0)
             if l5 > line * 1.1:
-                old_tier = r['tier']
-                tier_order = ['S', 'A', 'B', 'C', 'D', 'F']
-                if old_tier in tier_order:
-                    idx = tier_order.index(old_tier)
-                    if idx < len(tier_order) - 1:
-                        r['tier'] = tier_order[idx + 1]
-                        r['backtest_note'] = f"L5 UNDER risk: L5={l5:.1f} > line={line:.1f} ({old_tier}->{r['tier']})"
-                        adjusted += 1
+                r['backtest_note'] = r.get('backtest_note', '') + f" | L5 UNDER risk: L5={l5:.1f} > line={line:.1f}"
+                adjusted += 1
 
     print(f"  Adjusted {adjusted} picks based on L5 trends")
     return results
@@ -248,25 +237,14 @@ def backtest_pass3(results):
         direction = r.get('direction', '')
         opp_hr = opp_hist.get('hit_rate', 50)
 
+        # Opponent history warnings (logged but no tier changes)
         if direction == 'OVER' and opp_avg < line * 0.9 and opp_hr < 40:
-            old_tier = r['tier']
-            tier_order = ['S', 'A', 'B', 'C', 'D', 'F']
-            if old_tier in tier_order:
-                idx = tier_order.index(old_tier)
-                if idx < len(tier_order) - 1:
-                    r['tier'] = tier_order[idx + 1]
-                    r['backtest_note'] = r.get('backtest_note', '') + f" | Opp weak: {opp_avg} ({opp_hr}% HR) ({old_tier}->{r['tier']})"
-                    adjusted += 1
+            r['backtest_note'] = r.get('backtest_note', '') + f" | Opp weak: {opp_avg} ({opp_hr}% HR)"
+            adjusted += 1
 
         if direction == 'OVER' and opp_avg > line * 1.15 and opp_hr >= 70:
-            old_tier = r['tier']
-            tier_order = ['S', 'A', 'B', 'C', 'D', 'F']
-            if old_tier in tier_order:
-                idx = tier_order.index(old_tier)
-                if idx > 0:
-                    r['tier'] = tier_order[idx - 1]
-                    r['backtest_note'] = r.get('backtest_note', '') + f" | Opp strong: {opp_avg} ({opp_hr}% HR) ({old_tier}->{r['tier']})"
-                    adjusted += 1
+            r['backtest_note'] = r.get('backtest_note', '') + f" | Opp strong: {opp_avg} ({opp_hr}% HR)"
+            adjusted += 1
 
     print(f"  Adjusted {adjusted} picks based on opponent history")
     return results
@@ -274,14 +252,14 @@ def backtest_pass3(results):
 
 def improved_build_parlays(results):
     """Improved parlay builder (same logic from run_march12.py)"""
-    core_over = [r for r in results if r.get('tier') in ['S', 'A']
-                 and r.get('direction') == 'OVER' and 'error' not in r]
-    core_under = [r for r in results if r.get('tier') == 'S'
-                  and r.get('direction') == 'UNDER' and 'error' not in r]
-    flex = [r for r in results if r.get('tier') == 'B'
-            and r.get('direction') == 'OVER' and 'error' not in r]
+    core_over = [r for r in results if r.get('direction') == 'OVER' and 'error' not in r
+                 and r.get('l10_hit_rate', 0) >= 60]
+    core_under = [r for r in results if r.get('direction') == 'UNDER' and 'error' not in r
+                  and r.get('l10_hit_rate', 0) >= 60]
+    flex = [r for r in results if r.get('direction') == 'OVER' and 'error' not in r
+            and r.get('l10_hit_rate', 0) >= 50]
     anchors = [r for r in results if r.get('stat') in ['blk', 'stl']
-               and r.get('tier') in ['S', 'A', 'B'] and 'error' not in r]
+               and 'error' not in r and r.get('l10_hit_rate', 0) >= 60]
 
     all_candidates = core_over + core_under + flex + anchors
 
@@ -402,8 +380,7 @@ def _leg_key(r):
 
 def _get_candidates(results, top_n=20):
     """Extract top parlay candidates (S/A tier + B flex + S UNDER)."""
-    pool = [r for r in results if r.get('tier') in ['S', 'A', 'B']
-            and 'error' not in r and r.get('l10_hit_rate', 0) >= 50]
+    pool = [r for r in results if 'error' not in r and r.get('l10_hit_rate', 0) >= 50]
     seen = set()
     unique = []
     for r in pool:
@@ -749,8 +726,7 @@ def agent_fatigue_analysis(selected_legs, GAMES):
 
 def agent_base_stat_only(results, GAMES):
     """Build a parlay using ONLY base stats (PTS, REB, AST, 3PM, BLK, STL) — no combos."""
-    candidates = [r for r in results if r.get('tier') in ['S', 'A', 'B']
-                  and r.get('stat') not in ['pra', 'pr', 'pa', 'ra']
+    candidates = [r for r in results if r.get('stat') not in ['pra', 'pr', 'pa', 'ra']
                   and 'error' not in r and r.get('l10_hit_rate', 0) >= 60
                   and r.get('l5_hit_rate', 0) >= 40]
     candidates.sort(key=lambda x: x.get('abs_gap', 0), reverse=True)
@@ -784,8 +760,7 @@ def agent_base_stat_only(results, GAMES):
 
 def agent_under_focused(results, GAMES):
     """Build a parlay focused on UNDER plays (historically 70%+ accuracy)."""
-    candidates = [r for r in results if r.get('tier') in ['S', 'A']
-                  and r.get('direction') == 'UNDER' and 'error' not in r
+    candidates = [r for r in results if r.get('direction') == 'UNDER' and 'error' not in r
                   and r.get('l10_hit_rate', 0) >= 60]
     candidates.sort(key=lambda x: x.get('abs_gap', 0), reverse=True)
 
@@ -818,8 +793,7 @@ def agent_under_focused(results, GAMES):
 
 def agent_chalk_safe(results, GAMES):
     """Build the safest possible parlay — max hit rates, ignore gap size."""
-    candidates = [r for r in results if r.get('tier') in ['S', 'A', 'B']
-                  and 'error' not in r and r.get('l10_hit_rate', 0) >= 70
+    candidates = [r for r in results if 'error' not in r and r.get('l10_hit_rate', 0) >= 70
                   and r.get('l5_hit_rate', 0) >= 60]
     # Sort by hit rate, not gap
     candidates.sort(key=lambda x: (x.get('l10_hit_rate', 0) + x.get('l5_hit_rate', 0)), reverse=True)
@@ -855,16 +829,13 @@ def agent_chalk_safe(results, GAMES):
 def agent_contrarian(results, GAMES):
     """Build a parlay from strong UNDERs + COLD streak OVERs (mean reversion plays)."""
     # Strong UNDERs on HOT players (they'll regress)
-    under_hot = [r for r in results if r.get('tier') in ['S', 'A']
-                 and r.get('direction') == 'UNDER' and r.get('streak_status') == 'HOT'
+    under_hot = [r for r in results if r.get('direction') == 'UNDER' and r.get('streak_status') == 'HOT'
                  and 'error' not in r and r.get('l10_hit_rate', 0) >= 60]
     # OVERs on COLD players (mean reversion bounce)
-    over_cold = [r for r in results if r.get('tier') in ['S', 'A']
-                 and r.get('direction') == 'OVER' and r.get('abs_gap', 0) >= 5
+    over_cold = [r for r in results if r.get('direction') == 'OVER' and r.get('abs_gap', 0) >= 5
                  and 'error' not in r and r.get('l10_hit_rate', 0) >= 60]
     # Defensive mismatches
-    defense_plays = [r for r in results if r.get('tier') in ['S', 'A']
-                     and 'error' not in r and r.get('abs_gap', 0) >= 4
+    defense_plays = [r for r in results if 'error' not in r and r.get('abs_gap', 0) >= 4
                      and r.get('matchup_note', '') and r.get('l10_hit_rate', 0) >= 60]
 
     pool = under_hot + over_cold + defense_plays
@@ -908,10 +879,9 @@ def agent_contrarian(results, GAMES):
 def agent_blk_stl_anchor(results, GAMES):
     """Build a parlay anchored by BLK/STL picks (85%+ accuracy historically)."""
     anchors = [r for r in results if r.get('stat') in ['blk', 'stl']
-               and r.get('tier') in ['S', 'A', 'B'] and 'error' not in r
+               and 'error' not in r
                and r.get('l10_hit_rate', 0) >= 60]
-    others = [r for r in results if r.get('tier') in ['S', 'A']
-              and r.get('stat') not in ['blk', 'stl'] and 'error' not in r
+    others = [r for r in results if r.get('stat') not in ['blk', 'stl'] and 'error' not in r
               and r.get('l10_hit_rate', 0) >= 70]
     anchors.sort(key=lambda x: x.get('abs_gap', 0), reverse=True)
     others.sort(key=lambda x: x.get('abs_gap', 0), reverse=True)
@@ -1204,25 +1174,18 @@ def print_summary(results, pass_num):
     print(f"{'='*60}")
     print(f"  Total: {len(results)} | Errors: {errors}")
     print(f"  Direction: {overs} OVER / {unders} UNDER")
-    print(f"  Tiers: {json.dumps(tiers)}")
+    print(f"  Tiers (legacy): {json.dumps(tiers)}")
 
-    s_tier = [r for r in results if r.get('tier') == 'S' and 'error' not in r]
-    s_tier.sort(key=lambda x: x.get('abs_gap', 0), reverse=True)
-    if s_tier:
-        print(f"\n  TOP S-TIER ({len(s_tier)} total):")
-        for r in s_tier[:15]:
+    # Show top picks by hit rate + ensemble_prob (replacing tier-based ranking)
+    top_picks = [r for r in results if 'error' not in r and r.get('l10_hit_rate', 0) >= 70]
+    top_picks.sort(key=lambda x: (x.get('ensemble_prob', x.get('xgb_prob', 0)) or 0), reverse=True)
+    if top_picks:
+        print(f"\n  TOP PICKS by ensemble_prob (L10 HR >= 70%, {len(top_picks)} total):")
+        for r in top_picks[:15]:
+            ens = r.get('ensemble_prob', r.get('xgb_prob', 0)) or 0
             print(f"    {r['player']:22s} {r['stat'].upper():4s} {r['direction']:5s} {r['line']:5.1f}  "
                   f"proj={r.get('projection',0):5.1f}  gap={r.get('gap',0):+5.1f}  "
-                  f"L10HR={r.get('l10_hit_rate',0):3.0f}%  {r.get('streak_status','')}")
-
-    a_tier = [r for r in results if r.get('tier') == 'A' and 'error' not in r]
-    a_tier.sort(key=lambda x: x.get('abs_gap', 0), reverse=True)
-    if a_tier:
-        print(f"\n  TOP A-TIER ({len(a_tier)} total):")
-        for r in a_tier[:10]:
-            print(f"    {r['player']:22s} {r['stat'].upper():4s} {r['direction']:5s} {r['line']:5.1f}  "
-                  f"proj={r.get('projection',0):5.1f}  gap={r.get('gap',0):+5.1f}  "
-                  f"L10HR={r.get('l10_hit_rate',0):3.0f}%  {r.get('streak_status','')}")
+                  f"L10HR={r.get('l10_hit_rate',0):3.0f}%  ens={ens:.3f}  {r.get('streak_status','')}")
 
 
 def main():
@@ -1817,16 +1780,15 @@ def main():
         print(f"  {game_key} | Spread: {spread_str} | {gctx['notes'][:80]}")
         print(f"  {'─'*55}")
 
-        tier_order = {'S': 0, 'A': 1, 'B': 2, 'C': 3, 'D': 4, 'F': 5}
-        game_results.sort(key=lambda x: (tier_order.get(x.get('tier', 'F'), 5), -x.get('abs_gap', 0)))
+        # Sort by ensemble_prob (or xgb_prob) descending — no tier gating
+        game_results.sort(key=lambda x: (x.get('ensemble_prob', x.get('xgb_prob', 0)) or 0), reverse=True)
 
         for r in game_results:
-            if r.get('tier') in ['D', 'F']:
-                continue
             streak_tag = f" [{r.get('streak_status', '')}]" if r.get('streak_status', 'NEUTRAL') != 'NEUTRAL' else ''
-            print(f"    [{r['tier']:1s}] {r['player']:22s} {r['stat'].upper():4s} {r['direction']:5s} {r['line']:5.1f}  "
+            ens = r.get('ensemble_prob', r.get('xgb_prob', 0)) or 0
+            print(f"    {r['player']:22s} {r['stat'].upper():4s} {r['direction']:5s} {r['line']:5.1f}  "
                   f"proj={r.get('projection',0):5.1f}  gap={r.get('gap',0):+5.1f}  "
-                  f"L10={r.get('l10_hit_rate',0):3.0f}%{streak_tag}")
+                  f"L10={r.get('l10_hit_rate',0):3.0f}%  ens={ens:.3f}{streak_tag}")
 
     print(f"\n\nDONE! All results saved to predictions/{date_str}/")
     return results, parlays

@@ -430,7 +430,6 @@ def build_optimal_parlay(results, n_legs=3, mode='safe'):
     # Filter by mode
     if mode == 'safe':
         pool = [p for p in results if (
-            p.get('tier', 'F') in ('S', 'A', 'B') and
             p.get('mins_30plus_pct', 0) >= 60 and
             p.get('l10_hit_rate', 0) >= 60 and
             p.get('l10_miss_count', 10) < 4 and
@@ -442,7 +441,6 @@ def build_optimal_parlay(results, n_legs=3, mode='safe'):
         max_combo = 0
     else:
         pool = [p for p in results if (
-            p.get('tier', 'F') in ('S', 'A', 'B', 'C') and
             p.get('mins_30plus_pct', 0) >= 50 and
             p.get('l10_hit_rate', 0) >= 45
         )]

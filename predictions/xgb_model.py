@@ -77,7 +77,7 @@ FEATURE_COLS = [
     'same_team_out_count', 'miss_streak',
     # Categorical (encoded)
     'stat_ordinal', 'direction_binary', 'is_home_binary',
-    'is_b2b_binary', 'is_combo', 'streak_ordinal', 'tier_ordinal',
+    'is_b2b_binary', 'is_combo', 'streak_ordinal',
     # v2 features
     'gap_squared', 'is_pts', 'is_blk_stl', 'is_ast',
     'l5_l10_agreement', 'hr_confidence', 'line_relative_avg',
@@ -614,10 +614,6 @@ def collect_backfill_data(sample_cap=30000):
             # Recency: 2026 dates get 2x weight
             if r.get('_date', '') >= '2026-':
                 weights[i] *= 2.0
-            # Higher tiers get slight preference
-            tier = r.get('tier', 'F')
-            if tier in ('S', 'A', 'B'):
-                weights[i] *= 1.5
             # Base stats slightly preferred over combos
             if r.get('stat', '') not in ('pra', 'pr', 'pa', 'ra'):
                 weights[i] *= 1.2
@@ -663,10 +659,6 @@ def collect_sgo_backfill_data(sample_cap=50000):
             if date >= '2026-':
                 weights[i] *= 2.0
             elif date >= '2025-':
-                weights[i] *= 1.5
-            # Higher tiers preferred
-            tier = r.get('tier', 'F')
-            if tier in ('S', 'A', 'B'):
                 weights[i] *= 1.5
             # Base stats slightly preferred
             if r.get('stat', '') not in ('pra', 'pr', 'pa', 'ra'):
@@ -1004,7 +996,7 @@ def engineer_features(records):
             opp_hit_rate, opp_avg_vs_line,
             same_team_out, float(miss_streak),
             stat_ordinal, direction_binary, is_home_binary,
-            is_b2b_binary, is_combo, streak_ord, tier_ord,
+            is_b2b_binary, is_combo, streak_ord,
             # v2 features
             gap_squared, is_pts, is_blk_stl, is_ast,
             l5_l10_agreement, hr_confidence, line_relative_avg,

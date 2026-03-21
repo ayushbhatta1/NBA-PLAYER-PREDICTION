@@ -59,11 +59,9 @@ def hard_screen(results, relaxed=False):
     if relaxed:
         min_mins = 50
         min_l10_hr = 55
-        allowed_tiers = ['S', 'A', 'B', 'C']
     else:
         min_mins = 60
         min_l10_hr = 60
-        allowed_tiers = ['S', 'A', 'B']
 
     min_l5_hr = 40  # same either way
 
@@ -76,10 +74,6 @@ def hard_screen(results, relaxed=False):
             continue
 
         reasons = []
-
-        # Tier gate — v2: relaxed to include B-tier
-        if r.get('tier') not in allowed_tiers:
-            reasons.append(f"tier={r.get('tier')} (need {'/'.join(allowed_tiers)})")
 
         # Minutes stability
         mins_pct = r.get('mins_30plus_pct', 0)
@@ -1102,7 +1096,7 @@ def nexus_parlay_pipeline(results, GAMES, historical_dir=None):
 
     # Show key rejections
     notable_rejects = [(r, reason) for r, reason in rejected
-                       if r.get('tier') in ['S', 'A', 'B'] and 'error' not in r]
+                       if r.get('l10_hit_rate', 0) >= 60 and 'error' not in r]
     for r, reason in notable_rejects[:8]:
         print(f"    KILLED: {r.get('player','?'):20s} {r.get('stat','?').upper():4s} "
               f"{r.get('direction','?'):5s} — {reason}")
@@ -1242,10 +1236,6 @@ def hard_screen_8leg(results):
             continue
 
         reasons = []
-
-        # S/A tier only
-        if r.get('tier') not in ['S', 'A']:
-            reasons.append(f"tier={r.get('tier')} (need S/A)")
 
         # Base stats only
         stat = r.get('stat', '')
@@ -2877,10 +2867,6 @@ def soft_screen(results):
         soft_fails = []
 
         # ── HARD KILLS (non-negotiable) ──
-        tier = r.get('tier', 'F')
-        if tier in ('D', 'F'):
-            hard_kills.append(f"tier={tier}")
-
         injury = r.get('player_injury_status', '')
         if injury and injury.lower() in ['out', 'doubtful']:
             hard_kills.append(f"injury={injury}")
@@ -2978,10 +2964,6 @@ def soft_screen_aggressive(results):
         soft_fails = []
 
         # Hard kills
-        tier = r.get('tier', 'F')
-        if tier in ('C', 'D', 'F'):
-            hard_kills.append(f"tier={tier}")
-
         injury = r.get('player_injury_status', '')
         if injury and injury.lower() in ['out', 'doubtful', 'questionable', 'gtd', 'game-time decision']:
             hard_kills.append(f"injury={injury}")
@@ -3519,7 +3501,7 @@ def nexus_v4_pipeline(results, GAMES, historical_dir=None):
 
     # Show notable kills
     for r, reason in safe_killed[:5]:
-        if r.get('tier') in ['S', 'A', 'B'] and 'error' not in r:
+        if r.get('l10_hit_rate', 0) >= 60 and 'error' not in r:
             print(f"    KILLED: {r.get('player','?'):20s} {r.get('stat','?').upper():4s} — {reason}")
 
     # ── PHASE 2: SCOUT AGENTS (3) ──
