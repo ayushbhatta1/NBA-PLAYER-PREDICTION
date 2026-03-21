@@ -141,6 +141,8 @@ def apply_filters(picks, filters):
     min_l10_hr = filters.get('min_l10_hr', 0)
     min_season_hr = filters.get('min_season_hr', 0)
     min_mins_pct = filters.get('min_mins_pct', 0)
+    max_l10_hr = filters.get('max_l10_hr', 100)
+    min_line = filters.get('min_line', 0)
     min_ensemble = filters.get('min_ensemble_prob', 0)
     allowed_stats = set(filters.get('allowed_stats', []))
     exclude_combos = filters.get('exclude_combos', False)
@@ -194,8 +196,14 @@ def apply_filters(picks, filters):
             if p['streak_status'] == 'HOT':
                 continue
 
+        # Line filter
+        if p['line'] < min_line:
+            continue
+
         # Hit rate filter
         if p['l10_hit_rate'] < min_l10_hr:
+            continue
+        if p['l10_hit_rate'] >= max_l10_hr:
             continue
         if p['season_hit_rate'] < min_season_hr:
             continue
