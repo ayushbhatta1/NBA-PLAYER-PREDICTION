@@ -709,104 +709,181 @@ def _composite_safe_score(p):
     return sniper * 0.6 + floor * 40 * 0.4
 
 
+def _sim_sort(p):
+    """Sort key from 1M parlay simulation findings.
+    Prioritizes: line-above-avg > small season avg > small line > stat diversity."""
+    line = p.get('line', 0) or 0
+    avg = p.get('season_avg', 0) or 0
+    line_above = line - avg  # #1 predictor: bigger = better
+
+    # Role player bonus (season avg <= 5 = 43.5% cash vs <=30 = 28.3%)
+    role_bonus = 0
+    if avg <= 5:
+        role_bonus = 8
+    elif avg <= 10:
+        role_bonus = 5
+    elif avg <= 15:
+        role_bonus = 2
+    elif avg > 25:
+        role_bonus = -5  # star penalty
+
+    # Small line bonus
+    line_bonus = 0
+    if line <= 3:
+        line_bonus = 4
+    elif line <= 5:
+        line_bonus = 3
+    elif line <= 8:
+        line_bonus = 1
+
+    # L10 HR (still valuable as tiebreaker)
+    hr = p.get('l10_hit_rate', 0) or 0
+    hr_bonus = hr / 20  # 0-5 range
+
+    # Away player preference (winners have fewer home players)
+    away_bonus = 2 if not p.get('is_home') else 0
+
+    # Miss count penalty (miss>=7 = 14.7% cash)
+    miss_count = p.get('l10_miss_count', 0) or 0
+    miss_pen = -3 if miss_count >= 7 else (-1 if miss_count >= 6 else 0)
+
+    return line_above * 3 + role_bonus + line_bonus + hr_bonus + away_bonus + miss_pen
+
+
 def build_primary_safe(pool):
     """
-    3-Leg SAFE parlay: Data-driven from 3,761 graded props (10 days).
+    3-Leg SAFE parlay: Rebuilt from 1M parlay simulation on 777K valid parlays.
 
-    PROVEN filters (actual hit rates on graded data):
-    - UNDER + L10 HR >= 70%:        75.3% leg HR → 42.8% 3-leg cash
-    - UNDER + spread >= 10 + L5↓:   75.4% leg HR → 42.9% 3-leg cash
-    - UNDER + line <= 5:            72.2% leg HR → 37.6% 3-leg cash
-    - UNDER + spread >= 10:         68.0% leg HR → 31.4% 3-leg cash
+    1M SIMULATION FINDINGS (what separates 27.9% winners from losers):
+    #1 Line above season avg: >=2.0 = 42.8%, >=3.0 = 45.2%, >=4.0 = 55.6%
+    #2 No stars: max_avg<=5 = 43.5%, <=10 = 38.0%, <=15 = 33.6%
+    #3 Small lines: max_line<=5 = 35.1%
+    #4 Low minutes players more predictable (43.9% vs 49.8%)
+    #5 Miss count >= 7 KILLS (14.7% cash)
+    #6 Stat diversity: BLK+REB+STL = 63.7% vs PTS+PTS+PTS = 15.8%
+    #7 Away players preferred (0.96 home vs 1.31 in losers)
 
-    HARMFUL filters (data shows they REDUCE HR):
-    - L5<L10 alone: 64.9% vs 67.2% base UNDER (WORSE)
-    - miss_count >= 6: 57.9% (sportsbook already adjusted)
-
-    Rules:
-    1. UNDER only — 67.2% base HR
-    2. L10 HR >= 70% is the #1 filter (75.3%)
-    3. Small lines preferred (<=5 = 72.2%)
-    4. High-spread games preferred (>=10 = 68.0%)
-    5. Max 1 pick per game (diversification)
-    6. 4-pass cascade fallback
+    HARMFUL (confirmed by simulation):
+    - L5<L10: winners 1.39 vs losers 1.51 (losers use it MORE)
+    - XGBoost: winners 0.530 vs losers 0.543 (model favors losers!)
+    - High miss count: >=7 = 14.7%, >=8 = 7.8%
     """
-    # Pass 1: UNDER + L10 HR >= 70% + small line (<=10) — THE BEST COMBO
-    p1 = [p for p in pool if (
-        _is_eligible(p) and
-        p.get('direction', '').upper() == 'UNDER' and
-        (p.get('l10_hit_rate', 0) or 0) >= 70 and
-        (p.get('line', 0) or 0) <= 10
-    )]
-    p1.sort(key=_sniper_score, reverse=True)
+    # ── STAT DIVERSITY: enforce different stat types across legs ──
+    def _pick_diverse(candidates, used_games, used_stats, picks, n_target):
+        """Pick legs prioritizing stat diversity (BLK+REB+STL >> PTS+PTS+PTS)."""
+        for p in candidates:
+            g = p.get('game', '')
+            if g and g in used_games:
+                continue
+            stat = p.get('stat', '').lower()
+            # Enforce stat diversity: no more than 1 of the same base stat type
+            base_stat = stat if stat in BASE_STATS else stat  # combo stats are unique enough
+            if base_stat in used_stats and base_stat in ('pts', '3pm', 'ast', 'reb'):
+                continue  # skip duplicate stat types for base stats
+            picks.append(p)
+            if g:
+                used_games.add(g)
+            used_stats.add(base_stat)
+            if len(picks) >= n_target:
+                return True
+        return len(picks) >= n_target
 
     used_games = set()
+    used_stats = set()
     picks = []
-    for p in p1:
-        g = p.get('game', '')
-        if g and g in used_games:
-            continue
-        picks.append(p)
-        if g:
-            used_games.add(g)
-        if len(picks) >= 3:
-            break
 
-    if len(picks) >= 3:
-        return picks
+    # ALL passes require: UNDER + L10 HR >= 60% + miss < 7 (the FLOOR)
+    # Then layer 1M-sim insights on top (role players, line above avg, stat diversity)
 
-    # Pass 2: UNDER + L10 HR >= 70% (any line) — 75.3% leg HR
-    p2 = [p for p in pool if (
-        _is_eligible(p) and
-        p.get('direction', '').upper() == 'UNDER' and
-        (p.get('l10_hit_rate', 0) or 0) >= 70 and
-        p not in picks
-    )]
-    p2.sort(key=_sniper_score, reverse=True)
-    for p in p2:
-        g = p.get('game', '')
-        if g and g in used_games:
-            continue
-        picks.append(p)
-        if g:
-            used_games.add(g)
-        if len(picks) >= 3:
-            break
-
-    if len(picks) >= 3:
-        return picks
-
-    # Pass 3: UNDER + (line <= 5 OR spread >= 10) — 68-72% leg HR
-    p3 = [p for p in pool if (
-        _is_eligible(p) and
-        p.get('direction', '').upper() == 'UNDER' and
-        ((p.get('line', 0) or 0) <= 5 or abs(p.get('spread', 0) or 0) >= 10) and
-        (p.get('l10_hit_rate', 0) or 0) >= 55 and
-        p not in picks
-    )]
-    p3.sort(key=_composite_safe_score, reverse=True)
-    for p in p3:
-        g = p.get('game', '')
-        if g and g in used_games:
-            continue
-        picks.append(p)
-        if g:
-            used_games.add(g)
-        if len(picks) >= 3:
-            break
-
-    if len(picks) >= 3:
-        return picks
-
-    # Pass 4: Any UNDER with L10 HR >= 60% — 67.2% base
-    p4 = [p for p in pool if (
+    base_filter = lambda p: (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
         (p.get('l10_hit_rate', 0) or 0) >= 60 and
+        (p.get('l10_miss_count', 0) or 0) < 7
+    )
+
+    # Pass 1: GOLDEN — L10 HR >= 70% + role player (avg<=15) + line above avg >=1.5
+    p1 = [p for p in pool if (
+        base_filter(p) and
+        (p.get('l10_hit_rate', 0) or 0) >= 70 and
+        (p.get('season_avg', 0) or 0) <= 15 and
+        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1.5
+    )]
+    p1.sort(key=_sim_sort, reverse=True)
+    if _pick_diverse(p1, used_games, used_stats, picks, 3):
+        return picks
+
+    # Pass 2: L10 HR >= 70% + line above avg (any player size)
+    p2 = [p for p in pool if (
+        base_filter(p) and
+        (p.get('l10_hit_rate', 0) or 0) >= 70 and
+        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5 and
         p not in picks
     )]
-    p4.sort(key=_composite_safe_score, reverse=True)
+    p2.sort(key=_sim_sort, reverse=True)
+    if _pick_diverse(p2, used_games, used_stats, picks, 3):
+        return picks
+
+    # Pass 3: L10 HR >= 60% + role player (avg<=15) + line above avg >=1.0
+    p3 = [p for p in pool if (
+        base_filter(p) and
+        (p.get('season_avg', 0) or 0) <= 15 and
+        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1.0 and
+        p not in picks
+    )]
+    p3.sort(key=_sim_sort, reverse=True)
+    if _pick_diverse(p3, used_games, used_stats, picks, 3):
+        return picks
+
+    # Pass 4: Any UNDER with L10 HR >= 60% + line above avg (drop diversity)
+    p4 = [p for p in pool if (
+        base_filter(p) and
+        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5 and
+        p not in picks
+    )]
+    p4.sort(key=_sim_sort, reverse=True)
     for p in p4:
+        g = p.get('game', '')
+        if g and g in used_games:
+            continue
+        picks.append(p)
+        if g:
+            used_games.add(g)
+        if len(picks) >= 3:
+            break
+
+    if len(picks) >= 3:
+        return picks
+
+    # Pass 5: Any UNDER with L10 HR >= 55% (survival — avoid DNP)
+    p5 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        (p.get('l10_hit_rate', 0) or 0) >= 55 and
+        p not in picks
+    )]
+    p5.sort(key=_sim_sort, reverse=True)
+    for p in p5:
+        g = p.get('game', '')
+        if g and g in used_games:
+            continue
+        picks.append(p)
+        if g:
+            used_games.add(g)
+        if len(picks) >= 3:
+            break
+
+    if len(picks) >= 3:
+        return picks
+
+    # Pass 6: Any UNDER (absolute survival)
+    p6 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p not in picks
+    )]
+    p6.sort(key=_sim_sort, reverse=True)
+    for p in p6:
         g = p.get('game', '')
         if g and g in used_games:
             continue
