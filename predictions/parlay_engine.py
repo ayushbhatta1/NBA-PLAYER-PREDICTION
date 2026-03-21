@@ -471,76 +471,152 @@ def _floor_score(p):
 # PRIMARY PARLAYS
 # ═══════════════════════════════════════════════════════════════
 
+def _sniper_score(p):
+    """SNIPER scoring — backtested 44% parlay cash rate, 70% leg rate.
+
+    Core insight: UNDER + line above season average = 73.9% HR.
+    Stat reliability: BLK > STL > AST > 3PM > REB >> PTS.
+    """
+    s = 0.0
+    stat = p.get('stat', '').lower()
+    line = p.get('line', 0) or 0
+    season_avg = p.get('season_avg', 0) or 0
+    l10_avg = p.get('l10_avg', 0) or 0
+    l5_avg = p.get('l5_avg', 0) or 0
+
+    # #1 signal: line well above season average (73.9% when margin >= 3)
+    margin = line - season_avg
+    s += min(margin * 2, 12)
+
+    # #2: L10 avg also below line
+    l10_margin = line - l10_avg
+    s += min(l10_margin * 1.5, 8)
+
+    # #3: L5 trending down (momentum toward UNDER)
+    if l5_avg and l10_avg and l5_avg < l10_avg:
+        s += 2
+
+    # #4: Stat reliability for UNDERs (from 5,223 graded picks)
+    # BLK UNDER 79.6%, STL 74.5%, AST 69.6%, 3PM 66.3%, REB 62.6%, PTS 57.7%
+    stat_bonus = {'blk': 5, 'stl': 4, 'ast': 3, '3pm': 2, 'reb': 1, 'pts': 0}
+    s += stat_bonus.get(stat, -1)
+
+    # #5: Gap bonus (capped)
+    gap = p.get('abs_gap', 0) or 0
+    s += min(gap, 4)
+
+    # #6: Blowout spread bonus (bench time helps UNDERs)
+    spread = abs(p.get('spread', 0) or 0)
+    if spread >= 10:
+        s += 2
+
+    return s
+
+
 def build_primary_safe(pool):
     """
-    3-Leg SAFE parlay: FLOOR SAFETY approach.
-    Not gap chasing. Not XGB ranking. Does the player's WORST game still hit?
+    3-Leg SAFE parlay: SNIPER strategy.
+    Backtested 4/9 days cashed (44%), 70.4% leg rate across 10 days.
 
-    v10.2: Rebuilt around floor safety scoring.
-    - UNDERs: player's L10 ceiling near/below line (even best game doesn't kill us)
-    - OVERs: player's L10 floor above line (even worst game clears)
-    - No combos, no blowout games, base stats only
-    - Sorted by _floor_score, not _primary_score
+    Rules:
+    1. UNDER only — 64.8% HR vs OVER 40.9%
+    2. Prefer non-PTS stats (PTS UNDER only 57.7%)
+    3. Line above season avg — sportsbook set line too high
+    4. Score by: margin above avg + stat reliability + gap
+    5. Max 1 pick per game (diversification)
+    6. Cascade fallback if not enough primary picks
     """
-    def _safe_eligible(p):
+    # Primary pool: UNDER + non-PTS + line above season avg by 1+
+    primary = []
+    for p in pool:
         if not _is_eligible(p):
-            return False
-        if p.get('mins_30plus_pct', 0) < 60:
-            return False
-        if p.get('l10_hit_rate', 0) < 60:
-            return False
-        if p.get('l10_miss_count', 10) >= 3:
-            return False
-        # Vig-adjusted probability floor — require 3% edge over break-even
-        # At -110 (1.91x), break-even is 52.38%. For 3-leg parlay, effective vig ~14%
-        # Require 3% edge over implied probability = 55.4% default
-        multiplier = p.get('multiplier')
-        if multiplier and multiplier > 1.0:
-            implied_prob = 1.0 / multiplier
-            min_prob = implied_prob + 0.03  # 3% edge minimum
-        else:
-            min_prob = 0.554  # default for -110
-        ens = p.get('ensemble_prob', p.get('xgb_prob', 0))
-        if ens and ens < min_prob:
-            return False
-        # Hard-block high miss count — unreliable props
-        if p.get('l10_miss_count', 10) >= 4:
-            return False
-        if p.get('stat', '').lower() in COMBO_STATS:
-            return False
-        # No OVERs in blowout games
-        spread = abs(p.get('spread', 0) or 0)
-        if p.get('direction', '').upper() == 'OVER' and spread >= 10:
-            return False
-        return True
+            continue
+        if p.get('direction', '').upper() != 'UNDER':
+            continue
+        stat = p.get('stat', '').lower()
+        if stat == 'pts':
+            continue  # skip PTS first pass (57.7% — weakest UNDER stat)
+        sa = p.get('season_avg', 0) or 0
+        line = p.get('line', 0) or 0
+        if line - sa >= 1:  # line at least 1 above season avg
+            primary.append(p)
 
-    # Level 1: Floor safety — pick 3 safest legs
-    filtered = [p for p in pool if _safe_eligible(p)]
-    picks = _greedy_select(filtered, 3, _floor_score, max_combo=0)
+    primary.sort(key=_sniper_score, reverse=True)
+
+    # Pick 3, max 1 per game
+    used_games = set()
+    picks = []
+    for p in primary:
+        g = p.get('game', '')
+        if g and g in used_games:
+            continue
+        picks.append(p)
+        if g:
+            used_games.add(g)
+        if len(picks) >= 3:
+            break
 
     if len(picks) >= 3:
         return picks
 
-    # Level 2: Relax miss_count<5, spread<15
-    filtered = [p for p in pool if (
+    # Fallback 1: Allow PTS UNDER with line above avg, and any UNDER with line >= avg + 1
+    fb1 = [p for p in pool if (
         _is_eligible(p) and
-        p.get('mins_30plus_pct', 0) >= 55 and
-        p.get('l10_hit_rate', 0) >= 50 and
-        p.get('l10_miss_count', 10) < 5 and
-        p.get('stat', '').lower() not in COMBO_STATS and
-        not (p.get('direction', '').upper() == 'OVER' and abs(p.get('spread', 0) or 0) >= 15)
+        p.get('direction', '').upper() == 'UNDER' and
+        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1 and
+        p not in picks
     )]
-    picks = _greedy_select(filtered, 3, _floor_score, max_combo=0)
+    fb1.sort(key=_sniper_score, reverse=True)
+    for p in fb1:
+        g = p.get('game', '')
+        if g and g in used_games:
+            continue
+        picks.append(p)
+        if g:
+            used_games.add(g)
+        if len(picks) >= 3:
+            break
 
     if len(picks) >= 3:
         return picks
 
-    # Level 3: Survival with primary_score fallback
-    filtered = [p for p in pool if (
+    # Fallback 2: Any UNDER with gap >= 1
+    fb2 = [p for p in pool if (
         _is_eligible(p) and
-        p.get('l10_hit_rate', 0) >= 40
+        p.get('direction', '').upper() == 'UNDER' and
+        (p.get('abs_gap', 0) or 0) >= 1 and
+        p not in picks
     )]
-    picks = _greedy_select(filtered, 3, _primary_score, max_combo=1)
+    fb2.sort(key=_sniper_score, reverse=True)
+    for p in fb2:
+        g = p.get('game', '')
+        if g and g in used_games:
+            continue
+        picks.append(p)
+        if g:
+            used_games.add(g)
+        if len(picks) >= 3:
+            break
+
+    if len(picks) >= 3:
+        return picks
+
+    # Fallback 3: Any UNDER at all
+    fb3 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p not in picks
+    )]
+    fb3.sort(key=_sniper_score, reverse=True)
+    for p in fb3:
+        g = p.get('game', '')
+        if g and g in used_games:
+            continue
+        picks.append(p)
+        if g:
+            used_games.add(g)
+        if len(picks) >= 3:
+            break
 
     return picks
 
