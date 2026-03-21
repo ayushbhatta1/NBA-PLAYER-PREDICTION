@@ -711,33 +711,32 @@ def _composite_safe_score(p):
 
 def build_primary_safe(pool):
     """
-    3-Leg SAFE parlay: SNIPER strategy with L5 trend confirmation.
-    Backtested 79.1% cash rate, 92% leg rate across 464 days (447K records).
+    3-Leg SAFE parlay: Data-driven from 3,761 graded props (10 days).
 
-    Key edge: L5 trending down (L5 < L10) = 79.9% HR vs 48.2% trending up.
-    Combined with: UNDER + line above avg + small lines + role players.
+    PROVEN filters (actual hit rates on graded data):
+    - UNDER + L10 HR >= 70%:        75.3% leg HR → 42.8% 3-leg cash
+    - UNDER + spread >= 10 + L5↓:   75.4% leg HR → 42.9% 3-leg cash
+    - UNDER + line <= 5:            72.2% leg HR → 37.6% 3-leg cash
+    - UNDER + spread >= 10:         68.0% leg HR → 31.4% 3-leg cash
+
+    HARMFUL filters (data shows they REDUCE HR):
+    - L5<L10 alone: 64.9% vs 67.2% base UNDER (WORSE)
+    - miss_count >= 6: 57.9% (sportsbook already adjusted)
 
     Rules:
-    1. UNDER only — 53.6% base, 64.1% in sniper pool
-    2. L5 < L10 required (player trending DOWN = safer UNDER)
-    3. Small lines + role players first (73.5% HR on lines 0-2)
-    4. Avoid stars (avg > 25 = blowup risk)
+    1. UNDER only — 67.2% base HR
+    2. L10 HR >= 70% is the #1 filter (75.3%)
+    3. Small lines preferred (<=5 = 72.2%)
+    4. High-spread games preferred (>=10 = 68.0%)
     5. Max 1 pick per game (diversification)
-    6. 3-pass cascade fallback
+    6. 4-pass cascade fallback
     """
-    def _l5_trending_down(p):
-        l5 = p.get('l5_avg', 0) or 0
-        l10 = p.get('l10_avg', 0) or 0
-        return l5 > 0 and l10 > 0 and l5 < l10
-
-    # Pass 1: UNDER + L5<L10 + small line (<=15) + line above avg + no stars
+    # Pass 1: UNDER + L10 HR >= 70% + small line (<=10) — THE BEST COMBO
     p1 = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
-        _l5_trending_down(p) and
-        (p.get('line', 0) or 0) <= 15 and
-        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5 and
-        (p.get('season_avg', 0) or 0) < 22
+        (p.get('l10_hit_rate', 0) or 0) >= 70 and
+        (p.get('line', 0) or 0) <= 10
     )]
     p1.sort(key=_sniper_score, reverse=True)
 
@@ -747,8 +746,6 @@ def build_primary_safe(pool):
         g = p.get('game', '')
         if g and g in used_games:
             continue
-        if _floor_score(p) < 0.3:
-            continue  # floor safety gate
         picks.append(p)
         if g:
             used_games.add(g)
@@ -758,22 +755,18 @@ def build_primary_safe(pool):
     if len(picks) >= 3:
         return picks
 
-    # Pass 2: UNDER + L5<L10 + any line + line above avg + no star (avg < 25)
+    # Pass 2: UNDER + L10 HR >= 70% (any line) — 75.3% leg HR
     p2 = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
-        _l5_trending_down(p) and
-        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 1 and
-        (p.get('season_avg', 0) or 0) < 25 and
+        (p.get('l10_hit_rate', 0) or 0) >= 70 and
         p not in picks
     )]
-    p2.sort(key=_composite_safe_score, reverse=True)
+    p2.sort(key=_sniper_score, reverse=True)
     for p in p2:
         g = p.get('game', '')
         if g and g in used_games:
             continue
-        if _floor_score(p) < 0.3:
-            continue  # floor safety gate
         picks.append(p)
         if g:
             used_games.add(g)
@@ -783,11 +776,12 @@ def build_primary_safe(pool):
     if len(picks) >= 3:
         return picks
 
-    # Pass 3: Any UNDER with line above avg (drop L5 requirement)
+    # Pass 3: UNDER + (line <= 5 OR spread >= 10) — 68-72% leg HR
     p3 = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
-        ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5 and
+        ((p.get('line', 0) or 0) <= 5 or abs(p.get('spread', 0) or 0) >= 10) and
+        (p.get('l10_hit_rate', 0) or 0) >= 55 and
         p not in picks
     )]
     p3.sort(key=_composite_safe_score, reverse=True)
@@ -795,8 +789,27 @@ def build_primary_safe(pool):
         g = p.get('game', '')
         if g and g in used_games:
             continue
-        if _floor_score(p) < 0.3:
-            continue  # floor safety gate
+        picks.append(p)
+        if g:
+            used_games.add(g)
+        if len(picks) >= 3:
+            break
+
+    if len(picks) >= 3:
+        return picks
+
+    # Pass 4: Any UNDER with L10 HR >= 60% — 67.2% base
+    p4 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        (p.get('l10_hit_rate', 0) or 0) >= 60 and
+        p not in picks
+    )]
+    p4.sort(key=_composite_safe_score, reverse=True)
+    for p in p4:
+        g = p.get('game', '')
+        if g and g in used_games:
+            continue
         picks.append(p)
         if g:
             used_games.add(g)
