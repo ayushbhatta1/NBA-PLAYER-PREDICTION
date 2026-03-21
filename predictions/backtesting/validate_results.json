@@ -1,0 +1,566 @@
+{
+  "graded_days": 10,
+  "total_records": 4212,
+  "results": [
+    {
+      "name": "GOLDEN balanced",
+      "eligible": 3,
+      "ind_hr": 0.6666666666666666,
+      "days": 2,
+      "avg_per_day": 1.5,
+      "wr_2leg": 0.0,
+      "wr_3leg": 0,
+      "total_2leg": 1,
+      "total_3leg": 0,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 5.0,
+        "min_l10_hr": 60,
+        "max_l10_hr": 70,
+        "min_line": 15
+      }
+    },
+    {
+      "name": "GOLDEN accuracy",
+      "eligible": 3,
+      "ind_hr": 0.6666666666666666,
+      "days": 2,
+      "avg_per_day": 1.5,
+      "wr_2leg": 0.0,
+      "wr_3leg": 0,
+      "total_2leg": 1,
+      "total_3leg": 0,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 5.0,
+        "min_l10_hr": 60,
+        "max_l10_hr": 70,
+        "min_line": 20
+      }
+    },
+    {
+      "name": "GOLDEN relaxed",
+      "eligible": 6,
+      "ind_hr": 0.5,
+      "days": 4,
+      "avg_per_day": 1.5,
+      "wr_2leg": 0.0,
+      "wr_3leg": 0,
+      "total_2leg": 2,
+      "total_3leg": 0,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 4.0,
+        "min_l10_hr": 60,
+        "max_l10_hr": 70,
+        "min_line": 15
+      }
+    },
+    {
+      "name": "GOLDEN gap3",
+      "eligible": 8,
+      "ind_hr": 0.625,
+      "days": 4,
+      "avg_per_day": 2.0,
+      "wr_2leg": 0.3333333333333333,
+      "wr_3leg": 0.0,
+      "total_2leg": 6,
+      "total_3leg": 2,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 3.0,
+        "min_l10_hr": 60,
+        "max_l10_hr": 70,
+        "min_line": 15
+      }
+    },
+    {
+      "name": "sim_sort (current)",
+      "eligible": 60,
+      "ind_hr": 0.8,
+      "days": 6,
+      "avg_per_day": 10.0,
+      "wr_2leg": 0.7258805513016845,
+      "wr_3leg": 0.6037019458946369,
+      "total_2leg": 653,
+      "total_3leg": 2107,
+      "filters": {
+        "direction": "UNDER",
+        "min_l10_hr": 60,
+        "no_hot": true,
+        "min_line_above_avg": 0.5
+      }
+    },
+    {
+      "name": "UNDER gap1",
+      "eligible": 537,
+      "ind_hr": 0.7001862197392924,
+      "days": 10,
+      "avg_per_day": 53.7,
+      "wr_2leg": 0.5191568778131518,
+      "wr_3leg": 0.37566866591019615,
+      "total_2leg": 9109,
+      "total_3leg": 12338,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 1.0
+      }
+    },
+    {
+      "name": "UNDER gap2",
+      "eligible": 267,
+      "ind_hr": 0.7191011235955056,
+      "days": 10,
+      "avg_per_day": 26.7,
+      "wr_2leg": 0.5192258064516129,
+      "wr_3leg": 0.40822217798128607,
+      "total_2leg": 3875,
+      "total_3leg": 10046,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 2.0
+      }
+    },
+    {
+      "name": "UNDER gap3",
+      "eligible": 159,
+      "ind_hr": 0.7358490566037735,
+      "days": 10,
+      "avg_per_day": 15.9,
+      "wr_2leg": 0.5005893909626719,
+      "wr_3leg": 0.42566964285714287,
+      "total_2leg": 2545,
+      "total_3leg": 4480,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 3.0
+      }
+    },
+    {
+      "name": "UNDER gap5",
+      "eligible": 73,
+      "ind_hr": 0.726027397260274,
+      "days": 8,
+      "avg_per_day": 9.125,
+      "wr_2leg": 0.41924398625429554,
+      "wr_3leg": 0.2568956192536506,
+      "total_2leg": 582,
+      "total_3leg": 1849,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 5.0
+      }
+    },
+    {
+      "name": "UNDER gap7",
+      "eligible": 31,
+      "ind_hr": 0.7096774193548387,
+      "days": 5,
+      "avg_per_day": 6.2,
+      "wr_2leg": 0.3592233009708738,
+      "wr_3leg": 0.16929133858267717,
+      "total_2leg": 103,
+      "total_3leg": 254,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 7.0
+      }
+    },
+    {
+      "name": "UNDER HR>=70",
+      "eligible": 89,
+      "ind_hr": 0.6292134831460674,
+      "days": 8,
+      "avg_per_day": 11.125,
+      "wr_2leg": 0.3466204506065858,
+      "wr_3leg": 0.16881091617933724,
+      "total_2leg": 577,
+      "total_3leg": 2565,
+      "filters": {
+        "direction": "UNDER",
+        "min_l10_hr": 70
+      }
+    },
+    {
+      "name": "UNDER HR>=80",
+      "eligible": 24,
+      "ind_hr": 0.4583333333333333,
+      "days": 6,
+      "avg_per_day": 4.0,
+      "wr_2leg": 0.13725490196078433,
+      "wr_3leg": 0.01639344262295082,
+      "total_2leg": 51,
+      "total_3leg": 61,
+      "filters": {
+        "direction": "UNDER",
+        "min_l10_hr": 80
+      }
+    },
+    {
+      "name": "UNDER HR>=90",
+      "eligible": 5,
+      "ind_hr": 0.6,
+      "days": 3,
+      "avg_per_day": 1.6666666666666667,
+      "wr_2leg": 0.0,
+      "wr_3leg": 0,
+      "total_2leg": 1,
+      "total_3leg": 0,
+      "filters": {
+        "direction": "UNDER",
+        "min_l10_hr": 90
+      }
+    },
+    {
+      "name": "UNDER HR[60,70)",
+      "eligible": 131,
+      "ind_hr": 0.7022900763358778,
+      "days": 8,
+      "avg_per_day": 16.375,
+      "wr_2leg": 0.5063073394495413,
+      "wr_3leg": 0.3142857142857143,
+      "total_2leg": 1744,
+      "total_3leg": 4585,
+      "filters": {
+        "direction": "UNDER",
+        "min_l10_hr": 60,
+        "max_l10_hr": 70
+      }
+    },
+    {
+      "name": "UNDER HR[70,80)",
+      "eligible": 65,
+      "ind_hr": 0.6923076923076923,
+      "days": 8,
+      "avg_per_day": 8.125,
+      "wr_2leg": 0.45422535211267606,
+      "wr_3leg": 0.2753623188405797,
+      "total_2leg": 284,
+      "total_3leg": 828,
+      "filters": {
+        "direction": "UNDER",
+        "min_l10_hr": 70,
+        "max_l10_hr": 80
+      }
+    },
+    {
+      "name": "UNDER line>=15",
+      "eligible": 429,
+      "ind_hr": 0.6107226107226107,
+      "days": 10,
+      "avg_per_day": 42.9,
+      "wr_2leg": 0.37328543435662964,
+      "wr_3leg": 0.275177304964539,
+      "total_2leg": 6124,
+      "total_3leg": 12690,
+      "filters": {
+        "direction": "UNDER",
+        "min_line": 15
+      }
+    },
+    {
+      "name": "UNDER line>=20",
+      "eligible": 281,
+      "ind_hr": 0.5800711743772242,
+      "days": 10,
+      "avg_per_day": 28.1,
+      "wr_2leg": 0.3287104119229973,
+      "wr_3leg": 0.2114089851879055,
+      "total_2leg": 4831,
+      "total_3leg": 8169,
+      "filters": {
+        "direction": "UNDER",
+        "min_line": 20
+      }
+    },
+    {
+      "name": "UNDER line<=10",
+      "eligible": 605,
+      "ind_hr": 0.6975206611570248,
+      "days": 9,
+      "avg_per_day": 67.22222222222223,
+      "wr_2leg": 0.5194143267537763,
+      "wr_3leg": 0.39798430527773504,
+      "total_2leg": 10791,
+      "total_3leg": 12998,
+      "filters": {
+        "direction": "UNDER",
+        "max_line": 10
+      }
+    },
+    {
+      "name": "UNDER line<=5",
+      "eligible": 395,
+      "ind_hr": 0.7088607594936709,
+      "days": 9,
+      "avg_per_day": 43.888888888888886,
+      "wr_2leg": 0.5119887165021156,
+      "wr_3leg": 0.41767857142857145,
+      "total_2leg": 8508,
+      "total_3leg": 11200,
+      "filters": {
+        "direction": "UNDER",
+        "max_line": 5
+      }
+    },
+    {
+      "name": "UNDER line_above>=1",
+      "eligible": 35,
+      "ind_hr": 0.8285714285714286,
+      "days": 5,
+      "avg_per_day": 7.0,
+      "wr_2leg": 0.8037383177570093,
+      "wr_3leg": 0.737417943107221,
+      "total_2leg": 214,
+      "total_3leg": 914,
+      "filters": {
+        "direction": "UNDER",
+        "min_line_above_avg": 1.0,
+        "min_l10_hr": 60,
+        "no_hot": true
+      }
+    },
+    {
+      "name": "UNDER line_above>=2",
+      "eligible": 14,
+      "ind_hr": 0.7857142857142857,
+      "days": 3,
+      "avg_per_day": 4.666666666666667,
+      "wr_2leg": 0.6923076923076923,
+      "wr_3leg": 0.5789473684210527,
+      "total_2leg": 39,
+      "total_3leg": 57,
+      "filters": {
+        "direction": "UNDER",
+        "min_line_above_avg": 2.0,
+        "min_l10_hr": 60,
+        "no_hot": true
+      }
+    },
+    {
+      "name": "UNDER line_above>=3",
+      "eligible": 7,
+      "ind_hr": 0.8571428571428571,
+      "days": 3,
+      "avg_per_day": 2.3333333333333335,
+      "wr_2leg": 1.0,
+      "wr_3leg": 0,
+      "total_2leg": 5,
+      "total_3leg": 0,
+      "filters": {
+        "direction": "UNDER",
+        "min_line_above_avg": 3.0,
+        "min_l10_hr": 60,
+        "no_hot": true
+      }
+    },
+    {
+      "name": "COLD+UNDER",
+      "eligible": 391,
+      "ind_hr": 0.6828644501278772,
+      "days": 8,
+      "avg_per_day": 48.875,
+      "wr_2leg": 0.4556769884638737,
+      "wr_3leg": 0.406705298013245,
+      "total_2leg": 6588,
+      "total_3leg": 12080,
+      "filters": {
+        "direction": "UNDER",
+        "cold_only": true
+      }
+    },
+    {
+      "name": "COLD+UNDER HR>=60",
+      "eligible": 107,
+      "ind_hr": 0.6915887850467289,
+      "days": 8,
+      "avg_per_day": 13.375,
+      "wr_2leg": 0.39492753623188404,
+      "wr_3leg": 0.22467986030267753,
+      "total_2leg": 1104,
+      "total_3leg": 3436,
+      "filters": {
+        "direction": "UNDER",
+        "cold_only": true,
+        "min_l10_hr": 60
+      }
+    },
+    {
+      "name": "COLD+UNDER gap3",
+      "eligible": 44,
+      "ind_hr": 0.6363636363636364,
+      "days": 8,
+      "avg_per_day": 5.5,
+      "wr_2leg": 0.3505747126436782,
+      "wr_3leg": 0.18088737201365188,
+      "total_2leg": 174,
+      "total_3leg": 586,
+      "filters": {
+        "direction": "UNDER",
+        "cold_only": true,
+        "min_gap": 3.0
+      }
+    },
+    {
+      "name": "UNDER low_line<=5 no_hot",
+      "eligible": 288,
+      "ind_hr": 0.6979166666666666,
+      "days": 8,
+      "avg_per_day": 36.0,
+      "wr_2leg": 0.47001090512540894,
+      "wr_3leg": 0.43920803123257113,
+      "total_2leg": 5502,
+      "total_3leg": 10758,
+      "filters": {
+        "direction": "UNDER",
+        "max_line": 5,
+        "no_hot": true
+      }
+    },
+    {
+      "name": "UNDER avg<=10 no_hot",
+      "eligible": 462,
+      "ind_hr": 0.7034632034632035,
+      "days": 9,
+      "avg_per_day": 51.333333333333336,
+      "wr_2leg": 0.517096018735363,
+      "wr_3leg": 0.42807834323326377,
+      "total_2leg": 8540,
+      "total_3leg": 12458,
+      "filters": {
+        "direction": "UNDER",
+        "max_season_avg": 10,
+        "no_hot": true
+      }
+    },
+    {
+      "name": "UNDER avg<=15 no_hot",
+      "eligible": 631,
+      "ind_hr": 0.6909667194928685,
+      "days": 10,
+      "avg_per_day": 63.1,
+      "wr_2leg": 0.5328138202985635,
+      "wr_3leg": 0.40433895230176126,
+      "total_2leg": 10651,
+      "total_3leg": 13229,
+      "filters": {
+        "direction": "UNDER",
+        "max_season_avg": 15,
+        "no_hot": true
+      }
+    },
+    {
+      "name": "UNDER no_combos gap2",
+      "eligible": 84,
+      "ind_hr": 0.6904761904761905,
+      "days": 10,
+      "avg_per_day": 8.4,
+      "wr_2leg": 0.44485981308411215,
+      "wr_3leg": 0.26083530338849487,
+      "total_2leg": 535,
+      "total_3leg": 2538,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 2.0,
+        "exclude_combos": true
+      }
+    },
+    {
+      "name": "UNDER no_combos HR>=70",
+      "eligible": 36,
+      "ind_hr": 0.6111111111111112,
+      "days": 8,
+      "avg_per_day": 4.5,
+      "wr_2leg": 0.2903225806451613,
+      "wr_3leg": 0.11320754716981132,
+      "total_2leg": 93,
+      "total_3leg": 159,
+      "filters": {
+        "direction": "UNDER",
+        "min_l10_hr": 70,
+        "exclude_combos": true
+      }
+    },
+    {
+      "name": "both gap3 HR>=60",
+      "eligible": 424,
+      "ind_hr": 0.42924528301886794,
+      "days": 10,
+      "avg_per_day": 42.4,
+      "wr_2leg": 0.2078729281767956,
+      "wr_3leg": 0.11283599252551386,
+      "total_2leg": 8688,
+      "total_3leg": 13914,
+      "filters": {
+        "min_gap": 3.0,
+        "min_l10_hr": 60
+      }
+    },
+    {
+      "name": "both HR>=80",
+      "eligible": 368,
+      "ind_hr": 0.41847826086956524,
+      "days": 9,
+      "avg_per_day": 40.888888888888886,
+      "wr_2leg": 0.19488726123797215,
+      "wr_3leg": 0.11679310667790578,
+      "total_2leg": 6963,
+      "total_3leg": 10677,
+      "filters": {
+        "min_l10_hr": 80
+      }
+    },
+    {
+      "name": "UNDER gap3 HR>=70 noHOT",
+      "eligible": 11,
+      "ind_hr": 0.45454545454545453,
+      "days": 5,
+      "avg_per_day": 2.2,
+      "wr_2leg": 0.0,
+      "wr_3leg": 0.0,
+      "total_2leg": 5,
+      "total_3leg": 2,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 3.0,
+        "min_l10_hr": 70,
+        "no_hot": true
+      }
+    },
+    {
+      "name": "UNDER gap5 HR>=70 noHOT",
+      "eligible": 8,
+      "ind_hr": 0.375,
+      "days": 4,
+      "avg_per_day": 2.0,
+      "wr_2leg": 0.0,
+      "wr_3leg": 0,
+      "total_2leg": 1,
+      "total_3leg": 0,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 5.0,
+        "min_l10_hr": 70,
+        "no_hot": true
+      }
+    },
+    {
+      "name": "UNDER gap2 HR>=70 line>=15 noHOT",
+      "eligible": 15,
+      "ind_hr": 0.6,
+      "days": 6,
+      "avg_per_day": 2.5,
+      "wr_2leg": 0.21428571428571427,
+      "wr_3leg": 0.0,
+      "total_2leg": 14,
+      "total_3leg": 5,
+      "filters": {
+        "direction": "UNDER",
+        "min_gap": 2.0,
+        "min_l10_hr": 70,
+        "min_line": 15,
+        "no_hot": true
+      }
+    }
+  ]
+}

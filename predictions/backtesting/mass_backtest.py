@@ -243,13 +243,33 @@ def apply_filters(picks, filters):
 # PARLAY GENERATION
 # ─────────────────────────────────────────────────────────
 
-def generate_parlays(candidates, n_legs, max_parlays=5000):
-    """Generate N-leg parlays from candidates via sampling."""
+def generate_parlays(candidates, n_legs, max_parlays=5000, require_multi_game=True):
+    """Generate N-leg parlays from candidates via sampling.
+
+    If require_multi_game=True, enforces at least 2 different games
+    (uses 'game' field if available, falls back to requiring 2+ unique players).
+    """
     if len(candidates) < n_legs:
         return []
 
+    def _valid_parlay(legs):
+        """Check unique players and cross-game diversity."""
+        players = [l['player'] for l in legs]
+        if len(set(players)) != len(players):
+            return False
+        if require_multi_game and n_legs >= 2:
+            # Use game field if available, otherwise player names as proxy
+            games = set()
+            for l in legs:
+                g = l.get('game', '') or l.get('date', '')
+                if g:
+                    games.add(g)
+            # If game field exists and we have it, enforce 2+ games
+            if games and len(games) < 2:
+                return False
+        return True
+
     n_cands = len(candidates)
-    # Estimate total combos
     from math import comb
     total_combos = comb(n_cands, n_legs)
 
@@ -258,9 +278,7 @@ def generate_parlays(candidates, n_legs, max_parlays=5000):
         parlays = []
         for combo in combinations(range(n_cands), n_legs):
             legs = [candidates[i] for i in combo]
-            # No duplicate players
-            players = [l['player'] for l in legs]
-            if len(set(players)) != len(players):
+            if not _valid_parlay(legs):
                 continue
             parlays.append(legs)
             if len(parlays) >= max_parlays:
@@ -279,8 +297,7 @@ def generate_parlays(candidates, n_legs, max_parlays=5000):
                 continue
             seen.add(indices)
             legs = [candidates[i] for i in indices]
-            players = [l['player'] for l in legs]
-            if len(set(players)) != len(players):
+            if not _valid_parlay(legs):
                 continue
             parlays.append(legs)
         return parlays
@@ -618,63 +635,69 @@ def get_iteration_configs():
         'max_l10_std': None,
     })
 
-    # Iteration 15: Low variance + high HR
+    # Iteration 15: GOLDEN balanced — UNDER+gap5+HR[60,70)+line15
     configs.append({
-        'name': 'low_var_hr70',
-        'min_gap': 1.5, 'min_tier': 'B', 'min_l10_hr': 70,
-        'direction_strategy': 'both', 'allowed_stats': ['pts', 'pra', 'reb', 'ast', 'blk', 'stl'],
-        'exclude_combos': False, 'min_mins_pct': 50, 'max_l10_miss': 3,
-        'streak_filter': 'none', 'min_games': 10, 'min_season_hr': 50,
-        'max_l10_std': 6.0,
-    })
-
-    # Iteration 16: COLD + UNDER (Engine: 75.3%)
-    configs.append({
-        'name': 'cold_under',
-        'min_gap': 1.0, 'min_tier': 'C', 'min_l10_hr': 0,
-        'direction_strategy': 'cold_under', 'allowed_stats': ['pts', 'pra', 'reb', 'ast', 'blk', 'stl'],
+        'name': 'golden_balanced',
+        'min_gap': 5.0, 'min_tier': 'F', 'min_l10_hr': 60, 'max_l10_hr': 70,
+        'min_line': 15.0,
+        'direction_strategy': 'under_only', 'allowed_stats': ['pts', 'pra', 'reb', 'ast', 'blk', 'stl'],
         'exclude_combos': False, 'min_mins_pct': 0, 'max_l10_miss': 10,
         'streak_filter': 'none', 'min_games': 5, 'min_season_hr': 0,
         'max_l10_std': None,
     })
 
-    # Iteration 17: Gap 4 + HR 60 + UNDER
+    # Iteration 16: GOLDEN accuracy — UNDER+gap5+HR[60,70)+line20
     configs.append({
-        'name': 'gap4_hr60_under',
-        'min_gap': 4.0, 'min_tier': 'B', 'min_l10_hr': 60,
+        'name': 'golden_accuracy',
+        'min_gap': 5.0, 'min_tier': 'F', 'min_l10_hr': 60, 'max_l10_hr': 70,
+        'min_line': 20.0,
         'direction_strategy': 'under_only', 'allowed_stats': ['pts', 'pra', 'reb', 'ast', 'blk', 'stl'],
-        'exclude_combos': False, 'min_mins_pct': 0, 'max_l10_miss': 4,
-        'streak_filter': 'none', 'min_games': 10, 'min_season_hr': 0,
-        'max_l10_std': None,
-    })
-
-    # Iteration 18: Gap 7+ mega gap
-    configs.append({
-        'name': 'mega_gap7',
-        'min_gap': 7.0, 'min_tier': 'C', 'min_l10_hr': 0,
-        'direction_strategy': 'both', 'allowed_stats': ['pts', 'pra', 'reb', 'ast', 'blk', 'stl'],
         'exclude_combos': False, 'min_mins_pct': 0, 'max_l10_miss': 10,
         'streak_filter': 'none', 'min_games': 5, 'min_season_hr': 0,
         'max_l10_std': None,
     })
 
-    # Iteration 19: Compound — gap 3 + HR 80 + S/A + UNDER + low var
+    # Iteration 17: GOLDEN volume — UNDER+gap4+HR[60,70)+line15
     configs.append({
-        'name': 'compound_optimal',
-        'min_gap': 3.0, 'min_tier': 'A', 'min_l10_hr': 80,
+        'name': 'golden_volume',
+        'min_gap': 4.0, 'min_tier': 'F', 'min_l10_hr': 60, 'max_l10_hr': 70,
+        'min_line': 15.0,
         'direction_strategy': 'under_only', 'allowed_stats': ['pts', 'pra', 'reb', 'ast', 'blk', 'stl'],
-        'exclude_combos': True, 'min_mins_pct': 50, 'max_l10_miss': 2,
-        'streak_filter': 'none', 'min_games': 10, 'min_season_hr': 60,
-        'max_l10_std': 8.0,
+        'exclude_combos': False, 'min_mins_pct': 0, 'max_l10_miss': 10,
+        'streak_filter': 'none', 'min_games': 5, 'min_season_hr': 0,
+        'max_l10_std': None,
     })
 
-    # Iteration 20: Season HR 60+ HR 70+ gap 2
+    # Iteration 18: GOLDEN gap6 — UNDER+gap6+HR[60,70)+line15
     configs.append({
-        'name': 'season_hr60_l10hr70_gap2',
-        'min_gap': 2.0, 'min_tier': 'B', 'min_l10_hr': 70,
-        'direction_strategy': 'both', 'allowed_stats': ['pts', 'pra', 'reb', 'ast', 'blk', 'stl'],
-        'exclude_combos': True, 'min_mins_pct': 60, 'max_l10_miss': 3,
-        'streak_filter': 'none', 'min_games': 10, 'min_season_hr': 60,
+        'name': 'golden_gap6',
+        'min_gap': 6.0, 'min_tier': 'F', 'min_l10_hr': 60, 'max_l10_hr': 70,
+        'min_line': 15.0,
+        'direction_strategy': 'under_only', 'allowed_stats': ['pts', 'pra', 'reb', 'ast', 'blk', 'stl'],
+        'exclude_combos': False, 'min_mins_pct': 0, 'max_l10_miss': 10,
+        'streak_filter': 'none', 'min_games': 5, 'min_season_hr': 0,
+        'max_l10_std': None,
+    })
+
+    # Iteration 19: UNDER+gap5+HR[50,70) — wider HR band
+    configs.append({
+        'name': 'under_gap5_hr50_70',
+        'min_gap': 5.0, 'min_tier': 'F', 'min_l10_hr': 50, 'max_l10_hr': 70,
+        'min_line': 15.0,
+        'direction_strategy': 'under_only', 'allowed_stats': ['pts', 'pra', 'reb', 'ast', 'blk', 'stl'],
+        'exclude_combos': False, 'min_mins_pct': 0, 'max_l10_miss': 10,
+        'streak_filter': 'none', 'min_games': 5, 'min_season_hr': 0,
+        'max_l10_std': None,
+    })
+
+    # Iteration 20: UNDER+gap5+HR[60,80) — shifted HR band
+    configs.append({
+        'name': 'under_gap5_hr60_80',
+        'min_gap': 5.0, 'min_tier': 'F', 'min_l10_hr': 60, 'max_l10_hr': 80,
+        'min_line': 15.0,
+        'direction_strategy': 'under_only', 'allowed_stats': ['pts', 'pra', 'reb', 'ast', 'blk', 'stl'],
+        'exclude_combos': False, 'min_mins_pct': 0, 'max_l10_miss': 10,
+        'streak_filter': 'none', 'min_games': 5, 'min_season_hr': 0,
         'max_l10_std': None,
     })
 
@@ -706,8 +729,9 @@ def main():
     print(f"  {len(all_records):,} records across {len(dates_sorted)} dates")
     print(f"{'='*60}\n")
 
-    for i, filters in enumerate(configs):
-        name = filters.pop('name', f'iter_{i+1}')
+    for i, config in enumerate(configs):
+        filters = {k: v for k, v in config.items() if k != 'name'}
+        name = config.get('name', f'iter_{i+1}')
         print(f"\n--- Iteration {i+1}/{len(configs)}: {name} ---")
 
         t0 = time.time()
@@ -745,8 +769,8 @@ def main():
             'elapsed': elapsed,
         })
 
-        # Check convergence
-        if s['wr_2leg'] >= 0.80 and s['wr_3leg'] >= 0.80 and s['avg_candidates_per_day'] >= 3:
+        # Check convergence — require statistical significance (100+ parlays)
+        if s['wr_2leg'] >= 0.80 and s['wr_3leg'] >= 0.80 and s['total_3leg'] >= 100:
             print(f"\n  ✅ CONVERGED at iteration {i+1}!")
             break
 
