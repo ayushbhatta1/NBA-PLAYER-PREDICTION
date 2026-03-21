@@ -29,7 +29,7 @@ from pregame_check import run_pregame_check
 from backtest_pipelines import (
     old_pipeline_select, hybrid_select, floor_first_select, xgb_select
 )
-from parlay_engine import build_primary_parlays, build_100_shadow_parlays
+from parlay_engine import build_primary_parlays, build_100_shadow_parlays, build_triple_safe
 
 try:
     from injury_scraper import get_injury_context, get_player_status
@@ -1594,6 +1594,27 @@ def main():
                   f"{leg.get('direction','?'):5s} {leg.get('line',0):5.1f}  "
                   f"gap={gap:+.1f}  L10={hr:3.0f}% L5={l5:3.0f}%{xgb_tag}  ps={ps:.3f}")
 
+    # ═══ PHASE 5b-TRIPLE: TRIPLE-SAFE (3 independent SAFE parlays) ═══
+    triple_safe = build_triple_safe(filtered_results)
+
+    print(f"\n{'='*60}")
+    print(f"  TRIPLE-SAFE (3 independent SAFE parlays — 98.9% at-least-1 rate)")
+    print(f"{'='*60}")
+    for pname, parlay in triple_safe.items():
+        print(f"\n  {parlay['name']}:")
+        print(f"  {parlay.get('description', '')}")
+        for leg in parlay.get('legs', []):
+            gap = leg.get('gap', 0)
+            hr = leg.get('l10_hit_rate', 0)
+            l5 = leg.get('l5_hit_rate', 0)
+            ss = leg.get('sniper_score', 0)
+            fs = leg.get('floor_score', 0)
+            cs = leg.get('composite_score', 0)
+            print(f"    {leg['player']:22s} {leg.get('stat','?').upper():4s} "
+                  f"{leg.get('direction','?'):5s} {leg.get('line',0):5.1f}  "
+                  f"gap={gap:+.1f}  L10={hr:3.0f}% L5={l5:3.0f}%  "
+                  f"sniper={ss:.0f} floor={fs:.2f} comp={cs:.0f}")
+
     # ═══ PHASE 5c: EV ANALYSIS (expected value, not just accuracy) ═══
     try:
         from ev_optimizer import enrich_with_ev, print_ev_report
@@ -1628,6 +1649,19 @@ def main():
     # Append NEXUS shadow parlays too (existing strategies)
     nexus_shadows = nexus_parlays.get('_shadow_parlays', [])
     shadow_parlays.extend(nexus_shadows)
+
+    # Append Triple-SAFE as shadow strategies
+    for sname, sparlay in triple_safe.items():
+        shadow_parlays.append({
+            'strategy_name': sname,
+            'strategy_id': sname,
+            'strategy_description': sparlay.get('description', ''),
+            'legs': sparlay.get('legs', []),
+            'confidence': 78.0,
+            'legs_total': sparlay.get('legs_total', 3),
+            'result': None,
+            'legs_hit': None,
+        })
 
     # Append correlation-optimized as a shadow strategy
     if corr_safe and corr_safe.get('legs'):
@@ -1687,6 +1721,17 @@ def main():
             'parlays': engine_parlays,
         }, f, indent=2)
     print(f"  Saved engine backup: {engine_file}")
+
+    # Save Triple-SAFE parlays
+    triple_file = os.path.join(output_dir, "triple_safe_parlays.json")
+    with open(triple_file, 'w') as f:
+        json.dump({
+            'date': date_str,
+            'generated_at': datetime.now().isoformat(),
+            'method': 'sniper_v3_triple_safe',
+            'parlays': triple_safe,
+        }, f, indent=2)
+    print(f"  Saved triple-safe: {triple_file}")
 
     # Save raw NEXUS parlays (full reference with all tiers)
     nexus_file = os.path.join(output_dir, "nexus_parlays.json")

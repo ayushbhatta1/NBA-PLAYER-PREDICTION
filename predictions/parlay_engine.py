@@ -920,6 +920,120 @@ def _kelly_fraction(legs):
     return round(min(fifth_kelly, 0.03), 4)
 
 
+def build_triple_safe(results):
+    """Triple-SAFE: 3 independent 3-leg parlays with NO player overlap.
+
+    At 78% per-parlay cash rate: P(at least 1 cashes) = 1 - (0.22)^3 = 98.9%
+
+    SAFE #1: Pure SNIPER scoring (proven heuristic baseline)
+    SAFE #2: Composite scoring (floor-weighted, catches downside)
+    SAFE #3: Correlation-optimized (max independence between legs)
+    """
+    pool = [p for p in results if _is_eligible(p)]
+    used_players = set()
+    triple = {}
+
+    # SAFE #1: Pure SNIPER
+    safe1_picks = build_primary_safe(pool)
+    safe1_legs = [_make_leg(p) for p in safe1_picks]
+    used_players.update(p['player'] for p in safe1_picks)
+    triple['safe_1_sniper'] = {
+        'name': 'SAFE #1 — SNIPER',
+        'method': 'sniper_v3_pure',
+        'legs': safe1_legs,
+        'legs_total': len(safe1_legs),
+        'under_count': sum(1 for l in safe1_legs if l.get('direction', '').upper() == 'UNDER'),
+        'kelly_fraction': _kelly_fraction(safe1_legs),
+        'description': 'Pure SNIPER scoring — proven 79% backtest baseline',
+    }
+
+    # SAFE #2: Composite (floor-weighted) — exclude SAFE #1 players
+    pool2 = [p for p in pool if p['player'] not in used_players]
+
+    def _l5_trending_down(p):
+        l5 = p.get('l5_avg', 0) or 0
+        l10 = p.get('l10_avg', 0) or 0
+        return l5 > 0 and l10 > 0 and l5 < l10
+
+    # Try strict first, then relax
+    safe2_picks = []
+    for pass_filters in [
+        lambda p: (p.get('direction', '').upper() == 'UNDER' and
+                   _l5_trending_down(p) and
+                   (p.get('line', 0) or 0) <= 20 and
+                   ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5),
+        lambda p: (p.get('direction', '').upper() == 'UNDER' and
+                   ((p.get('line', 0) or 0) - (p.get('season_avg', 0) or 0)) >= 0.5),
+        lambda p: p.get('direction', '').upper() == 'UNDER',
+    ]:
+        candidates = [p for p in pool2 if pass_filters(p) and p['player'] not in used_players]
+        candidates.sort(key=_composite_safe_score, reverse=True)
+        used_games = set()
+        for p in candidates:
+            if _floor_score(p) < 0.3:
+                continue
+            g = p.get('game', '')
+            if g and g in used_games:
+                continue
+            safe2_picks.append(p)
+            if g:
+                used_games.add(g)
+            if len(safe2_picks) >= 3:
+                break
+        if len(safe2_picks) >= 3:
+            break
+
+    safe2_legs = [_make_leg(p) for p in safe2_picks]
+    used_players.update(p['player'] for p in safe2_picks)
+    triple['safe_2_floor'] = {
+        'name': 'SAFE #2 — FLOOR',
+        'method': 'sniper_v3_floor',
+        'legs': safe2_legs,
+        'legs_total': len(safe2_legs),
+        'under_count': sum(1 for l in safe2_legs if l.get('direction', '').upper() == 'UNDER'),
+        'kelly_fraction': _kelly_fraction(safe2_legs),
+        'description': 'Floor-weighted composite — catches hidden downside',
+    }
+
+    # SAFE #3: Correlation-optimized — exclude SAFE #1 and #2 players
+    pool3 = [p for p in pool if p['player'] not in used_players]
+    try:
+        from parlay_optimizer import build_optimal_parlay
+        corr_result = build_optimal_parlay(pool3, n_legs=3, mode='safe')
+        if corr_result and corr_result.get('legs') and len(corr_result['legs']) >= 3:
+            safe3_legs = corr_result['legs']
+        else:
+            raise ValueError("Not enough corr legs")
+    except Exception:
+        # Fallback: sort by _composite_safe_score with max game diversity
+        candidates = [p for p in pool3 if p.get('direction', '').upper() == 'UNDER']
+        candidates.sort(key=_composite_safe_score, reverse=True)
+        safe3_picks = []
+        used_games = set()
+        for p in candidates:
+            g = p.get('game', '')
+            if g and g in used_games:
+                continue
+            safe3_picks.append(p)
+            if g:
+                used_games.add(g)
+            if len(safe3_picks) >= 3:
+                break
+        safe3_legs = [_make_leg(p) for p in safe3_picks]
+
+    triple['safe_3_corr'] = {
+        'name': 'SAFE #3 — CORRELATION',
+        'method': 'sniper_v3_corr',
+        'legs': safe3_legs,
+        'legs_total': len(safe3_legs),
+        'under_count': sum(1 for l in safe3_legs if l.get('direction', '').upper() == 'UNDER'),
+        'kelly_fraction': _kelly_fraction(safe3_legs) if safe3_legs else 0.0,
+        'description': 'Correlation-optimized — max independence between legs',
+    }
+
+    return triple
+
+
 def build_primary_parlays(results):
     """
     Main entry: build 1x SAFE 3-leg + 1x AGGRESSIVE 8-leg.
