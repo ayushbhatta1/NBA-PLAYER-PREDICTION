@@ -3,7 +3,7 @@
 NBA Prop Board Runner v15 - Arena Ensemble + Matchup Scanner + NEXUS Primary
 Auto-deploys parallel research agents (1 per team) before running pipeline.
 Model Arena (multi-model ensemble) is primary scoring. Matchup Scanner for defense exploits.
-NEXUS v4 (38-agent consensus) is primary parlay builder. Engine v1.2 is backup.
+Engine v1.2 (validated UNDER bias + line_above_avg) is primary. NEXUS v4 is secondary/shadow.
 Ref/coach/sim enrichment subsystems (v8 features). 104-feature XGBoost + MLP ensemble.
 
 Usage:
@@ -1545,36 +1545,7 @@ def main():
     except Exception as e:
         print(f"\n  MATCHUP SCANNER: skipped ({e})")
 
-    # ═══ PHASE 5: PRIMARY PARLAYS (NEXUS v4 — multi-agent consensus) ═══
-    nexus_parlays = nexus_v4_pipeline(filtered_results, GAMES)
-
-    # Convert NEXUS output to primary format (safe/aggressive keys)
-    primary_parlays = _nexus_to_primary(nexus_parlays)
-
-    # Collect NEXUS parlays for reference
-    nexus_named = {}
-    for name, parlay in nexus_parlays.items():
-        if not name.startswith('_') and parlay is not None:
-            nexus_named[name] = parlay
-
-    # Print PRIMARY PICKS (NEXUS — what user bets on)
-    print(f"\n{'='*60}")
-    print(f"  PRIMARY PICKS (NEXUS v4 — Multi-Agent Consensus)")
-    print(f"{'='*60}")
-    for pname, parlay in primary_parlays.items():
-        print(f"\n  {parlay['name']}:")
-        print(f"  {parlay.get('description', '')}")
-        for leg in parlay.get('legs', []):
-            gap = leg.get('gap', 0)
-            hr = leg.get('l10_hit_rate', 0)
-            l5 = leg.get('l5_hit_rate', 0)
-            ns = leg.get('nexus_score', 0)
-            tier_tag = leg.get('screen_tier', '')
-            print(f"    {leg['player']:22s} {leg.get('stat','?').upper():4s} "
-                  f"{leg.get('direction','?'):5s} {leg.get('line',0):5.1f}  "
-                  f"gap={gap:+.1f}  L10={hr:3.0f}% L5={l5:3.0f}%  ns={ns:.1f}  [{tier_tag}]")
-
-    # ═══ PHASE 5b: ENGINE BACKUP (Parlay Engine v1.2 — background) ═══
+    # ═══ PHASE 5: PRIMARY PARLAYS (Engine v1.2 — validated UNDER bias) ═══
     engine_parlays = build_primary_parlays(filtered_results)
 
     # Day signal from 1M simulation classifier
@@ -1585,7 +1556,7 @@ def main():
     print(f"{'='*60}")
 
     print(f"\n{'='*60}")
-    print(f"  ENGINE BACKUP (Parlay Engine v1.2)")
+    print(f"  PRIMARY PICKS (Engine v1.2 — Validated UNDER Bias)")
     print(f"{'='*60}")
     for pname, parlay in engine_parlays.items():
         if pname == 'day_signal':
@@ -1602,6 +1573,34 @@ def main():
             print(f"    {leg['player']:22s} {leg.get('stat','?').upper():4s} "
                   f"{leg.get('direction','?'):5s} {leg.get('line',0):5.1f}  "
                   f"gap={gap:+.1f}  L10={hr:3.0f}% L5={l5:3.0f}%{xgb_tag}  ps={ps:.3f}")
+
+    # ═══ PHASE 5b: NEXUS SECONDARY (shadow — multi-agent consensus) ═══
+    nexus_parlays = nexus_v4_pipeline(filtered_results, GAMES)
+
+    # Collect NEXUS parlays for reference
+    nexus_named = {}
+    for name, parlay in nexus_parlays.items():
+        if not name.startswith('_') and parlay is not None:
+            nexus_named[name] = parlay
+
+    # Convert NEXUS output to named format
+    primary_parlays = _nexus_to_primary(nexus_parlays)
+
+    print(f"\n{'='*60}")
+    print(f"  NEXUS SECONDARY (Multi-Agent Consensus — shadow)")
+    print(f"{'='*60}")
+    for pname, parlay in primary_parlays.items():
+        print(f"\n  {parlay['name']}:")
+        print(f"  {parlay.get('description', '')}")
+        for leg in parlay.get('legs', []):
+            gap = leg.get('gap', 0)
+            hr = leg.get('l10_hit_rate', 0)
+            l5 = leg.get('l5_hit_rate', 0)
+            ns = leg.get('nexus_score', 0)
+            tier_tag = leg.get('screen_tier', '')
+            print(f"    {leg['player']:22s} {leg.get('stat','?').upper():4s} "
+                  f"{leg.get('direction','?'):5s} {leg.get('line',0):5.1f}  "
+                  f"gap={gap:+.1f}  L10={hr:3.0f}% L5={l5:3.0f}%  ns={ns:.1f}  [{tier_tag}]")
 
     # ═══ PHASE 5b-TRIPLE: TRIPLE-SAFE (3 independent SAFE parlays) ═══
     triple_safe = build_triple_safe(filtered_results)
@@ -1709,27 +1708,28 @@ def main():
         json.dump(results, f, indent=2)
     print(f"\n  Saved full board: {board_file}")
 
-    # Save primary parlays (NEXUS — what user bets on)
+    # Save primary parlays (Engine — what user bets on)
     primary_file = os.path.join(output_dir, "primary_parlays.json")
     with open(primary_file, 'w') as f:
-        json.dump({
-            'date': date_str,
-            'generated_at': datetime.now().isoformat(),
-            'method': 'nexus_v4',
-            'parlays': primary_parlays,
-        }, f, indent=2)
-    print(f"  Saved primary parlays: {primary_file}")
-
-    # Save Engine backup parlays
-    engine_file = os.path.join(output_dir, "engine_parlays.json")
-    with open(engine_file, 'w') as f:
         json.dump({
             'date': date_str,
             'generated_at': datetime.now().isoformat(),
             'method': 'parlay_engine_v1',
             'parlays': engine_parlays,
         }, f, indent=2)
-    print(f"  Saved engine backup: {engine_file}")
+    print(f"  Saved primary parlays: {primary_file}")
+
+    # Save NEXUS secondary parlays
+    engine_file = os.path.join(output_dir, "engine_parlays.json")
+    nexus_secondary = _nexus_to_primary(nexus_parlays)
+    with open(engine_file, 'w') as f:
+        json.dump({
+            'date': date_str,
+            'generated_at': datetime.now().isoformat(),
+            'method': 'nexus_v4_secondary',
+            'parlays': nexus_secondary,
+        }, f, indent=2)
+    print(f"  Saved NEXUS secondary: {engine_file}")
 
     # Save Triple-SAFE parlays
     triple_file = os.path.join(output_dir, "triple_safe_parlays.json")
@@ -1845,7 +1845,7 @@ def main():
                   f"L10={r.get('l10_hit_rate',0):3.0f}%  ens={ens:.3f}{streak_tag}")
 
     print(f"\n\nDONE! All results saved to predictions/{date_str}/")
-    return results, parlays
+    return results, engine_parlays
 
 
 if __name__ == '__main__':
