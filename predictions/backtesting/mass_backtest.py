@@ -772,8 +772,8 @@ def main():
             'elapsed': elapsed,
         })
 
-        # Check convergence — require statistical significance (100+ parlays)
-        if s['wr_2leg'] >= 0.80 and s['wr_3leg'] >= 0.80 and s['total_3leg'] >= 100:
+        # Check convergence — require statistical significance (500+ parlays, 100+ picks)
+        if s['wr_2leg'] >= 0.80 and s['wr_3leg'] >= 0.80 and s['total_3leg'] >= 500 and len(eligible) >= 100:
             print(f"\n  ✅ CONVERGED at iteration {i+1}!")
             break
 

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-21T14:53:35.735303",
+  "timestamp": "2026-03-21T20:02:45.696190",
   "total_records": 404771,
   "total_dates": 465,
   "iterations": [
@@ -27,14 +27,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.4981782511210762,
-      "wr_2leg": 0.2473397267472412,
-      "wr_3leg": 0.12406839233978631,
-      "total_2leg": 1126576,
-      "total_3leg": 1708203,
-      "eligible": 42816,
-      "avg_cands_per_day": 92.8763557483731,
-      "elapsed": 9.622374296188354
+      "ind_hr": 0.49800927443908377,
+      "wr_2leg": 0.24676545522200719,
+      "wr_3leg": 0.12393978457290517,
+      "total_2leg": 1123342,
+      "total_3leg": 1705078,
+      "eligible": 42698,
+      "avg_cands_per_day": 92.62039045553145,
+      "elapsed": 9.171469926834106
     },
     {
       "iteration": 2,
@@ -60,14 +60,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.5389447236180904,
-      "wr_2leg": 0.2931124004212135,
-      "wr_3leg": 0.15909540657809126,
-      "total_2leg": 685638,
-      "total_3leg": 1298705,
-      "eligible": 21492,
-      "avg_cands_per_day": 47.75555555555555,
-      "elapsed": 6.170914888381958
+      "ind_hr": 0.5399580125962211,
+      "wr_2leg": 0.29447120832206325,
+      "wr_3leg": 0.16016129019803763,
+      "total_2leg": 683965,
+      "total_3leg": 1295057,
+      "eligible": 21435,
+      "avg_cands_per_day": 47.62888888888889,
+      "elapsed": 5.907470941543579
     },
     {
       "iteration": 3,
@@ -93,14 +93,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.49689595232182765,
-      "wr_2leg": 0.247175337655791,
-      "wr_3leg": 0.12195221059439618,
-      "total_2leg": 460232,
-      "total_3leg": 1181266,
-      "eligible": 16108,
-      "avg_cands_per_day": 37.0,
-      "elapsed": 4.665479898452759
+      "ind_hr": 0.4965761952191235,
+      "wr_2leg": 0.24696850737154322,
+      "wr_3leg": 0.12184434165278017,
+      "total_2leg": 458520,
+      "total_3leg": 1178003,
+      "eligible": 16064,
+      "avg_cands_per_day": 36.90344827586207,
+      "elapsed": 4.502496004104614
     },
     {
       "iteration": 4,
@@ -126,14 +126,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.5675910956348713,
-      "wr_2leg": 0.3265230035045858,
-      "wr_3leg": 0.19073718399150544,
-      "total_2leg": 120699,
-      "total_3leg": 704451,
-      "eligible": 8041,
-      "avg_cands_per_day": 19.65525672371638,
-      "elapsed": 2.3615288734436035
+      "ind_hr": 0.5684367988032909,
+      "wr_2leg": 0.327255198550556,
+      "wr_3leg": 0.19051754452152794,
+      "total_2leg": 120322,
+      "total_3leg": 702413,
+      "eligible": 8022,
+      "avg_cands_per_day": 19.60880195599022,
+      "elapsed": 2.4074649810791016
     },
     {
       "iteration": 5,
@@ -159,14 +159,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.49016641452344933,
-      "wr_2leg": 0.25101728055805106,
-      "wr_3leg": 0.13008464411774784,
-      "total_2leg": 18923,
-      "total_3leg": 87543,
-      "eligible": 3305,
-      "avg_cands_per_day": 8.913513513513514,
-      "elapsed": 0.3897819519042969
+      "ind_hr": 0.4901185770750988,
+      "wr_2leg": 0.25093214019388516,
+      "wr_3leg": 0.13000634627588992,
+      "total_2leg": 18774,
+      "total_3leg": 86665,
+      "eligible": 3289,
+      "avg_cands_per_day": 8.88888888888889,
+      "elapsed": 0.3602018356323242
     },
     {
       "iteration": 6,
@@ -192,14 +192,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.5759294265910523,
-      "wr_2leg": 0.33874709976798145,
-      "wr_3leg": 0.20814808093639417,
-      "total_2leg": 4741,
-      "total_3leg": 11021,
-      "eligible": 1587,
-      "avg_cands_per_day": 5.255813953488372,
-      "elapsed": 0.1720411777496338
+      "ind_hr": 0.5793147208121827,
+      "wr_2leg": 0.34105397365065876,
+      "wr_3leg": 0.20980428022681544,
+      "total_2leg": 4706,
+      "total_3leg": 10934,
+      "eligible": 1576,
+      "avg_cands_per_day": 5.254180602006689,
+      "elapsed": 0.14751577377319336
     },
     {
       "iteration": 7,
@@ -225,14 +225,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.512012987012987,
-      "wr_2leg": 0.26232311320754714,
-      "wr_3leg": 0.13665131935847324,
-      "total_2leg": 16960,
-      "total_3leg": 71891,
-      "eligible": 3080,
-      "avg_cands_per_day": 8.852173913043478,
-      "elapsed": 0.26596879959106445
+      "ind_hr": 0.5112414467253177,
+      "wr_2leg": 0.26171828646018747,
+      "wr_3leg": 0.1365150301446098,
+      "total_2leg": 16854,
+      "total_3leg": 71157,
+      "eligible": 3069,
+      "avg_cands_per_day": 8.828985507246378,
+      "elapsed": 0.2447948455810547
     },
     {
       "iteration": 8,
@@ -258,14 +258,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.5037323037323037,
-      "wr_2leg": 0.2512780548628429,
-      "wr_3leg": 0.1254422595095285,
-      "total_2leg": 32080,
-      "total_3leg": 197565,
-      "eligible": 3885,
-      "avg_cands_per_day": 10.971671388101983,
-      "elapsed": 0.5642518997192383
+      "ind_hr": 0.5021242697822623,
+      "wr_2leg": 0.25089372765680856,
+      "wr_3leg": 0.12524000744621439,
+      "total_2leg": 30770,
+      "total_3leg": 188015,
+      "eligible": 3766,
+      "avg_cands_per_day": 10.781609195402298,
+      "elapsed": 0.5372638702392578
     },
     {
       "iteration": 9,
@@ -291,14 +291,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.5044444444444445,
-      "wr_2leg": 0.24261149919398173,
-      "wr_3leg": 0.10882956878850103,
-      "total_2leg": 3722,
-      "total_3leg": 8279,
-      "eligible": 1350,
-      "avg_cands_per_day": 5.1,
-      "elapsed": 0.16687989234924316
+      "ind_hr": 0.5012205044751831,
+      "wr_2leg": 0.237183446571958,
+      "wr_3leg": 0.1032286086578833,
+      "total_2leg": 3238,
+      "total_3leg": 6907,
+      "eligible": 1229,
+      "avg_cands_per_day": 4.90204081632653,
+      "elapsed": 0.15492606163024902
     },
     {
       "iteration": 10,
@@ -324,14 +324,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.5068259385665529,
-      "wr_2leg": 0.25957446808510637,
-      "wr_3leg": 0.1302367941712204,
-      "total_2leg": 940,
-      "total_3leg": 1098,
-      "eligible": 586,
-      "avg_cands_per_day": 3.5060975609756095,
-      "elapsed": 0.156721830368042
+      "ind_hr": 0.5397727272727273,
+      "wr_2leg": 0.2872996300863132,
+      "wr_3leg": 0.14238773274917854,
+      "total_2leg": 811,
+      "total_3leg": 913,
+      "eligible": 528,
+      "avg_cands_per_day": 3.4078947368421053,
+      "elapsed": 0.14390993118286133
     },
     {
       "iteration": 11,
@@ -357,14 +357,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.4943820224719101,
-      "wr_2leg": 0.21739130434782608,
-      "wr_3leg": 0.08333333333333333,
-      "total_2leg": 230,
-      "total_3leg": 96,
-      "eligible": 267,
-      "avg_cands_per_day": 2.730337078651685,
-      "elapsed": 0.16228103637695312
+      "ind_hr": 0.45962732919254656,
+      "wr_2leg": 0.1875,
+      "wr_3leg": 0.125,
+      "total_2leg": 112,
+      "total_3leg": 32,
+      "eligible": 161,
+      "avg_cands_per_day": 2.482142857142857,
+      "elapsed": 0.1419079303741455
     },
     {
       "iteration": 12,
@@ -397,7 +397,7 @@
       "total_3leg": 29,
       "eligible": 72,
       "avg_cands_per_day": 4.142857142857143,
-      "elapsed": 0.15797901153564453
+      "elapsed": 0.1327042579650879
     },
     {
       "iteration": 13,
@@ -422,14 +422,14 @@
         "min_season_hr": 0,
         "max_l10_std": null
       },
-      "ind_hr": 0.4838709677419355,
-      "wr_2leg": 0.19469026548672566,
-      "wr_3leg": 0.043478260869565216,
-      "total_2leg": 113,
-      "total_3leg": 23,
-      "eligible": 186,
-      "avg_cands_per_day": 2.8297872340425534,
-      "elapsed": 0.1533818244934082
+      "ind_hr": 0.48,
+      "wr_2leg": 0.1941747572815534,
+      "wr_3leg": 0.047619047619047616,
+      "total_2leg": 103,
+      "total_3leg": 21,
+      "eligible": 175,
+      "avg_cands_per_day": 2.857142857142857,
+      "elapsed": 0.13092708587646484
     },
     {
       "iteration": 14,
@@ -458,7 +458,217 @@
       "total_3leg": 6,
       "eligible": 14,
       "avg_cands_per_day": 3.0,
-      "elapsed": 0.11045193672180176
+      "elapsed": 0.0896749496459961
+    },
+    {
+      "iteration": 15,
+      "name": "golden_balanced",
+      "filters": {
+        "min_gap": 5.0,
+        "min_tier": "F",
+        "min_l10_hr": 60,
+        "max_l10_hr": 70,
+        "min_line": 15.0,
+        "direction_strategy": "under_only",
+        "allowed_stats": [
+          "pts",
+          "pra",
+          "reb",
+          "ast",
+          "blk",
+          "stl"
+        ],
+        "exclude_combos": false,
+        "min_mins_pct": 0,
+        "max_l10_miss": 10,
+        "streak_filter": "none",
+        "min_games": 5,
+        "min_season_hr": 0,
+        "max_l10_std": null
+      },
+      "ind_hr": 0.9298245614035088,
+      "wr_2leg": 0.8873626373626373,
+      "wr_3leg": 0.8827838827838828,
+      "total_2leg": 364,
+      "total_3leg": 273,
+      "eligible": 342,
+      "avg_cands_per_day": 2.8584070796460175,
+      "elapsed": 0.13825702667236328
+    },
+    {
+      "iteration": 16,
+      "name": "golden_accuracy",
+      "filters": {
+        "min_gap": 5.0,
+        "min_tier": "F",
+        "min_l10_hr": 60,
+        "max_l10_hr": 70,
+        "min_line": 20.0,
+        "direction_strategy": "under_only",
+        "allowed_stats": [
+          "pts",
+          "pra",
+          "reb",
+          "ast",
+          "blk",
+          "stl"
+        ],
+        "exclude_combos": false,
+        "min_mins_pct": 0,
+        "max_l10_miss": 10,
+        "streak_filter": "none",
+        "min_games": 5,
+        "min_season_hr": 0,
+        "max_l10_std": null
+      },
+      "ind_hr": 0.9581881533101045,
+      "wr_2leg": 0.9252669039145908,
+      "wr_3leg": 0.9015544041450777,
+      "total_2leg": 281,
+      "total_3leg": 193,
+      "eligible": 287,
+      "avg_cands_per_day": 2.778947368421053,
+      "elapsed": 0.1367480754852295
+    },
+    {
+      "iteration": 17,
+      "name": "golden_volume",
+      "filters": {
+        "min_gap": 4.0,
+        "min_tier": "F",
+        "min_l10_hr": 60,
+        "max_l10_hr": 70,
+        "min_line": 15.0,
+        "direction_strategy": "under_only",
+        "allowed_stats": [
+          "pts",
+          "pra",
+          "reb",
+          "ast",
+          "blk",
+          "stl"
+        ],
+        "exclude_combos": false,
+        "min_mins_pct": 0,
+        "max_l10_miss": 10,
+        "streak_filter": "none",
+        "min_games": 5,
+        "min_season_hr": 0,
+        "max_l10_std": null
+      },
+      "ind_hr": 0.8616352201257862,
+      "wr_2leg": 0.820184790334044,
+      "wr_3leg": 0.7950963222416813,
+      "total_2leg": 1407,
+      "total_3leg": 1713,
+      "eligible": 795,
+      "avg_cands_per_day": 3.8529411764705883,
+      "elapsed": 0.14197707176208496
+    },
+    {
+      "iteration": 18,
+      "name": "golden_gap6",
+      "filters": {
+        "min_gap": 6.0,
+        "min_tier": "F",
+        "min_l10_hr": 60,
+        "max_l10_hr": 70,
+        "min_line": 15.0,
+        "direction_strategy": "under_only",
+        "allowed_stats": [
+          "pts",
+          "pra",
+          "reb",
+          "ast",
+          "blk",
+          "stl"
+        ],
+        "exclude_combos": false,
+        "min_mins_pct": 0,
+        "max_l10_miss": 10,
+        "streak_filter": "none",
+        "min_games": 5,
+        "min_season_hr": 0,
+        "max_l10_std": null
+      },
+      "ind_hr": 0.9565217391304348,
+      "wr_2leg": 0.922077922077922,
+      "wr_3leg": 0.9090909090909091,
+      "total_2leg": 77,
+      "total_3leg": 22,
+      "eligible": 115,
+      "avg_cands_per_day": 2.395348837209302,
+      "elapsed": 0.13603687286376953
+    },
+    {
+      "iteration": 19,
+      "name": "under_gap5_hr50_70",
+      "filters": {
+        "min_gap": 5.0,
+        "min_tier": "F",
+        "min_l10_hr": 50,
+        "max_l10_hr": 70,
+        "min_line": 15.0,
+        "direction_strategy": "under_only",
+        "allowed_stats": [
+          "pts",
+          "pra",
+          "reb",
+          "ast",
+          "blk",
+          "stl"
+        ],
+        "exclude_combos": false,
+        "min_mins_pct": 0,
+        "max_l10_miss": 10,
+        "streak_filter": "none",
+        "min_games": 5,
+        "min_season_hr": 0,
+        "max_l10_std": null
+      },
+      "ind_hr": 0.8696343402225755,
+      "wr_2leg": 0.7754237288135594,
+      "wr_3leg": 0.7175257731958763,
+      "total_2leg": 944,
+      "total_3leg": 970,
+      "eligible": 629,
+      "avg_cands_per_day": 3.53757225433526,
+      "elapsed": 0.14039874076843262
+    },
+    {
+      "iteration": 20,
+      "name": "under_gap5_hr60_80",
+      "filters": {
+        "min_gap": 5.0,
+        "min_tier": "F",
+        "min_l10_hr": 60,
+        "max_l10_hr": 80,
+        "min_line": 15.0,
+        "direction_strategy": "under_only",
+        "allowed_stats": [
+          "pts",
+          "pra",
+          "reb",
+          "ast",
+          "blk",
+          "stl"
+        ],
+        "exclude_combos": false,
+        "min_mins_pct": 0,
+        "max_l10_miss": 10,
+        "streak_filter": "none",
+        "min_games": 5,
+        "min_season_hr": 0,
+        "max_l10_std": null
+      },
+      "ind_hr": 0.8765743073047859,
+      "wr_2leg": 0.8275109170305677,
+      "wr_3leg": 0.8247978436657682,
+      "total_2leg": 458,
+      "total_3leg": 371,
+      "eligible": 397,
+      "avg_cands_per_day": 2.96875,
+      "elapsed": 0.13864994049072266
     }
   ],
   "best_config": {
