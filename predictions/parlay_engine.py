@@ -86,8 +86,14 @@ def _primary_score(p):
     # Combo penalty
     combo_pen = -0.10 if stat in COMBO_STATS else 0
 
-    # HR floor
-    hr_bonus = (p.get('l10_hit_rate', 50) / 100) * 0.10
+    # HR regression trap penalty — validated: L10 HR>=70 = 43.2% (WORSE than random)
+    # Sportsbooks adjust lines for hot streaks, making high HR anti-predictive
+    hr_bonus = 0.0
+    l10_hr = p.get('l10_hit_rate', 50) or 50
+    if l10_hr >= 70:
+        hr_bonus = -0.05  # regression trap
+    elif l10_hr < 30:
+        hr_bonus = -0.05  # too unreliable
 
     # Minutes stability
     mins_bonus = 0.05 if p.get('mins_30plus_pct', 0) >= 70 else 0
@@ -765,59 +771,80 @@ def should_play_today(pool):
 
 
 def _sim_sort(p):
-    """Sort key from 1M simulation on 445K records (465 days).
+    """Sort key for SAFE parlay leg selection.
 
-    Top edges (compound filter cash rates on 1M parlays):
-      COLD streak:     3 COLD = 61.9%, 1+ COLD = 18.2% vs 14.4% baseline
-      NO HOT:          34.6% vs 14.4% (2.4x improvement)
-      L5<L10:          winners 1.84 vs losers 1.18 (trending down = good)
-      line above avg:  >=2 = 21.7%, >=1 = 20.1%
-      min_hr>=60:      42.3% (but 70%+ = 12.2%, WORSE — regression trap)
+    Validated signals (46K real-line records, no data leakage):
+      line > L10 by 5+:  76.0% HR (1464 picks)
+      line > L10 by 3+ + COLD: 72.5% HR (726 picks)
+      COLD+UNDER gap3:   63.3% HR (1155 picks)
+      L10 HR >= 70:      43.2% HR (ANTI-PREDICTIVE — penalize, don't reward)
     """
     s = 0.0
     line = p.get('line', 0) or 0
+    l10 = p.get('l10_avg', 0) or 0
     avg = p.get('season_avg', 0) or 0
-    line_above = line - avg
 
-    # #1: COLD streak is the strongest single signal (61.9% when all 3 COLD)
+    # #1 (DOMINANT): Line vs L10 avg — validated strongest clean signal
+    # 76.0% at line>L10+5, 72.5% at line>L10+3+COLD, 71.6% at line>L10+2+COLD
+    line_vs_l10 = line - l10 if l10 > 0 else line - avg
+    s += min(line_vs_l10 * 3, 21)  # gap of 7 = +21 (dominant signal)
+
+    # #2: COLD streak — validated 63.3% COLD+UNDER gap3 vs 57% baseline UNDER
     streak = p.get('streak_status', 'NEUTRAL')
     if streak == 'COLD':
         s += 10
     elif streak == 'HOT':
-        s -= 15  # HOT is a TRAP (0 HOT = 34.6% vs baseline 14.4%)
+        s -= 15  # HOT = 49.2% trap on real data
 
-    # #2: L5 trending down (winners 1.84 vs losers 1.18)
+    # #3: L5 trending down — triple confirmation with line gap + COLD
     l5 = p.get('l5_avg', 0) or 0
-    l10 = p.get('l10_avg', 0) or 0
     if l5 > 0 and l10 > 0 and l5 < l10:
         s += 5
 
-    # #3: Line above season avg (min_hr>=60 + line_above>=1 = 50.8%)
-    s += min(line_above * 2, 8)  # cap at 8
+    # #4: Regression margin — when regression model also confirms UNDER
+    reg_margin = p.get('reg_margin', 0) or 0
+    if reg_margin < -3:
+        s += 8   # strong regression confirmation
+    elif reg_margin < -1.5:
+        s += 4
 
-    # #4: Role player bonus (max_avg<=10 = 45.2% with hr>=60)
-    if avg <= 10:
-        s += 3
-    elif avg <= 15:
-        s += 1
-    elif avg > 25:
-        s -= 3
+    # #5: Multi-model consensus — independent models agreeing
+    votes = 0
+    ep = p.get('ensemble_prob', p.get('xgb_prob'))
+    if ep is not None and ep > 0.55:
+        votes += 1
+    sp = p.get('sim_prob')
+    if sp is not None and sp > 0.55:
+        votes += 1
+    if reg_margin < -1.0:
+        votes += 1
+    fp = p.get('focused_prob')
+    if fp is not None and fp > 0.55:
+        votes += 1
+    s += votes * 3  # up to +12 for 4/4 consensus
 
-    # #5: Low std dev (more predictable)
+    # #6: HR regression trap — validated anti-predictive
+    l10_hr = p.get('l10_hit_rate', 50) or 50
+    if l10_hr >= 70:
+        s -= 5  # books already priced in the streak
+    elif l10_hr < 30:
+        s -= 3  # too unreliable
+
+    # #7: Low std dev (more predictable)
     l10_std = p.get('l10_std', 0) or 0
     if l10_std > 0 and l10_std <= 3:
         s += 2
     elif l10_std > 6:
         s -= 2
 
-    # #6: Stat type bonus (BLK+STL combos = 21-27% base)
+    # #8: Stat type bonus
     stat = p.get('stat', '').lower()
     if stat in ('blk', 'stl', 'stl_blk'):
         s += 4
     elif stat in ('pra', 'pr', 'pa', 'ra'):
-        s -= 1  # combo stats are bottom performers (10.5-11.7%)
+        s -= 1  # combos less reliable
 
-    # Away preference (small but consistent edge)
+    # #9: Away preference (small consistent edge)
     if not p.get('is_home'):
         s += 1
 

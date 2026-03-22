@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-21T20:02:45.696190",
+  "timestamp": "2026-03-21T20:17:42.336029",
   "total_records": 404771,
   "total_dates": 465,
   "iterations": [
@@ -34,7 +34,7 @@
       "total_3leg": 1705078,
       "eligible": 42698,
       "avg_cands_per_day": 92.62039045553145,
-      "elapsed": 9.171469926834106
+      "elapsed": 8.968246698379517
     },
     {
       "iteration": 2,
@@ -67,7 +67,7 @@
       "total_3leg": 1295057,
       "eligible": 21435,
       "avg_cands_per_day": 47.62888888888889,
-      "elapsed": 5.907470941543579
+      "elapsed": 5.958594083786011
     },
     {
       "iteration": 3,
@@ -100,7 +100,7 @@
       "total_3leg": 1178003,
       "eligible": 16064,
       "avg_cands_per_day": 36.90344827586207,
-      "elapsed": 4.502496004104614
+      "elapsed": 4.5500569343566895
     },
     {
       "iteration": 4,
@@ -133,7 +133,7 @@
       "total_3leg": 702413,
       "eligible": 8022,
       "avg_cands_per_day": 19.60880195599022,
-      "elapsed": 2.4074649810791016
+      "elapsed": 2.32688307762146
     },
     {
       "iteration": 5,
@@ -166,7 +166,7 @@
       "total_3leg": 86665,
       "eligible": 3289,
       "avg_cands_per_day": 8.88888888888889,
-      "elapsed": 0.3602018356323242
+      "elapsed": 0.3497483730316162
     },
     {
       "iteration": 6,
@@ -199,7 +199,7 @@
       "total_3leg": 10934,
       "eligible": 1576,
       "avg_cands_per_day": 5.254180602006689,
-      "elapsed": 0.14751577377319336
+      "elapsed": 0.13756394386291504
     },
     {
       "iteration": 7,
@@ -232,7 +232,7 @@
       "total_3leg": 71157,
       "eligible": 3069,
       "avg_cands_per_day": 8.828985507246378,
-      "elapsed": 0.2447948455810547
+      "elapsed": 0.2349071502685547
     },
     {
       "iteration": 8,
@@ -265,7 +265,7 @@
       "total_3leg": 188015,
       "eligible": 3766,
       "avg_cands_per_day": 10.781609195402298,
-      "elapsed": 0.5372638702392578
+      "elapsed": 0.5319771766662598
     },
     {
       "iteration": 9,
@@ -298,7 +298,7 @@
       "total_3leg": 6907,
       "eligible": 1229,
       "avg_cands_per_day": 4.90204081632653,
-      "elapsed": 0.15492606163024902
+      "elapsed": 0.1428689956665039
     },
     {
       "iteration": 10,
@@ -331,7 +331,7 @@
       "total_3leg": 913,
       "eligible": 528,
       "avg_cands_per_day": 3.4078947368421053,
-      "elapsed": 0.14390993118286133
+      "elapsed": 0.1325221061706543
     },
     {
       "iteration": 11,
@@ -364,7 +364,7 @@
       "total_3leg": 32,
       "eligible": 161,
       "avg_cands_per_day": 2.482142857142857,
-      "elapsed": 0.1419079303741455
+      "elapsed": 0.13437318801879883
     },
     {
       "iteration": 12,
@@ -397,7 +397,7 @@
       "total_3leg": 29,
       "eligible": 72,
       "avg_cands_per_day": 4.142857142857143,
-      "elapsed": 0.1327042579650879
+      "elapsed": 0.1222541332244873
     },
     {
       "iteration": 13,
@@ -429,7 +429,7 @@
       "total_3leg": 21,
       "eligible": 175,
       "avg_cands_per_day": 2.857142857142857,
-      "elapsed": 0.13092708587646484
+      "elapsed": 0.11231803894042969
     },
     {
       "iteration": 14,
@@ -458,7 +458,7 @@
       "total_3leg": 6,
       "eligible": 14,
       "avg_cands_per_day": 3.0,
-      "elapsed": 0.0896749496459961
+      "elapsed": 0.0875101089477539
     },
     {
       "iteration": 15,
@@ -493,7 +493,7 @@
       "total_3leg": 273,
       "eligible": 342,
       "avg_cands_per_day": 2.8584070796460175,
-      "elapsed": 0.13825702667236328
+      "elapsed": 0.13020801544189453
     },
     {
       "iteration": 16,
@@ -528,7 +528,7 @@
       "total_3leg": 193,
       "eligible": 287,
       "avg_cands_per_day": 2.778947368421053,
-      "elapsed": 0.1367480754852295
+      "elapsed": 0.13084077835083008
     },
     {
       "iteration": 17,
@@ -563,7 +563,7 @@
       "total_3leg": 1713,
       "eligible": 795,
       "avg_cands_per_day": 3.8529411764705883,
-      "elapsed": 0.14197707176208496
+      "elapsed": 0.13390302658081055
     },
     {
       "iteration": 18,
@@ -598,7 +598,7 @@
       "total_3leg": 22,
       "eligible": 115,
       "avg_cands_per_day": 2.395348837209302,
-      "elapsed": 0.13603687286376953
+      "elapsed": 0.1296398639678955
     },
     {
       "iteration": 19,
@@ -633,7 +633,7 @@
       "total_3leg": 970,
       "eligible": 629,
       "avg_cands_per_day": 3.53757225433526,
-      "elapsed": 0.14039874076843262
+      "elapsed": 0.131242036819458
     },
     {
       "iteration": 20,
@@ -668,7 +668,7 @@
       "total_3leg": 371,
       "eligible": 397,
       "avg_cands_per_day": 2.96875,
-      "elapsed": 0.13864994049072266
+      "elapsed": 0.1328108310699463
     }
   ],
   "best_config": {

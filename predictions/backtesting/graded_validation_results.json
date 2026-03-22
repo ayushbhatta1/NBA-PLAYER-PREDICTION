@@ -1,0 +1,124 @@
+{
+  "results": [
+    {
+      "name": "Baseline (all picks)",
+      "eligible": 47257,
+      "ind_hr": 0.4984023530905474,
+      "days": 123,
+      "wr_2leg": 0.24846454400743076,
+      "wr_3leg": 0.1249521153116256,
+      "total_2leg": 594286,
+      "total_3leg": 566465
+    },
+    {
+      "name": "UNDER only",
+      "eligible": 23464,
+      "ind_hr": 0.5459001022843505,
+      "days": 123,
+      "wr_2leg": 0.29559444187383443,
+      "wr_3leg": 0.16261677994226353,
+      "total_2leg": 570552,
+      "total_3leg": 571909
+    },
+    {
+      "name": "UNDER + COLD",
+      "eligible": 5621,
+      "ind_hr": 0.5714285714285714,
+      "days": 123,
+      "wr_2leg": 0.33318351541972063,
+      "wr_3leg": 0.18231676584757678,
+      "total_2leg": 144620,
+      "total_3leg": 452372
+    },
+    {
+      "name": "UNDER + line>L10+2",
+      "eligible": 5046,
+      "ind_hr": 0.6638921918351169,
+      "days": 123,
+      "wr_2leg": 0.4426685257135084,
+      "wr_3leg": 0.2919908830205599,
+      "total_2leg": 117623,
+      "total_3leg": 428212
+    },
+    {
+      "name": "UNDER + line>L10+3",
+      "eligible": 3157,
+      "ind_hr": 0.6876781754830535,
+      "days": 123,
+      "wr_2leg": 0.4736059795303011,
+      "wr_3leg": 0.3224778163757148,
+      "total_2leg": 47094,
+      "total_3leg": 272611
+    },
+    {
+      "name": "UNDER + line>L10+2 + COLD",
+      "eligible": 1222,
+      "ind_hr": 0.7135842880523732,
+      "days": 121,
+      "wr_2leg": 0.5061230169774562,
+      "wr_3leg": 0.35919749375019777,
+      "total_2leg": 7186,
+      "total_3leg": 31601
+    },
+    {
+      "name": "UNDER + line>L10+3 + COLD",
+      "eligible": 729,
+      "ind_hr": 0.7242798353909465,
+      "days": 116,
+      "wr_2leg": 0.5188679245283019,
+      "wr_3leg": 0.38139183055975795,
+      "total_2leg": 2544,
+      "total_3leg": 6610
+    },
+    {
+      "name": "UNDER + line>L10+5",
+      "eligible": 1485,
+      "ind_hr": 0.7589225589225589,
+      "days": 122,
+      "wr_2leg": 0.5859767891682786,
+      "wr_3leg": 0.44805423146049855,
+      "total_2leg": 10340,
+      "total_3leg": 51188
+    },
+    {
+      "name": "UNDER + gap>=5",
+      "eligible": 2076,
+      "ind_hr": 0.6180154142581888,
+      "days": 123,
+      "wr_2leg": 0.38919991856677527,
+      "wr_3leg": 0.24352795316643813,
+      "total_2leg": 19648,
+      "total_3leg": 121793
+    },
+    {
+      "name": "UNDER + gap>=7",
+      "eligible": 1012,
+      "ind_hr": 0.6907114624505929,
+      "days": 118,
+      "wr_2leg": 0.48948821405818643,
+      "wr_3leg": 0.34903555963784283,
+      "total_2leg": 4709,
+      "total_3leg": 15242
+    },
+    {
+      "name": "NOT HOT",
+      "eligible": 35817,
+      "ind_hr": 0.4975570259932434,
+      "days": 123,
+      "wr_2leg": 0.24854243291104755,
+      "wr_3leg": 0.12482659749014931,
+      "total_2leg": 587280,
+      "total_3leg": 560113
+    },
+    {
+      "name": "UNDER + NOT HOT + line>L10+2",
+      "eligible": 3601,
+      "ind_hr": 0.6750902527075813,
+      "days": 122,
+      "wr_2leg": 0.46075571648896935,
+      "wr_3leg": 0.3071996384393457,
+      "total_2leg": 59652,
+      "total_3leg": 323044
+    }
+  ]
+}

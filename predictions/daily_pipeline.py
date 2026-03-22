@@ -92,6 +92,14 @@ def run_board(date_str, board_path):
     print(f"  STEP 3: RUN PIPELINE FOR {date_str}")
     print(f"{'='*60}")
 
+    # Train focused model on today's real sportsbook lines (AUC 0.589 vs 0.554 baseline)
+    focused_script = os.path.join(PREDICTIONS_DIR, 'train_current_lines.py')
+    if os.path.exists(focused_script):
+        run_cmd(
+            f"python3 {focused_script} --board {board_path}",
+            f"Training focused XGBoost on today's board lines"
+        )
+
     run_cmd(
         f"python3 {PREDICTIONS_DIR}/run_board_v5.py {date_str} {board_path}",
         f"Running full pipeline for {date_str}"
