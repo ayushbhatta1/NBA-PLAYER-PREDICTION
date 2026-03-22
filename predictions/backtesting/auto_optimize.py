@@ -260,61 +260,52 @@ def generate_coarse_grid():
     """Generate ~100+ configs covering the primary parameter space."""
     configs = []
 
+    # Reduced grid for speed (~200 configs instead of ~1400)
     directions = ['under_only', 'both']
-    gaps = [1, 2, 3, 4, 5, 6, 7]
+    gaps = [1, 2, 3, 5, 7]
     hr_ranges = [
         (0, 100),    # no HR filter
         (50, 100),   # moderate floor
         (60, 70),    # sweet spot (from safe_filter)
         (60, 80),    # mid-range
-        (70, 80),    # narrow high
         (70, 100),   # high floor
         (80, 100),   # very high floor
     ]
-    lines = [0, 10, 15, 20, 25]
-    tiers = ['F', 'C', 'B']
+    lines = [0, 10, 15, 20]
+    # Tier fixed at F (no tier filter) — refinement can add it
+    tier = 'F'
 
     idx = 0
     for direction in directions:
         for gap in gaps:
             for (hr_lo, hr_hi) in hr_ranges:
                 for min_line in lines:
-                    for tier in tiers:
-                        # Skip obviously redundant combos
-                        # High gap + low tier is fine; low gap + high tier is fine
-                        # But high gap + high hr + high line + high tier = too few picks
-                        if gap >= 6 and hr_lo >= 70 and min_line >= 20 and tier == 'B':
-                            continue
-                        # Under-only with very loose filters is boring
-                        if direction == 'both' and gap <= 1 and hr_lo == 0 and min_line == 0 and tier == 'F':
-                            continue
-                        # Very high gap with very high line is ultra-sparse
-                        if gap >= 7 and min_line >= 25:
-                            continue
+                    # Skip obviously redundant combos
+                    if direction == 'both' and gap <= 1 and hr_lo == 0 and min_line == 0:
+                        continue
+                    if gap >= 7 and min_line >= 20:
+                        continue
+                    if gap >= 5 and hr_lo >= 80 and min_line >= 15:
+                        continue
 
-                        idx += 1
-                        dir_tag = 'U' if direction == 'under_only' else 'B'
-                        name = f"g{gap}_hr{hr_lo}-{hr_hi}_ln{min_line}_t{tier}_{dir_tag}"
+                    idx += 1
+                    dir_tag = 'U' if direction == 'under_only' else 'B'
+                    name = f"g{gap}_hr{hr_lo}-{hr_hi}_ln{min_line}_{dir_tag}"
 
-                        cfg = {
-                            'name': name,
-                            'direction_strategy': direction,
-                            'min_gap': float(gap),
-                            'min_l10_hr': hr_lo,
-                            'max_l10_hr': hr_hi,
-                            'min_line': float(min_line),
-                            'min_tier': tier,
-                            # Defaults
-                            'min_season_hr': 0,
-                            'min_mins_pct': 0,
-                            'max_l10_miss': 10,
-                            'max_l10_std': None,
-                            'min_games': 0,
-                            'streak_filter': 'none',
-                            'exclude_combos': False,
-                            'allowed_stats': ALL_STATS,
-                        }
-                        configs.append(cfg)
+                    cfg = {
+                        'name': name,
+                        'direction_strategy': direction,
+                        'min_gap': float(gap),
+                        'min_l10_hr': hr_lo,
+                        'max_l10_hr': hr_hi,
+                        'min_line': float(min_line),
+                        'min_tier': tier,
+                        'min_season_hr': 0, 'min_mins_pct': 0,
+                        'max_l10_miss': 10, 'max_l10_std': None,
+                        'min_games': 0, 'streak_filter': 'none',
+                        'exclude_combos': False, 'allowed_stats': ALL_STATS,
+                    }
+                    configs.append(cfg)
 
     print(f"  Coarse grid: {len(configs)} configs generated")
     return configs
@@ -437,58 +428,50 @@ def generate_compound_grid(top_configs, n=5):
 # BACKFILL RUNNER
 # ─────────────────────────────────────────────────────────
 
-def run_coarse_grid(by_date, dates_sorted, configs):
-    """Run each config through backtest. Returns sorted results list."""
+def run_coarse_grid(by_date, dates_sorted, configs, max_parlays=500):
+    """Run each config through backtest. Returns sorted results list.
+    Uses sampled dates and capped parlays for speed (~10 min for 200 configs).
+    """
     results = []
     total = len(configs)
     t_start = time.time()
+
+    # Sample dates for speed: use every 3rd date (still ~150+ dates)
+    sampled_dates = dates_sorted[::3]
+    sampled_by_date = {d: by_date[d] for d in sampled_dates}
+    print(f"  Using {len(sampled_dates)}/{len(dates_sorted)} sampled dates for speed")
 
     for i, cfg in enumerate(configs):
         name = config_name(cfg)
         filters = config_to_backtest(cfg)
 
-        # Quick eligibility pre-check: count picks on a sample of dates
-        sample_dates = dates_sorted[::max(1, len(dates_sorted) // 20)]
-        sample_eligible = 0
-        for d in sample_dates:
-            sample_eligible += len(apply_filters(by_date[d], filters))
+        # Quick eligibility pre-check on 10 dates
+        check_dates = sampled_dates[::max(1, len(sampled_dates) // 10)]
+        sample_eligible = sum(len(apply_filters(sampled_by_date[d], filters)) for d in check_dates)
+        est_total = sample_eligible * (len(sampled_dates) / len(check_dates))
 
-        # If sample has nearly zero picks, skip
-        est_total = sample_eligible * (len(dates_sorted) / len(sample_dates))
-        if est_total < 50:
+        if est_total < 30:
             results.append({
-                'name': name,
-                'config': cfg,
-                'skipped': True,
+                'name': name, 'config': cfg, 'skipped': True,
                 'reason': f'too_few_picks (est {est_total:.0f})',
-                'eligible': 0,
-                'ind_hr': 0,
-                'wr_2leg': 0,
-                'wr_3leg': 0,
-                'combined_wr': 0,
-                'avg_cands_per_day': 0,
+                'eligible': 0, 'ind_hr': 0, 'wr_2leg': 0, 'wr_3leg': 0,
+                'combined_wr': 0, 'avg_cands_per_day': 0,
             })
             continue
 
-        bt = run_backtest(by_date, dates_sorted, filters,
-                          max_parlays_per_day=3000, verbose=False)
+        bt = run_backtest(sampled_by_date, sampled_dates, filters,
+                          max_parlays_per_day=max_parlays, verbose=False)
         s = bt['summary']
         eligible = bt['all_eligible']
         ind_hr = sum(1 for p in eligible if p['hit']) / len(eligible) if eligible else 0
-
-        combined = s['wr_2leg'] * 0.4 + s['wr_3leg'] * 0.6  # weight 3-leg more
+        combined = s['wr_2leg'] * 0.4 + s['wr_3leg'] * 0.6
 
         results.append({
-            'name': name,
-            'config': cfg,
-            'skipped': False,
-            'eligible': len(eligible),
-            'ind_hr': ind_hr,
-            'wr_2leg': s['wr_2leg'],
-            'wr_3leg': s['wr_3leg'],
+            'name': name, 'config': cfg, 'skipped': False,
+            'eligible': len(eligible), 'ind_hr': ind_hr,
+            'wr_2leg': s['wr_2leg'], 'wr_3leg': s['wr_3leg'],
             'combined_wr': combined,
-            'total_2leg': s['total_2leg'],
-            'total_3leg': s['total_3leg'],
+            'total_2leg': s['total_2leg'], 'total_3leg': s['total_3leg'],
             'avg_cands_per_day': s.get('avg_candidates_per_day', 0),
             'dates_with_parlays': s.get('dates_with_parlays', 0),
         })
@@ -529,8 +512,13 @@ def cross_validate_on_graded(top_configs):
 
     # Load graded data
     if HAS_VALIDATE:
-        raw_picks = load_graded_days()
-        picks = [normalize_graded(r) for r in raw_picks]
+        raw_days = load_graded_days()
+        picks = []
+        for date, records in raw_days.items():
+            for r in records:
+                nr = normalize_graded(r, date)
+                if nr:
+                    picks.append(nr)
     else:
         raw_picks = _load_graded_days_fallback()
         picks = [_normalize_graded_record(r) for r in raw_picks]
@@ -559,8 +547,8 @@ def cross_validate_on_graded(top_configs):
 
         # Apply filters using graded-compatible format
         if HAS_VALIDATE:
-            kwargs = config_to_graded(cfg)
-            filtered = apply_filter(picks, **kwargs)
+            filter_cfg = config_to_graded(cfg)
+            filtered = apply_filter(picks, filter_cfg)
         else:
             kwargs = config_to_graded(cfg)
             filtered = _apply_filter_fallback(picks, **kwargs)
@@ -583,8 +571,12 @@ def cross_validate_on_graded(top_configs):
 
         # Compute parlay WR
         if HAS_VALIDATE:
-            wr_2, _, _ = compute_parlay_wr(filtered, n_legs=2, n_samples=3000)
-            wr_3, _, _ = compute_parlay_wr(filtered, n_legs=3, n_samples=3000)
+            # compute_parlay_wr expects {date: [picks]} dict
+            filtered_by_date = defaultdict(list)
+            for p in filtered:
+                filtered_by_date[p['date']].append(p)
+            _, _, wr_2 = compute_parlay_wr(filtered_by_date, 2, max_per_day=2000)
+            _, _, wr_3 = compute_parlay_wr(filtered_by_date, 3, max_per_day=2000)
         else:
             wr_2, _, _ = _compute_parlay_wr_fallback(filtered, n_legs=2, n_samples=3000)
             wr_3, _, _ = _compute_parlay_wr_fallback(filtered, n_legs=3, n_samples=3000)

@@ -258,15 +258,18 @@ def generate_parlays(candidates, n_legs, max_parlays=5000, require_multi_game=Tr
         if len(set(players)) != len(players):
             return False
         if require_multi_game and n_legs >= 2:
-            # Use game field if available, otherwise player names as proxy
+            # Use game field if available (non-empty, non-blank)
             games = set()
             for l in legs:
-                g = l.get('game', '') or l.get('date', '')
-                if g:
+                g = l.get('game', '')
+                if g and g.strip():  # only count real game IDs
                     games.add(g)
-            # If game field exists and we have it, enforce 2+ games
-            if games and len(games) < 2:
-                return False
+            # Only enforce if we actually have game data
+            if len(games) >= 2:
+                pass  # good — multiple games
+            elif len(games) == 1:
+                return False  # all from same game
+            # games empty = no game data available, skip enforcement
         return True
 
     n_cands = len(candidates)
