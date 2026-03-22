@@ -428,27 +428,33 @@ def generate_compound_grid(top_configs, n=5):
 # BACKFILL RUNNER
 # ─────────────────────────────────────────────────────────
 
-def run_coarse_grid(by_date, dates_sorted, configs, max_parlays=500):
+def run_coarse_grid(by_date, dates_sorted, configs, max_parlays=500, full_dates=False):
     """Run each config through backtest. Returns sorted results list.
-    Uses sampled dates and capped parlays for speed (~10 min for 200 configs).
+
+    Args:
+        full_dates: If True, use all dates. If False, sample every 3rd date for speed.
     """
     results = []
     total = len(configs)
     t_start = time.time()
 
-    # Sample dates for speed: use every 3rd date (still ~150+ dates)
-    sampled_dates = dates_sorted[::3]
-    sampled_by_date = {d: by_date[d] for d in sampled_dates}
-    print(f"  Using {len(sampled_dates)}/{len(dates_sorted)} sampled dates for speed")
+    if full_dates:
+        run_dates = dates_sorted
+        run_by_date = by_date
+        print(f"  Using ALL {len(run_dates)} dates (full mode)")
+    else:
+        run_dates = dates_sorted[::3]
+        run_by_date = {d: by_date[d] for d in run_dates}
+        print(f"  Using {len(run_dates)}/{len(dates_sorted)} sampled dates for speed")
 
     for i, cfg in enumerate(configs):
         name = config_name(cfg)
         filters = config_to_backtest(cfg)
 
         # Quick eligibility pre-check on 10 dates
-        check_dates = sampled_dates[::max(1, len(sampled_dates) // 10)]
-        sample_eligible = sum(len(apply_filters(sampled_by_date[d], filters)) for d in check_dates)
-        est_total = sample_eligible * (len(sampled_dates) / len(check_dates))
+        check_dates = run_dates[::max(1, len(run_dates) // 10)]
+        sample_eligible = sum(len(apply_filters(run_by_date[d], filters)) for d in check_dates)
+        est_total = sample_eligible * (len(run_dates) / len(check_dates))
 
         if est_total < 30:
             results.append({
@@ -459,7 +465,7 @@ def run_coarse_grid(by_date, dates_sorted, configs, max_parlays=500):
             })
             continue
 
-        bt = run_backtest(sampled_by_date, sampled_dates, filters,
+        bt = run_backtest(run_by_date, run_dates, filters,
                           max_parlays_per_day=max_parlays, verbose=False)
         s = bt['summary']
         eligible = bt['all_eligible']
@@ -766,6 +772,7 @@ def main():
     np.random.seed(42)
 
     graded_only = '--graded-only' in sys.argv
+    full_mode = '--full' in sys.argv
     start_time = time.time()
 
     all_backfill_results = []
@@ -784,7 +791,7 @@ def main():
         print(f"{'='*60}")
 
         coarse_configs = generate_coarse_grid()
-        coarse_results = run_coarse_grid(by_date, dates_sorted, coarse_configs)
+        coarse_results = run_coarse_grid(by_date, dates_sorted, coarse_configs, full_dates=full_mode)
         all_backfill_results.extend(coarse_results)
 
         # Extract top configs (non-skipped)
@@ -797,7 +804,7 @@ def main():
         print(f"{'='*60}")
 
         refine_configs = generate_refinement_grid(top_configs_r1, n=10)
-        refine_results = run_coarse_grid(by_date, dates_sorted, refine_configs)
+        refine_results = run_coarse_grid(by_date, dates_sorted, refine_configs, full_dates=full_mode)
         all_backfill_results.extend(refine_results)
 
         # Merge top from round 1 + round 2
@@ -811,7 +818,7 @@ def main():
         print(f"{'='*60}")
 
         compound_configs = generate_compound_grid(top_configs_r2, n=5)
-        compound_results = run_coarse_grid(by_date, dates_sorted, compound_configs)
+        compound_results = run_coarse_grid(by_date, dates_sorted, compound_configs, full_dates=full_mode)
         all_backfill_results.extend(compound_results)
 
         # Final sort
