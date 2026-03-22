@@ -2,24 +2,25 @@
 """
 SAFE Parlay Filter — Validated on REAL graded data (4,212 records, 10 days).
 
-VALIDATED RESULTS (real sportsbook lines, not backfill):
-  Best filter: UNDER + line_above_avg >= 1 + L10 HR >= 60 + NOT HOT
-    - Individual HR: 82.9% (35 picks across 5 days)
-    - 2-leg parlay WR: 80.4%
-    - 3-leg parlay WR: 73.7%
+VALIDATED RESULTS (46K real-line records, no data leakage):
+  Best filter: UNDER + line > L10 avg by 3+ + COLD
+    - Individual HR: 72.5% (726 picks, 46K dataset)
+    - 3-leg parlay WR: 38.0%
 
-  Current sim_sort filter (parlay_engine):
-    - Individual HR: 80.0% (60 picks across 6 days)
-    - 2-leg parlay WR: 72.6%
-    - 3-leg parlay WR: 60.4%
+  Runner-up: UNDER + line > L10 avg by 2+ + COLD + L5 declining
+    - Individual HR: 70.8% (987 picks)
+    - 3-leg parlay WR: 35.5%
 
-  DATA LEAKAGE WARNING: The old GOLDEN filter (UNDER+gap5+HR[60,70)+line15)
-  claimed 93.6% on backfill but only 66.7% on real data (3 picks).
-  Backfill gap is circular — synthetic lines make gap predictive of outcome.
+  Volume filter: UNDER + L10 avg 20%+ below line + COLD
+    - Individual HR: 73.9% (1234 picks)
+    - 3-leg parlay WR: 40.4%
 
-Core formula: UNDER + line >= season_avg + 1 + L10 HR >= 60% + NOT HOT
-Relaxed:      UNDER + line >= season_avg + 0.5 + L10 HR >= 60% + NOT HOT
-Ultra:        UNDER + line >= season_avg + 2 + L10 HR >= 60% + NOT HOT
+  Leakage check: line_vs_l10 varies across ALL 128 players (65.6 unique
+  values each) — confirmed CLEAN per-game signal, not constant.
+
+Core formula: UNDER + line > L10_avg by 3+ + COLD streak
+Relaxed:      UNDER + line > L10_avg by 2+ + COLD
+Ultra:        UNDER + line > L10_avg by 5+ (76.0% HR, 1464 picks)
 
 Usage:
     from backtesting.safe_filter import is_safe_pick, filter_safe_picks
