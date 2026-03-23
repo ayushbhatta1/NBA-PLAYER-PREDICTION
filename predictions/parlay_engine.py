@@ -1864,19 +1864,11 @@ def build_triple_safe(results):
     return triple
 
 
-def build_sweep_optimized(pool):
+def build_sweep_optimized_v1(pool):
     """
-    SWEEP-OPTIMIZED 3-LEG — Backtested 60% cash rate, 73.3% per-leg.
+    SWEEP-OPTIMIZED v1 (LEGACY) — kept for A/B comparison.
+    Backtested 60% cash rate, 73.3% per-leg.
     From 428-config parameterized sweep on 11 graded days (4,656 props).
-
-    Optimal params found by sweep_composite.py:
-      - UNDER only (65.2% base rate vs 41.3% OVER)
-      - ensemble_prob >= 0.50 (ML confidence floor)
-      - Tier B+ minimum
-      - Composite score: 0.25*ensemble + 0.15*gap + 0.15*HR + 0.20 UNDER bonus
-      - BLK/STL +0.05, COLD+UNDER +0.05, HOT -0.05
-      - Miss streak bonus: +0.008 per miss for UNDER
-      - Game + team diversity enforced
     """
     TIER_OK = {'S', 'A', 'B'}
     candidates = []
@@ -1904,25 +1896,24 @@ def build_sweep_optimized(pool):
         streak = p.get('streak_status', p.get('streak', 'NEUTRAL'))
 
         score = 0.0
-        score += ens * 0.25                          # ML signal
-        score += min(abs_gap / 8.0, 0.25) * 0.75     # Gap signal (0.15/0.20)
-        score += (hr / 100) * 0.15                    # Hit rate
-        score += 0.20                                 # UNDER bonus (always UNDER)
-        score += miss_count * 0.008                   # Miss streak continuation
+        score += ens * 0.25
+        score += min(abs_gap / 8.0, 0.25) * 0.75
+        score += (hr / 100) * 0.15
+        score += 0.20
+        score += miss_count * 0.008
         if stat in ('blk', 'stl', 'stl_blk'):
-            score += 0.05                             # BLK/STL bonus
+            score += 0.05
         if streak == 'COLD':
-            score += 0.05                             # COLD confirmation
+            score += 0.05
         if streak == 'HOT':
-            score -= 0.05                             # HOT trap penalty
+            score -= 0.05
         spread = abs(p.get('spread', 0) or 0)
         if spread >= 12 and direction == 'OVER':
-            score -= 0.05                             # Blowout risk
+            score -= 0.05
 
         p['_sweep_score'] = score
         candidates.append(p)
 
-    # Sort by sweep score, pick top 3 with game + team diversity
     candidates.sort(key=lambda p: p.get('_sweep_score', 0), reverse=True)
     picks = []
     used_games = set()
@@ -1931,7 +1922,6 @@ def build_sweep_optimized(pool):
         if len(picks) >= 3:
             break
         game = p.get('game', '')
-        # Extract team
         team = None
         if '@' in game:
             away, home = game.split('@')
@@ -1939,6 +1929,352 @@ def build_sweep_optimized(pool):
                 team = home
             elif p.get('is_home') is False:
                 team = away
+        if game and game in used_games:
+            continue
+        if team and team in used_teams:
+            continue
+        picks.append(p)
+        if game:
+            used_games.add(game)
+        if team:
+            used_teams.add(team)
+
+    return picks
+
+
+def build_sweep_optimized(pool):
+    """
+    SWEEP-OPTIMIZED v2 — Full-signal composite scoring.
+
+    Builds on v1's backtested foundation (UNDER-only, tier B+, 60% cash rate)
+    but incorporates ALL available pipeline signals:
+
+    SCORING ARCHITECTURE (weights sum ~1.0 base + bonuses):
+      Layer 1 — ML Consensus      (0.30): Best available prob + multi-model agreement
+      Layer 2 — Regression Signal  (0.15): reg_margin is strongest single predictor
+      Layer 3 — Statistical Floor  (0.15): Hit rates, consistency, L10 std
+      Layer 4 — Gap Signal         (0.10): Distance between projection and line
+      Layer 5 — Context Modifiers  (0.10): Matchup, usage, efficiency
+      Layer 6 — Schedule/Fatigue   (0.05): Travel, rest, density
+      Layer 7 — Stat/Streak Bonus  (0.05): BLK/STL, COLD, miss streak
+      Layer 8 — Blowout/Bench Risk (0.05): Spread + coach bench rate
+      Layer 9 — Teammate Absence   (0.05): same_team_out helps UNDER
+
+    HARD FILTERS (same as v1):
+      - UNDER only (65.2% base rate)
+      - Tier B+ minimum
+      - No combo stats
+      - ensemble_prob >= 0.50
+      - Minutes >= 40%
+    """
+    import statistics
+
+    TIER_OK = {'S', 'A', 'B'}
+    candidates = []
+
+    for p in pool:
+        if not _is_eligible(p):
+            continue
+        direction = p.get('direction', 'OVER').upper()
+        if direction != 'UNDER':
+            continue
+        tier = p.get('tier', 'F')
+        if tier not in TIER_OK:
+            continue
+        stat = p.get('stat', '').lower()
+        if stat in COMBO_STATS:
+            continue
+        if (p.get('mins_30plus_pct', 70) or 70) < 40:
+            continue
+
+        # ── Best available ML probability ──────────────────────────────
+        # Preference: meta_prob > xgb_prob_calibrated > ensemble_prob > xgb_prob
+        ens = p.get('ensemble_prob', p.get('xgb_prob', 0.5)) or 0.5
+        if ens < 0.50:
+            continue
+
+        best_prob = (
+            p.get('meta_prob')
+            or p.get('xgb_prob_calibrated')
+            or ens
+        )
+        best_prob = max(min(best_prob, 0.95), 0.40)  # Clamp to sane range
+
+        # ── Extract all signals with safe defaults ─────────────────────
+        abs_gap = abs(p.get('gap', 0) or 0)
+        hr_l10 = p.get('l10_hit_rate', 50) or 50
+        hr_l5 = p.get('l5_hit_rate', 50) or 50
+        hr_season = p.get('season_hit_rate', 50) or 50
+        miss_count = p.get('l10_miss_count', 5) or 5
+        streak = p.get('streak_status', p.get('streak', 'NEUTRAL'))
+        l10_floor = p.get('l10_floor', 0) or 0
+        line = p.get('line', 0) or 0
+
+        # Regression model signals
+        reg_margin = p.get('reg_margin')           # float or None
+        reg_under_prob = p.get('reg_under_prob')   # float or None
+        reg_confidence = p.get('reg_confidence')   # float or None
+
+        # Simulation model signals
+        sim_prob = p.get('sim_prob', 0.5) or 0.5
+        sim_mean = p.get('sim_mean')               # float or None
+        sim_std = p.get('sim_std')                 # float or None
+
+        # Additional ML probs for consensus counting
+        mlp_prob = p.get('mlp_prob')               # float or None
+        xgb_raw = p.get('xgb_prob', 0.5) or 0.5
+
+        # Context signals
+        opp_matchup_delta = p.get('opp_matchup_delta', 0) or 0
+        opp_stat_vs_avg = p.get('opp_stat_allowed_vs_league_avg', 0) or 0
+        usage_rate = p.get('usage_rate', 0) or 0
+        usage_trend = p.get('usage_trend', 0) or 0
+        efficiency_trend = p.get('efficiency_trend', 0) or 0
+        game_total_signal = p.get('game_total_signal', 0) or 0
+        plus_minus = p.get('l10_avg_plus_minus', 0) or 0
+
+        # Schedule/fatigue
+        travel_miles = p.get('travel_miles_7day', 0) or 0
+        tz_shifts = p.get('tz_shifts_7day', 0) or 0
+        rest_days = p.get('rest_days', 2) or 2
+        games_in_7 = p.get('games_in_7', 3) or 3
+
+        # Blowout/bench
+        spread = abs(p.get('spread', 0) or 0)
+        coach_bench = p.get('coach_blowout_bench_rate')   # float or None
+        foul_trouble = p.get('foul_trouble_risk', False)
+        l10_avg_pf = p.get('l10_avg_pf', 2.5) or 2.5
+
+        # Teammate absence
+        same_team_out = p.get('same_team_out_count', 0) or 0
+
+        # Venue splits
+        home_avg = p.get('home_avg')   # float or None
+        away_avg = p.get('away_avg')   # float or None
+        is_home = p.get('is_home')
+
+        # L10 values for consistency analysis
+        l10_values = p.get('l10_values') or []
+
+        # ── LAYER 1: ML Consensus (0.30 weight) ───────────────────────
+        # Best prob contributes 0.20, multi-model agreement contributes 0.10
+        score = 0.0
+        score += best_prob * 0.20                    # Primary ML signal
+
+        # Multi-model consensus: count how many models favor UNDER (prob > 0.55)
+        # Models: ensemble, sim, regression, mlp (each independent)
+        consensus_count = 0
+        consensus_total = 0
+        if ens > 0.55:
+            consensus_count += 1
+        consensus_total += 1
+        if sim_prob > 0.55:
+            consensus_count += 1
+        consensus_total += 1
+        if reg_under_prob is not None:
+            if reg_under_prob > 0.55:
+                consensus_count += 1
+            consensus_total += 1
+        if mlp_prob is not None:
+            if mlp_prob > 0.55:
+                consensus_count += 1
+            consensus_total += 1
+
+        # Consensus ratio → 0 to 0.10 bonus
+        # 4/4 agreement = 0.10, 3/4 = 0.075, 2/4 = 0.05, 1/4 = 0.025
+        if consensus_total > 0:
+            consensus_ratio = consensus_count / consensus_total
+            score += consensus_ratio * 0.10          # Full agreement = +0.10
+
+        # ── LAYER 2: Regression Signal (0.15 weight) ───────────────────
+        # reg_margin is the strongest single predictor: |margin| >= 2.5 → 90%+ HR
+        if reg_margin is not None:
+            # For UNDER: negative reg_margin means predicted < line (supports UNDER)
+            under_margin = -reg_margin   # Flip: positive = good for UNDER
+            if under_margin >= 2.5:
+                score += 0.15                        # Strong regression confirmation
+            elif under_margin >= 1.5:
+                score += 0.10                        # Moderate regression support
+            elif under_margin >= 0.5:
+                score += 0.05                        # Slight regression lean
+            elif under_margin < -1.0:
+                score -= 0.05                        # Regression disagrees with UNDER
+        if reg_confidence is not None and reg_confidence > 0.6:
+            score += 0.02                            # High regression confidence bonus
+
+        # ── LAYER 3: Statistical Floor (0.15 weight) ──────────────────
+        # Blended hit rate (L5 matters more than season for trend detection)
+        blended_hr = (hr_l5 * 0.40 + hr_l10 * 0.35 + hr_season * 0.25)
+        score += (blended_hr / 100) * 0.10           # 0 to 0.10
+
+        # L10 consistency — low std = reliable performer = more predictable UNDER
+        if l10_values and len(l10_values) >= 5:
+            try:
+                l10_std = statistics.stdev(l10_values)
+                l10_median = statistics.median(l10_values)
+                # Low variance relative to line → more predictable
+                if line > 0:
+                    cv = l10_std / line              # Coefficient of variation
+                    if cv < 0.20:
+                        score += 0.03                # Very consistent → predictable UNDER
+                    elif cv < 0.30:
+                        score += 0.015               # Moderately consistent
+                    elif cv > 0.50:
+                        score -= 0.02                # High variance → unpredictable
+
+                    # Median below line is stronger UNDER signal than mean
+                    if l10_median < line:
+                        score += 0.02                # Median confirms UNDER lean
+            except (ValueError, ZeroDivisionError):
+                pass
+
+        # Floor safety: if worst L10 game is close to or above line, UNDER is risky
+        if l10_floor and line > 0:
+            floor_gap = line - l10_floor
+            if floor_gap <= 0:
+                score -= 0.03                        # Floor ABOVE line — player always clears
+            elif floor_gap >= 5:
+                score += 0.02                        # Big floor gap — player often well under
+
+        # ── LAYER 4: Gap Signal (0.10 weight) ─────────────────────────
+        # Projection-to-line gap: larger gap = more cushion
+        score += min(abs_gap / 8.0, 0.25) * 0.40    # Capped at 0.10
+
+        # ── LAYER 5: Context Modifiers (0.10 weight) ──────────────────
+        # Opponent matchup: positive delta = opponent allows MORE of this stat
+        # For UNDER: negative delta is favorable (tough defense)
+        if opp_matchup_delta < -0.03:
+            score += 0.03                            # Tough matchup → helps UNDER
+        elif opp_matchup_delta > 0.05:
+            score -= 0.02                            # Easy matchup → hurts UNDER
+
+        # Opponent stat allowed vs league avg: negative = stingy defense
+        if opp_stat_vs_avg < -0.03:
+            score += 0.02                            # Below-average defense (allows less)
+
+        # Low usage for UNDER = good (player getting fewer touches)
+        if usage_rate > 0:
+            if usage_rate < 0.18:
+                score += 0.02                        # Low usage → natural UNDER lean
+            elif usage_rate > 0.28:
+                score -= 0.01                        # High usage → harder to go UNDER
+
+        # Declining usage trend supports UNDER
+        if usage_trend < -0.02:
+            score += 0.02                            # Usage dropping → UNDER friendly
+        elif usage_trend > 0.03:
+            score -= 0.01                            # Usage rising → UNDER risk
+
+        # Negative efficiency trend supports UNDER
+        if efficiency_trend < -0.03:
+            score += 0.01                            # Getting worse → UNDER lean
+
+        # Game total signal: low total environment supports scoring UNDERs
+        if game_total_signal < -0.02:
+            score += 0.02                            # Low-scoring game expected
+
+        # Venue split: if playing away and away_avg < line, extra UNDER confidence
+        if is_home is False and away_avg is not None and line > 0:
+            if away_avg < line * 0.90:
+                score += 0.02                        # Road performance well under line
+
+        # ── LAYER 6: Schedule & Fatigue (0.05 weight) ─────────────────
+        # For UNDER, fatigue HELPS (tired player produces less)
+        if travel_miles > 5000:
+            score += 0.02                            # Heavy travel → supports UNDER
+        elif travel_miles > 2500:
+            score += 0.01
+
+        if tz_shifts >= 2:
+            score += 0.015                           # Circadian disruption → UNDER
+
+        if rest_days == 0:
+            score += 0.02                            # B2B → fatigue → UNDER
+        elif rest_days >= 3:
+            score -= 0.01                            # Well rested → might outperform
+
+        if games_in_7 >= 4:
+            score += 0.015                           # Dense schedule → fatigue
+
+        # ── LAYER 7: Stat & Streak Bonuses (0.05 weight) ──────────────
+        if stat in ('blk', 'stl', 'stl_blk'):
+            score += 0.05                            # BLK/STL UNDER: 73.3% base rate
+
+        if streak == 'COLD':
+            score += 0.04                            # COLD + UNDER: 75.3% base rate
+        elif streak == 'HOT':
+            score -= 0.04                            # HOT streak may continue
+
+        # Miss streak continuation (momentum)
+        score += min(miss_count, 8) * 0.006          # Up to +0.048 for 8+ misses
+
+        # ── LAYER 8: Blowout & Bench Risk (0.05 weight) ──────────────
+        # For UNDER: blowout = early benching = fewer stats = helps UNDER
+        if spread >= 10:
+            blowout_bonus = min((spread - 8) * 0.005, 0.04)  # Up to +0.04 for 16+ pt spread
+            score += blowout_bonus                   # Blowout benching helps UNDER
+
+            # Coach bench rate amplifies: high bench rate coach + blowout = more UNDER-friendly
+            if coach_bench is not None and coach_bench > 0.30:
+                score += 0.02                        # Bench-happy coach in blowout
+
+        # Foul trouble: high PF avg → might foul out or sit → fewer stats → helps UNDER
+        if l10_avg_pf >= 4.5:
+            score += 0.02                            # Foul trouble risk → UNDER friendly
+        elif l10_avg_pf >= 4.0:
+            score += 0.01
+
+        # ── LAYER 9: Teammate Absence Impact (0.05 weight) ───────────
+        # For non-scoring UNDERs: teammates out can increase own usage (hurts UNDER)
+        # For scoring UNDERs on bad teams: usage up but efficiency down
+        # Net: slight positive for UNDER on discrete stats (blk/stl/reb)
+        if same_team_out >= 2:
+            if stat in ('blk', 'stl', 'reb', '3pm'):
+                score += 0.01                        # Discrete stats less affected by usage bump
+            elif stat in ('pts', 'ast'):
+                score -= 0.01                        # Scoring/assists may increase with teammates out
+
+        # ── LAYER 10: Sim model confirmation ──────────────────────────
+        # sim_mean below line = extra UNDER confidence
+        if sim_mean is not None and line > 0:
+            sim_gap = line - sim_mean
+            if sim_gap > 2.0:
+                score += 0.03                        # Sim projects well under line
+            elif sim_gap > 0.5:
+                score += 0.01
+            elif sim_gap < -2.0:
+                score -= 0.02                        # Sim projects over line
+
+        # Low sim_std = consistent simulation outcomes
+        if sim_std is not None and line > 0:
+            sim_cv = sim_std / line
+            if sim_cv < 0.25:
+                score += 0.01                        # Tight sim distribution
+
+        # ── Store score + debug info ──────────────────────────────────
+        p['_sweep_score'] = round(score, 5)
+        p['_sweep_consensus'] = f'{consensus_count}/{consensus_total}'
+        p['_sweep_version'] = 'v2'
+        candidates.append(p)
+
+    # ── Selection: top 3 with game + team diversity ───────────────────
+    candidates.sort(key=lambda p: p.get('_sweep_score', 0), reverse=True)
+    picks = []
+    used_games = set()
+    used_teams = set()
+    for p in candidates:
+        if len(picks) >= 3:
+            break
+        game = p.get('game', '')
+        team = None
+        if '@' in game:
+            parts = game.split('@')
+            if len(parts) == 2:
+                away, home = parts
+                if p.get('is_home') is True:
+                    team = home
+                elif p.get('is_home') is False:
+                    team = away
         if game and game in used_games:
             continue
         if team and team in used_teams:
@@ -2013,8 +2349,8 @@ def build_primary_parlays(results):
             'qualifying_games': n_games,
         },
         'sweep_optimized': {
-            'name': 'SWEEP-OPTIMIZED 3-LEG (60% CASH RATE)',
-            'method': 'sweep_composite_v1',
+            'name': 'SWEEP-OPTIMIZED v2 3-LEG (FULL-SIGNAL)',
+            'method': 'sweep_composite_v2',
             'legs': sweep_legs,
             'legs_total': len(sweep_legs),
             'under_count': under_count_sweep,
@@ -2023,7 +2359,7 @@ def build_primary_parlays(results):
             'ev_multiplier': 6.0,
             'backtested_cash_rate': 60.0,
             'backtested_per_leg_hr': 73.3,
-            'description': f'Sweep-optimized 3-leg: 60% backtested cash rate (11 graded days, 428 configs). UNDER-only, ensemble>=0.50, tier B+. {under_count_sweep} UNDERs.',
+            'description': f'Sweep-optimized v2: 10-layer full-signal composite (ML consensus + regression + sim + context + fatigue). UNDER-only, tier B+. {under_count_sweep} UNDERs.',
         },
         'blk_2leg': {
             'name': 'BLK SNIPER 2-LEG (HIGHEST CASH RATE)',
