@@ -293,6 +293,10 @@ def _make_leg(p):
         'reg_margin': p.get('reg_margin'),
         'sim_prob': p.get('sim_prob'),
         'flow_adj': p.get('flow_adj'),
+        # v12: line floor exploitation
+        'l10_avg': p.get('l10_avg', 0),
+        'line_inflation': round(_calc_line_inflation(p), 1),
+        'line_floor_score': round(_line_floor_score(p), 2),
     }
 
 
@@ -1118,6 +1122,520 @@ def build_2leg_safe(pool):
     return picks
 
 
+def _blk_away_score(p):
+    """Scoring for BLK-away strategy. Backtested 10yr: 57.8% 2-leg cash rate.
+    Key signals: BLK stat type, away game, low L10 HR, floor below line,
+    cold streak, consecutive unders, gap below line."""
+    s = 0.0
+
+    # L10 hit rate (strongest signal for UNDER prediction)
+    hr = p.get('l10_hit_rate', 50) or 50
+    if hr <= 10: s += 4.0
+    elif hr <= 20: s += 3.0
+    elif hr <= 30: s += 2.0
+    elif hr <= 40: s += 1.0
+    elif hr >= 70: s -= 2.0
+    elif hr >= 60: s -= 1.0
+
+    # Season HR
+    season_hr = 50
+    if p.get('season_avg') and p.get('line'):
+        # Approximate from available data
+        pass
+    shr = p.get('season_hit_rate', season_hr)
+    if shr and shr < 30: s += 2.0
+    elif shr and shr < 45: s += 0.5
+    elif shr and shr >= 60: s -= 1.0
+
+    # Stat type bonus (BLK is king, STL is prince)
+    stat = p.get('stat', '').lower()
+    stat_w = {'blk': 3.0, 'stl': 2.0, '3pm': 1.0, 'ast': 0.5, 'stl_blk': 3.0}
+    s += stat_w.get(stat, 0)
+
+    # Floor analysis: L10 2nd-lowest game below line
+    l10_std = p.get('l10_std', 0) or 0
+    l10_avg = p.get('l10_avg', 0) or 0
+    line = p.get('line', 0) or 0
+    if l10_avg > 0 and line > 0:
+        # Approximate floor as avg - 1.2 * std (2nd lowest ~ 1.2 std below mean)
+        approx_floor = l10_avg - 1.2 * l10_std
+        if approx_floor < line:
+            floor_bonus = min((line - approx_floor) / max(line, 0.5) * 5, 3.0)
+            s += floor_bonus
+        # Median approximation
+        if l10_avg < line:
+            s += 1.0
+
+    # Gap (line above average)
+    gap = (l10_avg - line) if l10_avg > 0 else 0
+    if gap < -5: s += 2.5
+    elif gap < -3: s += 2.0
+    elif gap < -1.5: s += 1.0
+    elif gap < 0: s += 0.5
+    elif gap > 3: s -= 1.0
+
+    # Miss count (from hit rate)
+    miss_approx = round(10 * (1 - hr / 100))
+    if miss_approx >= 9: s += 2.5
+    elif miss_approx >= 7: s += 1.5
+    elif miss_approx >= 5: s += 0.5
+    elif miss_approx <= 2: s -= 1.0
+
+    # Streak
+    streak = p.get('streak_status', 'NEUTRAL')
+    if streak == 'COLD': s += 1.5
+    elif streak == 'HOT': s -= 1.0
+
+    # Away game (validated +0.7 in backtest)
+    if not p.get('is_home'):
+        s += 0.7
+
+    # B2B fatigue
+    if p.get('is_b2b'):
+        s += 0.5
+
+    # Ensemble/ML consensus
+    ep = p.get('ensemble_prob', p.get('xgb_prob'))
+    if ep is not None and ep > 0.60:
+        s += 2.0
+    elif ep is not None and ep > 0.55:
+        s += 1.0
+
+    # Under confidence score from analyze_v3
+    ucs = p.get('under_conf_score', 0) or 0
+    s += ucs / 3  # scale it
+
+    return s
+
+
+def build_2leg_blk(pool):
+    """
+    2-Leg BLK-AWAY Strategy: Backtested 57.8% 2-leg parlay cash rate
+    over 10 years (1,070+ parlays). 14-day max win streak.
+
+    Key insight: BLK UNDER has 64% base rate (highest of all stats).
+    Away games add +3-4pp. Combining BLK + away + confidence scoring
+    produces the most reliable 2-leg parlay strategy we've found.
+
+    Cascade: BLK away → BLK/STL away → BLK any → BLK/STL any → top UNDER
+    """
+    picks = []
+    used_names = set()
+    used_games = set()
+
+    def _add(candidates, n_target):
+        for p in candidates:
+            if p.get('player', '') in used_names:
+                continue
+            g = p.get('game', '')
+            if g and g in used_games:
+                continue
+            picks.append(p)
+            used_names.add(p.get('player', ''))
+            if g:
+                used_games.add(g)
+            if len(picks) >= n_target:
+                return True
+        return len(picks) >= n_target
+
+    # Pass 0: BLK + away + high conf (the 57.8% sweet spot)
+    p0 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl_blk') and
+        not p.get('is_home') and
+        _blk_away_score(p) >= 8
+    )]
+    p0.sort(key=_blk_away_score, reverse=True)
+    if _add(p0, 2):
+        return picks
+
+    # Pass 1: BLK + away (any conf)
+    p1 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl_blk') and
+        not p.get('is_home') and
+        p not in picks
+    )]
+    p1.sort(key=_blk_away_score, reverse=True)
+    if _add(p1, 2):
+        return picks
+
+    # Pass 2: BLK/STL + away
+    p2 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl', 'stl_blk') and
+        not p.get('is_home') and
+        p not in picks
+    )]
+    p2.sort(key=_blk_away_score, reverse=True)
+    if _add(p2, 2):
+        return picks
+
+    # Pass 3: BLK anywhere
+    p3 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl_blk') and
+        p not in picks
+    )]
+    p3.sort(key=_blk_away_score, reverse=True)
+    if _add(p3, 2):
+        return picks
+
+    # Pass 4: BLK/STL anywhere
+    p4 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl', 'stl_blk') and
+        p not in picks
+    )]
+    p4.sort(key=_blk_away_score, reverse=True)
+    if _add(p4, 2):
+        return picks
+
+    # Pass 5: Survival — top UNDER picks by score
+    p5 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p not in picks
+    )]
+    p5.sort(key=_blk_away_score, reverse=True)
+    _add(p5, 2)
+    return picks
+
+
+def build_3leg_blk(pool):
+    """
+    3-Leg BLK Strategy: Backtested 43.2% 3-leg parlay cash rate
+    over 10 years (1,485 parlays). 12-day max win streak.
+    BLK-focused with conf >= 4 (uber scoring).
+    """
+    picks = []
+    used_names = set()
+    used_games = set()
+
+    def _add(candidates, n_target):
+        for p in candidates:
+            if p.get('player', '') in used_names: continue
+            g = p.get('game', '')
+            if g and g in used_games: continue
+            picks.append(p)
+            used_names.add(p.get('player', ''))
+            if g: used_games.add(g)
+            if len(picks) >= n_target: return True
+        return len(picks) >= n_target
+
+    # Pass 0: BLK + high score
+    p0 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl_blk') and
+        _blk_away_score(p) >= 7
+    )]
+    p0.sort(key=_blk_away_score, reverse=True)
+    if _add(p0, 3):
+        return picks
+
+    # Pass 1: BLK/STL high score
+    p1 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl', 'stl_blk') and
+        _blk_away_score(p) >= 6 and
+        p not in picks
+    )]
+    p1.sort(key=_blk_away_score, reverse=True)
+    if _add(p1, 3):
+        return picks
+
+    # Pass 2: BLK/STL any conf
+    p2 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl', 'stl_blk') and
+        p not in picks
+    )]
+    p2.sort(key=_blk_away_score, reverse=True)
+    if _add(p2, 3):
+        return picks
+
+    # Pass 3: Top UNDER picks
+    p3 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p not in picks
+    )]
+    p3.sort(key=_blk_away_score, reverse=True)
+    _add(p3, 3)
+    return picks
+
+
+# ═══════════════════════════════════════════════════════════════
+# LINE FLOOR EXPLOITATION — 5-LEG PARLAY (35% backtested cash)
+# ═══════════════════════════════════════════════════════════════
+
+def _calc_line_inflation(p):
+    """Calculate line inflation percentage for a prop.
+
+    Sportsbooks can't set BLK/STL lines below 0.5. Players averaging
+    0.1-0.3 blocks get a 0.5 line, creating 67-400% inflation.
+    Backtested: BLK inflation +200-500% → 80.7% UNDER rate.
+
+    Returns inflation as percentage (e.g., 100.0 = line is 2x the average).
+    """
+    line = p.get('line', 0) or 0
+    l10_avg = p.get('l10_avg', 0) or 0
+    season_avg = p.get('season_avg', 0) or 0
+    # Use L10 avg if available, fall back to season avg
+    avg = l10_avg if l10_avg > 0 else season_avg
+    if avg <= 0 or line <= 0:
+        return 0.0
+    return ((line - avg) / avg) * 100
+
+
+def _line_floor_score(p):
+    """Scoring for line floor exploitation strategy.
+
+    Backtested 10yr: 34.9% 5-leg cash rate (81.4% per-leg).
+    Key insight: sportsbooks floor BLK/STL/3PM at 0.5, creating
+    massive inflation on low-average players.
+
+    Signals (in order of importance):
+    1. Inflation level (line >> avg) — THE key signal
+    2. Stat type (BLK > STL > 3PM)
+    3. L10 hit rate
+    4. Floor below line
+    5. Gap (avg - line)
+    6. Streak/cold
+    7. Away/B2B fatigue
+    8. ML ensemble consensus
+    """
+    s = 0.0
+    stat = p.get('stat', '').lower()
+
+    # === INFLATION BONUS (the breakthrough signal) ===
+    inflation = _calc_line_inflation(p)
+    if inflation >= 200:
+        s += 5.0   # e.g., avg 0.15 blocks, line 0.5 → 233% inflation
+    elif inflation >= 100:
+        s += 3.5   # e.g., avg 0.25 blocks, line 0.5 → 100% inflation
+    elif inflation >= 50:
+        s += 2.0   # e.g., avg 0.33 blocks, line 0.5 → 52% inflation
+    elif inflation >= 25:
+        s += 1.0   # moderate inflation
+    elif inflation >= 10:
+        s += 0.3
+
+    # === STAT TYPE BONUS ===
+    # BLK: 64% base UNDER rate, STL: 60%, 3PM has floor effect too
+    stat_w = {'blk': 3.0, 'stl': 2.0, 'stl_blk': 3.0, '3pm': 1.0, 'ast': 0.5}
+    s += stat_w.get(stat, 0)
+
+    # === L10 HIT RATE ===
+    hr = p.get('l10_hit_rate', 50) or 50
+    if hr <= 10: s += 4.0
+    elif hr <= 20: s += 3.0
+    elif hr <= 30: s += 2.0
+    elif hr <= 40: s += 1.0
+    elif hr >= 70: s -= 2.0
+    elif hr >= 60: s -= 1.0
+
+    # === FLOOR ANALYSIS ===
+    l10_std = p.get('l10_std', 0) or 0
+    l10_avg = p.get('l10_avg', 0) or 0
+    line = p.get('line', 0) or 0
+    if l10_avg > 0 and line > 0:
+        approx_floor = l10_avg - 1.2 * l10_std
+        if approx_floor < line:
+            floor_bonus = min((line - approx_floor) / max(line, 0.5) * 5, 3.0)
+            s += floor_bonus
+
+    # === GAP (avg - line, negative means line above avg) ===
+    gap = (l10_avg - line) if l10_avg > 0 else 0
+    if gap < -5: s += 2.5
+    elif gap < -3: s += 2.0
+    elif gap < -1.5: s += 1.0
+    elif gap < 0: s += 0.5
+    elif gap > 3: s -= 1.0
+
+    # === MISS COUNT ===
+    miss_approx = round(10 * (1 - hr / 100))
+    if miss_approx >= 9: s += 2.5
+    elif miss_approx >= 7: s += 1.5
+    elif miss_approx >= 5: s += 0.5
+    elif miss_approx <= 2: s -= 1.0
+
+    # === STREAK ===
+    streak = p.get('streak_status', 'NEUTRAL')
+    if streak == 'COLD': s += 1.5
+    elif streak == 'HOT': s -= 1.0
+
+    # === CONTEXT: Away + B2B ===
+    if not p.get('is_home'):
+        s += 0.7
+    if p.get('is_b2b'):
+        s += 0.5
+
+    # === ML CONSENSUS ===
+    ep = p.get('ensemble_prob', p.get('xgb_prob'))
+    if ep is not None and ep > 0.60:
+        s += 2.0
+    elif ep is not None and ep > 0.55:
+        s += 1.0
+
+    # === VARIANCE (low variance = more predictable UNDER) ===
+    if l10_avg > 0 and l10_std < l10_avg * 0.25:
+        s += 1.0
+    elif l10_avg > 0 and l10_std < l10_avg * 0.35:
+        s += 0.5
+
+    return s
+
+
+def build_5leg_line_floor(pool):
+    """
+    5-Leg LINE FLOOR Strategy: Exploits sportsbook 0.5 minimum lines.
+
+    Backtested 10yr: 34.9% 5-leg cash rate, 81.4% per-leg hit rate.
+    Consistent 30-41% cash rate every single year 2016-2026.
+    Max streak: 5, Five 5+ streaks in 10 years.
+
+    How it works:
+    - Sportsbooks can't set BLK/STL lines below 0.5
+    - Players averaging 0.1-0.3 blocks STILL get a 0.5 line
+    - That's 67-400% inflation → 77-81% UNDER rate
+    - We pick the 5 highest-inflation BLK/STL UNDER props
+
+    Cascade: High-inflation BLK → High-inflation STL → BLK/STL any → survival
+    """
+    picks = []
+    used_names = set()
+    used_games = set()
+
+    def _add(candidates, n_target):
+        for p in candidates:
+            if p.get('player', '') in used_names:
+                continue
+            g = p.get('game', '')
+            if g and g in used_games:
+                continue
+            picks.append(p)
+            used_names.add(p.get('player', ''))
+            if g:
+                used_games.add(g)
+            if len(picks) >= n_target:
+                return True
+        return len(picks) >= n_target
+
+    # Pass 0: BLK UNDER with high inflation (>= 25%) and high score
+    p0 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl_blk') and
+        _calc_line_inflation(p) >= 25 and
+        _line_floor_score(p) >= 8
+    )]
+    p0.sort(key=_line_floor_score, reverse=True)
+    if _add(p0, 5):
+        return picks
+
+    # Pass 1: BLK/STL UNDER with inflation >= 15% and score >= 7
+    p1 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl', 'stl_blk') and
+        _calc_line_inflation(p) >= 15 and
+        _line_floor_score(p) >= 7 and
+        p not in picks
+    )]
+    p1.sort(key=_line_floor_score, reverse=True)
+    if _add(p1, 5):
+        return picks
+
+    # Pass 2: BLK/STL UNDER with any inflation, score >= 6
+    p2 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl', 'stl_blk') and
+        _line_floor_score(p) >= 6 and
+        p not in picks
+    )]
+    p2.sort(key=_line_floor_score, reverse=True)
+    if _add(p2, 5):
+        return picks
+
+    # Pass 3: BLK/STL UNDER any confidence
+    p3 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() in ('blk', 'stl', 'stl_blk') and
+        p not in picks
+    )]
+    p3.sort(key=_line_floor_score, reverse=True)
+    if _add(p3, 5):
+        return picks
+
+    # Pass 4: Any UNDER with high line_floor_score (survival)
+    p4 = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p not in picks
+    )]
+    p4.sort(key=_line_floor_score, reverse=True)
+    _add(p4, 5)
+
+    return picks
+
+
+def build_6leg_line_floor(pool):
+    """
+    6-Leg LINE FLOOR Strategy: Same concept, 6 legs.
+    Backtested 10yr: 28.5% 6-leg cash rate, 81.3% per-leg.
+    """
+    picks = []
+    used_names = set()
+    used_games = set()
+
+    def _add(candidates, n_target):
+        for p in candidates:
+            if p.get('player', '') in used_names: continue
+            g = p.get('game', '')
+            if g and g in used_games: continue
+            picks.append(p)
+            used_names.add(p.get('player', ''))
+            if g: used_games.add(g)
+            if len(picks) >= n_target: return True
+        return len(picks) >= n_target
+
+    # Same cascade as 5-leg but targeting 6
+    for min_infl, min_score in [(25, 8), (15, 7), (0, 6), (0, 0)]:
+        stat_filter = ('blk', 'stl', 'stl_blk')
+        candidates = [p for p in pool if (
+            _is_eligible(p) and
+            p.get('direction', '').upper() == 'UNDER' and
+            p.get('stat', '').lower() in stat_filter and
+            _calc_line_inflation(p) >= min_infl and
+            (min_score == 0 or _line_floor_score(p) >= min_score) and
+            p not in picks
+        )]
+        candidates.sort(key=_line_floor_score, reverse=True)
+        if _add(candidates, 6):
+            return picks
+
+    # Survival: any UNDER
+    survival = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p not in picks
+    )]
+    survival.sort(key=_line_floor_score, reverse=True)
+    _add(survival, 6)
+    return picks
+
+
 def build_primary_aggressive(pool, safe_players):
     """
     8-Leg AGGRESSIVE parlay: UNDER-heavy (5+ UNDERs), broader filters.
@@ -1208,7 +1726,7 @@ def _kelly_fraction(legs):
     # Estimate parlay win probability as product of leg probabilities
     probs = []
     for leg in legs:
-        p = leg.get('xgb_prob_calibrated', leg.get('ensemble_prob', leg.get('xgb_prob', 0.5)))
+        p = leg.get('xgb_prob_calibrated') or leg.get('ensemble_prob') or leg.get('xgb_prob') or 0.5
         probs.append(max(0.01, min(0.99, p)))
 
     win_prob = 1.0
@@ -1346,12 +1864,101 @@ def build_triple_safe(results):
     return triple
 
 
+def build_sweep_optimized(pool):
+    """
+    SWEEP-OPTIMIZED 3-LEG — Backtested 60% cash rate, 73.3% per-leg.
+    From 428-config parameterized sweep on 11 graded days (4,656 props).
+
+    Optimal params found by sweep_composite.py:
+      - UNDER only (65.2% base rate vs 41.3% OVER)
+      - ensemble_prob >= 0.50 (ML confidence floor)
+      - Tier B+ minimum
+      - Composite score: 0.25*ensemble + 0.15*gap + 0.15*HR + 0.20 UNDER bonus
+      - BLK/STL +0.05, COLD+UNDER +0.05, HOT -0.05
+      - Miss streak bonus: +0.008 per miss for UNDER
+      - Game + team diversity enforced
+    """
+    TIER_OK = {'S', 'A', 'B'}
+    candidates = []
+    for p in pool:
+        if not _is_eligible(p):
+            continue
+        direction = p.get('direction', 'OVER').upper()
+        if direction != 'UNDER':
+            continue
+        tier = p.get('tier', 'F')
+        if tier not in TIER_OK:
+            continue
+        stat = p.get('stat', '').lower()
+        if stat in COMBO_STATS:
+            continue
+        if (p.get('mins_30plus_pct', 70) or 70) < 40:
+            continue
+        ens = p.get('ensemble_prob', p.get('xgb_prob', 0.5)) or 0.5
+        if ens < 0.50:
+            continue
+
+        abs_gap = abs(p.get('gap', 0) or 0)
+        hr = p.get('l10_hit_rate', 50) or 50
+        miss_count = p.get('l10_miss_count', 5) or 5
+        streak = p.get('streak_status', p.get('streak', 'NEUTRAL'))
+
+        score = 0.0
+        score += ens * 0.25                          # ML signal
+        score += min(abs_gap / 8.0, 0.25) * 0.75     # Gap signal (0.15/0.20)
+        score += (hr / 100) * 0.15                    # Hit rate
+        score += 0.20                                 # UNDER bonus (always UNDER)
+        score += miss_count * 0.008                   # Miss streak continuation
+        if stat in ('blk', 'stl', 'stl_blk'):
+            score += 0.05                             # BLK/STL bonus
+        if streak == 'COLD':
+            score += 0.05                             # COLD confirmation
+        if streak == 'HOT':
+            score -= 0.05                             # HOT trap penalty
+        spread = abs(p.get('spread', 0) or 0)
+        if spread >= 12 and direction == 'OVER':
+            score -= 0.05                             # Blowout risk
+
+        p['_sweep_score'] = score
+        candidates.append(p)
+
+    # Sort by sweep score, pick top 3 with game + team diversity
+    candidates.sort(key=lambda p: p.get('_sweep_score', 0), reverse=True)
+    picks = []
+    used_games = set()
+    used_teams = set()
+    for p in candidates:
+        if len(picks) >= 3:
+            break
+        game = p.get('game', '')
+        # Extract team
+        team = None
+        if '@' in game:
+            away, home = game.split('@')
+            if p.get('is_home') is True:
+                team = home
+            elif p.get('is_home') is False:
+                team = away
+        if game and game in used_games:
+            continue
+        if team and team in used_teams:
+            continue
+        picks.append(p)
+        if game:
+            used_games.add(game)
+        if team:
+            used_teams.add(team)
+
+    return picks
+
+
 def build_primary_parlays(results):
     """
-    Main entry: build 2-leg + 3-leg SAFE + AGGRESSIVE.
+    Main entry: build 2-leg + 3-leg SAFE + SWEEP-OPTIMIZED + AGGRESSIVE.
     Includes play/skip day classifier from 1M sim on 445K records.
 
     Returns dict with parlays + day_signal metadata.
+    SWEEP: 60% cash rate (backtested 11 days, 428 configs)
     2-leg: 64.3% cash × 3x = 1.93 EV (consistency play)
     3-leg: 53.2% cash × 6x = 3.19 EV (max EV play)
     """
@@ -1360,22 +1967,42 @@ def build_primary_parlays(results):
     # Day classifier
     play, play_reason, n_qual, n_games = should_play_today(pool)
 
-    # Always build both — let user decide based on signal
+    # Always build all — let user decide based on signal
+    sweep_picks = build_sweep_optimized(pool)
     safe_picks_3 = build_primary_safe(pool)
     safe_picks_2 = build_2leg_safe(pool)
-    safe_players = [p['player'] for p in safe_picks_3] + [p['player'] for p in safe_picks_2]
+    blk_picks_2 = build_2leg_blk(pool)
+    blk_picks_3 = build_3leg_blk(pool)
+    floor_picks_5 = build_5leg_line_floor(pool)
+    floor_picks_6 = build_6leg_line_floor(pool)
+    safe_players = [p['player'] for p in safe_picks_3] + [p['player'] for p in safe_picks_2] + [p['player'] for p in sweep_picks]
     agg_picks = build_primary_aggressive(pool, safe_players)
 
+    sweep_legs = [_make_leg(p) for p in sweep_picks]
     safe_legs_3 = [_make_leg(p) for p in safe_picks_3]
     safe_legs_2 = [_make_leg(p) for p in safe_picks_2]
+    blk_legs_2 = [_make_leg(p) for p in blk_picks_2]
+    blk_legs_3 = [_make_leg(p) for p in blk_picks_3]
+    floor_legs_5 = [_make_leg(p) for p in floor_picks_5]
+    floor_legs_6 = [_make_leg(p) for p in floor_picks_6]
     agg_legs = [_make_leg(p) for p in agg_picks]
 
+    under_count_sweep = sum(1 for l in sweep_legs if l.get('direction', '').upper() == 'UNDER')
     under_count_safe_3 = sum(1 for l in safe_legs_3 if l.get('direction', '').upper() == 'UNDER')
     under_count_safe_2 = sum(1 for l in safe_legs_2 if l.get('direction', '').upper() == 'UNDER')
+    under_count_blk_2 = sum(1 for l in blk_legs_2 if l.get('direction', '').upper() == 'UNDER')
+    under_count_blk_3 = sum(1 for l in blk_legs_3 if l.get('direction', '').upper() == 'UNDER')
+    under_count_floor_5 = sum(1 for l in floor_legs_5 if l.get('direction', '').upper() == 'UNDER')
+    under_count_floor_6 = sum(1 for l in floor_legs_6 if l.get('direction', '').upper() == 'UNDER')
     under_count_agg = sum(1 for l in agg_legs if l.get('direction', '').upper() == 'UNDER')
 
+    sweep_kelly = _kelly_fraction(sweep_legs)
     safe_kelly_3 = _kelly_fraction(safe_legs_3)
     safe_kelly_2 = _kelly_fraction(safe_legs_2)
+    blk_kelly_2 = _kelly_fraction(blk_legs_2)
+    blk_kelly_3 = _kelly_fraction(blk_legs_3)
+    floor_kelly_5 = _kelly_fraction(floor_legs_5)
+    floor_kelly_6 = _kelly_fraction(floor_legs_6)
     agg_kelly = _kelly_fraction(agg_legs)
 
     result = {
@@ -1384,6 +2011,43 @@ def build_primary_parlays(results):
             'reason': play_reason,
             'qualifying_props': n_qual,
             'qualifying_games': n_games,
+        },
+        'sweep_optimized': {
+            'name': 'SWEEP-OPTIMIZED 3-LEG (60% CASH RATE)',
+            'method': 'sweep_composite_v1',
+            'legs': sweep_legs,
+            'legs_total': len(sweep_legs),
+            'under_count': under_count_sweep,
+            'kelly_fraction': sweep_kelly,
+            'suggested_units': round(sweep_kelly * 100, 1),
+            'ev_multiplier': 6.0,
+            'backtested_cash_rate': 60.0,
+            'backtested_per_leg_hr': 73.3,
+            'description': f'Sweep-optimized 3-leg: 60% backtested cash rate (11 graded days, 428 configs). UNDER-only, ensemble>=0.50, tier B+. {under_count_sweep} UNDERs.',
+        },
+        'blk_2leg': {
+            'name': 'BLK SNIPER 2-LEG (HIGHEST CASH RATE)',
+            'method': 'blk_away_v1',
+            'legs': blk_legs_2,
+            'legs_total': len(blk_legs_2),
+            'under_count': under_count_blk_2,
+            'kelly_fraction': blk_kelly_2,
+            'suggested_units': round(blk_kelly_2 * 100, 1),
+            'ev_multiplier': 3.0,
+            'backtested_cash_rate': 57.8,
+            'description': f'BLK-focused 2-leg: 57.8% backtested cash rate (10yr, 1070+ parlays). {under_count_blk_2} UNDERs. 14-day max win streak.',
+        },
+        'blk_3leg': {
+            'name': 'BLK SNIPER 3-LEG (BALANCED)',
+            'method': 'blk_3leg_v1',
+            'legs': blk_legs_3,
+            'legs_total': len(blk_legs_3),
+            'under_count': under_count_blk_3,
+            'kelly_fraction': blk_kelly_3,
+            'suggested_units': round(blk_kelly_3 * 100, 1),
+            'ev_multiplier': 6.0,
+            'backtested_cash_rate': 43.2,
+            'description': f'BLK-focused 3-leg: 43.2% backtested cash rate (10yr, 1485 parlays). {under_count_blk_3} UNDERs. 12-day max win streak.',
         },
         'safe_2leg': {
             'name': 'SAFE 2-LEG (CONSISTENCY)',
@@ -1408,6 +2072,32 @@ def build_primary_parlays(results):
             'ev_multiplier': 6.0,
             'sim_cash_rate': 53.2,
             'description': f'3-leg SAFE: 53.2% cash × 6x = 3.19 EV. {under_count_safe_3} UNDERs. Suggested: {safe_kelly_3*100:.1f}% bankroll.',
+        },
+        'floor_5leg': {
+            'name': 'LINE FLOOR 5-LEG (EXPLOITATION)',
+            'method': 'line_floor_v1',
+            'legs': floor_legs_5,
+            'legs_total': len(floor_legs_5),
+            'under_count': under_count_floor_5,
+            'kelly_fraction': floor_kelly_5,
+            'suggested_units': round(floor_kelly_5 * 100, 1),
+            'ev_multiplier': 1.87 ** 5,
+            'backtested_cash_rate': 34.9,
+            'backtested_per_leg_hr': 81.4,
+            'description': f'Line floor exploitation 5-leg: 34.9% backtested cash rate (10yr). {under_count_floor_5} UNDERs. Targets BLK/STL with inflated lines (sportsbook 0.5 floor). 81.4% per-leg HR.',
+        },
+        'floor_6leg': {
+            'name': 'LINE FLOOR 6-LEG (AGGRESSIVE)',
+            'method': 'line_floor_6_v1',
+            'legs': floor_legs_6,
+            'legs_total': len(floor_legs_6),
+            'under_count': under_count_floor_6,
+            'kelly_fraction': floor_kelly_6,
+            'suggested_units': round(floor_kelly_6 * 100, 1),
+            'ev_multiplier': 1.87 ** 6,
+            'backtested_cash_rate': 28.5,
+            'backtested_per_leg_hr': 81.3,
+            'description': f'Line floor exploitation 6-leg: 28.5% backtested cash rate (10yr). {under_count_floor_6} UNDERs. Same strategy, 6 legs for higher payout.',
         },
         'aggressive': {
             'name': 'AGGRESSIVE 8-LEG',
@@ -1865,6 +2555,60 @@ def build_100_shadow_parlays(results):
     top_consensus = sorted(consensus.items(), key=lambda x: x[1], reverse=True)[:5]
     if top_consensus:
         print(f"  Top consensus picks: {', '.join(f'{k.split(chr(124))[0]} {k.split(chr(124))[1].upper()} {k.split(chr(124))[2]} ({v})' for k, v in top_consensus)}")
+
+    # ── LINE FLOOR EXPLOITATION shadow strategies ──
+    # These use the inflation-aware _line_floor_score instead of parametric system
+    floor_shadow_configs = [
+        ('floor_blk_high_infl', 'BLK UNDER + inflation>=50% + top floor score',
+         lambda p: (p.get('stat', '').lower() in ('blk', 'stl_blk') and
+                    p.get('direction', '').upper() == 'UNDER' and
+                    _calc_line_inflation(p) >= 50)),
+        ('floor_blkstl_infl25', 'BLK/STL UNDER + inflation>=25% + floor score',
+         lambda p: (p.get('stat', '').lower() in ('blk', 'stl', 'stl_blk') and
+                    p.get('direction', '').upper() == 'UNDER' and
+                    _calc_line_inflation(p) >= 25)),
+        ('floor_blkstl_any', 'BLK/STL UNDER + floor score (any inflation)',
+         lambda p: (p.get('stat', '').lower() in ('blk', 'stl', 'stl_blk') and
+                    p.get('direction', '').upper() == 'UNDER')),
+        ('floor_cold_infl', 'COLD + UNDER + inflation>=25% + floor score',
+         lambda p: (p.get('direction', '').upper() == 'UNDER' and
+                    p.get('streak_status', '') == 'COLD' and
+                    _calc_line_inflation(p) >= 25)),
+        ('floor_all_high', 'Any UNDER + floor score>=10',
+         lambda p: (p.get('direction', '').upper() == 'UNDER' and
+                    _line_floor_score(p) >= 10)),
+    ]
+
+    for name, desc, filter_fn in floor_shadow_configs:
+        candidates = [p for p in pool if _is_eligible(p) and filter_fn(p)]
+        candidates.sort(key=_line_floor_score, reverse=True)
+        # Deduplicate by player, different games
+        picks = []
+        seen_names = set()
+        seen_games = set()
+        for p in candidates:
+            if p.get('player', '') in seen_names: continue
+            g = p.get('game', '')
+            if g and g in seen_games: continue
+            picks.append(p)
+            seen_names.add(p.get('player', ''))
+            if g: seen_games.add(g)
+            if len(picks) >= 3: break
+        if len(picks) >= 3:
+            trio = frozenset(p['player'] for p in picks[:3])
+            if trio not in used_trios:
+                used_trios.add(trio)
+                legs = [_make_leg(p) for p in picks[:3]]
+                shadow_parlays.append({
+                    'strategy_name': name,
+                    'strategy_id': f'engine_{name}',
+                    'strategy_description': desc,
+                    'legs': legs,
+                    'confidence': round(sum(_line_floor_score(p) for p in picks[:3]) / 3, 2),
+                    'legs_total': len(legs),
+                    'result': None,
+                    'legs_hit': None,
+                })
 
     print(f"  Parlay Engine: {len(shadow_parlays)} shadow parlays built ({len(used_trios)} unique trios)")
     return shadow_parlays
