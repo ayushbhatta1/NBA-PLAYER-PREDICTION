@@ -1435,6 +1435,21 @@ def main():
     except Exception as e:
         print(f"\n  REGRESSION: skipped ({e})")
 
+    # ═══ PHASE 4c-ADV: Advanced CSV Feature Enrichment ═══
+    try:
+        from advanced_features import engineer_advanced_features, ADVANCED_FEATURE_COLS
+        adv_count = 0
+        for r in results:
+            player_id = r.get('player_id') or r.get('personId')
+            game_date = date_str
+            adv_feats = engineer_advanced_features(r, player_id=player_id, game_date=game_date)
+            r.update(adv_feats)
+            if any(not np.isnan(v) for v in adv_feats.values() if isinstance(v, float)):
+                adv_count += 1
+        print(f"\n  Advanced CSV enrichment: {adv_count}/{len(results)} props enriched ({len(ADVANCED_FEATURE_COLS)} features)")
+    except Exception as e:
+        print(f"\n  Advanced CSV enrichment: skipped ({e})")
+
     # ═══ PHASE 4c-ML: XGBoost ML Scoring (now sees enriched v11 + v8 + embedding features) ═══
     try:
         from xgb_model import score_props
@@ -1468,6 +1483,61 @@ def main():
     except Exception as e:
         print(f"\n  MLP scoring failed: {e}")
 
+    # ═══ PHASE 4c-RF: Random Forest Scoring ═══
+    try:
+        from rf_model import score_props as rf_score_props
+        results = rf_score_props(results)
+        scored = sum(1 for r in results if 'rf_prob' in r)
+        print(f"\n  Random Forest scoring: {scored}/{len(results)} props scored")
+    except (ImportError, FileNotFoundError) as e:
+        print(f"\n  Random Forest not available: {e}")
+    except Exception as e:
+        print(f"\n  Random Forest scoring failed: {e}")
+
+    # ═══ PHASE 4c-LGBM: LightGBM Scoring ═══
+    try:
+        from lgbm_model import score_props as lgbm_score_props
+        results = lgbm_score_props(results)
+        scored = sum(1 for r in results if 'lgbm_prob' in r)
+        print(f"\n  LightGBM scoring: {scored}/{len(results)} props scored")
+    except (ImportError, FileNotFoundError) as e:
+        print(f"\n  LightGBM not available: {e}")
+    except Exception as e:
+        print(f"\n  LightGBM scoring failed: {e}")
+
+    # ═══ PHASE 4c-CB: CatBoost Scoring ═══
+    try:
+        from catboost_model import score_props as cb_score_props
+        results = cb_score_props(results)
+        scored = sum(1 for r in results if 'catboost_prob' in r)
+        print(f"\n  CatBoost scoring: {scored}/{len(results)} props scored")
+    except (ImportError, FileNotFoundError) as e:
+        print(f"\n  CatBoost not available: {e}")
+    except Exception as e:
+        print(f"\n  CatBoost scoring failed: {e}")
+
+    # ═══ PHASE 4c-KNN: K-Nearest Neighbors Scoring ═══
+    try:
+        from knn_model import score_props as knn_score_props
+        results = knn_score_props(results)
+        scored = sum(1 for r in results if 'knn_prob' in r)
+        print(f"\n  KNN scoring: {scored}/{len(results)} props scored")
+    except (ImportError, FileNotFoundError) as e:
+        print(f"\n  KNN not available: {e}")
+    except Exception as e:
+        print(f"\n  KNN scoring failed: {e}")
+
+    # ═══ PHASE 4c-LR: Logistic Regression Scoring ═══
+    try:
+        from logreg_model import score_props as lr_score_props
+        results = lr_score_props(results)
+        scored = sum(1 for r in results if 'logreg_prob' in r)
+        print(f"\n  LogReg scoring: {scored}/{len(results)} props scored")
+    except (ImportError, FileNotFoundError) as e:
+        print(f"\n  LogReg not available: {e}")
+    except Exception as e:
+        print(f"\n  LogReg scoring failed: {e}")
+
     # ═══ PHASE 4c-ARENA: Model Arena Ensemble Scoring ═══
     try:
         from model_arena import score_arena
@@ -1477,22 +1547,35 @@ def main():
     except Exception as e:
         print(f"\n  MODEL ARENA: skipped ({e})")
 
-    # ═══ PHASE 4c-ENS: Ensemble probability (arena > meta > 60/40 fallback) ═══
+    # ═══ PHASE 4c-ENS: Ensemble probability (arena > meta > 7-model mean > 60/40 fallback) ═══
     ens_count = 0
+    MODEL_KEYS = ['xgb_prob', 'mlp_prob', 'rf_prob', 'lgbm_prob', 'catboost_prob', 'knn_prob', 'logreg_prob']
     for r in results:
-        # Priority: arena_prob > meta_prob > 60/40 blend > xgb_prob alone
         arena_p = r.get('arena_prob')
-        xgb_p = r.get('xgb_prob')
-        mlp_p = r.get('mlp_prob')
-
         if arena_p is not None:
             r['ensemble_prob'] = arena_p
             ens_count += 1
-        elif xgb_p is not None and mlp_p is not None:
-            r['ensemble_prob'] = round(0.6 * xgb_p + 0.4 * mlp_p, 4)
+            continue
+
+        # Collect all available model probabilities
+        available = {k: r[k] for k in MODEL_KEYS if r.get(k) is not None}
+        if len(available) >= 3:
+            # 7-model weighted mean (tree models get slightly more weight)
+            weights = {'xgb_prob': 0.25, 'lgbm_prob': 0.20, 'catboost_prob': 0.15,
+                       'rf_prob': 0.15, 'mlp_prob': 0.10, 'knn_prob': 0.08, 'logreg_prob': 0.07}
+            w_sum = sum(weights.get(k, 0.1) for k in available)
+            r['ensemble_prob'] = round(sum(available[k] * weights.get(k, 0.1) for k in available) / w_sum, 4)
+            r['models_used'] = len(available)
+            r['model_std'] = round(float(np.std(list(available.values()))), 4)
+            r['models_above_50'] = sum(1 for v in available.values() if v > 0.5)
             ens_count += 1
-        elif xgb_p is not None:
-            r['ensemble_prob'] = xgb_p
+        elif 'xgb_prob' in available and 'mlp_prob' in available:
+            r['ensemble_prob'] = round(0.6 * available['xgb_prob'] + 0.4 * available['mlp_prob'], 4)
+            r['models_used'] = 2
+            ens_count += 1
+        elif 'xgb_prob' in available:
+            r['ensemble_prob'] = available['xgb_prob']
+            r['models_used'] = 1
             ens_count += 1
 
     # Try meta-learner override (only for non-arena props)

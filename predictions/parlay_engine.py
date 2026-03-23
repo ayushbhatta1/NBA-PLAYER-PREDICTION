@@ -16,6 +16,7 @@ Zero nulls: Every strategy guaranteed to produce output via cascade fallback.
 
 import random
 from collections import defaultdict
+import numpy as np
 
 COMBO_STATS = {'pra', 'pr', 'pa', 'ra', 'stl_blk'}
 BASE_STATS = {'pts', 'reb', 'ast', '3pm', 'stl', 'blk'}
@@ -210,8 +211,27 @@ def _primary_score(p):
     elif game_total < -5 and direction == 'UNDER':
         game_total_adj = 0.02
 
+    # ── GROUP 8: Multi-Model Consensus ──
+    model_keys = ['xgb_prob', 'mlp_prob', 'rf_prob', 'lgbm_prob', 'catboost_prob', 'knn_prob', 'logreg_prob']
+    probs = [p.get(k) for k in model_keys if p.get(k) is not None]
+    consensus_adj = 0.0
+    if len(probs) >= 3:
+        above = sum(1 for v in probs if v > 0.5)
+        std = float(np.std(probs)) if len(probs) > 1 else 0
+        # Strong consensus bonus (all agree)
+        if above == len(probs):
+            consensus_adj = 0.08
+        elif above >= len(probs) - 1:
+            consensus_adj = 0.04
+        # Low disagreement bonus
+        if std < 0.05:
+            consensus_adj += 0.03
+        # High disagreement penalty
+        elif std > 0.15:
+            consensus_adj -= 0.05
+
     base = xgb + dir_bonus + streak_adj + gap_bonus + stat_bonus + combo_pen + hr_bonus + mins_bonus + decline_pen + season_pen + blowout_pen + miss_pen + gtd_pen
-    new_factors = opp_matchup_adj + team_matchup_adj + opp_off_adj + usage_adj + usage_trend_adj + without_adj + usage_boost_adj + eff_adj + eff_trend_adj + def_adj + foul_adj + travel_adj + game_total_adj
+    new_factors = opp_matchup_adj + team_matchup_adj + opp_off_adj + usage_adj + usage_trend_adj + without_adj + usage_boost_adj + eff_adj + eff_trend_adj + def_adj + foul_adj + travel_adj + game_total_adj + consensus_adj
     return base + new_factors
 
 
@@ -274,7 +294,14 @@ def _make_leg(p):
         'streak': p.get('streak_status', 'NEUTRAL'),
         'xgb_prob': p.get('xgb_prob'),
         'mlp_prob': p.get('mlp_prob'),
+        'rf_prob': p.get('rf_prob'),
+        'lgbm_prob': p.get('lgbm_prob'),
+        'catboost_prob': p.get('catboost_prob'),
+        'knn_prob': p.get('knn_prob'),
+        'logreg_prob': p.get('logreg_prob'),
         'ensemble_prob': p.get('ensemble_prob'),
+        'models_used': p.get('models_used', 0),
+        'model_std': p.get('model_std', 0),
         'nexus_score': p.get('nexus_score', 0),
         'l10_miss_count': p.get('l10_miss_count', 0),
         'primary_score': round(_primary_score(p), 4),

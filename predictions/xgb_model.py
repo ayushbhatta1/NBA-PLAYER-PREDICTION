@@ -132,6 +132,15 @@ FEATURE_COLS = [
     'production_rate',       # stat_per_minute = l10_avg / avg_minutes
     'l20_avg',               # 20-game rolling average
     'l20_hit_rate',          # 20-game hit rate
+    # v11 features (advanced CSV data — PlayerStatisticsAdvanced + Usage)
+    'adv_usg_pct_l10', 'adv_net_rating_l10', 'adv_off_rating_l10', 'adv_def_rating_l10',
+    'adv_pace_l10', 'adv_efg_pct_l10', 'adv_ts_pct_l10', 'adv_pie_l10',
+    'adv_usg_pct_std', 'adv_net_rating_std',
+    'adv_pct_blk_l10', 'adv_pct_stl_l10', 'adv_pct_reb_l10', 'adv_pct_ast_l10',
+    'adv_opp_cluster',
+    'adv_usg_x_direction', 'adv_pace_x_stat', 'adv_efg_trend',
+    'te_player_under_rate', 'te_team_under_rate',
+    'dow_sin', 'dow_cos', 'month_sin', 'month_cos',
     # v9 features (neural network learned embeddings — 32 dims)
     'nn_emb_0', 'nn_emb_1', 'nn_emb_2', 'nn_emb_3',
     'nn_emb_4', 'nn_emb_5', 'nn_emb_6', 'nn_emb_7',
@@ -977,6 +986,32 @@ def engineer_features(records):
         l20_avg_val = _safe_float(r.get('l20_avg'))
         l20_hr_val = _safe_float(r.get('l20_hit_rate'))
 
+        # v11 features (advanced CSV data — read directly from record if pre-enriched)
+        adv_usg_pct_l10 = _safe_float(r.get('adv_usg_pct_l10'))
+        adv_net_rating_l10 = _safe_float(r.get('adv_net_rating_l10'))
+        adv_off_rating_l10 = _safe_float(r.get('adv_off_rating_l10'))
+        adv_def_rating_l10 = _safe_float(r.get('adv_def_rating_l10'))
+        adv_pace_l10 = _safe_float(r.get('adv_pace_l10'))
+        adv_efg_pct_l10 = _safe_float(r.get('adv_efg_pct_l10'))
+        adv_ts_pct_l10 = _safe_float(r.get('adv_ts_pct_l10'))
+        adv_pie_l10 = _safe_float(r.get('adv_pie_l10'))
+        adv_usg_pct_std = _safe_float(r.get('adv_usg_pct_std'))
+        adv_net_rating_std = _safe_float(r.get('adv_net_rating_std'))
+        adv_pct_blk_l10 = _safe_float(r.get('adv_pct_blk_l10'))
+        adv_pct_stl_l10 = _safe_float(r.get('adv_pct_stl_l10'))
+        adv_pct_reb_l10 = _safe_float(r.get('adv_pct_reb_l10'))
+        adv_pct_ast_l10 = _safe_float(r.get('adv_pct_ast_l10'))
+        adv_opp_cluster = _safe_float(r.get('adv_opp_cluster'))
+        adv_usg_x_direction = _safe_float(r.get('adv_usg_x_direction'))
+        adv_pace_x_stat = _safe_float(r.get('adv_pace_x_stat'))
+        adv_efg_trend = _safe_float(r.get('adv_efg_trend'))
+        te_player_under_rate = _safe_float(r.get('te_player_under_rate'))
+        te_team_under_rate = _safe_float(r.get('te_team_under_rate'))
+        dow_sin = _safe_float(r.get('dow_sin'))
+        dow_cos = _safe_float(r.get('dow_cos'))
+        month_sin = _safe_float(r.get('month_sin'))
+        month_cos = _safe_float(r.get('month_cos'))
+
         # v9 features (neural network embeddings — 32 dims)
         nn_embs = [_safe_float(r.get(f'nn_emb_{i}')) for i in range(32)]
 
@@ -1027,6 +1062,15 @@ def engineer_features(records):
             # v10 features (EWMA, median, production rate, L20)
             l10_ewma_val, l10_median_val, mean_median_gap_val, l10_cv_val,
             production_rate_val, l20_avg_val, l20_hr_val,
+            # v11 features (advanced CSV data)
+            adv_usg_pct_l10, adv_net_rating_l10, adv_off_rating_l10, adv_def_rating_l10,
+            adv_pace_l10, adv_efg_pct_l10, adv_ts_pct_l10, adv_pie_l10,
+            adv_usg_pct_std, adv_net_rating_std,
+            adv_pct_blk_l10, adv_pct_stl_l10, adv_pct_reb_l10, adv_pct_ast_l10,
+            adv_opp_cluster,
+            adv_usg_x_direction, adv_pace_x_stat, adv_efg_trend,
+            te_player_under_rate, te_team_under_rate,
+            dow_sin, dow_cos, month_sin, month_cos,
             # v9 features (nn embeddings)
             *nn_embs,
         ]
