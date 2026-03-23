@@ -20,9 +20,12 @@ Uses the backtest_harness data loader. Outputs ranked results.
 import json
 import copy
 import sys
+import random
+import math
 from pathlib import Path
 from collections import defaultdict
 from itertools import product as cartesian
+from statistics import stdev, median
 
 sys.path.insert(0, str(Path(__file__).parent))
 from backtest_harness import (
@@ -110,6 +113,105 @@ def build_composite(props, params):
 
         if spread >= 12 and direction == "OVER":
             score -= params.get("spread_penalty", 0.05)
+
+        # ── Regression margin signal ──
+        reg_margin = p.get("reg_margin")
+        reg_margin_weight = params.get("reg_margin_weight", 0.0)
+        reg_margin_min = params.get("reg_margin_min", 0.0)
+        if reg_margin is not None and reg_margin_weight > 0:
+            abs_rm = abs(reg_margin)
+            # Direction confirmation: positive margin = OVER expected, negative = UNDER
+            reg_confirms = (reg_margin < 0 and direction == "UNDER") or (reg_margin > 0 and direction == "OVER")
+            if reg_confirms:
+                score += min(abs_rm / 5.0, 0.25) * reg_margin_weight
+            else:
+                score -= min(abs_rm / 5.0, 0.15) * reg_margin_weight * 0.5
+        if reg_margin_min > 0 and reg_margin is not None:
+            abs_rm = abs(reg_margin)
+            if abs_rm < reg_margin_min:
+                continue  # hard filter
+
+        # ── Consistency (low std = predictable) ──
+        max_std = params.get("max_std", 999)
+        consistency_weight = params.get("consistency_weight", 0.0)
+        l10_values = p.get("l10_values") or []
+        if len(l10_values) >= 3:
+            try:
+                l10_std = stdev(l10_values)
+            except Exception:
+                l10_std = 99
+        else:
+            l10_std = 99
+        if l10_std > max_std:
+            continue  # hard filter
+        if consistency_weight > 0 and l10_std < 99:
+            # Lower std = higher bonus (normalized: std of 0 -> full bonus, std of 10 -> 0)
+            score += max(0, (1.0 - l10_std / 10.0)) * consistency_weight
+
+        # ── Fatigue signals ──
+        fatigue_weight = params.get("fatigue_weight", 0.0)
+        if fatigue_weight > 0:
+            games_in_7 = p.get("games_in_7", 0) or 0
+            travel_miles = p.get("travel_miles_7day", 0) or 0
+            rest_days = p.get("rest_days", 2) or 2
+            # Fatigue penalty: more games + more travel + less rest = bad for OVER
+            fatigue_score = 0.0
+            if games_in_7 >= 4:
+                fatigue_score -= 0.04
+            elif games_in_7 >= 3:
+                fatigue_score -= 0.02
+            if travel_miles > 3000:
+                fatigue_score -= 0.04
+            elif travel_miles > 1500:
+                fatigue_score -= 0.02
+            if rest_days == 0:
+                fatigue_score -= 0.03
+            elif rest_days >= 2:
+                fatigue_score += 0.02
+            # Fatigue hurts OVER, helps UNDER
+            if direction == "OVER":
+                score += fatigue_score * fatigue_weight
+            else:
+                score -= fatigue_score * fatigue_weight  # inverted: fatigue helps UNDER
+
+        # ── Multi-model consensus bonus ──
+        consensus_bonus = params.get("consensus_bonus", 0.0)
+        consensus_min = params.get("consensus_min_models", 0)
+        if consensus_bonus > 0 or consensus_min > 0:
+            models_agree = 0
+            ens_thresh = params.get("consensus_ens_thresh", 0.55)
+            sim_thresh = params.get("consensus_sim_thresh", 0.55)
+            reg_thresh = params.get("consensus_reg_thresh", 1.5)
+
+            if ens >= ens_thresh:
+                models_agree += 1
+            sim_p = p.get("sim_prob")
+            if sim_p is not None and sim_p >= sim_thresh:
+                models_agree += 1
+            if reg_margin is not None:
+                reg_confirms_dir = (reg_margin < 0 and direction == "UNDER") or (reg_margin > 0 and direction == "OVER")
+                if reg_confirms_dir and abs(reg_margin) >= reg_thresh:
+                    models_agree += 1
+            # Calibrated prob as 4th signal
+            cal = p.get("xgb_prob_calibrated")
+            if cal is not None and cal >= ens_thresh:
+                models_agree += 1
+
+            if consensus_min > 0 and models_agree < consensus_min:
+                continue  # hard filter
+            score += models_agree * consensus_bonus
+
+        # ── Opponent matchup delta ──
+        opp_weight = params.get("opp_matchup_weight", 0.0)
+        if opp_weight > 0:
+            opp_delta = p.get("opp_matchup_delta", 0) or 0
+            opp_allowed = p.get("opp_stat_allowed_vs_league_avg", 0) or 0
+            # Positive opp_delta = opponent gives up more of this stat = good for OVER
+            if direction == "OVER":
+                score += min(opp_delta * 0.01, 0.10) * opp_weight
+                score += min(opp_allowed * 0.5, 0.10) * opp_weight
+            else:
+                score -= min(opp_delta * 0.01, 0.10) * opp_weight * 0.5
 
         p["_score"] = score
         pool.append(p)
@@ -363,11 +465,376 @@ def run_sweep(dates_data, configs, sweep_name):
         if "miss_bonus" in p and p["miss_bonus"] != 0.008: key_parts.append(f"miss={p['miss_bonus']:.3f}")
         if "n_legs" in p and p["n_legs"] != 3: key_parts.append(f"legs={p['n_legs']}")
         if p.get("min_tier", "C") != "C": key_parts.append(f"tier>={p['min_tier']}")
+        # New sweep params display
+        if p.get("reg_margin_weight", 0) > 0: key_parts.append(f"regW={p['reg_margin_weight']:.2f}")
+        if p.get("reg_margin_min", 0) > 0: key_parts.append(f"regMin={p['reg_margin_min']:.1f}")
+        if p.get("max_std", 999) < 999: key_parts.append(f"maxStd={p['max_std']:.1f}")
+        if p.get("consistency_weight", 0) > 0: key_parts.append(f"consW={p['consistency_weight']:.2f}")
+        if p.get("fatigue_weight", 0) > 0: key_parts.append(f"fatW={p['fatigue_weight']:.2f}")
+        if p.get("consensus_bonus", 0) > 0: key_parts.append(f"consBon={p['consensus_bonus']:.2f}")
+        if p.get("consensus_min_models", 0) > 0: key_parts.append(f"consMin={p['consensus_min_models']}")
+        if p.get("opp_matchup_weight", 0) > 0: key_parts.append(f"oppW={p['opp_matchup_weight']:.2f}")
 
         param_str = " | ".join(key_parts) if key_parts else "(default)"
         print(f"  {i+1:>3} {r['cash_rate']:>6.1f}% {r['leg_rate']:>6.1f}% {r['total_parlays']:>6} {r['cashed']:>7} {r['empty']:>6} | {param_str}")
 
     return viable[:15]
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  SWEEP 5-10: ADVANCED SIGNAL SWEEPS
+# ═══════════════════════════════════════════════════════════════════════
+
+# Default base params shared by new sweeps
+_BASE_PARAMS = {
+    "ml_weight": 0.25,
+    "gap_weight": 0.15,
+    "hr_weight": 0.15,
+    "under_bonus": 0.20,
+    "miss_bonus": 0.008,
+    "min_ens": 0.0,
+    "min_tier": "C",
+    "under_only": False,
+    "block_combos": True,
+    "min_mins": 40,
+    "min_hr": 0,
+    "blk_stl_bonus": 0.05,
+    "cold_bonus": 0.05,
+    "hot_penalty": 0.05,
+    "spread_penalty": 0.05,
+    "n_legs": 3,
+}
+
+
+def _make_config(**overrides):
+    """Create config from base with overrides."""
+    cfg = dict(_BASE_PARAMS)
+    cfg.update(overrides)
+    return cfg
+
+
+def sweep_regression_margin(dates_data):
+    """Sweep reg_margin as hard filter vs soft bonus at various weights."""
+    print("\n" + "=" * 80)
+    print("  SWEEP 5: Regression Margin Signal")
+    print("=" * 80)
+
+    configs = []
+
+    # A) reg_margin as soft bonus weight (no hard filter)
+    for reg_w in [0.05, 0.10, 0.15, 0.20, 0.30, 0.40, 0.50]:
+        for ml_w in [0.15, 0.25, 0.35]:
+            for under_b in [0.15, 0.20, 0.30]:
+                configs.append(_make_config(
+                    reg_margin_weight=reg_w,
+                    reg_margin_min=0.0,
+                    ml_weight=ml_w,
+                    under_bonus=under_b,
+                ))
+
+    # B) reg_margin as hard filter (|margin| >= threshold) + soft bonus
+    for reg_min in [1.5, 2.0, 2.5, 3.0]:
+        for reg_w in [0.10, 0.20, 0.30]:
+            for ml_w in [0.15, 0.25]:
+                configs.append(_make_config(
+                    reg_margin_weight=reg_w,
+                    reg_margin_min=reg_min,
+                    ml_weight=ml_w,
+                ))
+
+    # C) reg_margin only (high weight, low ML dependence)
+    for reg_w in [0.40, 0.50, 0.60]:
+        for reg_min in [0.0, 1.0, 2.0]:
+            configs.append(_make_config(
+                reg_margin_weight=reg_w,
+                reg_margin_min=reg_min,
+                ml_weight=0.10,
+                gap_weight=0.05,
+            ))
+
+    return run_sweep(dates_data, configs, "Regression Margin")
+
+
+def sweep_multi_model_consensus(dates_data):
+    """Sweep requiring N models to agree with different thresholds."""
+    print("\n" + "=" * 80)
+    print("  SWEEP 6: Multi-Model Consensus")
+    print("=" * 80)
+
+    configs = []
+
+    # Sweep consensus count + thresholds
+    for min_models in [0, 2, 3, 4]:
+        for ens_thresh in [0.50, 0.55, 0.60]:
+            for sim_thresh in [0.50, 0.55, 0.60]:
+                for reg_thresh in [1.0, 1.5, 2.0, 3.0]:
+                    for cons_bonus in [0.0, 0.03, 0.06, 0.10]:
+                        configs.append(_make_config(
+                            consensus_min_models=min_models,
+                            consensus_bonus=cons_bonus,
+                            consensus_ens_thresh=ens_thresh,
+                            consensus_sim_thresh=sim_thresh,
+                            consensus_reg_thresh=reg_thresh,
+                        ))
+
+    # Consensus + UNDER-only
+    for min_models in [2, 3]:
+        for ens_thresh in [0.52, 0.55, 0.58]:
+            for cons_bonus in [0.05, 0.10]:
+                configs.append(_make_config(
+                    consensus_min_models=min_models,
+                    consensus_bonus=cons_bonus,
+                    consensus_ens_thresh=ens_thresh,
+                    consensus_sim_thresh=0.55,
+                    consensus_reg_thresh=1.5,
+                    under_only=True,
+                ))
+
+    return run_sweep(dates_data, configs, "Multi-Model Consensus")
+
+
+def sweep_consistency(dates_data):
+    """Sweep l10_std (from l10_values) as predictability signal."""
+    print("\n" + "=" * 80)
+    print("  SWEEP 7: Consistency (Low Variance)")
+    print("=" * 80)
+
+    configs = []
+
+    # A) max_std as hard filter
+    for max_std in [2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0, 999]:
+        for cons_w in [0.0, 0.05, 0.10, 0.15, 0.20]:
+            for under_b in [0.15, 0.20, 0.30]:
+                configs.append(_make_config(
+                    max_std=max_std,
+                    consistency_weight=cons_w,
+                    under_bonus=under_b,
+                ))
+
+    # B) consistency weight with various ML weights
+    for cons_w in [0.05, 0.10, 0.15, 0.20, 0.25, 0.30]:
+        for ml_w in [0.10, 0.20, 0.30]:
+            for max_std in [4.0, 6.0, 999]:
+                configs.append(_make_config(
+                    consistency_weight=cons_w,
+                    ml_weight=ml_w,
+                    max_std=max_std,
+                ))
+
+    # C) consistency + UNDER only (low variance + UNDER = safest bets)
+    for max_std in [3.0, 4.0, 5.0, 6.0]:
+        for cons_w in [0.10, 0.20]:
+            configs.append(_make_config(
+                max_std=max_std,
+                consistency_weight=cons_w,
+                under_only=True,
+                under_bonus=0.25,
+            ))
+
+    return run_sweep(dates_data, configs, "Consistency (Low Variance)")
+
+
+def sweep_fatigue(dates_data):
+    """Sweep travel/rest/schedule fatigue signals."""
+    print("\n" + "=" * 80)
+    print("  SWEEP 8: Fatigue & Travel Signals")
+    print("=" * 80)
+
+    configs = []
+
+    # A) fatigue_weight sweep with different base configs
+    for fat_w in [0.0, 0.25, 0.50, 0.75, 1.0, 1.5, 2.0]:
+        for ml_w in [0.15, 0.25, 0.35]:
+            for under_b in [0.15, 0.20, 0.30]:
+                for under_only in [True, False]:
+                    configs.append(_make_config(
+                        fatigue_weight=fat_w,
+                        ml_weight=ml_w,
+                        under_bonus=under_b,
+                        under_only=under_only,
+                    ))
+
+    # B) fatigue + opponent matchup (contextual signals together)
+    for fat_w in [0.50, 1.0, 1.5]:
+        for opp_w in [0.25, 0.50, 1.0]:
+            for ml_w in [0.15, 0.25]:
+                configs.append(_make_config(
+                    fatigue_weight=fat_w,
+                    opp_matchup_weight=opp_w,
+                    ml_weight=ml_w,
+                ))
+
+    return run_sweep(dates_data, configs, "Fatigue & Travel")
+
+
+def sweep_mega_composite(dates_data):
+    """
+    Mega sweep across ALL dimensions simultaneously.
+    Uses Latin Hypercube Sampling to cover the space with ~2000 configs
+    instead of full cartesian (which would be millions).
+    """
+    print("\n" + "=" * 80)
+    print("  SWEEP 9: MEGA COMPOSITE (Latin Hypercube ~2000 configs)")
+    print("=" * 80)
+
+    random.seed(42)  # reproducible
+
+    # Define parameter ranges: (name, [values]) or (name, low, high, type)
+    param_ranges = {
+        "ml_weight":            (0.05, 0.50),
+        "gap_weight":           (0.0,  0.30),
+        "hr_weight":            (0.0,  0.25),
+        "under_bonus":          (0.0,  0.40),
+        "miss_bonus":           (0.0,  0.020),
+        "min_ens":              (0.0,  0.65),
+        "min_hr":               (0,    70),
+        "blk_stl_bonus":        (0.0,  0.20),
+        "cold_bonus":           (0.0,  0.20),
+        "hot_penalty":          (0.0,  0.20),
+        "spread_penalty":       (0.0,  0.15),
+        "reg_margin_weight":    (0.0,  0.50),
+        "reg_margin_min":       (0.0,  3.0),
+        "max_std":              (2.0,  999.0),
+        "consistency_weight":   (0.0,  0.30),
+        "fatigue_weight":       (0.0,  2.0),
+        "consensus_bonus":      (0.0,  0.12),
+        "consensus_min_models": (0,    4),
+        "opp_matchup_weight":   (0.0,  1.0),
+    }
+
+    # Categorical params
+    cat_params = {
+        "min_tier":    ["S", "A", "B", "C"],
+        "under_only":  [True, False],
+        "block_combos": [True, False],
+    }
+
+    n_samples = 2000
+    param_names = list(param_ranges.keys())
+    n_dims = len(param_names)
+
+    # Latin Hypercube: divide each dimension into n_samples equal bins
+    configs = []
+    for i in range(n_samples):
+        cfg = dict(_BASE_PARAMS)
+
+        # Continuous/int params via LHS
+        for j, name in enumerate(param_names):
+            lo, hi = param_ranges[name]
+            # LHS: sample from bin i with random offset
+            bin_start = i / n_samples
+            bin_end = (i + 1) / n_samples
+            u = random.uniform(bin_start, bin_end)
+            val = lo + u * (hi - lo)
+            # Round integers
+            if name in ("min_hr", "consensus_min_models"):
+                val = int(round(val))
+            elif name == "max_std" and val > 100:
+                val = 999  # effectively no filter
+            else:
+                val = round(val, 4)
+            cfg[name] = val
+
+        # Categorical params: random choice
+        for name, options in cat_params.items():
+            cfg[name] = random.choice(options)
+
+        # Fixed
+        cfg["n_legs"] = 3
+        cfg["min_mins"] = random.choice([30, 40, 50])
+        cfg["consensus_ens_thresh"] = random.choice([0.50, 0.55, 0.60])
+        cfg["consensus_sim_thresh"] = random.choice([0.50, 0.55, 0.60])
+        cfg["consensus_reg_thresh"] = random.choice([1.0, 1.5, 2.0])
+
+        configs.append(cfg)
+
+    # Shuffle to break LHS correlation across dimensions
+    for name in param_names:
+        vals = [c[name] for c in configs]
+        random.shuffle(vals)
+        for idx, c in enumerate(configs):
+            c[name] = vals[idx]
+
+    return run_sweep(dates_data, configs, "MEGA COMPOSITE (LHS)")
+
+
+def sweep_all_fast(dates_data):
+    """
+    Focused sweep of ~500 configs across the most impactful dimensions.
+    Targets: reg_margin weight, consistency threshold, model consensus,
+    under bonus, ML weight. Uses best ranges from prior sweeps.
+    """
+    print("\n" + "=" * 80)
+    print("  SWEEP 10: ALL-FAST (~500 focused configs)")
+    print("=" * 80)
+
+    configs = []
+
+    # Focused grid on most impactful params
+    ml_weights = [0.15, 0.25, 0.35]
+    under_bonuses = [0.15, 0.25, 0.35]
+    reg_weights = [0.0, 0.10, 0.20, 0.35]
+    consistency_weights = [0.0, 0.10, 0.20]
+    max_stds = [4.0, 6.0, 999]
+    consensus_counts = [0, 2, 3]
+    consensus_bonuses = [0.0, 0.05]
+
+    for ml_w in ml_weights:
+        for ub in under_bonuses:
+            for reg_w in reg_weights:
+                for cons_w in consistency_weights:
+                    for max_std in max_stds:
+                        for cons_min in consensus_counts:
+                            for cons_bon in consensus_bonuses:
+                                # Skip redundant combos where consensus params
+                                # don't matter
+                                if cons_min == 0 and cons_bon > 0:
+                                    continue
+                                configs.append(_make_config(
+                                    ml_weight=ml_w,
+                                    under_bonus=ub,
+                                    reg_margin_weight=reg_w,
+                                    consistency_weight=cons_w,
+                                    max_std=max_std,
+                                    consensus_min_models=cons_min,
+                                    consensus_bonus=cons_bon,
+                                    consensus_ens_thresh=0.55,
+                                    consensus_sim_thresh=0.55,
+                                    consensus_reg_thresh=1.5,
+                                ))
+
+    # Add UNDER-only variants of top combos
+    under_only_configs = []
+    for ml_w in [0.15, 0.25]:
+        for ub in [0.20, 0.30]:
+            for reg_w in [0.0, 0.15, 0.30]:
+                for cons_w in [0.0, 0.15]:
+                    for max_std in [5.0, 999]:
+                        under_only_configs.append(_make_config(
+                            ml_weight=ml_w,
+                            under_bonus=ub,
+                            under_only=True,
+                            reg_margin_weight=reg_w,
+                            consistency_weight=cons_w,
+                            max_std=max_std,
+                        ))
+
+    configs.extend(under_only_configs)
+
+    # Add fatigue combos with best other params
+    for fat_w in [0.5, 1.0, 1.5]:
+        for ml_w in [0.20, 0.30]:
+            for ub in [0.20, 0.30]:
+                for reg_w in [0.0, 0.20]:
+                    configs.append(_make_config(
+                        fatigue_weight=fat_w,
+                        ml_weight=ml_w,
+                        under_bonus=ub,
+                        reg_margin_weight=reg_w,
+                    ))
+
+    print(f"  Generated {len(configs)} focused configs")
+    return run_sweep(dates_data, configs, "ALL-FAST (Focused)")
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -479,7 +946,31 @@ def main():
     tops = sweep_leg_count(dates_data)
     all_tops.append(tops)
 
-    # Find optimal
+    # Sweep 5: Regression margin
+    tops = sweep_regression_margin(dates_data)
+    all_tops.append(tops)
+
+    # Sweep 6: Multi-model consensus
+    tops = sweep_multi_model_consensus(dates_data)
+    all_tops.append(tops)
+
+    # Sweep 7: Consistency (low variance)
+    tops = sweep_consistency(dates_data)
+    all_tops.append(tops)
+
+    # Sweep 8: Fatigue & travel
+    tops = sweep_fatigue(dates_data)
+    all_tops.append(tops)
+
+    # Sweep 9: Mega composite (LHS ~2000 configs)
+    tops = sweep_mega_composite(dates_data)
+    all_tops.append(tops)
+
+    # Sweep 10: All-fast focused (~500 configs)
+    tops = sweep_all_fast(dates_data)
+    all_tops.append(tops)
+
+    # Find optimal across ALL sweeps
     best_params = print_best_config(all_tops)
 
 
