@@ -1,29 +1,24 @@
 #!/usr/bin/env python3
 """
-Meta-Learner — Stacked ensemble that learns optimal blending of sub-model predictions.
+Meta-Learner v2 — 7-Model Stacking Ensemble with Isotonic Calibration.
 
-Currently: ensemble_prob = 0.6 * xgb_prob + 0.4 * mlp_prob (hardcoded).
-Meta-learner: LEARNS the optimal combination from data, including nonlinear interactions.
+Upgrades from v1 (3-input LogisticRegression) to a 7-model stacking meta-learner
+that blends probabilities from XGBoost, MLP, RandomForest, LightGBM, CatBoost,
+KNN, and LogisticRegression base models, plus sim_prob and reg_margin.
 
-Inputs (12 meta-features):
-    1. xgb_prob          — XGBoost hit probability
-    2. mlp_prob          — MLP neural net hit probability
-    3. sim_prob          — Monte Carlo simulation probability
-    4. xgb_prob * mlp_prob         — agreement interaction
-    5. abs(xgb_prob - mlp_prob)    — disagreement signal
-    6. max(xgb_prob, mlp_prob)     — optimistic signal
-    7. min(xgb_prob, mlp_prob)     — pessimistic signal
-    8. (xgb + mlp + sim) / 3      — simple average
-    9. tier_ordinal       — tier context (S=5..F=0)
-   10. direction_binary   — OVER=1, UNDER=0
-   11. is_combo           — combo stat flag
-   12. abs_gap            — gap magnitude
+Inputs (30 meta-features):
+    Base model probabilities (7): xgb_prob, mlp_prob, rf_prob, lgbm_prob, catboost_prob, knn_prob, logreg_prob
+    Auxiliary signals (2): sim_prob, reg_margin
+    Pairwise agreement (3): xgb_mlp_agree, tree_agree, all_agree
+    Ensemble statistics (6): model_mean, model_std, model_min, model_max, model_median, models_above_50
+    Context (7): tier_ordinal, direction_binary, is_combo, abs_gap, stat_ordinal, l10_hit_rate, l10_std
+    Interactions (3): consensus_x_gap, consensus_x_tier, std_x_direction
 
-Architecture: LogisticRegression + isotonic calibration.
-Intentionally simple to avoid overfitting on small graded data (~3-4K records).
+Architecture: LogisticRegression + isotonic calibration on top of calibrated base model outputs.
+Per-model isotonic calibration curves stored and applied before meta-learning.
+Backward compatible — works with only xgb_prob + mlp_prob available.
 
 Training data: graded daily predictions from predictions/YYYY-MM-DD/v4_graded_*_lines.json.
-These are genuine out-of-sample predictions (model was trained before that day's games).
 
 Usage:
     python3 predictions/meta_learner.py train      # Train from graded daily predictions
@@ -48,6 +43,7 @@ try:
     from sklearn.linear_model import LogisticRegression
     from sklearn.calibration import CalibratedClassifierCV
     from sklearn.preprocessing import StandardScaler
+    from sklearn.isotonic import IsotonicRegression
 except ImportError:
     print("ERROR: scikit-learn not installed. Run: pip3 install scikit-learn")
     sys.exit(1)
@@ -59,20 +55,47 @@ META_PATH = os.path.join(PREDICTIONS_DIR, 'cache', 'meta_learner_meta.json')
 TIER_ORDINAL = {'S': 5, 'A': 4, 'B': 3, 'C': 2, 'D': 1, 'F': 0}
 COMBO_STATS = {'pra', 'pr', 'pa', 'ra'}
 
+# Stat type ordinal encoding for stat_ordinal feature
+STAT_ORDINAL = {
+    'pts': 6, 'reb': 5, 'ast': 4, 'blk': 3, 'stl': 2, '3pm': 1,
+    'pra': 7, 'pr': 7, 'pa': 7, 'ra': 7,
+    'stl_blk': 3, 'to': 1, 'pf': 1,
+}
+
+# All 7 base model probability field names
+BASE_MODEL_NAMES = ['xgb_prob', 'mlp_prob', 'rf_prob', 'lgbm_prob', 'catboost_prob', 'knn_prob', 'logreg_prob']
+
 META_FEATURE_NAMES = [
-    'xgb_prob',
-    'mlp_prob',
-    'sim_prob',
-    'agreement',          # xgb * mlp
-    'disagreement',       # |xgb - mlp|
-    'optimistic',         # max(xgb, mlp)
-    'pessimistic',        # min(xgb, mlp)
-    'simple_avg',         # (xgb + mlp + sim) / 3
+    # Base model probabilities (7)
+    'xgb_prob', 'mlp_prob', 'rf_prob', 'lgbm_prob', 'catboost_prob', 'knn_prob', 'logreg_prob',
+    # Auxiliary signals (2)
+    'sim_prob', 'reg_margin',
+    # Pairwise agreement (3)
+    'xgb_mlp_agree',        # 1 if both > 0.5 or both < 0.5
+    'tree_agree',            # 1 if xgb, rf, lgbm, catboost all agree on direction
+    'all_agree',             # 1 if all 7 models agree on direction
+    # Ensemble statistics (6)
+    'model_mean',            # mean of all 7 probs
+    'model_std',             # std of all 7 probs (disagreement signal)
+    'model_min',             # most pessimistic
+    'model_max',             # most optimistic
+    'model_median',          # median of all 7
+    'models_above_50',       # count of models predicting > 0.5
+    # Context features (7)
     'tier_ordinal',
     'direction_binary',
     'is_combo',
     'abs_gap',
+    'stat_ordinal',
+    'l10_hit_rate',
+    'l10_std',
+    # Key interactions (3)
+    'consensus_x_gap',       # models_above_50 * abs_gap
+    'consensus_x_tier',      # models_above_50 * tier_ordinal
+    'std_x_direction',       # model_std * direction_binary
 ]
+
+N_META_FEATURES = len(META_FEATURE_NAMES)  # 30
 
 
 # ===============================================================
@@ -121,7 +144,6 @@ def _reconstruct_sim_prob(record):
     is a lightweight inline version to avoid circular imports during training.
     Returns 0.5 (neutral) when data is insufficient.
     """
-    # If sim_prob was already computed and stored, use it directly
     existing = record.get('sim_prob')
     if existing is not None:
         return _safe_float(existing, 0.5)
@@ -141,10 +163,9 @@ def _reconstruct_sim_prob(record):
         if np.isnan(line_f) or line_f <= 0:
             return 0.5
 
-        # Simple simulation: draw from normal distribution fitted to recent data
         mean = float(np.mean(values))
         std = float(np.std(values, ddof=1)) if len(values) > 1 else 1.0
-        std = max(std, mean * 0.05 + 0.5)  # floor to prevent degenerate distributions
+        std = max(std, mean * 0.05 + 0.5)
 
         np.random.seed(hash((record.get('player', ''), record.get('stat', ''))) % (2**31))
         samples = np.random.normal(mean, std, size=5000)
@@ -162,69 +183,223 @@ def _reconstruct_sim_prob(record):
         return 0.5
 
 
+def _get_l10_hit_rate(record):
+    """Extract L10 hit rate from record. Returns 0.5 default."""
+    # Try direct field first
+    hr = record.get('l10_hit_rate') or record.get('l10_hr')
+    if hr is not None:
+        return _safe_float(hr, 0.5) / 100.0 if _safe_float(hr, 0) > 1.0 else _safe_float(hr, 0.5)
+
+    # Reconstruct from l10_values + line + direction
+    l10_values = record.get('l10_values', [])
+    line = record.get('line')
+    direction = record.get('direction', '')
+    if l10_values and line and direction:
+        try:
+            line_f = float(line)
+            hits = 0
+            total = 0
+            for v in l10_values:
+                if v is None:
+                    continue
+                vf = float(v)
+                total += 1
+                if direction == 'OVER' and vf > line_f:
+                    hits += 1
+                elif direction == 'UNDER' and vf < line_f:
+                    hits += 1
+            if total > 0:
+                return hits / total
+        except (ValueError, TypeError):
+            pass
+    return 0.5
+
+
+def _get_l10_std(record):
+    """Extract standard deviation of L10 values. Returns 0.0 default."""
+    l10_values = record.get('l10_values', [])
+    if l10_values:
+        try:
+            values = [float(v) for v in l10_values if v is not None]
+            if len(values) >= 3:
+                return float(np.std(values, ddof=1))
+        except (ValueError, TypeError):
+            pass
+    return 0.0
+
+
+# ===============================================================
+# ISOTONIC CALIBRATION FOR BASE MODELS
+# ===============================================================
+
+def calibrate_base_model(model_name, y_true, y_pred):
+    """Train an isotonic calibration curve for a single base model.
+
+    Args:
+        model_name: string name (e.g., 'xgb_prob')
+        y_true: array of 0/1 labels
+        y_pred: array of predicted probabilities
+
+    Returns:
+        IsotonicRegression fitted model, or None if insufficient data
+    """
+    y_true = np.asarray(y_true, dtype=np.float64)
+    y_pred = np.asarray(y_pred, dtype=np.float64)
+
+    # Need at least 20 samples for meaningful calibration
+    valid = ~(np.isnan(y_true) | np.isnan(y_pred))
+    y_true = y_true[valid]
+    y_pred = y_pred[valid]
+
+    if len(y_true) < 20:
+        return None
+
+    try:
+        iso = IsotonicRegression(y_min=0.0, y_max=1.0, out_of_bounds='clip')
+        iso.fit(y_pred, y_true)
+        return iso
+    except Exception:
+        return None
+
+
+def calibrate_base_probs(record, calibrators):
+    """Apply isotonic calibration to all available base model probabilities.
+
+    Args:
+        record: prop dict with model probabilities
+        calibrators: dict of {model_name: IsotonicRegression} from training
+
+    Returns:
+        dict of calibrated probabilities (same keys as input, with '_cal' suffix)
+    """
+    calibrated = {}
+    for model_name in BASE_MODEL_NAMES:
+        raw_prob = record.get(model_name)
+        if raw_prob is None:
+            continue
+        raw_prob = _safe_float(raw_prob, None)
+        if raw_prob is None:
+            continue
+
+        cal = calibrators.get(model_name)
+        if cal is not None:
+            try:
+                cal_prob = float(cal.predict([raw_prob])[0])
+                calibrated[model_name] = round(cal_prob, 4)
+            except Exception:
+                calibrated[model_name] = raw_prob
+        else:
+            calibrated[model_name] = raw_prob
+
+    return calibrated
+
+
 # ===============================================================
 # META-FEATURE ENGINEERING
 # ===============================================================
 
-def build_meta_features(record):
-    """Build the 12-element meta-feature vector from a single prop dict.
+def build_meta_features(record, calibrators=None):
+    """Build the 30-element meta-feature vector from a single prop dict.
 
     Handles missing sub-model predictions gracefully:
-    - If mlp_prob is missing, uses xgb_prob as stand-in (since they are correlated)
-    - If sim_prob is missing, reconstructs from l10_values via lightweight simulation
+    - Any missing base model prob defaults to 0.5 (neutral)
     - If xgb_prob is missing, returns None (record unusable)
+    - Backward compatible with old 12-feature format
+
+    Args:
+        record: prop dict with model probabilities and context
+        calibrators: optional dict of {model_name: IsotonicRegression} for calibration
+
+    Returns:
+        numpy array of shape (30,) or None if unusable
     """
     xgb_p = record.get('xgb_prob')
     if xgb_p is None:
-        return None  # cannot build meta-features without at least xgb_prob
+        return None
 
     xgb_p = _safe_float(xgb_p, None)
     if xgb_p is None:
         return None
 
-    # MLP: use actual if available, fall back to xgb_prob
-    mlp_p = record.get('mlp_prob')
-    if mlp_p is not None:
-        mlp_p = _safe_float(mlp_p, xgb_p)
+    # Apply isotonic calibration if calibrators provided
+    if calibrators:
+        cal_probs = calibrate_base_probs(record, calibrators)
     else:
-        mlp_p = xgb_p  # correlated stand-in
+        cal_probs = {}
 
-    # Sim: use actual if available, reconstruct from l10_values, or default 0.5
+    # Extract all 7 base model probabilities (calibrated if available, raw otherwise)
+    def _get_prob(name, fallback=0.5):
+        # Use calibrated version if available
+        if name in cal_probs:
+            return cal_probs[name]
+        raw = record.get(name)
+        if raw is not None:
+            return _safe_float(raw, fallback)
+        return fallback
+
+    xgb_p = _get_prob('xgb_prob')
+    mlp_p = _get_prob('mlp_prob', xgb_p)  # fall back to xgb if missing (correlated)
+    rf_p = _get_prob('rf_prob')
+    lgbm_p = _get_prob('lgbm_prob')
+    catboost_p = _get_prob('catboost_prob')
+    knn_p = _get_prob('knn_prob')
+    logreg_p = _get_prob('logreg_prob')
+
+    # Auxiliary signals
     sim_p = _reconstruct_sim_prob(record)
+    reg_margin = _safe_float(record.get('reg_margin'), 0.0)
 
-    # Derived interaction features
-    agreement = xgb_p * mlp_p
-    disagreement = abs(xgb_p - mlp_p)
-    optimistic = max(xgb_p, mlp_p)
-    pessimistic = min(xgb_p, mlp_p)
-    simple_avg = (xgb_p + mlp_p + sim_p) / 3.0
+    # All 7 model probs as array for ensemble stats
+    all_probs = np.array([xgb_p, mlp_p, rf_p, lgbm_p, catboost_p, knn_p, logreg_p])
+
+    # Pairwise agreement features
+    xgb_mlp_agree = 1.0 if (xgb_p > 0.5) == (mlp_p > 0.5) else 0.0
+
+    tree_models = [xgb_p, rf_p, lgbm_p, catboost_p]
+    tree_directions = [p > 0.5 for p in tree_models]
+    tree_agree = 1.0 if len(set(tree_directions)) == 1 else 0.0
+
+    all_directions = [p > 0.5 for p in all_probs]
+    all_agree = 1.0 if len(set(all_directions)) == 1 else 0.0
+
+    # Ensemble statistics
+    model_mean = float(np.mean(all_probs))
+    model_std = float(np.std(all_probs))
+    model_min = float(np.min(all_probs))
+    model_max = float(np.max(all_probs))
+    model_median = float(np.median(all_probs))
+    models_above_50 = float(np.sum(all_probs > 0.5))
 
     # Context features
     tier = record.get('tier', 'F')
-    tier_ord = TIER_ORDINAL.get(tier, 0)
+    tier_ord = float(TIER_ORDINAL.get(tier, 0))
 
     direction = record.get('direction', '')
-    dir_bin = 1 if direction == 'OVER' else 0
+    dir_bin = 1.0 if direction == 'OVER' else 0.0
 
     stat = record.get('stat', '')
-    is_combo = 1 if stat in COMBO_STATS else 0
+    is_combo = 1.0 if stat in COMBO_STATS else 0.0
 
     abs_gap = _safe_float(record.get('abs_gap', record.get('gap', 0)), 0.0)
     abs_gap = abs(abs_gap)
 
+    stat_ord = float(STAT_ORDINAL.get(stat.lower() if isinstance(stat, str) else '', 0))
+
+    l10_hr = _get_l10_hit_rate(record)
+    l10_std = _get_l10_std(record)
+
+    # Interaction features
+    consensus_x_gap = models_above_50 * abs_gap
+    consensus_x_tier = models_above_50 * tier_ord
+    std_x_direction = model_std * dir_bin
+
     return np.array([
-        xgb_p,
-        mlp_p,
-        sim_p,
-        agreement,
-        disagreement,
-        optimistic,
-        pessimistic,
-        simple_avg,
-        tier_ord,
-        dir_bin,
-        is_combo,
-        abs_gap,
+        xgb_p, mlp_p, rf_p, lgbm_p, catboost_p, knn_p, logreg_p,
+        sim_p, reg_margin,
+        xgb_mlp_agree, tree_agree, all_agree,
+        model_mean, model_std, model_min, model_max, model_median, models_above_50,
+        tier_ord, dir_bin, is_combo, abs_gap, stat_ord, l10_hr, l10_std,
+        consensus_x_gap, consensus_x_tier, std_x_direction,
     ], dtype=np.float64)
 
 
@@ -267,7 +442,7 @@ def collect_graded_records():
             if label is None:
                 continue
             if r.get('xgb_prob') is None:
-                continue  # need at least xgb_prob
+                continue
 
             r['_hit_label'] = label
             r['_date'] = date_dir
@@ -299,7 +474,7 @@ def collect_graded_records():
     return deduped
 
 
-def _build_training_data(records):
+def _build_training_data(records, calibrators=None):
     """Convert records into X (meta-features), y (labels), dates arrays."""
     X_list = []
     y_list = []
@@ -307,7 +482,7 @@ def _build_training_data(records):
     skipped = 0
 
     for r in records:
-        features = build_meta_features(r)
+        features = build_meta_features(r, calibrators=calibrators)
         if features is None:
             skipped += 1
             continue
@@ -351,6 +526,44 @@ def _compute_logloss(y_true, y_prob):
 # TRAINING
 # ===============================================================
 
+def _train_base_calibrators(records):
+    """Train isotonic calibration curves for each base model from graded records.
+
+    Returns dict of {model_name: IsotonicRegression} for models with enough data.
+    """
+    calibrators = {}
+
+    for model_name in BASE_MODEL_NAMES:
+        y_true_list = []
+        y_pred_list = []
+
+        for r in records:
+            prob = r.get(model_name)
+            if prob is None:
+                continue
+            prob = _safe_float(prob, None)
+            if prob is None:
+                continue
+            label = r.get('_hit_label')
+            if label is None:
+                continue
+
+            y_true_list.append(1.0 if label else 0.0)
+            y_pred_list.append(prob)
+
+        if len(y_true_list) >= 20:
+            cal = calibrate_base_model(model_name, y_true_list, y_pred_list)
+            if cal is not None:
+                calibrators[model_name] = cal
+                print(f"    {model_name}: calibrated on {len(y_true_list)} samples")
+            else:
+                print(f"    {model_name}: calibration failed ({len(y_true_list)} samples)")
+        else:
+            print(f"    {model_name}: skipped (only {len(y_true_list)} samples)")
+
+    return calibrators
+
+
 def train_meta(records=None):
     """Train the meta-learner from graded daily predictions.
 
@@ -365,10 +578,21 @@ def train_meta(records=None):
         print(f"  ERROR: Only {len(records)} usable records -- need at least 50")
         return None, None
 
-    X, y, dates = _build_training_data(records)
-    print(f"\n  Meta-learner training data: {len(y)} samples, {X.shape[1]} features")
+    # Phase 1: Train isotonic calibrators for each base model
+    print(f"\n  Phase 1: Base model isotonic calibration")
+    calibrators = _train_base_calibrators(records)
+    print(f"  Calibrated {len(calibrators)}/{len(BASE_MODEL_NAMES)} base models")
+
+    # Phase 2: Build meta-features (with calibration applied)
+    X, y, dates = _build_training_data(records, calibrators=calibrators)
+    print(f"\n  Phase 2: Meta-learner training data: {len(y)} samples, {X.shape[1]} features")
     print(f"  Hit rate: {y.mean():.1%}")
-    print(f"  Feature means: {', '.join(f'{n}={v:.3f}' for n, v in zip(META_FEATURE_NAMES, X.mean(axis=0)))}")
+
+    # Show available model coverage
+    for i, name in enumerate(META_FEATURE_NAMES[:7]):
+        non_default = np.sum(X[:, i] != 0.5)
+        pct = non_default / len(y) * 100 if len(y) > 0 else 0
+        print(f"    {name}: {non_default}/{len(y)} non-default ({pct:.0f}%)")
 
     # Walk-forward CV
     unique_dates = sorted(set(dates))
@@ -392,15 +616,13 @@ def train_meta(records=None):
         X_train, y_train = X[train_mask], y[train_mask]
         X_test, y_test = X[test_mask], y[test_mask]
 
-        # Scale features
         scaler = StandardScaler()
         X_train_s = scaler.fit_transform(X_train)
         X_test_s = scaler.transform(X_test)
 
-        # Train LogisticRegression (simple, low-parameter model)
         lr = LogisticRegression(
-            C=1.0,            # regularization strength (1.0 = moderate)
-            penalty='l2',     # L2 regularization prevents overfitting
+            C=1.0,
+            penalty='l2',
             max_iter=1000,
             solver='lbfgs',
             random_state=42,
@@ -416,7 +638,6 @@ def train_meta(records=None):
         auc = _compute_auc(y_test, y_prob)
         logloss = _compute_logloss(y_test, y_prob)
 
-        # Top/bottom decile analysis
         top_mask = y_prob >= np.percentile(y_prob, 90) if len(y_prob) >= 10 else np.ones(len(y_prob), dtype=bool)
         bot_mask = y_prob <= np.percentile(y_prob, 10) if len(y_prob) >= 10 else np.zeros(len(y_prob), dtype=bool)
         top_hr = y_test[top_mask].mean() if top_mask.sum() > 0 else float('nan')
@@ -465,7 +686,6 @@ def train_meta(records=None):
 
     # Compare to hardcoded 0.6/0.4 baseline
     if len(all_oof_probs) >= 50:
-        # Baseline: the xgb_prob that was already in the data (column 0)
         xgb_only_auc = _compute_auc(all_y, X[np.isin(dates, [f['test_date'] for f in folds]), 0])
         if len(X[np.isin(dates, [f['test_date'] for f in folds]), 0]) == len(all_y):
             print(f"    Baseline (xgb_prob only): AUC={xgb_only_auc:.3f}")
@@ -473,11 +693,10 @@ def train_meta(records=None):
             print(f"    Meta-learner improvement: {'+' if improvement >= 0 else ''}{improvement:.3f} AUC")
 
     # Train final model on all data
-    print(f"\n  Training final meta-learner on {len(y)} samples...")
+    print(f"\n  Training final meta-learner on {len(y)} samples ({N_META_FEATURES} features)...")
     final_scaler = StandardScaler()
     X_scaled = final_scaler.fit_transform(X)
 
-    # Base model: Logistic Regression
     base_lr = LogisticRegression(
         C=1.0,
         penalty='l2',
@@ -486,8 +705,6 @@ def train_meta(records=None):
         random_state=42,
     )
 
-    # Wrap with isotonic calibration for well-calibrated probabilities
-    # cv=3 for small datasets, cv=5 if we have enough data
     cv_folds = 5 if len(y) >= 500 else 3
     calibrated_model = CalibratedClassifierCV(
         estimator=base_lr,
@@ -500,33 +717,44 @@ def train_meta(records=None):
     plain_lr = LogisticRegression(C=1.0, penalty='l2', max_iter=1000, solver='lbfgs', random_state=42)
     plain_lr.fit(X_scaled, y)
 
-    # Save model bundle
+    # Save model bundle (includes calibrators for base models)
     os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
     bundle = {
         'model': calibrated_model,
         'scaler': final_scaler,
         'plain_lr': plain_lr,
+        'calibrators': calibrators,  # isotonic calibration curves for base models
         'n_features': X.shape[1],
         'feature_names': META_FEATURE_NAMES,
+        'version': 2,
     }
     with open(MODEL_PATH, 'wb') as f:
         pickle.dump(bundle, f)
-    print(f"  Meta-learner saved: {MODEL_PATH}")
+    print(f"  Meta-learner v2 saved: {MODEL_PATH}")
 
     # Save metadata
+    calibrator_info = {}
+    for name, cal in calibrators.items():
+        calibrator_info[name] = {
+            'n_points': len(cal.f_.x) if hasattr(cal, 'f_') and hasattr(cal.f_, 'x') else 0,
+        }
+
     metadata = {
         'trained_at': datetime.now().isoformat(),
+        'version': 2,
         'n_samples': int(len(y)),
         'hit_rate': round(float(y.mean()), 4),
         'n_features': int(X.shape[1]),
         'feature_names': META_FEATURE_NAMES,
+        'base_models': BASE_MODEL_NAMES,
+        'calibrators': calibrator_info,
         'unique_dates': sorted(set(dates)),
         'n_dates': len(set(dates)),
         'cv_folds': folds,
         'cv_pooled_auc': round(float(pooled_auc), 4) if pooled_auc is not None else None,
         'cv_pooled_top10': round(float(pooled_top10), 4) if pooled_top10 is not None and not np.isnan(pooled_top10) else None,
         'cv_pooled_bot10': round(float(pooled_bot10), 4) if pooled_bot10 is not None and not np.isnan(pooled_bot10) else None,
-        'model_type': 'LogisticRegression + isotonic calibration',
+        'model_type': '7-model stacking + LogisticRegression + isotonic calibration',
         'regularization': 'L2 (C=1.0)',
         'calibration_cv': cv_folds,
         'weights': _extract_weights(plain_lr),
@@ -561,8 +789,9 @@ def score_meta(results, model_path=None):
     """Score props with the trained meta-learner.
 
     Takes list of prop dicts that already have xgb_prob (and optionally
-    mlp_prob, sim_prob). Builds meta-features, runs through the calibrated
-    meta-learner, and sets meta_prob + updates ensemble_prob.
+    mlp_prob, sim_prob, rf_prob, lgbm_prob, catboost_prob, knn_prob, logreg_prob,
+    reg_margin). Builds meta-features, runs through the calibrated meta-learner,
+    and sets meta_prob + updates ensemble_prob.
 
     Graceful fallback: if meta-learner not trained or scoring fails,
     falls back to the current 0.6*xgb + 0.4*mlp blend.
@@ -587,14 +816,18 @@ def score_meta(results, model_path=None):
 
         model = bundle['model']
         scaler = bundle['scaler']
-        expected_features = bundle.get('n_features', 12)
+        expected_features = bundle.get('n_features', N_META_FEATURES)
+        calibrators = bundle.get('calibrators', {})
+        model_version = bundle.get('version', 1)
 
         # Build meta-features for all scoreable records
         scoreable_indices = []
         X_list = []
 
         for i, r in enumerate(results):
-            features = build_meta_features(r)
+            # Pass calibrators only for v2 models
+            cals = calibrators if model_version >= 2 else None
+            features = build_meta_features(r, calibrators=cals)
             if features is not None and len(features) == expected_features:
                 scoreable_indices.append(i)
                 X_list.append(features)
@@ -619,7 +852,8 @@ def score_meta(results, model_path=None):
             if i not in meta_scored:
                 _fallback_single(r)
 
-        print(f"  META-LEARNER: Scored {scored}/{len(results)} props")
+        print(f"  META-LEARNER v{model_version}: Scored {scored}/{len(results)} props "
+              f"({expected_features} features, {len(calibrators)} calibrated models)")
         return results
 
     except Exception as e:
@@ -654,7 +888,7 @@ def eval_meta(records=None):
     Compares:
     1. xgb_prob alone (current baseline for many records)
     2. hardcoded 0.6*xgb + 0.4*mlp blend
-    3. meta-learner (learned blend)
+    3. meta-learner (learned blend with 7-model stacking)
     """
     if records is None:
         records = collect_graded_records()
@@ -663,11 +897,14 @@ def eval_meta(records=None):
         print(f"  ERROR: Only {len(records)} usable records -- need at least 50")
         return
 
-    X, y, dates = _build_training_data(records)
+    # Train calibrators on all data for feature building (walk-forward uses separate folds)
+    calibrators = _train_base_calibrators(records)
+
+    X, y, dates = _build_training_data(records, calibrators=calibrators)
     unique_dates = sorted(set(dates))
     dates_arr = np.array(dates)
 
-    print(f"\n  Evaluation: {len(y)} samples, {len(unique_dates)} dates")
+    print(f"\n  Evaluation: {len(y)} samples, {len(unique_dates)} dates, {X.shape[1]} features")
     print(f"  Hit rate: {y.mean():.1%}")
 
     # Walk-forward with all three methods
@@ -698,7 +935,7 @@ def eval_meta(records=None):
         blend_probs = 0.6 * xgb_col + 0.4 * mlp_col
         results_blend.append((y_test, blend_probs, test_date))
 
-        # Method 3: Meta-learner
+        # Method 3: Meta-learner (7-model stacking)
         scaler = StandardScaler()
         X_train_s = scaler.fit_transform(X_train)
         X_test_s = scaler.transform(X_test)
@@ -735,10 +972,9 @@ def eval_meta(records=None):
     print(f"  {'=' * 90}")
     auc_xgb = _aggregate(results_xgb, "XGBoost only")
     auc_blend = _aggregate(results_blend, "Hardcoded 0.6/0.4 blend")
-    auc_meta = _aggregate(results_meta, "Meta-learner (learned)")
+    auc_meta = _aggregate(results_meta, "Meta-learner v2 (7-model)")
     print(f"  {'=' * 90}")
 
-    # Improvement summary
     imp_vs_xgb = auc_meta - auc_xgb
     imp_vs_blend = auc_meta - auc_blend
     print(f"\n  Meta-learner vs XGBoost only: {'+' if imp_vs_xgb >= 0 else ''}{imp_vs_xgb:.4f} AUC")
@@ -776,18 +1012,27 @@ def show_weights():
         print("  ERROR: No weights stored in metadata")
         return
 
-    print("=" * 65)
-    print("  Meta-Learner Weights (Logistic Regression Coefficients)")
-    print("=" * 65)
+    version = meta.get('version', 1)
+    print("=" * 75)
+    print(f"  Meta-Learner v{version} Weights (Logistic Regression Coefficients)")
+    print("=" * 75)
     print(f"\n  Trained: {meta.get('trained_at', 'unknown')}")
     print(f"  Samples: {meta.get('n_samples', '?')}")
     print(f"  Dates:   {meta.get('n_dates', '?')}")
+    print(f"  Features: {meta.get('n_features', '?')}")
     print(f"  CV AUC:  {meta.get('cv_pooled_auc', 'N/A')}")
+    print(f"  Model:   {meta.get('model_type', 'unknown')}")
+
+    # Show calibrator info
+    cal_info = meta.get('calibrators', {})
+    if cal_info:
+        print(f"\n  Isotonic Calibrators:")
+        for name, info in cal_info.items():
+            print(f"    {name}: {info.get('n_points', '?')} calibration points")
 
     print(f"\n  {'Feature':25s} {'Coef':>8s} {'Interpretation'}")
-    print(f"  {'-'*70}")
+    print(f"  {'-'*75}")
 
-    # Sort by absolute coefficient magnitude
     intercept = weights.pop('intercept', 0)
     sorted_weights = sorted(weights.items(), key=lambda x: abs(x[1]), reverse=True)
 
@@ -807,26 +1052,47 @@ def show_weights():
 
     print(f"\n  {'intercept':25s} {intercept:>+8.4f}")
 
-    # Trust allocation summary
-    print(f"\n  Sub-Model Trust Allocation:")
-    print(f"  {'-'*45}")
+    # Trust allocation summary for all 7 base models
+    print(f"\n  Base Model Trust Allocation:")
+    print(f"  {'-'*55}")
 
-    xgb_w = weights.get('xgb_prob', 0)
-    mlp_w = weights.get('mlp_prob', 0)
-    sim_w = weights.get('sim_prob', 0)
-    total_sub = abs(xgb_w) + abs(mlp_w) + abs(sim_w)
+    model_weights = {}
+    total_abs = 0
+    for name in BASE_MODEL_NAMES:
+        w = weights.get(name, 0)
+        model_weights[name] = w
+        total_abs += abs(w)
 
-    if total_sub > 0:
-        print(f"    XGBoost:     {abs(xgb_w)/total_sub:6.1%} (coef={xgb_w:+.4f})")
-        print(f"    MLP:         {abs(mlp_w)/total_sub:6.1%} (coef={mlp_w:+.4f})")
-        print(f"    Simulation:  {abs(sim_w)/total_sub:6.1%} (coef={sim_w:+.4f})")
+    if total_abs > 0:
+        for name in BASE_MODEL_NAMES:
+            w = model_weights[name]
+            pct = abs(w) / total_abs * 100
+            label = name.replace('_prob', '').upper()
+            bar = '#' * int(pct / 2)
+            print(f"    {label:12s}: {pct:5.1f}% (coef={w:+.4f}) {bar}")
     else:
-        print("    (sub-model weights are near zero -- interactions dominate)")
+        print("    (base model weights are near zero -- interactions dominate)")
+
+    # Sim + reg_margin
+    sim_w = weights.get('sim_prob', 0)
+    reg_w = weights.get('reg_margin', 0)
+    print(f"\n  Auxiliary Signals:")
+    print(f"    sim_prob:     coef={sim_w:+.4f}")
+    print(f"    reg_margin:   coef={reg_w:+.4f}")
 
     # Context feature summary
     print(f"\n  Context Feature Effects:")
-    context_features = ['tier_ordinal', 'direction_binary', 'is_combo', 'abs_gap']
+    context_features = ['tier_ordinal', 'direction_binary', 'is_combo', 'abs_gap',
+                        'stat_ordinal', 'l10_hit_rate', 'l10_std']
     for feat in context_features:
+        coef = weights.get(feat, 0)
+        print(f"    {feat:25s} {coef:>+8.4f}")
+
+    # Ensemble agreement features
+    print(f"\n  Agreement/Disagreement Signals:")
+    agree_features = ['xgb_mlp_agree', 'tree_agree', 'all_agree',
+                      'model_std', 'models_above_50']
+    for feat in agree_features:
         coef = weights.get(feat, 0)
         print(f"    {feat:25s} {coef:>+8.4f}")
 
@@ -836,16 +1102,32 @@ def _interpret_weight(name, coef):
     interpretations = {
         'xgb_prob': "higher XGBoost confidence -> higher meta prediction" if coef > 0 else "meta discounts XGBoost",
         'mlp_prob': "higher MLP confidence -> higher meta prediction" if coef > 0 else "meta discounts MLP",
+        'rf_prob': "RandomForest agreement boosts confidence" if coef > 0 else "meta discounts RandomForest",
+        'lgbm_prob': "LightGBM agreement boosts confidence" if coef > 0 else "meta discounts LightGBM",
+        'catboost_prob': "CatBoost agreement boosts confidence" if coef > 0 else "meta discounts CatBoost",
+        'knn_prob': "KNN agreement boosts confidence" if coef > 0 else "meta discounts KNN",
+        'logreg_prob': "LogReg agreement boosts confidence" if coef > 0 else "meta discounts LogReg",
         'sim_prob': "simulation agreement boosts confidence" if coef > 0 else "simulation disagreement is informative",
-        'agreement': "model consensus amplifies signal" if coef > 0 else "model agreement is overconfident",
-        'disagreement': "model disagreement -> uncertainty penalty" if coef < 0 else "disagreement signals opportunity",
-        'optimistic': "optimistic model often right" if coef > 0 else "optimistic model is overfit",
-        'pessimistic': "floor model is reliable" if coef > 0 else "pessimistic model undershoots",
-        'simple_avg': "average is useful baseline" if coef > 0 else "average is misleading",
+        'reg_margin': "larger predicted margin -> more confident" if coef > 0 else "regression margin is contrarian signal",
+        'xgb_mlp_agree': "XGB/MLP consensus amplifies signal" if coef > 0 else "XGB/MLP agreement is overconfident",
+        'tree_agree': "tree model consensus is strong signal" if coef > 0 else "tree consensus often wrong",
+        'all_agree': "full model consensus is definitive" if coef > 0 else "full consensus is overconfident",
+        'model_mean': "average is useful baseline" if coef > 0 else "average is misleading",
+        'model_std': "model disagreement -> uncertainty penalty" if coef < 0 else "disagreement signals opportunity",
+        'model_min': "floor model is reliable" if coef > 0 else "pessimistic model undershoots",
+        'model_max': "optimistic model often right" if coef > 0 else "optimistic model is overfit",
+        'model_median': "median is robust central estimate" if coef > 0 else "median lags consensus",
+        'models_above_50': "more models agreeing -> stronger signal" if coef > 0 else "model count is noise",
         'tier_ordinal': "higher tier -> more reliable" if coef > 0 else "tier grades are miscalibrated",
         'direction_binary': "OVERs more reliable" if coef > 0 else "UNDERs more reliable",
         'is_combo': "combo stats more reliable" if coef > 0 else "combo stats less reliable",
         'abs_gap': "larger gaps more reliable" if coef > 0 else "large gaps are traps",
+        'stat_ordinal': "higher-volume stats more predictable" if coef > 0 else "low-volume stats more exploitable",
+        'l10_hit_rate': "recent hit rate is predictive" if coef > 0 else "recent hit rate is mean-reverting",
+        'l10_std': "consistency helps prediction" if coef < 0 else "high variance creates opportunity",
+        'consensus_x_gap': "consensus + gap = strong signal" if coef > 0 else "consensus + gap = overconfidence",
+        'consensus_x_tier': "consensus + tier = amplified reliability" if coef > 0 else "consensus + tier = noise",
+        'std_x_direction': "disagreement matters more for OVERs" if coef > 0 else "disagreement matters more for UNDERs",
     }
     return interpretations.get(name, "")
 
@@ -862,21 +1144,22 @@ def main():
     command = sys.argv[1]
 
     if command == 'train':
-        print("=" * 65)
-        print("  Meta-Learner -- Training from Graded Predictions")
-        print("  Architecture: LogisticRegression + Isotonic Calibration")
-        print("=" * 65)
+        print("=" * 75)
+        print("  Meta-Learner v2 -- 7-Model Stacking + Isotonic Calibration")
+        print("  Architecture: Per-model isotonic calibration + LogisticRegression")
+        print(f"  Features: {N_META_FEATURES} meta-features")
+        print("=" * 75)
         model, metadata = train_meta()
         if model is not None and metadata is not None:
             print(f"\n  Training complete: {metadata['n_samples']} samples, "
-                  f"{metadata['n_dates']} dates")
+                  f"{metadata['n_dates']} dates, {metadata['n_features']} features")
             if metadata.get('cv_pooled_auc'):
                 print(f"  Pooled CV AUC: {metadata['cv_pooled_auc']:.4f}")
 
     elif command == 'eval':
-        print("=" * 65)
-        print("  Meta-Learner -- Walk-Forward Evaluation")
-        print("=" * 65)
+        print("=" * 75)
+        print("  Meta-Learner v2 -- Walk-Forward Evaluation (7-Model Stacking)")
+        print("=" * 75)
         eval_meta()
 
     elif command == 'weights':
