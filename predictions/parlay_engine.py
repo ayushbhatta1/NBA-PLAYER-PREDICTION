@@ -914,13 +914,21 @@ def build_primary_safe(pool):
         return p.get('streak_status') == 'HOT'
 
     def _gap_sanity(p):
-        """Skip if projection is way above line (market signal we're wrong)."""
+        """Skip if projection is way above line (market signal we're wrong).
+        Mar 24: Stat-specific thresholds. PTS more reliable (7.0), combos risky (12.0+).
+        Wells 3PM 14.8 gap HIT — combo gaps can be huge and still valid."""
         proj = p.get('projection', 0) or 0
         line = p.get('line', 0) or 0
         gap = proj - line
-        # If we project player 7+ points above the sportsbook line, sportsbook
-        # probably knows something we don't (injury, minutes, context we missed)
-        if gap > 7.0:
+        stat = p.get('stat', '').lower()
+
+        # Stat-specific thresholds
+        if stat in ['pts', 'reb', 'ast', 'stl', 'blk']:  # Base stats
+            max_gap = 7.0
+        else:  # Combo stats (pra, pr, pa, ra, 3pm)
+            max_gap = 12.0
+
+        if gap > max_gap:
             return False
         return True
 
@@ -1099,11 +1107,19 @@ def build_2leg_safe(pool):
         return p.get('streak_status') == 'HOT'
 
     def _gap_sanity(p):
-        """Skip if projection is way above line (market signal we're wrong)."""
+        """Skip if projection is way above line (market signal we're wrong).
+        Mar 24: Stat-specific thresholds. PTS more reliable (7.0), combos ok (12.0+)."""
         proj = p.get('projection', 0) or 0
         line = p.get('line', 0) or 0
         gap = proj - line
-        if gap > 7.0:
+        stat = p.get('stat', '').lower()
+
+        if stat in ['pts', 'reb', 'ast', 'stl', 'blk']:
+            max_gap = 7.0
+        else:
+            max_gap = 12.0
+
+        if gap > max_gap:
             return False
         return True
 
