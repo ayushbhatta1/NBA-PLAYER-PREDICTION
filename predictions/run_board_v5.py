@@ -1499,35 +1499,45 @@ def main():
     except Exception as e:
         print(f"\n  SECONDARY MODELS: skipped ({e})")
 
-    # ═══ PHASE 4c-ENS: Meta-Learner Ensemble (with 60/40 fallback) ═══
-    try:
-        from meta_learner import score_meta
-        results = score_meta(results)
-        ens_count = sum(1 for r in results if r.get('ensemble_prob') is not None)
-        meta_count = sum(1 for r in results if r.get('meta_prob') is not None)
-        if meta_count > 0:
-            print(f"\n  ENSEMBLE: {ens_count}/{len(results)} scored ({meta_count} via meta-learner, rest via 60/40 fallback)")
-        else:
-            print(f"\n  ENSEMBLE: {ens_count}/{len(results)} scored (60% XGB + 40% MLP fallback)")
-    except Exception as e:
-        print(f"\n  META-LEARNER: Failed ({e}), using 60/40 fallback")
-        ens_count = 0
-        for r in results:
-            xgb = r.get('xgb_prob')
-            mlp = r.get('mlp_prob')
-            if xgb is not None and mlp is not None:
-                r['ensemble_prob'] = round(0.6 * xgb + 0.4 * mlp, 4)
-                r['models_used'] = 2
-                ens_count += 1
-            elif xgb is not None:
-                r['ensemble_prob'] = xgb
-                r['models_used'] = 1
-                ens_count += 1
-            elif mlp is not None:
-                r['ensemble_prob'] = mlp
-                r['models_used'] = 1
-                ens_count += 1
-        print(f"\n  ENSEMBLE: {ens_count}/{len(results)} scored (60% XGB + 40% MLP baseline)")
+    # ═══ PHASE 4c-ENS: Consensus Ensemble (AUC-weighted, no data leakage) ═══
+    # Weight each model by its validated walk-forward CV AUC
+    # Model agreement (consensus) = strongest signal for parlay confidence
+    MODEL_WEIGHTS = {
+        'xgb_prob':      0.569,   # XGBoost pooled AUC
+        'mlp_prob':      0.528,   # MLP pooled AUC
+        'rf_prob':       0.568,   # Random Forest pooled AUC
+        'catboost_prob': 0.550,   # CatBoost pooled AUC
+        'knn_prob':      0.528,   # KNN pooled AUC
+        'logreg_prob':   0.533,   # LogReg pooled AUC
+    }
+    ens_count = 0
+    for r in results:
+        probs = {}
+        for model_key, weight in MODEL_WEIGHTS.items():
+            p = r.get(model_key)
+            if p is not None:
+                probs[model_key] = (p, weight)
+
+        if probs:
+            # AUC-weighted average
+            total_weight = sum(w for _, w in probs.values())
+            weighted_prob = sum(p * w for p, w in probs.values()) / total_weight
+            r['ensemble_prob'] = round(weighted_prob, 4)
+            r['models_used'] = len(probs)
+
+            # Consensus metrics (for parlay engine filtering)
+            above_50 = sum(1 for p, _ in probs.values() if p > 0.5)
+            r['model_consensus'] = round(above_50 / len(probs), 2)  # 0-1
+            r['model_std'] = round(float(np.std([p for p, _ in probs.values()])), 4)
+            r['model_agree_pct'] = above_50 / len(probs) * 100
+            ens_count += 1
+
+    # Summary
+    if ens_count > 0:
+        high_consensus = sum(1 for r in results if r.get('model_consensus', 0) >= 0.8)
+        avg_models = np.mean([r.get('models_used', 0) for r in results if r.get('ensemble_prob')])
+        print(f"\n  CONSENSUS ENSEMBLE: {ens_count}/{len(results)} scored "
+              f"({avg_models:.1f} models avg, {high_consensus} high-consensus picks)")
 
     # ═══ PHASE 4b: PRE-GAME AVAILABILITY CHECK ═══
     filtered_results, pregame_report = run_pregame_check(results, GAMES, game_date=date_str)

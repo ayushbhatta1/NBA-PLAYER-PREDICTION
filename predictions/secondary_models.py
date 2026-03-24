@@ -609,28 +609,22 @@ def score_props(results, models=None):
 
             # Prepare features
             X_score = X.copy()
-
-            # Feature pruning (RF, KNN)
             feat_indices = bundle.get('feature_indices')
-
-            # Impute NaN
-            if col_medians is not None:
-                if feat_indices is not None:
-                    X_score = X_score[:, feat_indices]
-                    for col in range(X_score.shape[1]):
-                        mask = np.isnan(X_score[:, col])
-                        if col < len(col_medians):
-                            X_score[mask, col] = col_medians[col]
-                else:
-                    for col in range(X_score.shape[1]):
-                        mask = np.isnan(X_score[:, col])
-                        if col < len(col_medians):
-                            X_score[mask, col] = col_medians[col]
-
-            # Scale (KNN, LogReg)
             scaler = bundle.get('scaler')
+
+            # Impute NaN on full feature set first
+            if col_medians is not None:
+                for col in range(min(X_score.shape[1], len(col_medians))):
+                    mask = np.isnan(X_score[:, col])
+                    X_score[mask, col] = col_medians[col]
+
+            # Scale on full feature set (before pruning — matches training order)
             if scaler is not None:
                 X_score = scaler.transform(X_score)
+
+            # Feature pruning AFTER impute+scale (matches training order for KNN/RF)
+            if feat_indices is not None:
+                X_score = X_score[:, feat_indices]
 
             probs = model.predict_proba(X_score)[:, 1]
 
