@@ -1483,31 +1483,35 @@ def main():
     except Exception as e:
         print(f"\n  MLP scoring failed: {e}")
 
-    # ═══ PHASE 4c-ENS: Simple XGB + MLP Ensemble (60/40) ═══
-    # Simplified ensemble: 60% XGBoost + 40% MLP (proven baseline)
-    # Secondary models (RF, LGBM, CB, KNN, LogReg) disabled pending validation
-    ens_count = 0
-    for r in results:
-        xgb = r.get('xgb_prob')
-        mlp = r.get('mlp_prob')
-
-        if xgb is not None and mlp is not None:
-            # Both models available: use proven 60/40 blend
-            r['ensemble_prob'] = round(0.6 * xgb + 0.4 * mlp, 4)
-            r['models_used'] = 2
-            ens_count += 1
-        elif xgb is not None:
-            # Fallback to XGBoost only
-            r['ensemble_prob'] = xgb
-            r['models_used'] = 1
-            ens_count += 1
-        elif mlp is not None:
-            # Fallback to MLP only (shouldn't happen)
-            r['ensemble_prob'] = mlp
-            r['models_used'] = 1
-            ens_count += 1
-
-    print(f"\n  ENSEMBLE: {ens_count}/{len(results)} scored (60% XGB + 40% MLP baseline)")
+    # ═══ PHASE 4c-ENS: Meta-Learner Ensemble (with 60/40 fallback) ═══
+    try:
+        from meta_learner import score_meta
+        results = score_meta(results)
+        ens_count = sum(1 for r in results if r.get('ensemble_prob') is not None)
+        meta_count = sum(1 for r in results if r.get('meta_prob') is not None)
+        if meta_count > 0:
+            print(f"\n  ENSEMBLE: {ens_count}/{len(results)} scored ({meta_count} via meta-learner, rest via 60/40 fallback)")
+        else:
+            print(f"\n  ENSEMBLE: {ens_count}/{len(results)} scored (60% XGB + 40% MLP fallback)")
+    except Exception as e:
+        print(f"\n  META-LEARNER: Failed ({e}), using 60/40 fallback")
+        ens_count = 0
+        for r in results:
+            xgb = r.get('xgb_prob')
+            mlp = r.get('mlp_prob')
+            if xgb is not None and mlp is not None:
+                r['ensemble_prob'] = round(0.6 * xgb + 0.4 * mlp, 4)
+                r['models_used'] = 2
+                ens_count += 1
+            elif xgb is not None:
+                r['ensemble_prob'] = xgb
+                r['models_used'] = 1
+                ens_count += 1
+            elif mlp is not None:
+                r['ensemble_prob'] = mlp
+                r['models_used'] = 1
+                ens_count += 1
+        print(f"\n  ENSEMBLE: {ens_count}/{len(results)} scored (60% XGB + 40% MLP baseline)")
 
     # ═══ PHASE 4b: PRE-GAME AVAILABILITY CHECK ═══
     filtered_results, pregame_report = run_pregame_check(results, GAMES, game_date=date_str)
