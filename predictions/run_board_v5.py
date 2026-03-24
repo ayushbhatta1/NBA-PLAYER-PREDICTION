@@ -1483,6 +1483,22 @@ def main():
     except Exception as e:
         print(f"\n  MLP scoring failed: {e}")
 
+    # ═══ PHASE 4c-SEC: Secondary Model Scoring (RF, CatBoost, KNN, LogReg) ═══
+    try:
+        from secondary_models import score_props as sec_score_props
+        results = sec_score_props(results)
+        sec_models = ['rf_prob', 'catboost_prob', 'knn_prob', 'logreg_prob']
+        sec_counts = {m: sum(1 for r in results if m in r) for m in sec_models}
+        active = [f"{m.replace('_prob','').upper()}={c}" for m, c in sec_counts.items() if c > 0]
+        if active:
+            # Count total models used per prop
+            for r in results:
+                model_count = sum(1 for m in ['xgb_prob', 'mlp_prob'] + sec_models if r.get(m) is not None)
+                r['models_used'] = model_count
+            print(f"\n  SECONDARY MODELS: {', '.join(active)}")
+    except Exception as e:
+        print(f"\n  SECONDARY MODELS: skipped ({e})")
+
     # ═══ PHASE 4c-ENS: Meta-Learner Ensemble (with 60/40 fallback) ═══
     try:
         from meta_learner import score_meta
