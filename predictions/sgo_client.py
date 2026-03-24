@@ -21,6 +21,13 @@ from collections import defaultdict
 
 BASE_URL = "https://api.sportsgameodds.com/v2"
 
+# FREE TIER LIMITS: 10 req/min, 2.5k objects/month, 10 min update frequency
+FREE_TIER_LIMITS = {
+    "requests_per_minute": 10,
+    "objects_per_month": 2500,
+    "update_frequency_minutes": 10,
+}
+
 # Priority bookmakers for consensus line
 PRIORITY_BOOKS = ["fanduel", "draftkings", "betmgm", "caesars", "espnbet"]
 
@@ -47,6 +54,8 @@ class SGOClient:
         self.session = requests.Session()
         self.cache_dir = os.path.join(os.path.dirname(__file__), "cache", "sgo")
         os.makedirs(self.cache_dir, exist_ok=True)
+        self.quota_tracker_path = os.path.join(self.cache_dir, "quota_tracker.json")
+        self.last_fetch_timestamp_path = os.path.join(self.cache_dir, "last_fetch_timestamp.json")
 
     def _load_key(self):
         """Try loading from .env file."""
@@ -60,6 +69,44 @@ class SGOClient:
                         if line.strip().startswith("SGO_API_KEY="):
                             return line.strip().split("=", 1)[1].strip().strip('"').strip("'")
         return None
+
+    def _record_quota_usage(self, credits_used):
+        """Track monthly quota usage."""
+        today = datetime.now().strftime("%Y-%m")
+        tracker = self._load_quota_tracker()
+
+        if tracker["month"] != today:
+            tracker = {"month": today, "used": 0}
+
+        tracker["used"] += credits_used
+        tracker["remaining"] = FREE_TIER_LIMITS["objects_per_month"] - tracker["used"]
+
+        with open(self.quota_tracker_path, "w") as f:
+            json.dump(tracker, f)
+
+        return tracker
+
+    def _load_quota_tracker(self):
+        """Load current quota usage."""
+        if os.path.exists(self.quota_tracker_path):
+            with open(self.quota_tracker_path) as f:
+                return json.load(f)
+        return {"month": datetime.now().strftime("%Y-%m"), "used": 0, "remaining": FREE_TIER_LIMITS["objects_per_month"]}
+
+    def _check_cache_freshness(self, cache_file_path):
+        """Check if cache is fresh (< 10 min old)."""
+        if not os.path.exists(cache_file_path):
+            return False
+        mtime = os.path.getmtime(cache_file_path)
+        age_minutes = (time.time() - mtime) / 60
+        return age_minutes < FREE_TIER_LIMITS["update_frequency_minutes"]
+
+    def _log_quota(self):
+        """Print current quota status."""
+        tracker = self._load_quota_tracker()
+        pct = (tracker["used"] / FREE_TIER_LIMITS["objects_per_month"]) * 100
+        status = "✓" if tracker["remaining"] > 100 else "⚠️ LOW" if tracker["remaining"] > 0 else "❌ OVER"
+        print(f"[SGO Quota] {tracker['month']}: {tracker['used']}/{FREE_TIER_LIMITS['objects_per_month']} ({pct:.1f}%) {status}")
 
     def _get(self, endpoint, params=None):
         """Make authenticated GET request."""
@@ -171,10 +218,10 @@ class SGOClient:
             parts = parts[:-1]
         return " ".join(p.capitalize() for p in parts)
 
-    def fetch_and_cache_today(self):
+    def fetch_and_cache_today(self, force_fetch=False):
         """
-        Fetch today's props and cache them. Call this BEFORE games start
-        to preserve lines for backtesting (props disappear after games end).
+        Fetch today's props and cache them. Smart caching: skip fetch if cache < 10 min old.
+        Call this BEFORE games start to preserve lines for backtesting (props disappear after games end).
         """
         # Use Pacific time for date — user is in PT
         try:
@@ -183,11 +230,20 @@ class SGOClient:
             from backports.zoneinfo import ZoneInfo
         now_pt = datetime.now(ZoneInfo("America/Los_Angeles"))
         today = now_pt.strftime("%Y-%m-%d")
-        tomorrow = (now_pt + timedelta(days=1)).strftime("%Y-%m-%d")
         cache_file = os.path.join(self.cache_dir, f"props_{today}.json")
 
+        # Check cache freshness (skip if < 10 min old)
+        if not force_fetch and self._check_cache_freshness(cache_file):
+            print(f"[SGO] Using fresh cached props for {today} (< 10 min old)")
+            self._log_quota()
+            with open(cache_file) as f:
+                data = json.load(f)
+            return data.get("props", [])
+
+        self._log_quota()
         print(f"[SGO] Fetching NBA props for {today} (Pacific)...")
         events = self.get_upcoming_events()
+        num_events = len(events)
 
         # SGO uses UTC. Convert each event start to PT and match today's date.
         today_events = []
@@ -204,7 +260,11 @@ class SGOClient:
                 continue
 
         props = self.extract_player_props(today_events)
-        print(f"[SGO] Got {len(props)} prop lines from {len(today_events)} games")
+        print(f"[SGO] Got {len(props)} prop lines from {len(today_events)} games (fetched {num_events} total events)")
+
+        # Record quota usage (1 credit per event fetched)
+        tracker = self._record_quota_usage(num_events)
+        print(f"[SGO] Quota: {tracker['used']}/{FREE_TIER_LIMITS['objects_per_month']} ({tracker['remaining']} remaining)")
 
         # Save with timestamp
         cache_data = {
@@ -229,10 +289,10 @@ class SGOClient:
             data = json.load(f)
         return data.get("props", data) if isinstance(data, dict) else data
 
-    def get_board_for_pipeline(self, date_str=None):
+    def get_board_for_pipeline(self, date_str=None, force_fetch=False):
         """
         Get props formatted for the v4 pipeline.
-        If date_str is provided, loads from cache. Otherwise fetches live.
+        If date_str is provided, loads from cache. Otherwise fetches live (with smart caching).
         Returns list of {player, stat, line, game, book_lines} dicts.
         """
         if date_str:
@@ -241,7 +301,7 @@ class SGOClient:
                 print(f"[SGO] No cached props for {date_str}")
                 return []
         else:
-            props = self.fetch_and_cache_today()
+            props = self.fetch_and_cache_today(force_fetch=force_fetch)
 
         board = []
         for p in props:

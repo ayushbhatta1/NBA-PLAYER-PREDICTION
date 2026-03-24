@@ -1,0 +1,90 @@
+{
+  "test_dates": 100,
+  "date_range": "2025-10-21 to 2026-03-08",
+  "results": {
+    "under_consistency": {
+      "cash_rate": 27.55,
+      "leg_rate": 63.61,
+      "total_parlays": 98,
+      "cashed": 27,
+      "total_legs": 294,
+      "legs_hit": 187,
+      "empty_days": 2,
+      "test_days": 100,
+      "by_stat": {
+        "pts": {
+          "hit": 178,
+          "total": 277
+        },
+        "ast": {
+          "hit": 3,
+          "total": 4
+        },
+        "reb": {
+          "hit": 6,
+          "total": 13
+        }
+      }
+    },
+    "under_fatigue": {
+      "cash_rate": 11.11,
+      "leg_rate": 52.19,
+      "total_parlays": 99,
+      "cashed": 11,
+      "total_legs": 297,
+      "legs_hit": 155,
+      "empty_days": 1,
+      "test_days": 100,
+      "by_stat": {
+        "pts": {
+          "hit": 151,
+          "total": 293
+        },
+        "ast": {
+          "hit": 2,
+          "total": 2
+        },
+        "reb": {
+          "hit": 2,
+          "total": 2
+        }
+      }
+    },
+    "baseline_under": {
+      "cash_rate": 10.1,
+      "leg_rate": 44.11,
+      "total_parlays": 99,
+      "cashed": 10,
+      "total_legs": 297,
+      "legs_hit": 131,
+      "empty_days": 1,
+      "test_days": 100,
+      "by_stat": {
+        "pts": {
+          "hit": 131,
+          "total": 297
+        }
+      }
+    },
+    "blk_stl_under": {
+      "cash_rate": 57.0,
+      "leg_rate": 83.0,
+      "total_parlays": 100,
+      "cashed": 57,
+      "total_legs": 300,
+      "legs_hit": 249,
+      "empty_days": 0,
+      "test_days": 100,
+      "by_stat": {
+        "blk": {
+          "hit": 234,
+          "total": 279
+        },
+        "stl": {
+          "hit": 15,
+          "total": 21
+        }
+      }
+    }
+  }
+}

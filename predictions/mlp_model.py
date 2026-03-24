@@ -521,8 +521,19 @@ def score_props(results, model_path=None):
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"No trained model at {model_path}. Run: python3 mlp_model.py train")
 
+    # Unpickle with custom namespace to handle PropNet class
+    import sys
+
+    # Create custom unpickler that can find PropNet
+    class PropNetUnpickler(pickle.Unpickler):
+        def find_class(self, module, name):
+            if name == 'PropNet':
+                return PropNet
+            return super().find_class(module, name)
+
     with open(model_path, 'rb') as f:
-        bundle = pickle.load(f)
+        unpickler = PropNetUnpickler(f)
+        bundle = unpickler.load()
 
     # Handle both old sklearn format and new PyTorch format
     if 'models' in bundle:

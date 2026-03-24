@@ -1,0 +1,59 @@
+{
+  "test_dates": 50,
+  "date_range": "2025-10-21 to 2026-03-08",
+  "results": {
+    "under_consistency": {
+      "cash_rate": 0,
+      "leg_rate": 0,
+      "total_parlays": 0,
+      "cashed": 0,
+      "total_legs": 0,
+      "legs_hit": 0,
+      "empty_days": 50,
+      "test_days": 50,
+      "by_stat": {}
+    },
+    "under_fatigue": {
+      "cash_rate": 0,
+      "leg_rate": 0,
+      "total_parlays": 0,
+      "cashed": 0,
+      "total_legs": 0,
+      "legs_hit": 0,
+      "empty_days": 50,
+      "test_days": 50,
+      "by_stat": {}
+    },
+    "baseline_under": {
+      "cash_rate": 0,
+      "leg_rate": 0,
+      "total_parlays": 0,
+      "cashed": 0,
+      "total_legs": 0,
+      "legs_hit": 0,
+      "empty_days": 50,
+      "test_days": 50,
+      "by_stat": {}
+    },
+    "blk_stl_under": {
+      "cash_rate": 54.0,
+      "leg_rate": 81.33,
+      "total_parlays": 50,
+      "cashed": 27,
+      "total_legs": 150,
+      "legs_hit": 122,
+      "empty_days": 0,
+      "test_days": 50,
+      "by_stat": {
+        "blk": {
+          "hit": 114,
+          "total": 139
+        },
+        "stl": {
+          "hit": 8,
+          "total": 11
+        }
+      }
+    }
+  }
+}

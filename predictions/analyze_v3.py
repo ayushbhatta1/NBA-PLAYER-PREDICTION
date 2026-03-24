@@ -12,7 +12,7 @@ Changes from v2:
 - Caching layer: game logs cached 4hrs, team rankings cached 12hrs
 - Combo stat injury adjustments now properly weighted
 
-Pipeline layers (v13: market-calibrated):
+Pipeline layers (v14: UNDER-dominant direction model):
 1. Core Projection — market-anchored (dynamic blend: stats + sportsbook line)
 2. Home/Away Split ← LIVE splits from game log
 3. Opponent Defense ← LIVE team rankings from stats.nba.com
@@ -24,9 +24,9 @@ Pipeline layers (v13: market-calibrated):
 9. Hot/Cold Streak ← LIVE L3 vs L10
 10. B2B Flag (manual input)
 11. Blowout Risk (manual spread input)
-12. Hit Rate Direction Calibration (v13: L10/season HR adjusts projection)
-13. Empirical UNDER Calibration (v13: -2.5% systematic correction)
-14. Tier Grading + Thin Gap UNDER Flip (v13: gap 0-1.0 with HR<60% → UNDER)
+12. Hit Rate Direction Calibration (L10/season HR adjusts projection)
+13. Empirical UNDER Calibration (v14: 5% systematic + stat-specific corrections)
+14. UNDER-Dominant Direction (v14: default UNDER, OVER needs gap>3 AND HR>=65)
 """
 
 import json
@@ -35,6 +35,7 @@ from datetime import datetime
 from nba_fetcher import NBAFetcher
 
 # ── CONFIG ──
+# v14: Gap-based tiers (legacy — still used for OVER picks and gap reporting)
 TIERS = [
     ("S",  4.0, 999),   # Elite edge — parlay core lock
     ("A",  3.0, 4.0),   # Strong edge — parlay core
@@ -43,6 +44,98 @@ TIERS = [
     ("D",  1.0, 1.5),   # Slight edge — risky
     ("F",  0.0, 1.0),   # Thin edge — tracked with reasoning for learning
 ]
+
+# v14: UNDER confidence tiers (primary tier system for UNDER picks)
+# Backtested: S=73.6%, A=63.7%, B=64.9%, C=61.4%, D=56.4%, F=54.3%
+UNDER_CONFIDENCE_TIERS = [
+    ("S",  5.0, 999),   # Elite UNDER — 73.6% backtested hit rate
+    ("A",  3.5, 5.0),   # Strong UNDER — 63.7%
+    ("B",  2.0, 3.5),   # Good UNDER — 64.9%
+    ("C",  0.5, 2.0),   # Moderate UNDER — 61.4%
+    ("D", -1.0, 0.5),   # Weak UNDER — 56.4%
+    ("F", -999, -1.0),  # Very weak — 54.3%
+]
+
+# v14: Stat-type UNDER bonuses for confidence scoring
+STAT_UNDER_BONUS = {
+    'blk': 2.0, 'stl': 1.5, 'stl_blk': 2.5,
+    '3pm': 1.0, 'pa': 0.8, 'ast': 0.5, 'ra': 0.3,
+}
+
+
+def under_confidence_score(player_data, stat, gap, streak_status='', is_b2b=False,
+                           spread=None, is_home=None):
+    """
+    Composite UNDER confidence score. Higher = more likely to go UNDER.
+
+    Backtested on 1,090,827 props (10 years, 2016-2026):
+      conf >= 5 (S-tier): 64.5-67% UNDER hit rate
+      conf >= 7: 70.9%
+      conf >= 8: 73.6%
+      conf >= 9: 77.8%
+
+    10-year parlay simulation: 698/1639 = 42.6% 3-leg cash rate, 75.5% leg HR.
+    With away-game bonus: 718/1639 = 43.8% cash rate (+1.2pp).
+
+    Used for tier assignment on UNDER picks and parlay leg ranking.
+    """
+    score = 0.0
+
+    # 1. L10 Hit Rate (inverted — low HR = rarely goes OVER = strong UNDER)
+    hr = player_data.get('l10_hit_rate', 50)
+    if hr < 20: score += 3.0
+    elif hr < 35: score += 2.0
+    elif hr < 45: score += 1.0
+    elif hr < 55: score += 0
+    elif hr < 65: score -= 0.5
+    elif hr < 80: score -= 1.0
+    else: score -= 2.0
+
+    # 2. Season Hit Rate
+    shr = player_data.get('season_hit_rate', 50)
+    if shr < 30: score += 2.0
+    elif shr < 45: score += 0.5
+    elif shr < 55: score += 0
+    elif shr < 70: score -= 0.5
+    else: score -= 1.0
+
+    # 3. Stat type bonus (backtested: BLK 71.1%, STL 68.9%, 3PM 65.3%, AST 64.7%)
+    score += STAT_UNDER_BONUS.get(stat, 0)
+
+    # 4. Streak
+    if streak_status == 'COLD': score += 1.0
+    elif streak_status == 'HOT': score -= 0.5
+
+    # 5. Gap (negative gap = projection below line = stronger UNDER signal)
+    if gap < -5: score += 2.0
+    elif gap < -3: score += 1.5
+    elif gap < -1.5: score += 1.0
+    elif gap < 0: score += 0.5
+    elif gap < 1.5: score += 0
+    elif gap < 3: score -= 0.5
+    else: score -= 0.5
+
+    # 6. L10 Miss Count (games player went under the line)
+    mc = player_data.get('l10_miss_count', 5)
+    if mc >= 9: score += 2.0
+    elif mc >= 7: score += 1.0
+    elif mc >= 5: score += 0.3
+    elif mc < 3: score -= 0.5
+
+    # 7. B2B penalty (backtested: B2B hurts UNDER by ~7pp on 10-day data)
+    if is_b2b: score -= 1.0
+
+    # 8. Spread (big favorites → starters sit → UNDER)
+    if spread is not None:
+        if spread < -10: score += 0.5
+        elif spread < -5: score += 0.3
+
+    # 9. Away game bonus (backtested 10yr: away 68.0% vs home 67.1% for S-tier UNDERs)
+    # Adds +1.2pp to parlay cash rate (43.8% vs 42.6%)
+    if is_home is not None and not is_home:
+        score += 0.5
+
+    return round(score, 1)
 
 # Defensive adjustment scaling factor (higher = more aggressive adjustment)
 # v3: was /150 (~10% max). v4: /75 (~20% max) based on Mar 11 calibration.
@@ -69,13 +162,26 @@ STREAK_ADJ_FACTOR = 0.05
 COMBO_STATS = {'pra', 'pr', 'pa', 'ra', 'stl_blk'}
 COMBO_GAP_PENALTY = 0.5  # subtract from abs_gap before tier grading for combos
 
-# ── v13: MARKET CALIBRATION ──
-# Sportsbook lines are the market's best estimate. Pure statistical averages
-# systematically overshoot because means > medians (right-skewed distributions).
-# Cross-day data: UNDER hits 60-65%, OVER hits 35-45%. Projections run ~3pts too high.
+# ── v14: UNDER-DOMINANT DIRECTION MODEL ──
+# Backtested Mar 13-21 (4,982 lines): Actual OVER rate = 39.2%. UNDER rate = 60.5%.
+# No OVER filter beats "always UNDER" (60.7%). Even gap>5 + HR>=70 OVERs hit only 31-43%.
+# ParlayPlay lines are systematically set high — UNDER is the structural edge.
+# Key stat splits: BLK UNDER 74.8%, STL 68%, 3PM 63.3%, AST 61%, REB 59.7%
 MARKET_LINE_WEIGHT = 0.35   # Default blend; dynamically adjusted by hit rate in analyze_player()
-OVER_BIAS_CORRECTION = 0.025  # 2.5% systematic downward shift
-THIN_GAP_UNDER_THRESHOLD = 1.0  # Gaps 0-1.0 flip to UNDER (sportsbook edge zone)
+OVER_BIAS_CORRECTION = 0.05  # 5% systematic downward shift (was 2.5% — doubled based on backtesting)
+THIN_GAP_UNDER_THRESHOLD = 3.0  # Gaps 0-3.0 flip to UNDER (was 1.0 — data shows gap 1.5-3.0 OVERs hit 42%)
+OVER_CONFIRMATION_HR = 65  # L10 HR must be >= this to allow OVER call (even above threshold)
+
+# v14: Stat-specific UNDER bias — some stats go UNDER far more than others
+# From backtesting: BLK actual OVER rate 25.2%, STL 32%, 3PM 36.7%
+STAT_UNDER_EXTRA_CORRECTION = {
+    'blk': 0.06,      # BLK goes UNDER 74.8% of the time
+    'stl': 0.04,      # STL goes UNDER 68%
+    'stl_blk': 0.06,  # STL+BLK combo goes UNDER 86.7%
+    '3pm': 0.03,      # 3PM goes UNDER 63.3%
+    'pa': 0.02,       # PA goes UNDER 63.5%
+    'ast': 0.015,     # AST goes UNDER 61%
+}
 
 # Injury status severity weights (for tier downgrade)
 INJURY_SEVERITY = {
@@ -630,32 +736,48 @@ def analyze_player(player_name, stat, line, opponent=None, is_home=None,
         hr_adj = adjusted_proj * 0.015   # often goes OVER
     adjusted_proj += hr_adj
 
-    # ── v13: EMPIRICAL UNDER CALIBRATION ──
-    # Cross-day data: projections run ~2.5% too high (sportsbooks shade lines
-    # high to exploit public OVER bias). Small systematic correction.
+    # ── v14: EMPIRICAL UNDER CALIBRATION ──
+    # Cross-day data (4,982 lines): projections run systematically high.
+    # Actual OVER rate = 39.2%. 5% correction (was 2.5%).
     adjusted_proj *= (1 - OVER_BIAS_CORRECTION)
+
+    # ── v14: STAT-SPECIFIC UNDER CORRECTION ──
+    # Some stats (BLK, STL, 3PM) go UNDER at extreme rates.
+    stat_extra_corr = STAT_UNDER_EXTRA_CORRECTION.get(stat, 0)
+    if stat_extra_corr > 0:
+        adjusted_proj *= (1 - stat_extra_corr)
 
     # ── GAP & TIER (Layers 12-13) ──
     gap = adjusted_proj - line
     abs_gap = abs(gap)
-    direction = "OVER" if gap > 0 else "UNDER"
 
-    # ── v13: THIN GAP UNDER FLIP ──
-    # Gaps 0 to 1.0 are noise — sportsbook has edge at thin margins.
-    # Cross-day data: thin-gap OVERs hit <40%. Flip to UNDER.
-    # Exception: high hit rate players (>=60%) have earned their OVER edge.
-    if 0 < gap < THIN_GAP_UNDER_THRESHOLD and blend_hr < 60:
+    # ── v14: UNDER-DOMINANT DIRECTION MODEL ──
+    # Default: UNDER. OVER requires: gap > 3.0 AND L10 HR >= 65.
+    # Backtested: "always UNDER" = 60.7%. No OVER filter beats this.
+    # We allow narrow OVER calls only for the strongest statistical cases,
+    # but the structural bet is UNDER.
+    if gap > THIN_GAP_UNDER_THRESHOLD and blend_hr >= OVER_CONFIRMATION_HR:
+        direction = "OVER"
+    else:
         direction = "UNDER"
-        gap = -gap  # preserve magnitude but flip sign
+        if gap > 0:
+            gap = -gap  # flip sign for UNDER calls where projection was above line
 
     # ── FOUL TROUBLE ADJUSTMENT (Layer 15 - applied after direction computed) ──
+    # Foul trouble reinforces UNDER (already the default in v14)
     if player_data.get('foul_trouble_risk') and direction == 'OVER':
         foul_adj = base_proj * -0.05
         foul_note = f"FOUL RISK: L5 PF avg {player_data.get('l5_avg_pf', 0):.1f} >= 4.0 — minutes risk"
         adjusted_proj += foul_adj
         gap = adjusted_proj - line
         abs_gap = abs(gap)
-        direction = "OVER" if gap > 0 else "UNDER"
+        # v14: Re-apply UNDER-dominant direction after foul adjustment
+        if gap > THIN_GAP_UNDER_THRESHOLD and blend_hr >= OVER_CONFIRMATION_HR:
+            direction = "OVER"
+        else:
+            direction = "UNDER"
+            if gap > 0:
+                gap = -gap
 
     # ── v6: USAGE REDISTRIBUTION RISK FOR UNDERs (Layer 7b) ──
     if direction == 'UNDER' and same_team_out_count >= 2:
@@ -668,7 +790,13 @@ def analyze_player(player_name, stat, line, opponent=None, is_home=None,
         # Recalculate gap after usage bump
         gap = adjusted_proj - line
         abs_gap = abs(gap)
-        direction = "OVER" if gap > 0 else "UNDER"
+        # v14: Re-apply UNDER-dominant direction after usage bump
+        if gap > THIN_GAP_UNDER_THRESHOLD and blend_hr >= OVER_CONFIRMATION_HR:
+            direction = "OVER"
+        else:
+            direction = "UNDER"
+            if gap > 0:
+                gap = -gap
 
     # v4: Combo stat penalty — PRA/PR/PA/RA need higher gap due to higher variance
     effective_gap = abs_gap
@@ -677,16 +805,27 @@ def analyze_player(player_name, stat, line, opponent=None, is_home=None,
         effective_gap = max(0, abs_gap - COMBO_GAP_PENALTY)
         combo_penalized = True
 
-    tier = "SKIP"
-    for tier_name, lo, hi in TIERS:
-        if lo <= effective_gap < hi:
-            tier = tier_name
-            break
-
-    # v4 RELAXED UNDER penalty (was B/C/D→F, now C/D→F based on Mar 11 77.6% UNDER accuracy)
-    if direction == "UNDER" and tier in UNDER_PENALTY_TIERS:
-        tier = "F"
-        matchup_note += " | UNDER downgraded (needs gap≥2.0)"
+    # ── v14: CONFIDENCE-BASED TIER ASSIGNMENT ──
+    # UNDER picks: use composite confidence score (backtested: S=73.6% → F=54.3%)
+    # OVER picks: use legacy gap-based tiers (rare — only ~0.3% of picks)
+    under_conf_score = 0.0
+    if direction == "UNDER":
+        under_conf_score = under_confidence_score(
+            player_data, stat, gap, streak_status,
+            is_b2b=is_b2b, spread=spread, is_home=is_home
+        )
+        tier = "SKIP"
+        for tier_name, lo, hi in UNDER_CONFIDENCE_TIERS:
+            if lo <= under_conf_score < hi:
+                tier = tier_name
+                break
+    else:
+        # OVER picks (rare) use legacy gap-based tiers
+        tier = "SKIP"
+        for tier_name, lo, hi in TIERS:
+            if lo <= effective_gap < hi:
+                tier = tier_name
+                break
 
     # v4: Injury severity tiers (was: all GTD/Q get 1-tier downgrade)
     if player_injury_status:
@@ -724,6 +863,7 @@ def analyze_player(player_name, stat, line, opponent=None, is_home=None,
         "effective_gap": round(effective_gap, 1),
         "direction": direction,
         "tier": tier,
+        "under_conf_score": round(under_conf_score, 1),
         "reasoning": reasoning,
         "combo_penalized": combo_penalized,
         "season_avg": player_data['season_avg'],

@@ -1483,120 +1483,31 @@ def main():
     except Exception as e:
         print(f"\n  MLP scoring failed: {e}")
 
-    # ═══ PHASE 4c-RF: Random Forest Scoring ═══
-    try:
-        from rf_model import score_props as rf_score_props
-        results = rf_score_props(results)
-        scored = sum(1 for r in results if 'rf_prob' in r)
-        print(f"\n  Random Forest scoring: {scored}/{len(results)} props scored")
-    except (ImportError, FileNotFoundError) as e:
-        print(f"\n  Random Forest not available: {e}")
-    except Exception as e:
-        print(f"\n  Random Forest scoring failed: {e}")
-
-    # ═══ PHASE 4c-LGBM: LightGBM Scoring ═══
-    try:
-        from lgbm_model import score_props as lgbm_score_props
-        results = lgbm_score_props(results)
-        scored = sum(1 for r in results if 'lgbm_prob' in r)
-        print(f"\n  LightGBM scoring: {scored}/{len(results)} props scored")
-    except (ImportError, FileNotFoundError) as e:
-        print(f"\n  LightGBM not available: {e}")
-    except Exception as e:
-        print(f"\n  LightGBM scoring failed: {e}")
-
-    # ═══ PHASE 4c-CB: CatBoost Scoring ═══
-    try:
-        from catboost_model import score_props as cb_score_props
-        results = cb_score_props(results)
-        scored = sum(1 for r in results if 'catboost_prob' in r)
-        print(f"\n  CatBoost scoring: {scored}/{len(results)} props scored")
-    except (ImportError, FileNotFoundError) as e:
-        print(f"\n  CatBoost not available: {e}")
-    except Exception as e:
-        print(f"\n  CatBoost scoring failed: {e}")
-
-    # ═══ PHASE 4c-KNN: K-Nearest Neighbors Scoring ═══
-    try:
-        from knn_model import score_props as knn_score_props
-        results = knn_score_props(results)
-        scored = sum(1 for r in results if 'knn_prob' in r)
-        print(f"\n  KNN scoring: {scored}/{len(results)} props scored")
-    except (ImportError, FileNotFoundError) as e:
-        print(f"\n  KNN not available: {e}")
-    except Exception as e:
-        print(f"\n  KNN scoring failed: {e}")
-
-    # ═══ PHASE 4c-LR: Logistic Regression Scoring ═══
-    try:
-        from logreg_model import score_props as lr_score_props
-        results = lr_score_props(results)
-        scored = sum(1 for r in results if 'logreg_prob' in r)
-        print(f"\n  LogReg scoring: {scored}/{len(results)} props scored")
-    except (ImportError, FileNotFoundError) as e:
-        print(f"\n  LogReg not available: {e}")
-    except Exception as e:
-        print(f"\n  LogReg scoring failed: {e}")
-
-    # ═══ PHASE 4c-ARENA: Model Arena Ensemble Scoring ═══
-    try:
-        from model_arena import score_arena
-        arena_count = score_arena(results)
-        if arena_count > 0:
-            print(f"\n  MODEL ARENA: {arena_count}/{len(results)} props scored with multi-model ensemble")
-    except Exception as e:
-        print(f"\n  MODEL ARENA: skipped ({e})")
-
-    # ═══ PHASE 4c-ENS: Ensemble probability (arena > meta > 7-model mean > 60/40 fallback) ═══
+    # ═══ PHASE 4c-ENS: Simple XGB + MLP Ensemble (60/40) ═══
+    # Simplified ensemble: 60% XGBoost + 40% MLP (proven baseline)
+    # Secondary models (RF, LGBM, CB, KNN, LogReg) disabled pending validation
     ens_count = 0
-    MODEL_KEYS = ['xgb_prob', 'mlp_prob', 'rf_prob', 'lgbm_prob', 'catboost_prob', 'knn_prob', 'logreg_prob']
     for r in results:
-        arena_p = r.get('arena_prob')
-        if arena_p is not None:
-            r['ensemble_prob'] = arena_p
-            ens_count += 1
-            continue
+        xgb = r.get('xgb_prob')
+        mlp = r.get('mlp_prob')
 
-        # Collect all available model probabilities
-        available = {k: r[k] for k in MODEL_KEYS if r.get(k) is not None}
-        if len(available) >= 3:
-            # 7-model weighted mean (tree models get slightly more weight)
-            weights = {'xgb_prob': 0.25, 'lgbm_prob': 0.20, 'catboost_prob': 0.15,
-                       'rf_prob': 0.15, 'mlp_prob': 0.10, 'knn_prob': 0.08, 'logreg_prob': 0.07}
-            w_sum = sum(weights.get(k, 0.1) for k in available)
-            r['ensemble_prob'] = round(sum(available[k] * weights.get(k, 0.1) for k in available) / w_sum, 4)
-            r['models_used'] = len(available)
-            r['model_std'] = round(float(np.std(list(available.values()))), 4)
-            r['models_above_50'] = sum(1 for v in available.values() if v > 0.5)
-            ens_count += 1
-        elif 'xgb_prob' in available and 'mlp_prob' in available:
-            r['ensemble_prob'] = round(0.6 * available['xgb_prob'] + 0.4 * available['mlp_prob'], 4)
+        if xgb is not None and mlp is not None:
+            # Both models available: use proven 60/40 blend
+            r['ensemble_prob'] = round(0.6 * xgb + 0.4 * mlp, 4)
             r['models_used'] = 2
             ens_count += 1
-        elif 'xgb_prob' in available:
-            r['ensemble_prob'] = available['xgb_prob']
+        elif xgb is not None:
+            # Fallback to XGBoost only
+            r['ensemble_prob'] = xgb
+            r['models_used'] = 1
+            ens_count += 1
+        elif mlp is not None:
+            # Fallback to MLP only (shouldn't happen)
+            r['ensemble_prob'] = mlp
             r['models_used'] = 1
             ens_count += 1
 
-    # Try meta-learner override (only for non-arena props)
-    meta_count = 0
-    try:
-        from meta_learner import score_meta
-        meta_count = score_meta(results)
-        if meta_count > 0:
-            # Re-apply arena priority after meta-learner (arena > meta > 60/40)
-            for r in results:
-                arena_p = r.get('arena_prob')
-                if arena_p is not None:
-                    r['ensemble_prob'] = arena_p
-            arena_total = sum(1 for r in results if r.get('arena_prob') is not None)
-            print(f"\n  ENSEMBLE: {ens_count}/{len(results)} scored — {arena_total} arena, {meta_count} meta-learner, rest 60/40")
-        else:
-            arena_total = sum(1 for r in results if r.get('arena_prob') is not None)
-            print(f"\n  ENSEMBLE: {ens_count}/{len(results)} scored — {arena_total} arena, rest 60/40 blend")
-    except Exception as e:
-        arena_total = sum(1 for r in results if r.get('arena_prob') is not None)
-        print(f"\n  ENSEMBLE: {ens_count}/{len(results)} scored — {arena_total} arena, rest 60/40 (meta skipped: {e})")
+    print(f"\n  ENSEMBLE: {ens_count}/{len(results)} scored (60% XGB + 40% MLP baseline)")
 
     # ═══ PHASE 4b: PRE-GAME AVAILABILITY CHECK ═══
     filtered_results, pregame_report = run_pregame_check(results, GAMES, game_date=date_str)
