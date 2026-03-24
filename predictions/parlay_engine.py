@@ -327,9 +327,15 @@ def _make_leg(p):
     }
 
 
-def _is_eligible(p):
-    """Basic eligibility: not error, not injured/GTD/questionable."""
+def _is_eligible(p, tier_filter='SAB'):
+    """
+    Basic eligibility: not error, not injured/GTD/questionable.
+    Mar 24: Block C/D/F tiers in parlay builds (Ace Bailey 0/1 was C-tier).
+    """
     if 'error' in p or p.get('tier') == 'SKIP':
+        return False
+    tier = p.get('tier', 'F')
+    if tier not in tier_filter:
         return False
     status = (p.get('player_injury_status') or '').upper()
     if any(tag in status for tag in ('OUT', 'DOUBTFUL', 'QUESTIONABLE', 'GTD', 'GAME-TIME', 'DAY-TO-DAY')):
@@ -899,6 +905,7 @@ def build_primary_safe(pool):
     - L5<L10: winners 1.39 vs losers 1.51 (losers use it MORE)
     - XGBoost: winners 0.530 vs losers 0.543 (model favors losers!)
     - High miss count: >=7 = 14.7%, >=8 = 7.8%
+    - Wide gaps (projection >>7 above line): Market knows more than us (Mar 24)
     """
     used_games = set()
     picks = []
@@ -906,12 +913,24 @@ def build_primary_safe(pool):
     def _is_hot(p):
         return p.get('streak_status') == 'HOT'
 
+    def _gap_sanity(p):
+        """Skip if projection is way above line (market signal we're wrong)."""
+        proj = p.get('projection', 0) or 0
+        line = p.get('line', 0) or 0
+        gap = proj - line
+        # If we project player 7+ points above the sportsbook line, sportsbook
+        # probably knows something we don't (injury, minutes, context we missed)
+        if gap > 7.0:
+            return False
+        return True
+
     # ALL passes: UNDER + L10 HR >= 60% + NOT HOT (HOT = trap, 0 HOT = 34.6% vs 14.4%)
     base_filter = lambda p: (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
         (p.get('l10_hit_rate', 0) or 0) >= 60 and
-        not _is_hot(p)
+        not _is_hot(p) and
+        _gap_sanity(p)
     )
 
     def _pick_from(candidates, picks, used_games, n_target):
@@ -1071,6 +1090,7 @@ def build_2leg_safe(pool):
     From 1M sim: min_hr>=60 + line_above>=1 + not HOT → 64.3% 2-leg cash rate.
     EV = 1.93 per $1 (vs 3.19 for 3-leg). Use when day is marginal.
     Only picks from the strongest COLD+L5↓ players.
+    Mar 24: Added gap_sanity check (skip if projection 7+ above line).
     """
     used_games = set()
     picks = []
@@ -1078,11 +1098,21 @@ def build_2leg_safe(pool):
     def _is_hot(p):
         return p.get('streak_status') == 'HOT'
 
+    def _gap_sanity(p):
+        """Skip if projection is way above line (market signal we're wrong)."""
+        proj = p.get('projection', 0) or 0
+        line = p.get('line', 0) or 0
+        gap = proj - line
+        if gap > 7.0:
+            return False
+        return True
+
     base_filter = lambda p: (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
         (p.get('l10_hit_rate', 0) or 0) >= 60 and
-        not _is_hot(p)
+        not _is_hot(p) and
+        _gap_sanity(p)
     )
 
     def _pick_from(candidates, picks, used_games, n_target):
@@ -2334,10 +2364,16 @@ def build_primary_parlays(results):
     sweep_picks = build_sweep_optimized(pool)
     safe_picks_3 = build_primary_safe(pool)
     safe_picks_2 = build_2leg_safe(pool)
-    blk_picks_2 = build_2leg_blk(pool)
-    blk_picks_3 = build_3leg_blk(pool)
-    floor_picks_5 = build_5leg_line_floor(pool)
-    floor_picks_6 = build_6leg_line_floor(pool)
+    # DISABLED Mar 24: BLK SNIPER went 0-for-5 (Mar 23: Sengun/Bona hitting 2.0 vs 1.5 line)
+    # blk_picks_2 = build_2leg_blk(pool)
+    # blk_picks_3 = build_3leg_blk(pool)
+    # DISABLED Mar 24: LINE FLOOR went 0-for-5 (same BLK issue + Sengun edge not real)
+    # floor_picks_5 = build_5leg_line_floor(pool)
+    # floor_picks_6 = build_6leg_line_floor(pool)
+    blk_picks_2 = []
+    blk_picks_3 = []
+    floor_picks_5 = []
+    floor_picks_6 = []
     safe_players = [p['player'] for p in safe_picks_3] + [p['player'] for p in safe_picks_2] + [p['player'] for p in sweep_picks]
     agg_picks = build_primary_aggressive(pool, safe_players)
 
