@@ -1528,14 +1528,17 @@ def main():
             # Consensus metrics (for parlay engine filtering)
             above_50 = sum(1 for p, _ in probs.values() if p > 0.5)
             r['model_consensus'] = round(above_50 / len(probs), 2)  # 0-1
-            r['model_std'] = round(float(np.std([p for p, _ in probs.values()])), 4)
+            prob_vals = [p for p, _ in probs.values()]
+            mean_p = sum(prob_vals) / len(prob_vals)
+            r['model_std'] = round((sum((p - mean_p) ** 2 for p in prob_vals) / len(prob_vals)) ** 0.5, 4)
             r['model_agree_pct'] = above_50 / len(probs) * 100
             ens_count += 1
 
     # Summary
     if ens_count > 0:
         high_consensus = sum(1 for r in results if r.get('model_consensus', 0) >= 0.8)
-        avg_models = np.mean([r.get('models_used', 0) for r in results if r.get('ensemble_prob')])
+        model_counts = [r.get('models_used', 0) for r in results if r.get('ensemble_prob')]
+        avg_models = sum(model_counts) / len(model_counts) if model_counts else 0
         print(f"\n  CONSENSUS ENSEMBLE: {ens_count}/{len(results)} scored "
               f"({avg_models:.1f} models avg, {high_consensus} high-consensus picks)")
 
