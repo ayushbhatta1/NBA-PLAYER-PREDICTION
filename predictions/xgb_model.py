@@ -1454,8 +1454,16 @@ def score_props(results, model_path=None):
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"No trained model at {model_path}. Run: python3 xgb_model.py train")
 
-    model = XGBClassifier()
-    model.load_model(model_path)
+    # Try sklearn wrapper first, fall back to raw Booster for compatibility
+    try:
+        model = XGBClassifier()
+        model.load_model(model_path)
+        use_booster = False
+    except (TypeError, Exception):
+        # Python 3.14+ or version mismatch — use raw Booster
+        model = xgb.Booster()
+        model.load_model(model_path)
+        use_booster = True
 
     # Load metadata for confidence gating + calibration
     meta_path = model_path.replace('.json', '_meta.json')
@@ -1482,7 +1490,12 @@ def score_props(results, model_path=None):
     X, _, _ = engineer_features(temp_records)
 
     # Score
-    probs = model.predict_proba(X)[:, 1]
+    if use_booster:
+        import numpy as np
+        dmat = xgb.DMatrix(X)
+        probs = model.predict(dmat)
+    else:
+        probs = model.predict_proba(X)[:, 1]
 
     scored = 0
     for r, prob in zip(results, probs):

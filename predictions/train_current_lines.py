@@ -1010,6 +1010,7 @@ def score_with_focused(results, model_path=None):
         return 0
 
     try:
+        import xgboost as xgb
         from xgboost import XGBClassifier
     except ImportError:
         print("  WARNING: xgboost not installed")
@@ -1018,8 +1019,15 @@ def score_with_focused(results, model_path=None):
     sys.path.insert(0, PREDICTIONS_DIR)
     from xgb_model import engineer_features
 
-    model = XGBClassifier()
-    model.load_model(model_path)
+    # Try sklearn wrapper first, fall back to raw Booster
+    try:
+        model = XGBClassifier()
+        model.load_model(model_path)
+        use_booster = False
+    except (TypeError, Exception):
+        model = xgb.Booster()
+        model.load_model(model_path)
+        use_booster = True
 
     # Build feature matrix
     temp_records = []
@@ -1033,7 +1041,12 @@ def score_with_focused(results, model_path=None):
         return results
 
     X, _, _ = engineer_features(temp_records)
-    probs = model.predict_proba(X)[:, 1]
+    if use_booster:
+        import numpy as np
+        dmat = xgb.DMatrix(X)
+        probs = model.predict(dmat)
+    else:
+        probs = model.predict_proba(X)[:, 1]
 
     scored = 0
     for r, prob in zip(results, probs):
