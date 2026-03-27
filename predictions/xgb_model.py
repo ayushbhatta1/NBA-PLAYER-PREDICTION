@@ -81,15 +81,10 @@ FEATURE_COLS = [
     # v2 features
     'gap_squared', 'is_pts', 'is_blk_stl', 'is_ast',
     'l5_l10_agreement', 'hr_confidence', 'line_relative_avg',
-    # SGO-derived (NaN when unavailable)
-    'book_line_spread', 'line_vs_consensus', 'n_books',
-    # v4 features (scout data + screen data)
+    # v4 features (scout data + screen data) — kept: plus_minus, PF, foul, screen_tier
     'l10_avg_plus_minus', 'l10_avg_pf', 'foul_trouble_risk_binary',
-    'venue_altitude', 'travel_zone_diff', 'screen_tier_ordinal',
-    'eval_agreement_count', 'eval_max_confidence',
-    # v5 features (rate-based defense, usage, travel)
-    'opp_stat_allowed_rate', 'opp_stat_allowed_vs_league_avg',
-    'usage_rate', 'usage_trend', 'dynamic_without_delta',
+    'screen_tier_ordinal',
+    # v5 features (rate-based defense, travel — kept populated ones)
     'travel_distance_last_game', 'travel_miles_7day', 'timezone_shifts_7day',
     # v6 features (interaction terms from cross-day analysis)
     'under_x_cold',           # UNDER + COLD streak = 75.3%
@@ -102,55 +97,25 @@ FEATURE_COLS = [
     'hr_x_gap',               # l10_hr * abs_gap (high conviction)
     'cold_under_x_gap',       # COLD+UNDER+gap triple interaction
     'streak_x_direction',     # streak_ordinal * direction_binary
-    # v7 features (v11 enrichment — opponent intelligence, usage, game context)
-    'opp_matchup_delta',          # player's historical delta vs this specific opponent
-    'team_vs_opp_delta',          # team-level scoring tendency vs opponent
-    'opp_off_pressure',           # opponent offensive power (-1/0/1)
-    'usage_boost',                # stat boost from injured teammate
+    # v7 features — kept: game_total_signal (66% populated, was #2 feature)
     'game_total_signal',          # game total vs 225 league avg
-    'max_same_game_corr',         # highest correlation with same-game pick
-    'under_x_opp_favorable',      # UNDER + stingy defense interaction
     'game_total_x_direction',     # high total + OVER alignment interaction
-    # v8 features (ref, coach, sim — Bob Voulgaris subsystems)
-    'ref_crew_avg_fouls',         # referee crew avg fouls per game
-    'ref_crew_avg_total',         # referee crew avg total points
-    'ref_crew_over_rate',         # referee crew historical over rate
-    'ref_foul_rate_per_48',       # referee crew foul rate per 48 min
-    'coach_rotation_depth',       # number of players getting 15+ min
-    'coach_star_minutes_share',   # top 3 players' share of team minutes
-    'coach_blowout_bench_rate',   # how much star minutes drop in blowouts
-    'coach_pace_tendency',        # coach's average pace (possessions/game)
-    'opp_coach_pace_tendency',    # opponent coach's pace tendency
-    'sim_prob',                   # Monte Carlo OVER/UNDER probability
-    'sim_mean',                   # Monte Carlo simulated mean
-    'sim_std',                    # Monte Carlo simulated std deviation
-    # v10 features (research-backed improvements)
+    # v10 features — kept: EWMA + median (computed from l10_values, always available)
     'l10_ewma',              # Exponentially Weighted Moving Average (alpha=0.15)
     'l10_median',            # L10 median (books price at median, not mean)
     'mean_median_gap',       # (l10_avg - l10_median) / line — skewness signal
     'l10_cv',                # Coefficient of variation: l10_std / l10_avg
-    'production_rate',       # stat_per_minute = l10_avg / avg_minutes
-    'l20_avg',               # 20-game rolling average
-    'l20_hit_rate',          # 20-game hit rate
-    # v11 features (advanced CSV data — PlayerStatisticsAdvanced + Usage)
-    'adv_usg_pct_l10', 'adv_net_rating_l10', 'adv_off_rating_l10', 'adv_def_rating_l10',
-    'adv_pace_l10', 'adv_efg_pct_l10', 'adv_ts_pct_l10', 'adv_pie_l10',
-    'adv_usg_pct_std', 'adv_net_rating_std',
-    'adv_pct_blk_l10', 'adv_pct_stl_l10', 'adv_pct_reb_l10', 'adv_pct_ast_l10',
-    'adv_opp_cluster',
-    'adv_usg_x_direction', 'adv_pace_x_stat', 'adv_efg_trend',
-    'te_player_under_rate', 'te_team_under_rate',
-    'dow_sin', 'dow_cos', 'month_sin', 'month_cos',
-    # v9 features (neural network learned embeddings — 32 dims)
-    'nn_emb_0', 'nn_emb_1', 'nn_emb_2', 'nn_emb_3',
-    'nn_emb_4', 'nn_emb_5', 'nn_emb_6', 'nn_emb_7',
-    'nn_emb_8', 'nn_emb_9', 'nn_emb_10', 'nn_emb_11',
-    'nn_emb_12', 'nn_emb_13', 'nn_emb_14', 'nn_emb_15',
-    'nn_emb_16', 'nn_emb_17', 'nn_emb_18', 'nn_emb_19',
-    'nn_emb_20', 'nn_emb_21', 'nn_emb_22', 'nn_emb_23',
-    'nn_emb_24', 'nn_emb_25', 'nn_emb_26', 'nn_emb_27',
-    'nn_emb_28', 'nn_emb_29', 'nn_emb_30', 'nn_emb_31',
 ]
+
+# ── DEAD FEATURES (removed in v15 cleanup, 2026-03-27) ──
+# 100% NaN (never populated): v11 advanced CSV (24), SGO book data (3),
+#   l20_avg, l20_hit_rate, production_rate, usage_boost
+# 99.7% NaN: nn_emb_0..nn_emb_31 (32 — only in live inference, never in training)
+# 98-99% NaN: ref/coach (9), v7 enrichment (5 of 8), eval_agreement (2),
+#   venue_altitude, travel_zone_diff
+# 68-97% NaN: opp_stat_allowed (2), usage_rate/trend (2), dynamic_without,
+#   sim_prob/mean/std (3), opp_hit_rate, opp_avg_vs_line
+# Total removed: 91 features. Remaining: 75 clean features.
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -590,7 +555,7 @@ def collect_historical_data(sample_cap=50000):
     return records
 
 
-def collect_backfill_data(sample_cap=30000):
+def collect_backfill_data(sample_cap=999999999):
     """Load backfill training data from nba_api season reconstruction.
 
     Returns list of record dicts ready for engineer_features().
@@ -634,7 +599,7 @@ def collect_backfill_data(sample_cap=30000):
     return valid
 
 
-def collect_sgo_backfill_data(sample_cap=50000):
+def collect_sgo_backfill_data(sample_cap=999999999):
     """Load SGO box score backfill training data.
 
     Different data source than nba_api backfill (cross-source diversity).
@@ -738,14 +703,14 @@ def collect_all_training_data(use_historical=True, sample_cap=15000):
     sgo_backfill = collect_sgo_backfill_data()
 
     # Load 10-year CSV historical (massive dataset, sampled)
-    hist_10yr = collect_10yr_data(sample_cap=50000)
+    hist_10yr = collect_10yr_data(sample_cap=999999999)  # no cap — use ALL 10yr data
 
     if not use_historical:
         all_data = graded + backfill + sgo_backfill + hist_10yr
         print(f"  Combined: {len(graded)} graded + {len(backfill)} backfill + {len(sgo_backfill)} sgo_backfill + {len(hist_10yr)} 10yr = {len(all_data)} total")
         return all_data
 
-    historical = collect_historical_data(sample_cap=sample_cap)
+    historical = collect_historical_data(sample_cap=999999999)  # no cap
 
     all_data = graded + backfill + sgo_backfill + hist_10yr + historical
     print(f"  Combined: {len(graded)} graded + {len(backfill)} backfill + {len(sgo_backfill)} sgo_backfill + {len(hist_10yr)} 10yr + {len(historical)} legacy = {len(all_data)} total")
@@ -1035,44 +1000,20 @@ def engineer_features(records):
             # v2 features
             gap_squared, is_pts, is_blk_stl, is_ast,
             l5_l10_agreement, hr_confidence, line_relative_avg,
-            # SGO-derived
-            book_line_spread_val, line_vs_consensus_val, n_books_val,
-            # v4 features
+            # v4 features (kept clean ones)
             l10_avg_pm, l10_avg_pf_val, foul_trouble_binary,
-            venue_altitude, travel_zone_diff_val, screen_tier_ord,
-            eval_agree, eval_max_conf,
-            # v5 features
-            opp_allowed_rate, opp_allowed_vs_league,
-            usage_rate_val, usage_trend_val, dynamic_without,
+            screen_tier_ord,
+            # v5 features (kept travel — always populated)
             travel_dist, travel_7day, tz_shifts,
             # v6 interaction features
             under_x_cold, under_x_blkstl, hot_x_over,
             under_x_gap_val, under_x_hr_val, combo_x_over,
             directional_gap_val, hr_x_gap_val, cold_under_x_gap,
             float(streak_x_dir),
-            # v7 features
-            opp_matchup_delta_val, team_vs_opp_delta_val, opp_off_pressure_val,
-            usage_boost_val, game_total_signal_val, max_same_game_corr_val,
-            under_x_opp_favorable, game_total_x_dir,
-            # v8 features (ref, coach, sim)
-            ref_avg_fouls, ref_avg_total, ref_over_rate, ref_foul_rate,
-            coach_depth, coach_star_share, coach_bench_rate, coach_pace,
-            opp_coach_pace,
-            sim_prob_val, sim_mean_val, sim_std_val,
-            # v10 features (EWMA, median, production rate, L20)
+            # v7 features (kept game_total only — rest 98%+ NaN)
+            game_total_signal_val, game_total_x_dir,
+            # v10 features (EWMA, median — computed from l10_values, always available)
             l10_ewma_val, l10_median_val, mean_median_gap_val, l10_cv_val,
-            production_rate_val, l20_avg_val, l20_hr_val,
-            # v11 features (advanced CSV data)
-            adv_usg_pct_l10, adv_net_rating_l10, adv_off_rating_l10, adv_def_rating_l10,
-            adv_pace_l10, adv_efg_pct_l10, adv_ts_pct_l10, adv_pie_l10,
-            adv_usg_pct_std, adv_net_rating_std,
-            adv_pct_blk_l10, adv_pct_stl_l10, adv_pct_reb_l10, adv_pct_ast_l10,
-            adv_opp_cluster,
-            adv_usg_x_direction, adv_pace_x_stat, adv_efg_trend,
-            te_player_under_rate, te_team_under_rate,
-            dow_sin, dow_cos, month_sin, month_cos,
-            # v9 features (nn embeddings)
-            *nn_embs,
         ]
 
         X_rows.append(row)
@@ -1399,7 +1340,11 @@ def train_model(X, y, dates, save_path=None, sample_weights=None, sources=None):
 
     model = XGBClassifier(**params)
     model.fit(X, y, sample_weight=sample_weights, verbose=False)
-    model.save_model(save_path)
+    # Save via raw Booster to avoid Python 3.14 sklearn wrapper bug
+    try:
+        model.save_model(save_path)
+    except TypeError:
+        model.get_booster().save_model(save_path)
     print(f"  Model saved: {save_path}")
 
     # ── Platt Scaling Calibration ──
