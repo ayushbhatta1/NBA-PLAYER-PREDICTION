@@ -193,7 +193,16 @@ def grade_date(date_str, predictions_file=None):
     # Update accuracy log
     _update_accuracy_log(date_str, summary)
 
+    print(f"  Updated accuracy log")
     print(f"\n  Saved to {outfile}")
+
+    # Run evaluation metrics automatically
+    try:
+        from eval_metrics import evaluate_date
+        evaluate_date(date_str, verbose=True)
+    except Exception as e:
+        print(f"  [WARN] Eval metrics skipped: {e}")
+
     return {'summary': summary, 'results': results}
 
 

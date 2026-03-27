@@ -17,6 +17,11 @@ python3 predictions/grade_results.py 2026-03-12
 
 # Parse raw sportsbook text into structured JSON
 python3 predictions/parse_board.py < raw_board.txt
+
+# Evaluation metrics (F1, Brier, ROC-AUC, calibration, profit)
+python3 predictions/eval_metrics.py 2026-03-26         # Single day
+python3 predictions/eval_metrics.py --all              # All graded days
+python3 predictions/eval_metrics.py --summary          # Cross-day tracker
 ```
 
 ## Architecture
@@ -51,6 +56,7 @@ python3 predictions/parse_board.py < raw_board.txt
 - **`sgo_client.py`** — Sports Game Odds API client. Fetches real sportsbook lines (FanDuel, DraftKings, BetMGM, Caesars, ESPN BET). Caches daily props to `predictions/cache/sgo/`. `fetch_all_historical()` fetches 3,188 completed events with spreads/totals/scores. Usage: `python3 sgo_client.py --cache` (daily props), `--history` (historical events), `--probe` (metadata), `--test-completed YYYY-MM-DD`.
 - **`backfill_sgo_box_scores.py`** — SGO box score backfill. Reconstructs 4.5M prop records from 342K SGO box scores (764 players, 462 dates). Pre-sampled to 200K with recency+tier weighting. Cross-source diversity vs nba_api backfill. Has real plus_minus, spreads (97.4%), matchup adjustments (87.1%). Output: `predictions/cache/sgo_backfill_training_data.json`. Usage: `python3 predictions/backfill_sgo_box_scores.py`.
 - **`grade_shadow_parlays.py`** — Grades 22 shadow parlays (strategy backtesting lab) against actuals. Updates cumulative tracker/leaderboard at `predictions/shadow_parlay_tracker.json`. Usage: `python3 grade_shadow_parlays.py YYYY-MM-DD`.
+- **`eval_metrics.py`** — Comprehensive evaluation metrics module. Computes: F1 score (overall + macro across stat types), Brier score, log loss, ROC-AUC (with ASCII curve), Expected Calibration Error (ECE + reliability diagram), Precision@K, profit curves, ROI by confidence bin, model agreement analysis. Runs automatically after `grade_results.py`. Tracks metrics across days in `predictions/logs/eval_tracker.json`. Usage: `python3 eval_metrics.py YYYY-MM-DD` (single day), `--all` (all days), `--summary` (tracker table).
 - **`backfill_training_data.py`** — Reconstructs ~164K real labeled prop records from 237 cached nba_api game logs. Rolling stats from prior games only (no data leakage). Computes real context features: matchup, travel, usage, plus_minus. Output: `predictions/cache/backfill_training_data.json`. Sampled to 30K in XGBoost training (weighted: recent + higher tiers preferred).
 
 ### Data Sources

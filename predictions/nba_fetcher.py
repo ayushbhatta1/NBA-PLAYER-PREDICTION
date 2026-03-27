@@ -594,11 +594,12 @@ class NBAFetcher:
     def get_box_scores(self, game_date):
         """
         Get box scores for all games on a given date.
-        Uses BoxScoreTraditionalV3 (V2 is deprecated for 2025-26 season).
+        Uses raw V3 JSON (nba_api's V3 DataFrame parser is broken on Python 3.14).
         Returns dict of {player_name: {pts, reb, ast, 3pm, stl, blk, min, ...}}
         """
-        import unicodedata
-        from nba_api.stats.endpoints import scoreboardv2, boxscoretraditionalv3
+        import unicodedata, json
+        from nba_api.stats.endpoints import scoreboardv2
+        from nba_api.stats.library.http import NBAStatsHTTP
 
         if isinstance(game_date, str):
             game_date = datetime.strptime(game_date, '%Y-%m-%d')
@@ -618,26 +619,42 @@ class NBAFetcher:
             return {}
 
         all_players = {}
+        nba_http = NBAStatsHTTP()
 
         for _, game in games.iterrows():
             game_id = game['GAME_ID']
             self._rate_limit()
             try:
-                bs = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id=game_id)
-                player_stats = bs.get_data_frames()[0]  # DF0 = player stats
+                resp = nba_http.send_api_request(
+                    endpoint='boxscoretraditionalv3',
+                    parameters={'GameID': game_id}
+                )
+                data = resp.get_response()
+                if isinstance(data, str):
+                    data = json.loads(data)
+
+                bs_data = data.get('boxScoreTraditional', {})
+                # Collect players from both teams
+                team_players = []
+                for team_key in ('homeTeam', 'awayTeam'):
+                    team = bs_data.get(team_key, {})
+                    tricode = team.get('teamTricode', '')
+                    for p in team.get('players', []):
+                        p['_teamTricode'] = tricode
+                        team_players.append(p)
             except Exception as e:
                 print(f"[ERROR] Box score fetch failed for game {game_id}: {e}")
                 continue
 
-            for _, ps in player_stats.iterrows():
+            for ps in team_players:
                 first = str(ps.get('firstName', ''))
                 last = str(ps.get('familyName', ''))
                 name = f"{first} {last}".strip()
                 if not name or name == ' ':
                     continue
 
-                # Also store a normalized (no diacritics) version for matching
-                mins_raw = ps.get('minutes', 'PT00M00.00S')
+                stats = ps.get('statistics', {})
+                mins_raw = stats.get('minutes', 'PT00M00.00S')
                 mins = 0
                 if isinstance(mins_raw, str) and 'M' in str(mins_raw):
                     try:
@@ -647,12 +664,12 @@ class NBAFetcher:
                     except Exception:
                         mins = 0
 
-                pts = int(ps.get('points', 0) or 0)
-                reb = int(ps.get('reboundsTotal', 0) or 0)
-                ast = int(ps.get('assists', 0) or 0)
-                fg3m = int(ps.get('threePointersMade', 0) or 0)
-                stl = int(ps.get('steals', 0) or 0)
-                blk = int(ps.get('blocks', 0) or 0)
+                pts = int(stats.get('points', 0) or 0)
+                reb = int(stats.get('reboundsTotal', 0) or 0)
+                ast = int(stats.get('assists', 0) or 0)
+                fg3m = int(stats.get('threePointersMade', 0) or 0)
+                stl = int(stats.get('steals', 0) or 0)
+                blk = int(stats.get('blocks', 0) or 0)
 
                 all_players[name] = {
                     'pts': pts, 'reb': reb, 'ast': ast,
@@ -663,7 +680,7 @@ class NBAFetcher:
                     'pa': pts + ast,
                     'ra': reb + ast,
                     'stl_blk': stl + blk,
-                    'team': str(ps.get('teamTricode', '')),
+                    'team': ps.get('_teamTricode', ''),
                     'game_id': game_id,
                 }
 
