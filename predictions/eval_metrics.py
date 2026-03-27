@@ -604,7 +604,722 @@ def _pearson_correlation(x, y):
 
 
 # ─────────────────────────────────────────────────────────────────────
-# 6. ASCII RENDERING (terminal-friendly output)
+# 6. CONFUSION MATRIX
+# ─────────────────────────────────────────────────────────────────────
+
+def compute_confusion_matrix(results):
+    """
+    Compute confusion matrix for binary HIT/MISS classification.
+
+    For OVER/UNDER prop betting:
+      - True Positive (TP):  Predicted HIT and was HIT
+      - False Positive (FP): Predicted HIT but was MISS (never happens — we predict all)
+      - True Negative (TN):  Predicted MISS and was MISS (N/A — we don't abstain)
+      - False Negative (FN): Predicted HIT but was MISS
+
+    More useful framing by DIRECTION:
+      For UNDER predictions:
+        TP = predicted UNDER, actual < line (correct)
+        FP = predicted UNDER, actual >= line (wrong)
+      For OVER predictions:
+        TP = predicted OVER, actual > line (correct)
+        FP = predicted OVER, actual <= line (wrong)
+
+    Returns overall + per-direction + per-tier confusion matrices with
+    derived metrics: specificity, sensitivity, MCC (Matthews Correlation Coefficient).
+    """
+    graded = [r for r in results if isinstance(r, dict) and r.get("result") in ("HIT", "MISS")]
+    if not graded:
+        return {"error": "no graded results"}
+
+    # Overall confusion
+    overall = _confusion_from_list(graded)
+
+    # Per direction
+    by_direction = {}
+    for direction in ("OVER", "UNDER"):
+        subset = [r for r in graded if r.get("direction") == direction]
+        if subset:
+            by_direction[direction] = _confusion_from_list(subset)
+
+    # Per tier
+    by_tier = {}
+    for tier in ["S", "A", "B", "C", "D", "F"]:
+        subset = [r for r in graded if r.get("tier") == tier]
+        if len(subset) >= 5:
+            by_tier[tier] = _confusion_from_list(subset)
+
+    # Per stat
+    by_stat = {}
+    for stat in sorted(set(r.get("stat", "?") for r in graded)):
+        subset = [r for r in graded if r.get("stat") == stat]
+        if len(subset) >= 5:
+            by_stat[stat] = _confusion_from_list(subset)
+
+    return {
+        "overall": overall,
+        "by_direction": by_direction,
+        "by_tier": by_tier,
+        "by_stat": by_stat,
+    }
+
+
+def _confusion_from_list(results):
+    """
+    Build confusion matrix and derived metrics from a list of graded results.
+
+    Since every prop gets a prediction (OVER or UNDER), we frame this as:
+      - Positive class = prediction is correct (HIT)
+      - Negative class = prediction is wrong (MISS)
+
+    For a more decision-relevant matrix, we also compute by margin buckets:
+    how often do we get it right when the actual is far from the line vs. close.
+    """
+    tp = sum(1 for r in results if r["result"] == "HIT")
+    fn = sum(1 for r in results if r["result"] == "MISS")
+    total = tp + fn
+
+    accuracy = tp / total if total > 0 else 0
+    error_rate = fn / total if total > 0 else 0
+
+    # Matthews Correlation Coefficient (MCC) for binary classification
+    # MCC requires a 2x2 matrix. Since we predict on every line (no abstaining),
+    # we frame it as: for each prediction, was the actual consistent with our direction?
+    # TP: HIT, FP: 0 (we always predict), TN: 0, FN: MISS
+    # In a proper 2-class setup: split by "would OVER have been right?" vs "would UNDER?"
+    over_correct = sum(1 for r in results if r["result"] == "HIT" and r.get("direction") == "OVER")
+    over_wrong = sum(1 for r in results if r["result"] == "MISS" and r.get("direction") == "OVER")
+    under_correct = sum(1 for r in results if r["result"] == "HIT" and r.get("direction") == "UNDER")
+    under_wrong = sum(1 for r in results if r["result"] == "MISS" and r.get("direction") == "UNDER")
+
+    # MCC from 2x2 table
+    mcc = _matthews_cc(over_correct, over_wrong, under_correct, under_wrong)
+
+    # Margin analysis: how accuracy changes with distance from line
+    margin_buckets = defaultdict(lambda: {"hits": 0, "total": 0})
+    for r in results:
+        margin = abs(r.get("margin", 0) or 0)
+        if margin <= 1:
+            bucket = "0-1 (razor)"
+        elif margin <= 3:
+            bucket = "1-3 (close)"
+        elif margin <= 6:
+            bucket = "3-6 (clear)"
+        else:
+            bucket = "6+ (blowout)"
+        margin_buckets[bucket]["total"] += 1
+        if r["result"] == "HIT":
+            margin_buckets[bucket]["hits"] += 1
+
+    margin_analysis = {}
+    for bucket in ["0-1 (razor)", "1-3 (close)", "3-6 (clear)", "6+ (blowout)"]:
+        if margin_buckets[bucket]["total"] > 0:
+            mb = margin_buckets[bucket]
+            margin_analysis[bucket] = {
+                "n": mb["total"],
+                "hits": mb["hits"],
+                "accuracy": round(mb["hits"] / mb["total"], 4),
+            }
+
+    return {
+        "n": total,
+        "tp": tp,
+        "fn": fn,
+        "accuracy": round(accuracy, 4),
+        "error_rate": round(error_rate, 4),
+        "mcc": round(mcc, 4),
+        "matrix": [[tp, fn]],  # [[correct, incorrect]]
+        "margin_analysis": margin_analysis,
+    }
+
+
+def _matthews_cc(tp, fp, tn, fn):
+    """
+    Matthews Correlation Coefficient.
+    Range [-1, 1]: +1 = perfect, 0 = random, -1 = inverse.
+    Handles class imbalance better than accuracy or F1.
+    """
+    denom = math.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))
+    if denom == 0:
+        return 0
+    return (tp * tn - fp * fn) / denom
+
+
+def render_confusion_matrix(cm_data):
+    """Render ASCII confusion matrix."""
+    overall = cm_data.get("overall", {})
+    if not overall:
+        return "  (no confusion matrix data)"
+
+    lines = []
+    lines.append("  ┌─ CONFUSION MATRIX ───────────────────────────────────────┐")
+    lines.append(f"  │ Overall: {overall['tp']} correct, {overall['fn']} incorrect "
+                 f"({overall['accuracy']:.1%} acc)")
+    lines.append(f"  │ MCC: {overall['mcc']:+.4f}  "
+                 f"(+1=perfect, 0=random, -1=inverse)")
+    lines.append(f"  │")
+
+    # Per-direction
+    by_dir = cm_data.get("by_direction", {})
+    if by_dir:
+        lines.append(f"  │ By Direction:")
+        for d in ("OVER", "UNDER"):
+            if d in by_dir:
+                dd = by_dir[d]
+                lines.append(
+                    f"  │   {d:5s}: {dd['tp']:>4d} HIT / {dd['fn']:>4d} MISS  "
+                    f"({dd['accuracy']:.1%})  MCC={dd['mcc']:+.3f}"
+                )
+
+    # Margin analysis
+    margin = overall.get("margin_analysis", {})
+    if margin:
+        lines.append(f"  │")
+        lines.append(f"  │ By Margin (distance from line):")
+        for bucket in ["0-1 (razor)", "1-3 (close)", "3-6 (clear)", "6+ (blowout)"]:
+            if bucket in margin:
+                m = margin[bucket]
+                bar = "#" * int(m["accuracy"] * 20)
+                lines.append(
+                    f"  │   {bucket:14s}: {m['hits']:>3d}/{m['n']:>3d} "
+                    f"({m['accuracy']:.1%})  {bar}"
+                )
+
+    # Per-tier matrix
+    by_tier = cm_data.get("by_tier", {})
+    if by_tier:
+        lines.append(f"  │")
+        lines.append(f"  │ By Tier:        HIT  MISS   Acc    MCC")
+        for tier in ["S", "A", "B", "C", "D", "F"]:
+            if tier in by_tier:
+                t = by_tier[tier]
+                lines.append(
+                    f"  │   Tier {tier}:     {t['tp']:>4d}  {t['fn']:>4d}  "
+                    f"{t['accuracy']:.1%}  {t['mcc']:+.3f}"
+                )
+
+    lines.append(f"  └────────────────────────────────────────────────────────────┘")
+    return "\n".join(lines)
+
+
+# ─────────────────────────────────────────────────────────────────────
+# 7. OVERFITTING vs UNDERFITTING DIAGNOSTICS
+# ─────────────────────────────────────────────────────────────────────
+
+def compute_overfit_diagnostics(results):
+    """
+    Detect overfitting and underfitting signals from graded predictions.
+
+    Overfitting indicators:
+      - High confidence predictions (prob > 0.7) perform worse than medium confidence
+      - Model accuracy degrades for newer dates (memorized old patterns)
+      - High model_std (models disagree = unstable learned patterns)
+      - Calibration gap increases at extremes (confident but wrong)
+
+    Underfitting indicators:
+      - All probabilities clustered near 0.5 (model can't discriminate)
+      - No meaningful difference between top and bottom decile accuracy
+      - Low confidence-outcome correlation
+      - AUC near 0.5 (random)
+
+    This works on DAILY graded predictions (not training data).
+    For train/test gap analysis, use the walk-forward CV in the model files.
+    """
+    graded = [r for r in results if isinstance(r, dict) and r.get("result") in ("HIT", "MISS")]
+    if len(graded) < 20:
+        return {"error": "insufficient data", "n": len(graded)}
+
+    # ── Signal 1: Probability distribution (underfitting = clustered near 0.5) ──
+    probs = []
+    outcomes = []
+    for r in graded:
+        p = r.get("ensemble_prob", r.get("xgb_prob"))
+        if p is not None and not (isinstance(p, float) and math.isnan(p)):
+            probs.append(p)
+            outcomes.append(1 if r["result"] == "HIT" else 0)
+
+    if len(probs) < 20:
+        return {"error": "insufficient probability data", "n": len(probs)}
+
+    prob_std = (sum((p - sum(probs) / len(probs)) ** 2 for p in probs) / len(probs)) ** 0.5
+    prob_min = min(probs)
+    prob_max = max(probs)
+    prob_range = prob_max - prob_min
+    prob_mean = sum(probs) / len(probs)
+
+    # ── Signal 2: Confidence stratification (overfitting = high conf does worse) ──
+    sorted_pairs = sorted(zip(probs, outcomes), key=lambda x: x[0], reverse=True)
+    n = len(sorted_pairs)
+    top_20pct = sorted_pairs[:max(n // 5, 1)]
+    mid_60pct = sorted_pairs[n // 5:4 * n // 5] if n > 5 else sorted_pairs
+    bot_20pct = sorted_pairs[max(4 * n // 5, n - 1):]
+
+    top_acc = sum(o for _, o in top_20pct) / len(top_20pct) if top_20pct else 0
+    mid_acc = sum(o for _, o in mid_60pct) / len(mid_60pct) if mid_60pct else 0
+    bot_acc = sum(o for _, o in bot_20pct) / len(bot_20pct) if bot_20pct else 0
+
+    # Monotonicity check: does accuracy increase with confidence?
+    monotonic = top_acc >= mid_acc >= bot_acc
+    confidence_inversion = top_acc < mid_acc  # overfitting signal
+
+    # ── Signal 3: Model agreement vs accuracy ──
+    high_agree = [r for r in graded if (r.get("model_agree_pct") or 0) >= 80]
+    low_agree = [r for r in graded if (r.get("model_agree_pct") or 0) <= 40]
+    high_agree_acc = (sum(1 for r in high_agree if r["result"] == "HIT") / len(high_agree)
+                      if high_agree else None)
+    low_agree_acc = (sum(1 for r in low_agree if r["result"] == "HIT") / len(low_agree)
+                     if low_agree else None)
+
+    # ── Signal 4: Per-model divergence (overfitting = one model dominates incorrectly) ──
+    model_probs = {}
+    for model_key in ["xgb_prob", "mlp_prob", "sim_prob", "reg_over_prob"]:
+        model_pairs = [(r.get(model_key), 1 if r["result"] == "HIT" else 0)
+                       for r in graded
+                       if r.get(model_key) is not None
+                       and not (isinstance(r.get(model_key), float) and math.isnan(r.get(model_key)))]
+        if len(model_pairs) >= 20:
+            mp, mo = zip(*model_pairs)
+            model_probs[model_key] = {
+                "mean_prob": round(sum(mp) / len(mp), 4),
+                "std_prob": round((sum((p - sum(mp) / len(mp)) ** 2 for p in mp) / len(mp)) ** 0.5, 4),
+                "auc": round(_roc_auc(list(mp), list(mo)), 4),
+                "n": len(model_pairs),
+            }
+
+    # ── Diagnosis ──
+    signals = []
+
+    # Underfitting signals
+    if prob_range < 0.15:
+        signals.append(("UNDERFIT", f"Probability range too narrow ({prob_range:.3f}). "
+                        "Model can't discriminate — all predictions ~{prob_mean:.2f}"))
+    if prob_std < 0.05:
+        signals.append(("UNDERFIT", f"Probability std too low ({prob_std:.4f}). "
+                        "Predictions clustered — model has no confidence signal"))
+
+    auc_val = _roc_auc(probs, outcomes)
+    if auc_val < 0.52:
+        signals.append(("UNDERFIT", f"AUC={auc_val:.3f} (near random). "
+                        "Model has almost no predictive discrimination"))
+
+    top_bot_gap = top_acc - bot_acc
+    if abs(top_bot_gap) < 0.05:
+        signals.append(("UNDERFIT", f"Top/bottom quintile gap only {top_bot_gap:+.1%}. "
+                        "No meaningful stratification by confidence"))
+
+    # Overfitting signals
+    if confidence_inversion:
+        signals.append(("OVERFIT", f"Confidence inversion: top-20% acc={top_acc:.1%} < "
+                        f"mid-60% acc={mid_acc:.1%}. High-confidence picks do worse"))
+
+    if high_agree_acc is not None and low_agree_acc is not None:
+        if low_agree_acc > high_agree_acc + 0.05:
+            signals.append(("OVERFIT", f"Model agreement inverted: low-agree acc={low_agree_acc:.1%} > "
+                            f"high-agree acc={high_agree_acc:.1%}. Consensus is wrong"))
+
+    # Check for extreme calibration gaps at tails
+    high_conf = [(p, o) for p, o in zip(probs, outcomes) if p >= 0.6]
+    if len(high_conf) >= 5:
+        hc_acc = sum(o for _, o in high_conf) / len(high_conf)
+        hc_avg_prob = sum(p for p, _ in high_conf) / len(high_conf)
+        if hc_avg_prob - hc_acc > 0.15:
+            signals.append(("OVERFIT", f"High-confidence miscalibration: predicted {hc_avg_prob:.1%} "
+                            f"but hit {hc_acc:.1%} (gap {hc_avg_prob - hc_acc:.1%})"))
+
+    # Overall verdict
+    overfit_count = sum(1 for s, _ in signals if s == "OVERFIT")
+    underfit_count = sum(1 for s, _ in signals if s == "UNDERFIT")
+
+    if overfit_count >= 2:
+        verdict = "OVERFITTING"
+    elif underfit_count >= 2:
+        verdict = "UNDERFITTING"
+    elif overfit_count == 1 and underfit_count == 1:
+        verdict = "MIXED (both signals present)"
+    elif overfit_count + underfit_count == 0:
+        verdict = "HEALTHY"
+    else:
+        verdict = "MILD " + (signals[0][0] if signals else "HEALTHY")
+
+    return {
+        "verdict": verdict,
+        "signals": [{"type": s, "detail": d} for s, d in signals],
+        "probability_distribution": {
+            "mean": round(prob_mean, 4),
+            "std": round(prob_std, 4),
+            "min": round(prob_min, 4),
+            "max": round(prob_max, 4),
+            "range": round(prob_range, 4),
+        },
+        "confidence_stratification": {
+            "top_20pct_accuracy": round(top_acc, 4),
+            "mid_60pct_accuracy": round(mid_acc, 4),
+            "bot_20pct_accuracy": round(bot_acc, 4),
+            "monotonic": monotonic,
+            "confidence_inversion": confidence_inversion,
+        },
+        "model_agreement": {
+            "high_agree_accuracy": round(high_agree_acc, 4) if high_agree_acc is not None else None,
+            "low_agree_accuracy": round(low_agree_acc, 4) if low_agree_acc is not None else None,
+            "high_agree_n": len(high_agree),
+            "low_agree_n": len(low_agree),
+        },
+        "per_model": model_probs,
+        "auc": round(auc_val, 4),
+        "n": len(probs),
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────
+# 8. REGRESSION METRICS (projection quality)
+# ─────────────────────────────────────────────────────────────────────
+
+def compute_regression_metrics(results):
+    """
+    Evaluate the quality of numeric projections (not just direction).
+
+    For sports betting, accurate projections matter because:
+      - Closer projections = better line shopping opportunities
+      - Regression model margin predictions enable Kelly sizing
+      - MAE by stat type reveals which stats we project well vs. poorly
+
+    Metrics:
+      - MAE (Mean Absolute Error): avg |projection - actual|
+      - RMSE (Root Mean Squared Error): penalizes large errors more
+      - R² (Coefficient of Determination): variance explained
+      - Directional Accuracy: % where sign(projection - line) matches outcome
+      - Residual analysis: systematic bias detection
+    """
+    pairs = []  # (projection, actual, line, stat, tier, direction)
+    for r in results:
+        if not isinstance(r, dict):
+            continue
+        actual = r.get("actual")
+        proj = r.get("projection")
+        line = r.get("line")
+        if actual is None or proj is None or line is None:
+            continue
+        if isinstance(actual, (int, float)) and isinstance(proj, (int, float)):
+            pairs.append({
+                "proj": proj,
+                "actual": actual,
+                "line": line,
+                "stat": r.get("stat", "?"),
+                "tier": r.get("tier", "?"),
+                "direction": r.get("direction", "?"),
+                "result": r.get("result", "?"),
+            })
+
+    if len(pairs) < 10:
+        return {"error": "insufficient data", "n": len(pairs)}
+
+    projs = [p["proj"] for p in pairs]
+    actuals = [p["actual"] for p in pairs]
+    lines = [p["line"] for p in pairs]
+
+    # ── Overall metrics ──
+    errors = [p - a for p, a in zip(projs, actuals)]
+    abs_errors = [abs(e) for e in errors]
+    sq_errors = [e ** 2 for e in errors]
+
+    mae = sum(abs_errors) / len(abs_errors)
+    rmse = (sum(sq_errors) / len(sq_errors)) ** 0.5
+    mean_actual = sum(actuals) / len(actuals)
+    ss_res = sum(sq_errors)
+    ss_tot = sum((a - mean_actual) ** 2 for a in actuals)
+    r_squared = 1 - ss_res / ss_tot if ss_tot > 0 else 0
+
+    # Mean error (bias): positive = we over-project, negative = under-project
+    mean_error = sum(errors) / len(errors)
+
+    # ── Directional accuracy ──
+    # Does sign(projection - line) correctly predict sign(actual - line)?
+    dir_correct = 0
+    for p in pairs:
+        proj_dir = "OVER" if p["proj"] > p["line"] else "UNDER"
+        actual_dir = "OVER" if p["actual"] > p["line"] else "UNDER"
+        if proj_dir == actual_dir:
+            dir_correct += 1
+    directional_accuracy = dir_correct / len(pairs)
+
+    # ── Per-stat regression metrics ──
+    by_stat = {}
+    for stat in sorted(set(p["stat"] for p in pairs)):
+        stat_pairs = [p for p in pairs if p["stat"] == stat]
+        if len(stat_pairs) < 5:
+            continue
+        sp = [p["proj"] for p in stat_pairs]
+        sa = [p["actual"] for p in stat_pairs]
+        se = [p - a for p, a in zip(sp, sa)]
+        stat_mae = sum(abs(e) for e in se) / len(se)
+        stat_rmse = (sum(e ** 2 for e in se) / len(se)) ** 0.5
+        stat_bias = sum(se) / len(se)
+
+        # R² per stat
+        stat_mean_a = sum(sa) / len(sa)
+        stat_ss_res = sum(e ** 2 for e in se)
+        stat_ss_tot = sum((a - stat_mean_a) ** 2 for a in sa)
+        stat_r2 = 1 - stat_ss_res / stat_ss_tot if stat_ss_tot > 0 else 0
+
+        by_stat[stat] = {
+            "n": len(stat_pairs),
+            "mae": round(stat_mae, 2),
+            "rmse": round(stat_rmse, 2),
+            "r_squared": round(stat_r2, 4),
+            "bias": round(stat_bias, 2),
+        }
+
+    # ── Regression model specific (if reg_predicted available) ──
+    reg_pairs = [(r.get("reg_predicted"), r.get("actual"))
+                 for r in results
+                 if isinstance(r, dict)
+                 and r.get("reg_predicted") is not None
+                 and r.get("actual") is not None
+                 and isinstance(r.get("reg_predicted"), (int, float))
+                 and isinstance(r.get("actual"), (int, float))]
+
+    reg_metrics = None
+    if len(reg_pairs) >= 10:
+        rp, ra = zip(*reg_pairs)
+        reg_errors = [p - a for p, a in zip(rp, ra)]
+        reg_mae = sum(abs(e) for e in reg_errors) / len(reg_errors)
+        reg_rmse = (sum(e ** 2 for e in reg_errors) / len(reg_errors)) ** 0.5
+        reg_mean_a = sum(ra) / len(ra)
+        reg_ss_res = sum(e ** 2 for e in reg_errors)
+        reg_ss_tot = sum((a - reg_mean_a) ** 2 for a in ra)
+        reg_r2 = 1 - reg_ss_res / reg_ss_tot if reg_ss_tot > 0 else 0
+        reg_bias = sum(reg_errors) / len(reg_errors)
+        reg_metrics = {
+            "n": len(reg_pairs),
+            "mae": round(reg_mae, 2),
+            "rmse": round(reg_rmse, 2),
+            "r_squared": round(reg_r2, 4),
+            "bias": round(reg_bias, 2),
+        }
+
+    return {
+        "n": len(pairs),
+        "mae": round(mae, 2),
+        "rmse": round(rmse, 2),
+        "r_squared": round(r_squared, 4),
+        "mean_error_bias": round(mean_error, 2),
+        "directional_accuracy": round(directional_accuracy, 4),
+        "by_stat": by_stat,
+        "regression_model": reg_metrics,
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────
+# 9. LOSS FUNCTION ANALYSIS
+# ─────────────────────────────────────────────────────────────────────
+
+def compute_loss_analysis(results):
+    """
+    Comprehensive loss function analysis across multiple loss types.
+
+    Loss functions measure HOW WRONG your model is. Different losses
+    penalize different kinds of errors:
+
+    Classification losses (on probability outputs):
+      - Binary Cross-Entropy (Log Loss): Standard for probability models.
+        Heavily penalizes confident wrong predictions.
+        Formula: -[y*log(p) + (1-y)*log(1-p)]
+      - Hinge Loss: SVM-style. Penalizes predictions on the wrong side
+        of the decision boundary. Less sensitive to probability calibration.
+        Formula: max(0, 1 - y*f(x)) where y in {-1, +1}
+      - Squared Hinge: Hinge^2. Smoother gradient, penalizes big errors more.
+      - Zero-One Loss: Simple misclassification count. Not differentiable.
+
+    Regression losses (on projection outputs):
+      - MSE (Mean Squared Error): Penalizes large errors quadratically.
+      - MAE (Mean Absolute Error): Linear penalty. Robust to outliers.
+      - Huber Loss: Hybrid — MAE for large errors, MSE for small errors.
+        Less sensitive to outliers than MSE.
+      - Quantile Loss: Asymmetric — penalizes over/under differently.
+        Useful for betting (UNDER misses cost differently than OVER misses).
+
+    Per-model comparison shows which model minimizes which loss.
+    """
+    graded = [r for r in results if isinstance(r, dict) and r.get("result") in ("HIT", "MISS")]
+    if len(graded) < 20:
+        return {"error": "insufficient data"}
+
+    # ── Classification losses ──
+    classification_losses = {}
+
+    model_keys = [
+        ("ensemble", "ensemble_prob"),
+        ("xgb", "xgb_prob"),
+        ("mlp", "mlp_prob"),
+        ("sim", "sim_prob"),
+    ]
+
+    for model_name, prob_key in model_keys:
+        pairs = []
+        for r in graded:
+            p = r.get(prob_key)
+            if p is not None and not (isinstance(p, float) and math.isnan(p)):
+                actual = 1 if r["result"] == "HIT" else 0
+                pairs.append((p, actual))
+
+        if len(pairs) < 20:
+            continue
+
+        probs, actuals = zip(*pairs)
+
+        # Binary Cross-Entropy (Log Loss)
+        log_loss_val = _log_loss(probs, actuals)
+
+        # Brier Score (MSE of probabilities)
+        brier = _brier_score(probs, actuals)
+
+        # Hinge Loss: max(0, 1 - y*f(x)), y in {-1, +1}, f(x) = 2*p - 1
+        hinge = 0
+        for p, a in zip(probs, actuals):
+            y = 2 * a - 1  # convert 0/1 to -1/+1
+            fx = 2 * p - 1  # convert [0,1] to [-1,+1]
+            hinge += max(0, 1 - y * fx)
+        hinge /= len(probs)
+
+        # Squared Hinge
+        sq_hinge = 0
+        for p, a in zip(probs, actuals):
+            y = 2 * a - 1
+            fx = 2 * p - 1
+            sq_hinge += max(0, 1 - y * fx) ** 2
+        sq_hinge /= len(probs)
+
+        # Zero-One Loss (misclassification rate)
+        zero_one = sum(1 for p, a in zip(probs, actuals)
+                       if (p >= 0.5) != (a == 1)) / len(probs)
+
+        # Focal Loss: focuses on hard examples. α=0.25, γ=2
+        # FL(p) = -α * (1-p)^γ * log(p) for positive class
+        focal = 0
+        alpha, gamma = 0.25, 2.0
+        eps = 1e-15
+        for p, a in zip(probs, actuals):
+            p_clipped = max(eps, min(1 - eps, p))
+            if a == 1:
+                focal += -alpha * (1 - p_clipped) ** gamma * math.log(p_clipped)
+            else:
+                focal += -(1 - alpha) * p_clipped ** gamma * math.log(1 - p_clipped)
+        focal /= len(probs)
+
+        classification_losses[model_name] = {
+            "n": len(pairs),
+            "log_loss": round(log_loss_val, 4),
+            "brier": round(brier, 4),
+            "hinge": round(hinge, 4),
+            "squared_hinge": round(sq_hinge, 4),
+            "zero_one": round(zero_one, 4),
+            "focal": round(focal, 4),
+        }
+
+    # ── Regression losses ──
+    regression_losses = {}
+
+    reg_sources = [
+        ("pipeline_proj", "projection", "actual"),
+        ("xgb_regressor", "reg_predicted", "actual"),
+    ]
+
+    for name, pred_key, actual_key in reg_sources:
+        pairs = []
+        for r in graded:
+            pred = r.get(pred_key)
+            actual = r.get(actual_key)
+            if pred is not None and actual is not None:
+                if isinstance(pred, (int, float)) and isinstance(actual, (int, float)):
+                    pairs.append((pred, actual))
+
+        if len(pairs) < 20:
+            continue
+
+        preds, actuals_r = zip(*pairs)
+        errors = [p - a for p, a in zip(preds, actuals_r)]
+        abs_errors = [abs(e) for e in errors]
+
+        # MSE
+        mse = sum(e ** 2 for e in errors) / len(errors)
+
+        # MAE
+        mae = sum(abs_errors) / len(abs_errors)
+
+        # RMSE
+        rmse = mse ** 0.5
+
+        # Huber Loss (delta=1.0): MSE for small errors, MAE for large
+        delta = 1.0
+        huber = 0
+        for e in errors:
+            if abs(e) <= delta:
+                huber += 0.5 * e ** 2
+            else:
+                huber += delta * (abs(e) - 0.5 * delta)
+        huber /= len(errors)
+
+        # Log-Cosh Loss: smoother approximation of Huber
+        log_cosh = sum(math.log(math.cosh(e)) for e in errors) / len(errors)
+
+        # Quantile Loss (asymmetric) — tau=0.5 for median (= MAE/2)
+        # tau=0.6 penalizes under-prediction more (relevant for OVER bets)
+        q_loss_50 = 0
+        q_loss_40 = 0  # penalizes over-prediction more (relevant for UNDER bias)
+        for e in errors:
+            q_loss_50 += max(0.5 * e, (0.5 - 1) * e)
+            q_loss_40 += max(0.4 * e, (0.4 - 1) * e)
+        q_loss_50 /= len(errors)
+        q_loss_40 /= len(errors)
+
+        # MAPE (Mean Absolute Percentage Error) — skip zeros
+        mape_pairs = [(abs(e / a) if abs(a) > 0.5 else None)
+                      for e, a in zip(errors, actuals_r)]
+        mape_vals = [m for m in mape_pairs if m is not None]
+        mape = sum(mape_vals) / len(mape_vals) * 100 if mape_vals else None
+
+        regression_losses[name] = {
+            "n": len(pairs),
+            "mse": round(mse, 4),
+            "rmse": round(rmse, 4),
+            "mae": round(mae, 4),
+            "huber": round(huber, 4),
+            "log_cosh": round(log_cosh, 4),
+            "quantile_50": round(q_loss_50, 4),
+            "quantile_40": round(q_loss_40, 4),
+            "mape": round(mape, 2) if mape is not None else None,
+        }
+
+    # ── Loss decomposition: which errors hurt most? ──
+    # Find the costliest misses (high confidence, wrong prediction)
+    costly_misses = []
+    for r in graded:
+        if r["result"] != "MISS":
+            continue
+        ens = r.get("ensemble_prob", r.get("xgb_prob", 0.5))
+        if ens is None or (isinstance(ens, float) and math.isnan(ens)):
+            continue
+        loss_contrib = -math.log(max(1e-15, 1 - ens))  # log loss contribution for wrong prediction
+        costly_misses.append({
+            "player": r.get("player", "?"),
+            "stat": r.get("stat", "?"),
+            "direction": r.get("direction", "?"),
+            "line": r.get("line", "?"),
+            "actual": r.get("actual", "?"),
+            "prob": round(ens, 3),
+            "log_loss_contribution": round(loss_contrib, 4),
+        })
+    costly_misses.sort(key=lambda x: x["log_loss_contribution"], reverse=True)
+
+    return {
+        "classification": classification_losses,
+        "regression": regression_losses,
+        "costliest_misses": costly_misses[:10],  # top 10 most expensive errors
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────
+# 10. ASCII RENDERING (terminal-friendly output)
 # ─────────────────────────────────────────────────────────────────────
 
 def render_ascii_roc(curve_points, width=50, height=20):
@@ -755,6 +1470,10 @@ def evaluate_date(date_str, verbose=True):
     roc_curve = compute_roc_curve(graded)
     profit = compute_profit_metrics(graded)
     betting = compute_betting_metrics(graded)
+    confusion = compute_confusion_matrix(graded)
+    overfit = compute_overfit_diagnostics(graded)
+    regression = compute_regression_metrics(results)  # needs raw results for projection data
+    loss = compute_loss_analysis(results)
 
     metrics = {
         "date": date_str,
@@ -767,6 +1486,10 @@ def evaluate_date(date_str, verbose=True):
         "roc_curve": roc_curve,
         "profit": profit,
         "betting": betting,
+        "confusion_matrix": confusion,
+        "overfit_diagnostics": overfit,
+        "regression": regression,
+        "loss_analysis": loss,
     }
 
     # Save per-day metrics
@@ -996,6 +1719,143 @@ def _print_report(date_str, metrics):
             for bucket, stats in sorted(agreement.items()):
                 bar = "#" * int(stats["accuracy"] * 20)
                 print(f"  │   {bucket:>8s}: {stats['accuracy']:.1%} (n={stats['n']:3d})  {bar}")
+        print(f"  └────────────────────────────────────────────────────────────┘")
+
+    # ── Section 7: Confusion Matrix ──
+    cm = metrics.get("confusion_matrix", {})
+    if cm and "overall" in cm:
+        print(render_confusion_matrix(cm))
+
+    # ── Section 8: Overfitting / Underfitting ──
+    ofit = metrics.get("overfit_diagnostics", {})
+    if ofit and "verdict" in ofit:
+        verdict = ofit["verdict"]
+        print(f"\n  ┌─ OVERFIT / UNDERFIT DIAGNOSTICS ─────────────────────────────┐")
+        # Color the verdict
+        verdict_marker = {"OVERFITTING": "!!", "UNDERFITTING": "!!", "HEALTHY": "OK",
+                          }.get(verdict, "~~")
+        print(f"  │ Verdict: {verdict_marker} {verdict}")
+
+        signals = ofit.get("signals", [])
+        if signals:
+            print(f"  │")
+            for sig in signals:
+                marker = "!!" if sig["type"] == "OVERFIT" else ">>"
+                print(f"  │ {marker} [{sig['type']}] {sig['detail']}")
+        else:
+            print(f"  │ No concerning signals detected.")
+
+        # Confidence stratification
+        strat = ofit.get("confidence_stratification", {})
+        if strat:
+            print(f"  │")
+            print(f"  │ Confidence Stratification:")
+            print(f"  │   Top 20%: {strat.get('top_20pct_accuracy', 0):.1%}  "
+                  f"Mid 60%: {strat.get('mid_60pct_accuracy', 0):.1%}  "
+                  f"Bot 20%: {strat.get('bot_20pct_accuracy', 0):.1%}")
+            mono = "YES" if strat.get("monotonic") else "NO (bad)"
+            print(f"  │   Monotonic (top>mid>bot): {mono}")
+
+        # Probability spread
+        pdist = ofit.get("probability_distribution", {})
+        if pdist:
+            print(f"  │")
+            print(f"  │ Prob Distribution: mean={pdist.get('mean', 0):.3f} "
+                  f"std={pdist.get('std', 0):.3f} "
+                  f"range=[{pdist.get('min', 0):.3f}, {pdist.get('max', 0):.3f}]")
+
+        # Per-model AUC comparison
+        per_model = ofit.get("per_model", {})
+        if per_model:
+            print(f"  │")
+            print(f"  │ Per-Model AUC:")
+            for mk, mv in sorted(per_model.items(), key=lambda x: x[1]["auc"], reverse=True):
+                name = mk.replace("_prob", "").replace("_over_", "_")
+                bar = "#" * max(0, int((mv["auc"] - 0.4) * 50))
+                print(f"  │   {name:12s}: AUC={mv['auc']:.3f}  std={mv['std_prob']:.3f}  {bar}")
+
+        print(f"  └────────────────────────────────────────────────────────────┘")
+
+    # ── Section 9: Regression Metrics ──
+    reg = metrics.get("regression", {})
+    if reg and "mae" in reg:
+        print(f"\n  ┌─ REGRESSION (projection quality) ───────────────────────────┐")
+        print(f"  │ MAE: {reg['mae']}  RMSE: {reg['rmse']}  R²: {reg['r_squared']:.4f}")
+        print(f"  │ Bias: {reg['mean_error_bias']:+.2f}  "
+              f"({'over-projects' if reg['mean_error_bias'] > 0 else 'under-projects'})")
+        print(f"  │ Directional accuracy: {reg['directional_accuracy']:.1%}  "
+              f"(projection vs line agrees with actual)")
+
+        # Regression model comparison
+        rm = reg.get("regression_model")
+        if rm:
+            print(f"  │")
+            print(f"  │ XGBRegressor:  MAE={rm['mae']}  RMSE={rm['rmse']}  "
+                  f"R²={rm['r_squared']:.4f}  bias={rm['bias']:+.2f}")
+
+        # Per-stat
+        by_stat = reg.get("by_stat", {})
+        if by_stat:
+            print(f"  │")
+            print(f"  │ {'Stat':>5s}  {'MAE':>5s}  {'RMSE':>6s}  {'R²':>7s}  {'Bias':>6s}  {'N':>4s}")
+            print(f"  │ {'-'*5}  {'-'*5}  {'-'*6}  {'-'*7}  {'-'*6}  {'-'*4}")
+            for stat, sm in sorted(by_stat.items(), key=lambda x: x[1]["mae"]):
+                print(
+                    f"  │ {stat:>5s}  {sm['mae']:>5.2f}  {sm['rmse']:>6.2f}  "
+                    f"{sm['r_squared']:>7.4f}  {sm['bias']:>+5.2f}  {sm['n']:>4d}"
+                )
+        print(f"  └────────────────────────────────────────────────────────────┘")
+
+    # ── Section 10: Loss Function Analysis ──
+    loss = metrics.get("loss_analysis", {})
+    if loss and "classification" in loss:
+        cls_loss = loss.get("classification", {})
+        reg_loss = loss.get("regression", {})
+        costly = loss.get("costliest_misses", [])
+
+        print(f"\n  ┌─ LOSS FUNCTION ANALYSIS ─────────────────────────────────────┐")
+
+        if cls_loss:
+            print(f"  │ Classification Losses (lower = better):")
+            print(f"  │ {'Model':<12s} {'LogLoss':>8s} {'Brier':>7s} {'Hinge':>7s} "
+                  f"{'SqHinge':>8s} {'0/1':>6s} {'Focal':>7s}")
+            print(f"  │ {'-'*12} {'-'*8} {'-'*7} {'-'*7} {'-'*8} {'-'*6} {'-'*7}")
+            # Random baselines
+            print(f"  │ {'(random)':<12s} {'0.6931':>8s} {'0.2500':>7s} {'1.0000':>7s} "
+                  f"{'1.0000':>8s} {'0.500':>6s} {'0.1733':>7s}")
+            for model, ml in sorted(cls_loss.items(), key=lambda x: x[1]["log_loss"]):
+                print(
+                    f"  │ {model:<12s} {ml['log_loss']:>8.4f} {ml['brier']:>7.4f} "
+                    f"{ml['hinge']:>7.4f} {ml['squared_hinge']:>8.4f} "
+                    f"{ml['zero_one']:>6.3f} {ml['focal']:>7.4f}"
+                )
+
+        if reg_loss:
+            print(f"  │")
+            print(f"  │ Regression Losses (lower = better):")
+            print(f"  │ {'Source':<14s} {'MSE':>8s} {'MAE':>6s} {'Huber':>7s} "
+                  f"{'LogCosh':>8s} {'Q50':>7s} {'Q40':>7s} {'MAPE':>6s}")
+            print(f"  │ {'-'*14} {'-'*8} {'-'*6} {'-'*7} {'-'*8} {'-'*7} {'-'*7} {'-'*6}")
+            for name, rl in reg_loss.items():
+                mape_str = f"{rl['mape']:.1f}%" if rl.get('mape') is not None else "  -- "
+                print(
+                    f"  │ {name:<14s} {rl['mse']:>8.2f} {rl['mae']:>6.2f} "
+                    f"{rl['huber']:>7.4f} {rl['log_cosh']:>8.4f} "
+                    f"{rl['quantile_50']:>7.4f} {rl['quantile_40']:>7.4f} "
+                    f"{mape_str:>6s}"
+                )
+
+        if costly:
+            print(f"  │")
+            print(f"  │ Costliest Misses (highest log-loss contribution):")
+            for i, cm in enumerate(costly[:5]):
+                print(
+                    f"  │   {i+1}. {cm['player']:<22s} {cm['stat']:<4s} "
+                    f"{cm['direction']:<6s} line={cm['line']:<5} "
+                    f"actual={cm['actual']:<5} p={cm['prob']:.3f} "
+                    f"loss={cm['log_loss_contribution']:.4f}"
+                )
+
         print(f"  └────────────────────────────────────────────────────────────┘")
 
 
