@@ -484,6 +484,220 @@ def generate_strategies():
 # 6. MAIN RUNNER
 # ─────────────────────────────────────────────────────────────────────
 
+def generate_mega_strategies():
+    """Generate massive uncapped strategy grid — 50K+ combinations."""
+    strategies = []
+
+    # All parameter values
+    directions = ['UNDER', 'OVER', None]
+    stat_sets = [
+        None,
+        {'blk', 'stl'}, {'blk'}, {'stl'}, {'pts'}, {'reb'}, {'ast'}, {'3pm'},
+        {'pts', 'reb', 'ast'}, {'blk', 'stl', '3pm'}, {'reb', 'ast'},
+        {'pts', 'reb'}, {'pts', 'ast'},
+    ]
+    stat_excludes = [
+        None,
+        {'pra', 'pr', 'pa', 'ra', 'stl_blk'},
+        {'pra', 'pr', 'pa', 'ra', 'stl_blk', 'blk'},
+        {'pts', 'pra', 'pr', 'pa', 'ra', 'stl_blk'},
+    ]
+    min_tiers = [None, 'S', 'A', 'B', 'C', 'D']
+    min_l10_hrs = [None, 30, 40, 45, 50, 55, 60, 65, 70, 75, 80]
+    min_l5_hrs = [None, 30, 40, 50, 60, 70]
+    min_season_hrs = [None, 40, 50, 55, 60]
+    min_gaps = [None, 0.3, 0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0]
+    max_gaps = [None, 3.0, 5.0, 8.0, 10.0, 15.0]
+    streaks = [None, 'COLD', 'HOT', 'NEUTRAL']
+    streak_excludes = [None, ['HOT'], ['COLD'], ['HOT', 'NEUTRAL']]
+    min_mins_pcts = [None, 40, 50, 60, 70, 80]
+    max_misses = [None, 1, 2, 3, 4, 5, 6, 7]
+    max_lines = [None, 0.5, 1.5, 3.5, 5.5, 10.5, 20.5]
+    sort_bys = ['gap', 'l10_hr', 'ensemble', 'reg_margin', 'floor', 'composite', 'random']
+    n_legs_opts = [2, 3, 4]
+    min_reg_margins = [None, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0]
+    min_ensembles = [None, 0.48, 0.50, 0.52, 0.55, 0.58, 0.60]
+    no_b2b_opts = [False, True]
+    proj_agrees_opts = [False, True]
+    no_combo_opts = [False, True]
+
+    idx = 0
+
+    # ── PHASE 1: Full grid on the proven UNDER 2-leg space ──
+    for min_hr in min_l10_hrs:
+        for max_miss in max_misses:
+            for sort in sort_bys:
+                for min_gap in [None, 0.5, 1.0, 1.5, 2.0, 3.0]:
+                    for min_tier in [None, 'B', 'C', 'D']:
+                        for n_legs in [2, 3]:
+                            for no_combo in [True, False]:
+                                strategies.append({
+                                    'name': f'p1_{idx}',
+                                    'direction': 'UNDER',
+                                    'no_combos': no_combo,
+                                    'min_l10_hr': min_hr,
+                                    'max_l10_miss': max_miss,
+                                    'sort_by': sort,
+                                    'n_legs': n_legs,
+                                    'min_gap': min_gap,
+                                    'min_tier': min_tier,
+                                })
+                                idx += 1
+
+    # ── PHASE 2: BLK/STL focused (historically best stats) ──
+    for stat_set in [{'blk', 'stl'}, {'blk'}, {'stl'}, {'blk', 'stl', '3pm'}]:
+        for direction in ['UNDER', None]:
+            for max_line in max_lines:
+                for min_hr in [None, 40, 50, 60, 70]:
+                    for sort in sort_bys:
+                        for n_legs in [2, 3, 4]:
+                            for max_miss in [None, 3, 5]:
+                                strategies.append({
+                                    'name': f'p2_{idx}',
+                                    'direction': direction,
+                                    'stats': stat_set,
+                                    'max_line': max_line,
+                                    'min_l10_hr': min_hr,
+                                    'sort_by': sort,
+                                    'n_legs': n_legs,
+                                    'max_l10_miss': max_miss,
+                                })
+                                idx += 1
+
+    # ── PHASE 3: Regression margin (the strongest single signal) ──
+    for min_margin in min_reg_margins:
+        for direction in directions:
+            for min_hr in [None, 40, 50, 60, 70]:
+                for sort in sort_bys:
+                    for n_legs in [2, 3]:
+                        for no_combo in [True, False]:
+                            for min_gap in [None, 0.5, 1.0]:
+                                strategies.append({
+                                    'name': f'p3_{idx}',
+                                    'min_reg_margin': min_margin,
+                                    'direction': direction,
+                                    'min_l10_hr': min_hr,
+                                    'sort_by': sort,
+                                    'n_legs': n_legs,
+                                    'no_combos': no_combo,
+                                    'min_gap': min_gap,
+                                })
+                                idx += 1
+
+    # ── PHASE 4: Ensemble + margin combos ──
+    for min_ens in min_ensembles:
+        for min_margin in min_reg_margins:
+            for direction in directions:
+                for n_legs in [2, 3]:
+                    for sort in sort_bys:
+                        for no_combo in [True, False]:
+                            strategies.append({
+                                'name': f'p4_{idx}',
+                                'min_ensemble_prob': min_ens,
+                                'min_reg_margin': min_margin,
+                                'direction': direction,
+                                'sort_by': sort,
+                                'n_legs': n_legs,
+                                'no_combos': no_combo,
+                            })
+                            idx += 1
+
+    # ── PHASE 5: Projection agreement combos ──
+    for proj_agree in [True, False]:
+        for direction in ['UNDER', None]:
+            for min_hr in [None, 50, 55, 60, 65, 70]:
+                for min_gap in [None, 0.5, 1.0, 2.0]:
+                    for sort in sort_bys:
+                        for n_legs in [2, 3]:
+                            for max_miss in [None, 2, 3, 5]:
+                                strategies.append({
+                                    'name': f'p5_{idx}',
+                                    'proj_agrees_direction': proj_agree,
+                                    'direction': direction,
+                                    'min_l10_hr': min_hr,
+                                    'min_gap': min_gap,
+                                    'sort_by': sort,
+                                    'n_legs': n_legs,
+                                    'max_l10_miss': max_miss,
+                                    'no_combos': True,
+                                })
+                                idx += 1
+
+    # ── PHASE 6: Streak-based ──
+    for streak in streaks:
+        for streak_ex in streak_excludes:
+            for direction in ['UNDER', None]:
+                for min_hr in [None, 50, 60]:
+                    for sort in sort_bys:
+                        for n_legs in [2, 3]:
+                            for min_gap in [None, 0.5, 1.0, 2.0]:
+                                strategies.append({
+                                    'name': f'p6_{idx}',
+                                    'streak': streak,
+                                    'streak_exclude': streak_ex,
+                                    'direction': direction,
+                                    'min_l10_hr': min_hr,
+                                    'sort_by': sort,
+                                    'n_legs': n_legs,
+                                    'min_gap': min_gap,
+                                    'no_combos': True,
+                                })
+                                idx += 1
+
+    # ── PHASE 7: Extreme conviction (very tight filters) ──
+    for min_hr in [65, 70, 75, 80, 85, 90]:
+        for max_miss in [0, 1, 2, 3]:
+            for min_gap in [1.0, 1.5, 2.0, 3.0, 4.0, 5.0]:
+                for no_b2b in [True, False]:
+                    for min_mins in [None, 60, 70]:
+                        for n_legs in [2, 3]:
+                            for sort in ['composite', 'reg_margin', 'gap', 'floor']:
+                                strategies.append({
+                                    'name': f'p7_{idx}',
+                                    'direction': 'UNDER',
+                                    'min_l10_hr': min_hr,
+                                    'max_l10_miss': max_miss,
+                                    'min_gap': min_gap,
+                                    'no_b2b': no_b2b,
+                                    'min_mins_pct': min_mins,
+                                    'sort_by': sort,
+                                    'n_legs': n_legs,
+                                    'no_combos': True,
+                                })
+                                idx += 1
+
+    # ── PHASE 8: Multi-HR agreement (L5 + L10 + season all agree) ──
+    for min_l10 in [50, 55, 60, 65, 70]:
+        for min_l5 in [None, 40, 50, 60]:
+            for min_season in [None, 40, 50, 55]:
+                for direction in ['UNDER', None]:
+                    for sort in sort_bys:
+                        for n_legs in [2, 3]:
+                            strategies.append({
+                                'name': f'p8_{idx}',
+                                'direction': direction,
+                                'min_l10_hr': min_l10,
+                                'min_l5_hr': min_l5,
+                                'min_season_hr': min_season,
+                                'sort_by': sort,
+                                'n_legs': n_legs,
+                                'no_combos': True,
+                            })
+                            idx += 1
+
+    # Deduplicate
+    seen = set()
+    unique = []
+    for s in strategies:
+        key = json.dumps({k: (list(v) if isinstance(v, set) else v)
+                          for k, v in sorted(s.items()) if k != 'name'}, sort_keys=True)
+        if key not in seen:
+            seen.add(key)
+            unique.append(s)
+
+    return unique
+
+
 def run_lab(top_n=30, min_days=5):
     """Run the full parlay lab."""
     print(f"{'=' * 70}")
@@ -495,7 +709,11 @@ def run_lab(top_n=30, min_days=5):
     print(f"  Loaded {len(all_props)} graded props across {len(by_date)} days")
     print(f"  Overall HR: {sum(1 for p in all_props if p['result']=='HIT')/len(all_props):.1%}")
 
-    strategies = generate_strategies()
+    # Use mega strategies for uncapped testing
+    if '--mega' in sys.argv:
+        strategies = generate_mega_strategies()
+    else:
+        strategies = generate_strategies()
     print(f"  Testing {len(strategies):,} strategies...\n")
 
     results = []
