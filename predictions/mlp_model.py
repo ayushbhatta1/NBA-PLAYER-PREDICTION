@@ -210,6 +210,8 @@ def _train_single(X_train, y_train, sample_weights=None, seed=42, device=None):
 
         for start in range(0, len(X_t), BATCH_SIZE):
             idx = perm_t[start:start + BATCH_SIZE]
+            if len(idx) < 2:  # skip batch size 1 — BatchNorm1d needs 2+
+                continue
             batch_X = X_t[idx]
             batch_y = y_t[idx]
             batch_w = w_t[idx]

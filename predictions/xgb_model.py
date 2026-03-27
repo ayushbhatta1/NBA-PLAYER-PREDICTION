@@ -719,7 +719,7 @@ def collect_all_training_data(use_historical=True, sample_cap=15000):
     sgo_backfill = collect_sgo_backfill_data()
 
     # Load 10-year CSV historical (massive dataset, sampled)
-    hist_10yr = collect_10yr_data(sample_cap=200000)  # 200K from 3M (recency weighted, memory safe)
+    hist_10yr = collect_10yr_data(sample_cap=100000)  # 100K from 3M (recency weighted, memory safe for all models)
 
     if not use_historical:
         all_data = graded + backfill + sgo_backfill + hist_10yr
