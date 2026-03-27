@@ -1312,12 +1312,42 @@ def _compute_brier(y_true, y_prob):
 
 
 def train_model(X, y, dates, save_path=None, sample_weights=None, sources=None):
-    """Train final model on all data, run walk-forward CV, save model + metadata."""
+    """Train final model on all data, run walk-forward CV, save model + metadata.
+    For large datasets (>1M), subsamples non-graded data for CV speed, then
+    trains the final model on ALL data."""
     if save_path is None:
         save_path = MODEL_PATH
 
-    print("\n  Walk-Forward Cross-Validation:")
-    folds = walk_forward_cv(X, y, dates, sample_weights=sample_weights, sources=sources)
+    # For large datasets, subsample for CV (keep all graded + sample historical)
+    CV_MAX = 600000
+    if len(y) > CV_MAX and sources is not None:
+        sources_arr = np.array(sources)
+        graded_mask = sources_arr == 'graded'
+        other_mask = ~graded_mask
+
+        n_graded = graded_mask.sum()
+        n_other_needed = min(CV_MAX - n_graded, other_mask.sum())
+
+        rng = np.random.RandomState(42)
+        other_indices = np.where(other_mask)[0]
+        sampled_other = rng.choice(other_indices, size=n_other_needed, replace=False)
+        cv_indices = np.sort(np.concatenate([np.where(graded_mask)[0], sampled_other]))
+
+        print(f"\n  CV subsample: {len(cv_indices):,} / {len(y):,} "
+              f"(all {n_graded:,} graded + {n_other_needed:,} sampled historical)")
+
+        X_cv = X[cv_indices]
+        y_cv = y[cv_indices]
+        dates_cv = np.array(dates)[cv_indices] if isinstance(dates, list) else dates[cv_indices]
+        sw_cv = sample_weights[cv_indices] if sample_weights is not None else None
+        sources_cv = [sources[i] for i in cv_indices] if isinstance(sources, list) else sources[cv_indices]
+
+        print("\n  Walk-Forward Cross-Validation (on subsample):")
+        folds = walk_forward_cv(X_cv, y_cv, dates_cv, sample_weights=sw_cv, sources=sources_cv)
+        del X_cv, y_cv, dates_cv, sw_cv, sources_cv
+    else:
+        print("\n  Walk-Forward Cross-Validation:")
+        folds = walk_forward_cv(X, y, dates, sample_weights=sample_weights, sources=sources)
 
     if folds:
         avg_auc = np.mean([f['auc'] for f in folds])
@@ -1527,39 +1557,74 @@ def main():
     use_historical = not no_historical
 
     if command == 'train':
-        print("=" * 60)
-        print(f"  XGBoost Prop Classifier — Training {'(+historical)' if use_historical else '(graded only)'}")
-        print("=" * 60)
+        use_precomputed = '--precomputed' in sys.argv or '--all' in sys.argv
+        precomputed_path = os.path.join(PREDICTIONS_DIR, 'cache', 'all_features.npz')
 
-        if use_historical:
-            records = collect_all_training_data(use_historical=True)
+        if use_precomputed and os.path.exists(precomputed_path):
+            print("=" * 60)
+            print(f"  XGBoost Prop Classifier — Training on ALL pre-computed data")
+            print("=" * 60)
+
+            data = np.load(precomputed_path, allow_pickle=True)
+            X = data['X']
+            y = data['y']
+            dates = data['dates'].astype(str)
+            sources_arr = data['sources'].astype(str)
+
+            print(f"  Loaded: {X.shape[0]:,} samples × {X.shape[1]} features")
+            print(f"  Hit rate: {y.mean():.1%}")
+            for src in sorted(set(sources_arr)):
+                mask = sources_arr == src
+                print(f"    {src:15s}: {mask.sum():>10,}")
+
+            # Build sample weights from source tags
+            weight_map = {'graded': 25.0, 'backfill': 10.0, 'sgo_backfill': 8.0, 'csv_full': 1.0}
+            sample_weights = np.array([weight_map.get(s, 1.0) for s in sources_arr])
+            sources = list(sources_arr)
+
         else:
-            records = collect_training_data()
+            print("=" * 60)
+            print(f"  XGBoost Prop Classifier — Training {'(+historical)' if use_historical else '(graded only)'}")
+            print("=" * 60)
 
-        if len(records) < 100:
-            print(f"  ERROR: Only {len(records)} records — need at least 100 for training")
-            sys.exit(1)
+            if use_historical:
+                records = collect_all_training_data(use_historical=True)
+            else:
+                records = collect_training_data()
 
-        X, y, dates = engineer_features(records)
+            if len(records) < 100:
+                print(f"  ERROR: Only {len(records)} records — need at least 100 for training")
+                sys.exit(1)
 
-        # Build sample weights: graded=25.0, backfill=10.0, sgo_backfill=8.0, historical=1.0
-        sample_weights = None
-        if use_historical or any(r.get('_data_source') in ('backfill', 'sgo_backfill') for r in records):
-            def _weight(r):
-                src = r.get('_data_source', '')
-                if src == 'graded': return 25.0
-                if src == 'backfill': return 10.0
-                if src == 'sgo_backfill': return 8.0
-                return 1.0
-            sample_weights = np.array([_weight(r) for r in records])
+            X, y, dates = engineer_features(records)
 
-        sources = [r.get('_data_source', 'graded') for r in records]
+            # Build sample weights
+            sample_weights = None
+            if use_historical or any(r.get('_data_source') in ('backfill', 'sgo_backfill') for r in records):
+                def _weight(r):
+                    src = r.get('_data_source', '')
+                    if src == 'graded': return 25.0
+                    if src == 'backfill': return 10.0
+                    if src == 'sgo_backfill': return 8.0
+                    return 1.0
+                sample_weights = np.array([_weight(r) for r in records])
+
+            sources = [r.get('_data_source', 'graded') for r in records]
         model, metadata = train_model(X, y, dates, sample_weights=sample_weights, sources=sources)
         metadata['use_historical'] = use_historical
-        n_graded = sum(1 for r in records if r.get('_data_source') == 'graded')
-        n_hist = sum(1 for r in records if r.get('_data_source') == 'historical')
-        n_backfill = sum(1 for r in records if r.get('_data_source') == 'backfill')
-        n_sgo_backfill = sum(1 for r in records if r.get('_data_source') == 'sgo_backfill')
+
+        # Count sources — from records if available, else from sources list
+        if 'records' in dir() and records:
+            n_graded = sum(1 for r in records if r.get('_data_source') == 'graded')
+            n_hist = sum(1 for r in records if r.get('_data_source') == 'historical')
+            n_backfill = sum(1 for r in records if r.get('_data_source') == 'backfill')
+            n_sgo_backfill = sum(1 for r in records if r.get('_data_source') == 'sgo_backfill')
+        else:
+            # Precomputed path — count from sources list
+            n_graded = sum(1 for s in sources if s == 'graded')
+            n_hist = sum(1 for s in sources if s in ('historical', 'historical_10yr', 'csv_full'))
+            n_backfill = sum(1 for s in sources if s == 'backfill')
+            n_sgo_backfill = sum(1 for s in sources if s == 'sgo_backfill')
         metadata['n_graded'] = n_graded
         metadata['n_backfill'] = n_backfill
         metadata['n_sgo_backfill'] = n_sgo_backfill
