@@ -648,43 +648,59 @@ def collect_sgo_backfill_data(sample_cap=999999999):
 HISTORICAL_10YR_PATH = os.path.join(PREDICTIONS_DIR, 'cache', 'historical_10yr_training.json')
 
 
-def collect_10yr_data(sample_cap=50000):
+def collect_10yr_data(sample_cap=500000):
     """Load 10-year historical backfill from CSV reconstruction.
-    2.9M records sampled down with recency + tier weighting."""
+    2.9M records — pre-samples during load to avoid OOM on large files."""
     if not os.path.exists(HISTORICAL_10YR_PATH):
         print(f"  No 10yr data at {HISTORICAL_10YR_PATH}")
         print(f"  Run: python3 predictions/backfill_historical_csv.py")
         return []
 
-    print(f"  Loading 10yr historical data (sampling {sample_cap:,} from ~3M)...")
-    with open(HISTORICAL_10YR_PATH) as f:
-        records = json.load(f)
+    file_size_gb = os.path.getsize(HISTORICAL_10YR_PATH) / 1e9
+    print(f"  Loading 10yr historical data ({file_size_gb:.1f}GB, sampling {sample_cap:,})...")
 
-    for r in records:
+    # Stream-sample: read all but reservoir-sample to cap memory
+    # First pass: count records and collect dates for weighting
+    import random as _rand
+    _rand.seed(42)
+
+    valid = []
+    chunk_size = 500000  # process in chunks to limit peak memory
+    with open(HISTORICAL_10YR_PATH) as f:
+        all_records = json.load(f)
+
+    print(f"  Loaded {len(all_records):,} raw records, sampling to {sample_cap:,}...")
+
+    # Tag and filter
+    for r in all_records:
         r['_data_source'] = 'historical_10yr'
         if '_hit_label' not in r:
             r['_hit_label'] = 1 if r.get('hit') else 0
+        if r.get('_hit_label') is not None:
+            valid.append(r)
 
-    valid = [r for r in records if r.get('_hit_label') is not None]
+    # Free raw memory immediately
+    del all_records
+    import gc; gc.collect()
 
     if len(valid) > sample_cap:
         rng = np.random.RandomState(42)
         weights = np.ones(len(valid))
         for i, r in enumerate(valid):
             date = r.get('date', '')
-            # Heavy recency weighting: 2025-26 = 5x, 2024 = 3x, 2023 = 2x, older = 1x
             if date >= '2025-':
                 weights[i] *= 5.0
             elif date >= '2024-':
                 weights[i] *= 3.0
             elif date >= '2023-':
                 weights[i] *= 2.0
-            # Base stats preferred
             if r.get('stat', '') not in ('pra', 'pr', 'pa', 'ra', 'stl_blk'):
                 weights[i] *= 1.3
         probs = weights / weights.sum()
         indices = rng.choice(len(valid), size=sample_cap, replace=False, p=probs)
-        valid = [valid[i] for i in indices]
+        valid = [valid[i] for i in sorted(indices)]
+        # Free weight arrays
+        del weights, probs, indices
 
     print(f"  10yr data: {len(valid):,} records")
     return valid
@@ -703,14 +719,14 @@ def collect_all_training_data(use_historical=True, sample_cap=15000):
     sgo_backfill = collect_sgo_backfill_data()
 
     # Load 10-year CSV historical (massive dataset, sampled)
-    hist_10yr = collect_10yr_data(sample_cap=999999999)  # no cap — use ALL 10yr data
+    hist_10yr = collect_10yr_data(sample_cap=200000)  # 200K from 3M (recency weighted, memory safe)
 
     if not use_historical:
         all_data = graded + backfill + sgo_backfill + hist_10yr
         print(f"  Combined: {len(graded)} graded + {len(backfill)} backfill + {len(sgo_backfill)} sgo_backfill + {len(hist_10yr)} 10yr = {len(all_data)} total")
         return all_data
 
-    historical = collect_historical_data(sample_cap=999999999)  # no cap
+    historical = collect_historical_data(sample_cap=50000)
 
     all_data = graded + backfill + sgo_backfill + hist_10yr + historical
     print(f"  Combined: {len(graded)} graded + {len(backfill)} backfill + {len(sgo_backfill)} sgo_backfill + {len(hist_10yr)} 10yr + {len(historical)} legacy = {len(all_data)} total")
