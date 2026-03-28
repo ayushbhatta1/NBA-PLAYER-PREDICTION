@@ -1002,8 +1002,9 @@ def engineer_features(records):
 # TRAINING
 # ═══════════════════════════════════════════════════════════════
 
-def _get_model_params(y):
-    """Return XGBoost params with auto-computed scale_pos_weight."""
+def _get_model_params(y, use_tuned=False):
+    """Return XGBoost params with auto-computed scale_pos_weight.
+    If use_tuned=True, loads optimized params from xgb_tuned_params.json."""
     n_hit = int(y.sum())
     n_miss = len(y) - n_hit
     scale_pos_weight = n_miss / n_hit if n_hit > 0 else 1.0
@@ -1031,7 +1032,8 @@ def _get_model_params(y):
         if feat in FEATURE_COLS:
             monotone[FEATURE_COLS.index(feat)] = direction
 
-    return {
+    # Default (hand-picked) params
+    params = {
         'objective': 'binary:logistic',
         'eval_metric': 'logloss',
         'max_depth': 4,
@@ -1050,8 +1052,26 @@ def _get_model_params(y):
         'monotone_constraints': tuple(monotone),
     }
 
+    # Override with Optuna-tuned params if requested
+    if use_tuned:
+        tuned_file = os.path.join(PREDICTIONS_DIR, 'xgb_tuned_params.json')
+        if os.path.exists(tuned_file):
+            with open(tuned_file) as f:
+                tuned = json.load(f)
+            tuned_params = tuned.get('params', {})
+            for key in ['max_depth', 'min_child_weight', 'subsample', 'colsample_bytree',
+                        'colsample_bylevel', 'learning_rate', 'n_estimators',
+                        'reg_alpha', 'reg_lambda', 'gamma']:
+                if key in tuned_params:
+                    params[key] = tuned_params[key]
+            print(f"  Using Optuna-tuned params (AUC {tuned.get('tuned_auc', '?'):.4f} vs baseline {tuned.get('baseline_auc', '?'):.4f})")
+        else:
+            print(f"  WARNING: No tuned params found at {tuned_file}. Using defaults.")
 
-def walk_forward_cv(X, y, dates, sample_weights=None, sources=None):
+    return params
+
+
+def walk_forward_cv(X, y, dates, sample_weights=None, sources=None, use_tuned=False):
     """Leave-one-day-out walk-forward cross-validation.
 
     Train on earlier days, test on next day. Returns per-fold metrics.
@@ -1093,7 +1113,7 @@ def walk_forward_cv(X, y, dates, sample_weights=None, sources=None):
         X_test, y_test = X[test_mask], y[test_mask]
         sw_train = sample_weights[train_mask] if sample_weights is not None else None
 
-        params = _get_model_params(y_train)
+        params = _get_model_params(y_train, use_tuned=use_tuned)
         model = XGBClassifier(**params)
         model.fit(
             X_train, y_train,
@@ -1264,7 +1284,7 @@ def _compute_brier(y_true, y_prob):
     return float(np.mean((y_prob - y_true) ** 2))
 
 
-def train_model(X, y, dates, save_path=None, sample_weights=None, sources=None):
+def train_model(X, y, dates, save_path=None, sample_weights=None, sources=None, use_tuned=False):
     """Train final model on all data, run walk-forward CV, save model + metadata.
     For large datasets (>1M), subsamples non-graded data for CV speed, then
     trains the final model on ALL data."""
@@ -1296,11 +1316,11 @@ def train_model(X, y, dates, save_path=None, sample_weights=None, sources=None):
         sources_cv = [sources[i] for i in cv_indices] if isinstance(sources, list) else sources[cv_indices]
 
         print("\n  Walk-Forward Cross-Validation (on subsample):")
-        folds = walk_forward_cv(X_cv, y_cv, dates_cv, sample_weights=sw_cv, sources=sources_cv)
+        folds = walk_forward_cv(X_cv, y_cv, dates_cv, sample_weights=sw_cv, sources=sources_cv, use_tuned=use_tuned)
         del X_cv, y_cv, dates_cv, sw_cv, sources_cv
     else:
         print("\n  Walk-Forward Cross-Validation:")
-        folds = walk_forward_cv(X, y, dates, sample_weights=sample_weights, sources=sources)
+        folds = walk_forward_cv(X, y, dates, sample_weights=sample_weights, sources=sources, use_tuned=use_tuned)
 
     if folds:
         avg_auc = np.mean([f['auc'] for f in folds])
@@ -1315,7 +1335,7 @@ def train_model(X, y, dates, save_path=None, sample_weights=None, sources=None):
 
     # Train final model on all data
     print(f"\n  Training final model on {len(y)} samples...")
-    params = _get_model_params(y)
+    params = _get_model_params(y, use_tuned=use_tuned)
     model = XGBClassifier(**params)
 
     # Use last day as eval set for early stopping
@@ -1510,6 +1530,7 @@ def main():
     use_historical = not no_historical
 
     if command == 'train':
+        use_tuned = '--tuned' in sys.argv
         use_precomputed = '--precomputed' in sys.argv or '--all' in sys.argv
         precomputed_path = os.path.join(PREDICTIONS_DIR, 'cache', 'all_features.npz')
 
@@ -1563,7 +1584,7 @@ def main():
                 sample_weights = np.array([_weight(r) for r in records])
 
             sources = [r.get('_data_source', 'graded') for r in records]
-        model, metadata = train_model(X, y, dates, sample_weights=sample_weights, sources=sources)
+        model, metadata = train_model(X, y, dates, sample_weights=sample_weights, sources=sources, use_tuned=use_tuned)
         metadata['use_historical'] = use_historical
 
         # Count sources — from records if available, else from sources list
@@ -1707,6 +1728,178 @@ def main():
         print(f"\n  By direction:")
         for d in sorted(dir_counts):
             print(f"    {d}: {dir_counts[d]:,}")
+
+    elif command == 'tune':
+        n_trials = 100
+        for arg in sys.argv:
+            if arg.startswith('--trials='):
+                n_trials = int(arg.split('=')[1])
+
+        print("=" * 60)
+        print(f"  XGBoost Hyperparameter Tuning — Optuna ({n_trials} trials)")
+        print("=" * 60)
+
+        try:
+            import optuna
+            optuna.logging.set_verbosity(optuna.logging.WARNING)
+        except ImportError:
+            print("ERROR: optuna not installed. Run: pip3 install optuna")
+            sys.exit(1)
+
+        # Load data
+        records = collect_all_training_data(use_historical=True)
+        X, y, dates = engineer_features(records)
+
+        def _weight(r):
+            src = r.get('_data_source', '')
+            if src == 'graded': return 25.0
+            if src == 'backfill': return 10.0
+            if src == 'sgo_backfill': return 8.0
+            return 1.0
+        sample_weights = np.array([_weight(r) for r in records])
+        sources = [r.get('_data_source', 'graded') for r in records]
+        sources_arr = np.array(sources)
+
+        # Pre-compute CV splits once (same logic as walk_forward_cv)
+        dates_arr = np.array(dates)
+        graded_mask = sources_arr == 'graded'
+        graded_dates = sorted(set(d for d, s in zip(dates, sources_arr) if s == 'graded' and d >= '2026-'))
+        historical_mask = np.array([d < '2026-' and s == 'historical' for d, s in zip(dates, sources_arr)])
+
+        cv_splits = []
+        for i in range(1, len(graded_dates)):
+            train_graded_dates = set(graded_dates[:i])
+            test_date = graded_dates[i]
+            train_graded_m = np.array([d in train_graded_dates and s == 'graded' for d, s in zip(dates, sources_arr)])
+            train_backfill_m = np.array([d < test_date and s in ('backfill', 'sgo_backfill') for d, s in zip(dates, sources_arr)])
+            train_mask = historical_mask | train_graded_m | train_backfill_m
+            test_mask = (dates_arr == test_date) & graded_mask
+            if train_mask.sum() >= 50 and test_mask.sum() >= 10:
+                cv_splits.append((train_mask, test_mask))
+
+        print(f"\n  Data: {len(y):,} samples, {X.shape[1]} features, {len(cv_splits)} CV folds")
+        print(f"  Graded dates: {len(graded_dates)}")
+
+        # Build monotonic constraints (same for all trials)
+        monotone = [0] * len(FEATURE_COLS)
+        mono_map = {
+            'abs_gap': 1, 'l10_hit_rate': 1, 'l5_hit_rate': 1,
+            'season_hit_rate': 1, 'mins_30plus_pct': 1,
+            'gap_x_hr': 1, 'hr_confidence': 1,
+            'l10_miss_count': -1, 'miss_streak': -1,
+            'under_x_cold': 1, 'under_x_blkstl': 1,
+            'hot_x_over': -1, 'combo_x_over': -1,
+            'under_x_opp_favorable': 1, 'game_total_x_direction': 1,
+        }
+        for feat, direction in mono_map.items():
+            if feat in FEATURE_COLS:
+                monotone[FEATURE_COLS.index(feat)] = direction
+
+        n_hit = int(y.sum())
+        n_miss = len(y) - n_hit
+        scale_pos_weight = n_miss / n_hit if n_hit > 0 else 1.0
+
+        # Current baseline params for comparison
+        baseline_params = _get_model_params(y)
+
+        def objective(trial):
+            params = {
+                'objective': 'binary:logistic',
+                'eval_metric': 'logloss',
+                'max_depth': trial.suggest_int('max_depth', 2, 8),
+                'min_child_weight': trial.suggest_int('min_child_weight', 3, 50),
+                'subsample': trial.suggest_float('subsample', 0.5, 1.0),
+                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.3, 1.0),
+                'colsample_bylevel': trial.suggest_float('colsample_bylevel', 0.3, 1.0),
+                'learning_rate': trial.suggest_float('learning_rate', 0.005, 0.3, log=True),
+                'n_estimators': trial.suggest_int('n_estimators', 100, 2000),
+                'reg_alpha': trial.suggest_float('reg_alpha', 0.01, 10.0, log=True),
+                'reg_lambda': trial.suggest_float('reg_lambda', 0.1, 10.0, log=True),
+                'gamma': trial.suggest_float('gamma', 0.0, 5.0),
+                'scale_pos_weight': scale_pos_weight,
+                'random_state': 42,
+                'verbosity': 0,
+                'monotone_constraints': tuple(monotone),
+            }
+
+            all_y_test = []
+            all_y_prob = []
+            for train_mask, test_mask in cv_splits:
+                model = XGBClassifier(**params)
+                model.fit(
+                    X[train_mask], y[train_mask],
+                    sample_weight=sample_weights[train_mask],
+                    eval_set=[(X[test_mask], y[test_mask])],
+                    verbose=False,
+                    early_stopping_rounds=30,
+                )
+                y_prob = model.predict_proba(X[test_mask])[:, 1]
+                all_y_test.append(y[test_mask])
+                all_y_prob.append(y_prob)
+
+            all_y_test = np.concatenate(all_y_test)
+            all_y_prob = np.concatenate(all_y_prob)
+            pooled_auc = _compute_auc(all_y_test, all_y_prob)
+            return pooled_auc
+
+        # Run baseline first
+        print("\n  Running baseline (current params)...")
+        baseline_y_test, baseline_y_prob = [], []
+        for train_mask, test_mask in cv_splits:
+            m = XGBClassifier(**baseline_params)
+            m.fit(X[train_mask], y[train_mask], sample_weight=sample_weights[train_mask],
+                  eval_set=[(X[test_mask], y[test_mask])], verbose=False, early_stopping_rounds=50)
+            baseline_y_prob.append(m.predict_proba(X[test_mask])[:, 1])
+            baseline_y_test.append(y[test_mask])
+        baseline_auc = _compute_auc(np.concatenate(baseline_y_test), np.concatenate(baseline_y_prob))
+        print(f"  Baseline pooled AUC: {baseline_auc:.4f}")
+
+        # Run Optuna
+        print(f"\n  Starting {n_trials} Optuna trials (Bayesian optimization)...")
+        study = optuna.create_study(direction='maximize', sampler=optuna.samplers.TPESampler(seed=42))
+        study.optimize(objective, n_trials=n_trials, show_progress_bar=True)
+
+        best = study.best_trial
+        print(f"\n{'='*60}")
+        print(f"  TUNING RESULTS")
+        print(f"{'='*60}")
+        print(f"  Baseline AUC:  {baseline_auc:.4f}")
+        print(f"  Best AUC:      {best.value:.4f}  ({best.value - baseline_auc:+.4f})")
+        print(f"  Improvement:   {(best.value - baseline_auc) / baseline_auc * 100:+.2f}%")
+        print(f"\n  Best hyperparameters:")
+        for key, val in sorted(best.params.items()):
+            old_val = baseline_params.get(key, '?')
+            changed = ''
+            if isinstance(old_val, (int, float)) and isinstance(val, (int, float)):
+                if abs(float(val) - float(old_val)) > 0.001:
+                    changed = f'  (was {old_val})'
+            print(f"    {key:25s} = {val}{changed}")
+
+        # Show top 5 trials
+        print(f"\n  Top 5 trials:")
+        for t in sorted(study.trials, key=lambda t: t.value if t.value else 0, reverse=True)[:5]:
+            print(f"    Trial {t.number:3d}: AUC={t.value:.4f}  depth={t.params['max_depth']} lr={t.params['learning_rate']:.4f} n_est={t.params['n_estimators']}")
+
+        # Save best params
+        best_params_file = os.path.join(PREDICTIONS_DIR, 'xgb_tuned_params.json')
+        best_params_out = {
+            'baseline_auc': baseline_auc,
+            'tuned_auc': best.value,
+            'improvement': best.value - baseline_auc,
+            'n_trials': n_trials,
+            'tuned_at': datetime.now().isoformat(),
+            'params': best.params,
+        }
+        with open(best_params_file, 'w') as f:
+            json.dump(best_params_out, f, indent=2)
+        print(f"\n  Best params saved: {best_params_file}")
+
+        # Ask to apply
+        if best.value > baseline_auc:
+            print(f"\n  To apply tuned params and retrain:")
+            print(f"    python3 predictions/xgb_model.py train --tuned")
+        else:
+            print(f"\n  Tuned params did NOT beat baseline. Current params are better.")
 
     else:
         print(f"Unknown command: {command}")
