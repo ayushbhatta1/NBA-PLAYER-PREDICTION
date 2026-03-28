@@ -922,19 +922,7 @@ def engineer_features(records):
             elif direction == 'UNDER' and game_total_signal_val < 0:
                 game_total_x_dir = abs(game_total_signal_val)
 
-        # v8 features (ref, coach, sim — Bob Voulgaris subsystems)
-        ref_avg_fouls = _safe_float(r.get('ref_crew_avg_fouls'))
-        ref_avg_total = _safe_float(r.get('ref_crew_avg_total'))
-        ref_over_rate = _safe_float(r.get('ref_crew_over_rate'))
-        ref_foul_rate = _safe_float(r.get('ref_foul_rate_per_48'))
-        coach_depth = _safe_float(r.get('coach_rotation_depth'))
-        coach_star_share = _safe_float(r.get('coach_star_minutes_share'))
-        coach_bench_rate = _safe_float(r.get('coach_blowout_bench_rate'))
-        coach_pace = _safe_float(r.get('coach_pace_tendency'))
-        opp_coach_pace = _safe_float(r.get('opp_coach_pace_tendency'))
-        sim_prob_val = _safe_float(r.get('sim_prob'))
-        sim_mean_val = _safe_float(r.get('sim_mean'))
-        sim_std_val = _safe_float(r.get('sim_std'))
+        # (REMOVED: ref/coach/sim feature reads — 98-99% NaN, never in training row)
 
         # v10 features (research-backed improvements: EWMA, median, production rate, L20)
         l10_values_raw = r.get('l10_values', [])
@@ -959,42 +947,7 @@ def engineer_features(records):
             mean_median_gap_val = np.nan
             l10_cv_val = np.nan
 
-        # Production rate: stat per minute
-        avg_minutes = _safe_float(r.get('avg_minutes', r.get('minutes_avg')))
-        production_rate_val = l10_avg / avg_minutes if not np.isnan(l10_avg) and avg_minutes and avg_minutes > 0 else np.nan
-
-        # L20 stats (may not exist in all records — graceful NaN fallback)
-        l20_avg_val = _safe_float(r.get('l20_avg'))
-        l20_hr_val = _safe_float(r.get('l20_hit_rate'))
-
-        # v11 features (advanced CSV data — read directly from record if pre-enriched)
-        adv_usg_pct_l10 = _safe_float(r.get('adv_usg_pct_l10'))
-        adv_net_rating_l10 = _safe_float(r.get('adv_net_rating_l10'))
-        adv_off_rating_l10 = _safe_float(r.get('adv_off_rating_l10'))
-        adv_def_rating_l10 = _safe_float(r.get('adv_def_rating_l10'))
-        adv_pace_l10 = _safe_float(r.get('adv_pace_l10'))
-        adv_efg_pct_l10 = _safe_float(r.get('adv_efg_pct_l10'))
-        adv_ts_pct_l10 = _safe_float(r.get('adv_ts_pct_l10'))
-        adv_pie_l10 = _safe_float(r.get('adv_pie_l10'))
-        adv_usg_pct_std = _safe_float(r.get('adv_usg_pct_std'))
-        adv_net_rating_std = _safe_float(r.get('adv_net_rating_std'))
-        adv_pct_blk_l10 = _safe_float(r.get('adv_pct_blk_l10'))
-        adv_pct_stl_l10 = _safe_float(r.get('adv_pct_stl_l10'))
-        adv_pct_reb_l10 = _safe_float(r.get('adv_pct_reb_l10'))
-        adv_pct_ast_l10 = _safe_float(r.get('adv_pct_ast_l10'))
-        adv_opp_cluster = _safe_float(r.get('adv_opp_cluster'))
-        adv_usg_x_direction = _safe_float(r.get('adv_usg_x_direction'))
-        adv_pace_x_stat = _safe_float(r.get('adv_pace_x_stat'))
-        adv_efg_trend = _safe_float(r.get('adv_efg_trend'))
-        te_player_under_rate = _safe_float(r.get('te_player_under_rate'))
-        te_team_under_rate = _safe_float(r.get('te_team_under_rate'))
-        dow_sin = _safe_float(r.get('dow_sin'))
-        dow_cos = _safe_float(r.get('dow_cos'))
-        month_sin = _safe_float(r.get('month_sin'))
-        month_cos = _safe_float(r.get('month_cos'))
-
-        # v9 features (neural network embeddings — 32 dims)
-        nn_embs = [_safe_float(r.get(f'nn_emb_{i}')) for i in range(32)]
+        # (REMOVED: production_rate, l20 stats, v11 advanced CSV (24 fields), v9 NN embeddings (32 dims) — all dead/NaN)
 
         row = [
             line, projection, gap, abs_gap, effective_gap,

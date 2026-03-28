@@ -1340,58 +1340,7 @@ def main():
     except Exception as e:
         print(f"\n  CORRELATIONS: skipped ({e})")
 
-    # ═══ PHASE 4c-SCAN: MATCHUP SCANNER (defense-first prop selection) ═══
-    try:
-        from matchup_scanner import enrich_with_matchup_scan
-        scan_count = enrich_with_matchup_scan(results, GAMES)
-        if scan_count > 0:
-            flagged = [r for r in results if r.get('is_matchup_exploit')]
-            print(f"\n  MATCHUP SCANNER: {scan_count} defense-first exploits found:")
-            for r in sorted(flagged, key=lambda x: x.get('matchup_scan_rank', 99)):
-                print(f"    #{r['matchup_scan_rank']}  {r['player']:22s} {r['stat'].upper():4s} OVER {r['line']:5.1f}  "
-                      f"score={r['matchup_scan_score']:.4f}  softness={r.get('matchup_scan_softness', 0):.2f}")
-        else:
-            print(f"\n  MATCHUP SCANNER: No defense-first exploits found on this board")
-    except Exception as e:
-        print(f"\n  MATCHUP SCANNER: skipped ({e})")
-
-    # ═══ PHASE 4c-NN: Neural Network Embeddings (feeds into XGBoost) ═══
-    try:
-        from nn_embedder import enrich_with_embeddings
-        emb_count = enrich_with_embeddings(results)
-        if emb_count > 0:
-            print(f"\n  NN EMBEDDER: {emb_count}/{len(results)} props enriched with 32-dim embeddings")
-        else:
-            print(f"\n  NN EMBEDDER: No trained model (run nn_embedder.py train)")
-    except Exception as e:
-        print(f"\n  NN EMBEDDER: skipped ({e})")
-
-    # ═══ PHASE 4c-MKT: MARKET SIGNAL ENRICHMENT (fair odds, consensus, vig) ═══
-    try:
-        from market_signal import MarketSignal
-        ms = MarketSignal(date_str)
-        if len(ms) > 0:
-            enriched = ms.enrich_picks(results)
-            print(f"\n  MARKET SIGNAL: Enriched {enriched}/{len(results)} picks with SGO fair odds + consensus from {len(ms)} cached props")
-        else:
-            print(f"\n  MARKET SIGNAL: No SGO data for {date_str} (run sgo_client.py --cache before games)")
-    except Exception as e:
-        print(f"\n  MARKET SIGNAL: skipped ({e})")
-
-    # ═══ PHASE 4c-REF: REF + COACH + SIM ENRICHMENT (Bob Voulgaris subsystems) ═══
-    try:
-        from ref_model import enrich_with_ref_features
-        ref_count = enrich_with_ref_features(results, GAMES)
-        print(f"\n  REF MODEL: Enriched {ref_count}/{len(results)} picks with referee crew features")
-    except Exception as e:
-        print(f"\n  REF MODEL: skipped ({e})")
-
-    try:
-        from coach_model import enrich_with_coach_features
-        coach_count = enrich_with_coach_features(results, GAMES)
-        print(f"  COACH MODEL: Enriched {coach_count}/{len(results)} picks with coach tendency features")
-    except Exception as e:
-        print(f"  COACH MODEL: skipped ({e})")
+    # (REMOVED: matchup_scanner, nn_embedder, market_signal, ref_model, coach_model — dead features, never used by XGBoost or parlay builders)
 
     try:
         from sim_model import enrich_with_sim
@@ -1400,16 +1349,7 @@ def main():
     except Exception as e:
         print(f"  SIM MODEL: skipped ({e})")
 
-    # ═══ PHASE 4c-EDGE: LINE EDGE ANALYSIS (multi-book consensus) ═══
-    try:
-        from line_movement import enrich_with_line_edges
-        edge_count = enrich_with_line_edges(results, date_str)
-        if edge_count > 0:
-            fav = sum(1 for r in results if r.get('line_edge', 0) > 0.5)
-            unfav = sum(1 for r in results if r.get('line_edge', 0) < -0.5)
-            print(f"\n  LINE EDGES: {edge_count} analyzed — {fav} favorable, {unfav} unfavorable")
-    except Exception as e:
-        print(f"\n  LINE EDGES: skipped ({e})")
+    # (REMOVED: line_movement — line_edge not consumed by any model or parlay builder)
 
     # ═══ PHASE 4c-FLOW: GAME FLOW MODELING (game script → player impact) ═══
     try:
@@ -1435,22 +1375,9 @@ def main():
     except Exception as e:
         print(f"\n  REGRESSION: skipped ({e})")
 
-    # ═══ PHASE 4c-ADV: Advanced CSV Feature Enrichment ═══
-    try:
-        from advanced_features import engineer_advanced_features, ADVANCED_FEATURE_COLS
-        adv_count = 0
-        for r in results:
-            player_id = r.get('player_id') or r.get('personId')
-            game_date = date_str
-            adv_feats = engineer_advanced_features(r, player_id=player_id, game_date=game_date)
-            r.update(adv_feats)
-            if any(not np.isnan(v) for v in adv_feats.values() if isinstance(v, float)):
-                adv_count += 1
-        print(f"\n  Advanced CSV enrichment: {adv_count}/{len(results)} props enriched ({len(ADVANCED_FEATURE_COLS)} features)")
-    except Exception as e:
-        print(f"\n  Advanced CSV enrichment: skipped ({e})")
+    # (REMOVED: advanced_features — 100% NaN, never populated)
 
-    # ═══ PHASE 4c-ML: XGBoost ML Scoring (now sees enriched v11 + v8 + embedding features) ═══
+    # ═══ PHASE 4c-ML: XGBoost ML Scoring ═══
     try:
         from xgb_model import score_props
         results = score_props(results)
@@ -1463,84 +1390,12 @@ def main():
         print(f"\n  XGBoost scoring failed: {e}")
         traceback.print_exc()
 
-    # ═══ PHASE 4c-FOCUSED: Focused XGBoost (trained on today's real lines) ═══
-    try:
-        from train_current_lines import score_with_focused
-        focused_count = score_with_focused(results)
-        if focused_count > 0:
-            print(f"\n  FOCUSED XGB: {focused_count}/{len(results)} props scored with board-specific model")
-    except Exception as e:
-        print(f"\n  FOCUSED XGB: skipped ({e})")
-
-    # ═══ PHASE 4c-MLP: MLP Neural Network Scoring ═══
-    try:
-        from mlp_model import score_props as mlp_score_props
-        results = mlp_score_props(results)
-        scored = sum(1 for r in results if 'mlp_prob' in r)
-        print(f"\n  MLP scoring: {scored}/{len(results)} props scored")
-    except (ImportError, FileNotFoundError) as e:
-        print(f"\n  MLP not available: {e}")
-    except Exception as e:
-        print(f"\n  MLP scoring failed: {e}")
-
-    # ═══ PHASE 4c-SEC: Secondary Model Scoring (RF, CatBoost, KNN, LogReg) ═══
-    try:
-        from secondary_models import score_props as sec_score_props
-        results = sec_score_props(results)
-        sec_models = ['rf_prob', 'catboost_prob', 'knn_prob', 'logreg_prob']
-        sec_counts = {m: sum(1 for r in results if m in r) for m in sec_models}
-        active = [f"{m.replace('_prob','').upper()}={c}" for m, c in sec_counts.items() if c > 0]
-        if active:
-            # Count total models used per prop
-            for r in results:
-                model_count = sum(1 for m in ['xgb_prob', 'mlp_prob'] + sec_models if r.get(m) is not None)
-                r['models_used'] = model_count
-            print(f"\n  SECONDARY MODELS: {', '.join(active)}")
-    except Exception as e:
-        print(f"\n  SECONDARY MODELS: skipped ({e})")
-
-    # ═══ PHASE 4c-ENS: Consensus Ensemble (AUC-weighted, no data leakage) ═══
-    # Weight each model by its validated walk-forward CV AUC
-    # Model agreement (consensus) = strongest signal for parlay confidence
-    MODEL_WEIGHTS = {
-        'xgb_prob':      0.569,   # XGBoost pooled AUC
-        'mlp_prob':      0.528,   # MLP pooled AUC
-        'rf_prob':       0.568,   # Random Forest pooled AUC
-        'catboost_prob': 0.550,   # CatBoost pooled AUC
-        'knn_prob':      0.528,   # KNN pooled AUC
-        'logreg_prob':   0.533,   # LogReg pooled AUC
-    }
-    ens_count = 0
+    # (REMOVED: focused XGB, MLP, secondary_models, broken ensemble — MLP AUC 0.388 actively hurts)
+    # XGBoost is the only model that matters. Set ensemble_prob = xgb_prob for downstream compat.
     for r in results:
-        probs = {}
-        for model_key, weight in MODEL_WEIGHTS.items():
-            p = r.get(model_key)
-            if p is not None:
-                probs[model_key] = (p, weight)
-
-        if probs:
-            # AUC-weighted average
-            total_weight = sum(w for _, w in probs.values())
-            weighted_prob = sum(p * w for p, w in probs.values()) / total_weight
-            r['ensemble_prob'] = round(weighted_prob, 4)
-            r['models_used'] = len(probs)
-
-            # Consensus metrics (for parlay engine filtering)
-            above_50 = sum(1 for p, _ in probs.values() if p > 0.5)
-            r['model_consensus'] = round(above_50 / len(probs), 2)  # 0-1
-            prob_vals = [p for p, _ in probs.values()]
-            mean_p = sum(prob_vals) / len(prob_vals)
-            r['model_std'] = round((sum((p - mean_p) ** 2 for p in prob_vals) / len(prob_vals)) ** 0.5, 4)
-            r['model_agree_pct'] = above_50 / len(probs) * 100
-            ens_count += 1
-
-    # Summary
-    if ens_count > 0:
-        high_consensus = sum(1 for r in results if r.get('model_consensus', 0) >= 0.8)
-        model_counts = [r.get('models_used', 0) for r in results if r.get('ensemble_prob')]
-        avg_models = sum(model_counts) / len(model_counts) if model_counts else 0
-        print(f"\n  CONSENSUS ENSEMBLE: {ens_count}/{len(results)} scored "
-              f"({avg_models:.1f} models avg, {high_consensus} high-consensus picks)")
+        if r.get('xgb_prob') is not None:
+            r['ensemble_prob'] = r['xgb_prob']
+            r['models_used'] = 1
 
     # ═══ PHASE 4b: PRE-GAME AVAILABILITY CHECK ═══
     filtered_results, pregame_report = run_pregame_check(results, GAMES, game_date=date_str)
@@ -1550,27 +1405,6 @@ def main():
     os.makedirs(os.path.dirname(pregame_file), exist_ok=True)
     with open(pregame_file, 'w') as f:
         json.dump(pregame_report, f, indent=2)
-
-    # ═══ PHASE 4g: MATCHUP SCANNER (defense-first selection) ═══
-    scanner_picks = None
-    try:
-        from matchup_scanner import scan_tonight, enrich_with_matchup_scan
-        scanner_picks = scan_tonight(filtered_results, GAMES, max_picks=5)
-        if scanner_picks:
-            scan_count = enrich_with_matchup_scan(filtered_results, GAMES)
-            print(f"\n{'='*60}")
-            print(f"  MATCHUP SCANNER — Top {len(scanner_picks)} Defense Exploits")
-            print(f"{'='*60}")
-            for pick in scanner_picks:
-                print(f"    {pick.get('player','?'):22s} {pick.get('stat','?').upper():4s} "
-                      f"{pick.get('direction','?'):5s} {pick.get('line',0):5.1f}  "
-                      f"grade={pick.get('matchup_grade','?')}  "
-                      f"soft={pick.get('line_softness',0):.2f}  "
-                      f"{pick.get('matchup_exploit','')[:50]}")
-        else:
-            print(f"\n  MATCHUP SCANNER: No strong exploits found")
-    except Exception as e:
-        print(f"\n  MATCHUP SCANNER: skipped ({e})")
 
     # ═══ PHASE 5: PRIMARY PARLAYS (Engine v1.2 — validated UNDER bias) ═══
     engine_parlays = build_primary_parlays(filtered_results)
@@ -1787,20 +1621,6 @@ def main():
         with open(shadow_file, 'w') as f:
             json.dump(shadow_output, f, indent=2)
         print(f"  Saved shadow parlays: {shadow_file} ({len(shadow_parlays)} strategies)")
-
-    # Save matchup scanner picks
-    try:
-        if scanner_picks:
-            scanner_file = os.path.join(output_dir, "matchup_scanner.json")
-            with open(scanner_file, 'w') as f:
-                json.dump({
-                    'date': date_str,
-                    'picks': scanner_picks,
-                    'total_scanned': len(filtered_results),
-                }, f, indent=2)
-            print(f"  Saved matchup scanner: {scanner_file}")
-    except:
-        pass
 
     # Save combined (NEXUS for backward compat)
     parlay_file = os.path.join(output_dir, "final_parlays.json")
