@@ -104,20 +104,25 @@ def resolve_player_context(player_team_abr, game_key, GAMES):
 
 
 def get_player_injury_status(player_name, game_key, GAMES):
-    """Check if player is in any injury list"""
-    if game_key not in GAMES:
-        return None
-
-    gctx = GAMES[game_key]
+    """Check if player is in any injury list. Falls back to searching ALL games if game_key missing."""
     name_lower = player_name.lower()
 
-    for out_player in gctx.get('away_out', []) + gctx.get('home_out', []):
-        if name_lower in out_player.lower() or out_player.lower() in name_lower:
-            return "OUT"
+    # Try specific game first
+    games_to_check = []
+    if game_key and game_key in GAMES:
+        games_to_check = [GAMES[game_key]]
+    else:
+        # Fallback: search ALL games (fixes empty game field causing missed injury lookups)
+        games_to_check = list(GAMES.values())
 
-    for q_player in gctx.get('away_questionable', []) + gctx.get('home_questionable', []):
-        if name_lower in q_player.lower() or q_player.lower() in name_lower:
-            return "Questionable"
+    for gctx in games_to_check:
+        for out_player in gctx.get('away_out', []) + gctx.get('home_out', []):
+            if name_lower in out_player.lower() or out_player.lower() in name_lower:
+                return "OUT"
+
+        for q_player in gctx.get('away_questionable', []) + gctx.get('home_questionable', []):
+            if name_lower in q_player.lower() or q_player.lower() in name_lower:
+                return "Questionable"
 
     return None
 

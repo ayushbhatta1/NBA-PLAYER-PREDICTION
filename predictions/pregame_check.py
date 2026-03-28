@@ -229,8 +229,10 @@ def run_pregame_check(results, GAMES, game_date=None, fetcher=None):
         print(f"    REMOVED: {r.get('player', '?'):22s} — {reason}")
     print(f"    Removed {len(out_removed)} lines (players OUT)")
 
-    # Step 3: Flag GTD/Questionable (don't remove, just flag)
+    # Step 3: REMOVE GTD/Questionable/Doubtful (was flag-only — caused 62.5% DNP rate)
     gtd_count = 0
+    gtd_removed = []
+    kept = []
     for r in results:
         injury = r.get('player_injury_status', '')
         if injury and injury.lower() in ['questionable', 'gtd', 'game-time decision', 'doubtful']:
@@ -240,8 +242,16 @@ def run_pregame_check(results, GAMES, game_date=None, fetcher=None):
                 'stat': r.get('stat', '?'),
                 'status': injury,
             })
-            print(f"    GTD FLAG: {r.get('player', '?'):22s} — {injury}")
-    print(f"    Flagged {gtd_count} GTD/Questionable players")
+            gtd_removed.append(r)
+            report['players_removed'].append({
+                'player': r.get('player', '?'),
+                'reason': f'GTD/Questionable: {injury}',
+            })
+            print(f"    REMOVED (GTD): {r.get('player', '?'):22s} — {injury}")
+        else:
+            kept.append(r)
+    results = kept
+    print(f"    Removed {gtd_count} GTD/Questionable players")
 
     total_removed = len(report['players_removed']) + len(report['games_postponed'])
     report['total_removed'] = total_removed

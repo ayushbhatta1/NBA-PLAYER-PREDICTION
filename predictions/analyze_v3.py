@@ -45,21 +45,23 @@ TIERS = [
     ("F",  0.0, 1.0),   # Thin edge — tracked with reasoning for learning
 ]
 
-# v14: UNDER confidence tiers (primary tier system for UNDER picks)
-# Backtested: S=73.6%, A=63.7%, B=64.9%, C=61.4%, D=56.4%, F=54.3%
+# v15: UNDER confidence tiers — tightened S/A thresholds
+# v14 backtests claimed S=73.6% but live was 46%. Raising bar so S actually means elite.
 UNDER_CONFIDENCE_TIERS = [
-    ("S",  5.0, 999),   # Elite UNDER — 73.6% backtested hit rate
-    ("A",  3.5, 5.0),   # Strong UNDER — 63.7%
-    ("B",  2.0, 3.5),   # Good UNDER — 64.9%
-    ("C",  0.5, 2.0),   # Moderate UNDER — 61.4%
-    ("D", -1.0, 0.5),   # Weak UNDER — 56.4%
-    ("F", -999, -1.0),  # Very weak — 54.3%
+    ("S",  6.0, 999),   # Elite UNDER — raised from 5.0 (fewer but better S-tier picks)
+    ("A",  4.5, 6.0),   # Strong UNDER — raised from 3.5
+    ("B",  2.5, 4.5),   # Good UNDER — raised from 2.0
+    ("C",  1.0, 2.5),   # Moderate UNDER
+    ("D", -0.5, 1.0),   # Weak UNDER
+    ("F", -999, -0.5),  # Very weak
 ]
 
-# v14: Stat-type UNDER bonuses for confidence scoring
+# v15: Stat-type UNDER bonuses — reduced from v14 (were inflating tiers without
+# matching live accuracy: backtested S=73.6% but live S=46%)
 STAT_UNDER_BONUS = {
-    'blk': 2.0, 'stl': 1.5, 'stl_blk': 2.5,
-    '3pm': 1.0, 'pa': 0.8, 'ast': 0.5, 'ra': 0.3,
+    'blk': 1.0, 'stl': 0.8, 'stl_blk': 1.2,
+    '3pm': 0.5,
+    # Removed: pa (0.8), ast (0.5), ra (0.3) — not genuinely predictive
 }
 
 
@@ -168,19 +170,17 @@ COMBO_GAP_PENALTY = 0.5  # subtract from abs_gap before tier grading for combos
 # ParlayPlay lines are systematically set high — UNDER is the structural edge.
 # Key stat splits: BLK UNDER 74.8%, STL 68%, 3PM 63.3%, AST 61%, REB 59.7%
 MARKET_LINE_WEIGHT = 0.35   # Default blend; dynamically adjusted by hit rate in analyze_player()
-OVER_BIAS_CORRECTION = 0.05  # 5% systematic downward shift (was 2.5% — doubled based on backtesting)
-THIN_GAP_UNDER_THRESHOLD = 3.0  # Gaps 0-3.0 flip to UNDER (was 1.0 — data shows gap 1.5-3.0 OVERs hit 42%)
-OVER_CONFIRMATION_HR = 65  # L10 HR must be >= this to allow OVER call (even above threshold)
+OVER_BIAS_CORRECTION = 0.02  # 2% systematic downward shift (was 5% — too aggressive, crushed all gaps to 0)
+THIN_GAP_UNDER_THRESHOLD = 1.5  # Gaps 0-1.5 flip to UNDER (was 3.0 — made OVER impossible, 0% OVERs)
+OVER_CONFIRMATION_HR = 55  # L10 HR must be >= this to allow OVER call (was 65 — too strict with gap threshold)
 
-# v14: Stat-specific UNDER bias — some stats go UNDER far more than others
-# From backtesting: BLK actual OVER rate 25.2%, STL 32%, 3PM 36.7%
+# v15: Stat-specific UNDER bias — only apply to truly extreme stats (BLK/STL)
+# Other stats were over-corrected: PTS/AST/PA don't need extra penalties
 STAT_UNDER_EXTRA_CORRECTION = {
-    'blk': 0.06,      # BLK goes UNDER 74.8% of the time
-    'stl': 0.04,      # STL goes UNDER 68%
-    'stl_blk': 0.06,  # STL+BLK combo goes UNDER 86.7%
-    '3pm': 0.03,      # 3PM goes UNDER 63.3%
-    'pa': 0.02,       # PA goes UNDER 63.5%
-    'ast': 0.015,     # AST goes UNDER 61%
+    'blk': 0.04,      # BLK goes UNDER 74.8% — keep but reduce (was 0.06)
+    'stl': 0.02,      # STL goes UNDER 68% — keep but reduce (was 0.04)
+    'stl_blk': 0.04,  # STL+BLK combo — reduce (was 0.06)
+    # Removed: 3pm (0.03), pa (0.02), ast (0.015) — over-correction made all gaps negative
 }
 
 # Injury status severity weights (for tier downgrade)
