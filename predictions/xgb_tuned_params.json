@@ -1,0 +1,19 @@
+{
+  "baseline_auc": 0.7711176411626145,
+  "tuned_auc": 0.8568209557165221,
+  "improvement": 0.08570331455390756,
+  "n_trials": 100,
+  "tuned_at": "2026-03-28T01:20:57.164878",
+  "params": {
+    "max_depth": 8,
+    "min_child_weight": 15,
+    "subsample": 0.5242911576949268,
+    "colsample_bytree": 0.696368514663372,
+    "colsample_bylevel": 0.3896588624492003,
+    "learning_rate": 0.054487400426626746,
+    "n_estimators": 1958,
+    "reg_alpha": 4.845157079507013,
+    "reg_lambda": 4.978455720989846,
+    "gamma": 4.190393992327847
+  }
+}

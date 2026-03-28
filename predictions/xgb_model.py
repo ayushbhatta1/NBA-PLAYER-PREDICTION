@@ -1760,6 +1760,23 @@ def main():
         sources = [r.get('_data_source', 'graded') for r in records]
         sources_arr = np.array(sources)
 
+        # Subsample for tuning speed — keep ALL graded, sample non-graded
+        TUNE_MAX = 80000
+        if len(y) > TUNE_MAX:
+            graded_idx = np.where(sources_arr == 'graded')[0]
+            other_idx = np.where(sources_arr != 'graded')[0]
+            n_other = min(TUNE_MAX - len(graded_idx), len(other_idx))
+            rng = np.random.RandomState(42)
+            sampled_other = rng.choice(other_idx, size=n_other, replace=False)
+            tune_idx = np.sort(np.concatenate([graded_idx, sampled_other]))
+            X = X[tune_idx]
+            y = y[tune_idx]
+            sample_weights = sample_weights[tune_idx]
+            dates = [dates[i] for i in tune_idx] if isinstance(dates, list) else dates[tune_idx]
+            sources = [sources[i] for i in tune_idx]
+            sources_arr = np.array(sources)
+            print(f"\n  Subsampled for tuning: {len(y):,} (all {len(graded_idx):,} graded + {n_other:,} other)")
+
         # Pre-compute CV splits once (same logic as walk_forward_cv)
         dates_arr = np.array(dates)
         graded_mask = sources_arr == 'graded'
@@ -1777,7 +1794,7 @@ def main():
             if train_mask.sum() >= 50 and test_mask.sum() >= 10:
                 cv_splits.append((train_mask, test_mask))
 
-        print(f"\n  Data: {len(y):,} samples, {X.shape[1]} features, {len(cv_splits)} CV folds")
+        print(f"  Data: {len(y):,} samples, {X.shape[1]} features, {len(cv_splits)} CV folds")
         print(f"  Graded dates: {len(graded_dates)}")
 
         # Build monotonic constraints (same for all trials)
