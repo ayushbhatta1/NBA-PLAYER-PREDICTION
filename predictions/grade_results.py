@@ -215,17 +215,18 @@ def _find_actual(player_name, stat, actuals):
 
     p_norm = _norm(player_name)
     p_parts = p_norm.split()
+    stat_lower = stat.lower()
 
     for name, stats in actuals.items():
         n_norm = _norm(name)
         # Exact match
         if p_norm == n_norm:
-            return stats.get(stat)
+            return stats.get(stat) or stats.get(stat_lower)
         # Last name + first initial
         n_parts = n_norm.split()
         if len(p_parts) >= 2 and len(n_parts) >= 2:
             if p_parts[-1] == n_parts[-1] and p_parts[0][0] == n_parts[0][0]:
-                return stats.get(stat)
+                return stats.get(stat) or stats.get(stat_lower)
     return None
 
 
