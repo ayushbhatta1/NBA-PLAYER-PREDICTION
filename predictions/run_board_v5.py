@@ -149,6 +149,12 @@ def run_pipeline(picks, GAMES, pass_num=1):
     prefetch_time = time.time() - prefetch_start
     print(f"  Pre-fetched: {hits} cached, {fetched} from API ({prefetch_time:.1f}s)")
 
+    # Filter out line=0 props (scraper artifacts — no real sportsbook line)
+    valid_picks = [p for p in picks if p.get('line', 0) > 0]
+    if len(valid_picks) < len(picks):
+        print(f"  Filtered {len(picks) - len(valid_picks)} line=0 props (scraper artifacts)")
+    picks = valid_picks
+
     results = []
     total = len(picks)
     start_time = time.time()
