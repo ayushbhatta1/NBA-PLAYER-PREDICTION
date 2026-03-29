@@ -396,7 +396,7 @@ def generate_backfill_data():
                     split_adj = 0.0
 
                 # Matchup adjustment
-                opp_team = game_row.get('OPP_TEAM', '')
+                opp_team = game_row.get('OPP_ABR', '')
                 matchup_adj, opp_allowed_rate, opp_allowed_vs_league = _matchup_adjustment(
                     opp_team, stat_name, team_rankings, league_avg
                 )

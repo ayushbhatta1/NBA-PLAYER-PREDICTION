@@ -91,7 +91,7 @@ def grade_date(date_str, predictions_file=None):
             continue
 
         # Find player in actuals (fuzzy match)
-        actual_val = _find_actual(player, stat, actuals)
+        actual_val = _find_actual(player, stat, actuals, team=p.get('team', ''))
 
         if actual_val is None:
             results.append({**p, 'actual': None, 'result': 'DNP', 'margin': None})
@@ -206,28 +206,52 @@ def grade_date(date_str, predictions_file=None):
     return {'summary': summary, 'results': results}
 
 
-def _find_actual(player_name, stat, actuals):
-    """Find a player's actual stat value with fuzzy matching."""
+def _find_actual(player_name, stat, actuals, team=None):
+    """Find a player's actual stat value with fuzzy matching.
+
+    When team is provided and fuzzy matching (not exact), prefer the match
+    whose team matches to disambiguate players with similar names.
+    """
     import unicodedata
     def _norm(s):
         nfkd = unicodedata.normalize('NFKD', s)
         return ''.join(c for c in nfkd if not unicodedata.combining(c)).lower().strip()
 
+    def _get_val(stats_dict):
+        val = stats_dict.get(stat)
+        if val is None:
+            val = stats_dict.get(stat.lower())
+        return val
+
     p_norm = _norm(player_name)
     p_parts = p_norm.split()
-    stat_lower = stat.lower()
+
+    # Collect fuzzy matches for disambiguation
+    fuzzy_matches = []
 
     for name, stats in actuals.items():
         n_norm = _norm(name)
-        # Exact match
+        # Exact match — return immediately
         if p_norm == n_norm:
-            return stats.get(stat) or stats.get(stat_lower)
+            return _get_val(stats)
         # Last name + first initial
         n_parts = n_norm.split()
         if len(p_parts) >= 2 and len(n_parts) >= 2:
             if p_parts[-1] == n_parts[-1] and p_parts[0][0] == n_parts[0][0]:
-                return stats.get(stat) or stats.get(stat_lower)
-    return None
+                fuzzy_matches.append((name, stats))
+
+    if not fuzzy_matches:
+        return None
+
+    # If team provided, prefer match with matching team
+    if team:
+        team_upper = team.upper()
+        for name, stats in fuzzy_matches:
+            if stats.get('team', '').upper() == team_upper:
+                return _get_val(stats)
+
+    # Fallback to first fuzzy match
+    return _get_val(fuzzy_matches[0][1])
 
 
 def _fallback_csv_actuals(date_str):
