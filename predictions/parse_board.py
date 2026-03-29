@@ -153,12 +153,14 @@ def parse_board(raw_text):
 
     # Auto-detect: ParlayPlay web format (copy-paste from browser)
     if 'athlete or team avatar' in raw_text:
-        return parse_board_web(raw_text)
+        props = parse_board_web(raw_text)
+        return [p for p in props if p.get('line', 0) > 0]
 
     # Auto-detect: if first non-empty line has tabs and looks like TSV format, use TSV parser
     first_line = raw_text.strip().split('\n')[0]
     if '\t' in first_line and re.match(r'^[^@]+\t[A-Z]{2,4}\s*[@vs]', first_line):
-        return parse_board_tsv(raw_text)
+        props = parse_board_tsv(raw_text)
+        return [p for p in props if p.get('line', 0) > 0]
 
     lines = raw_text.strip().split('\n')
 
@@ -313,7 +315,7 @@ def parse_board(raw_text):
 
         i += 1
 
-    return props
+    return [p for p in props if p.get('line', 0) > 0]
 
 
 def deduplicate_props(props):
@@ -369,6 +371,10 @@ if __name__ == '__main__':
         print("[WARN] Extraction rate very low (<5%). Board format may not match parser expectations.")
     elif extraction_rate < 15:
         print("[WARN] Extraction rate low (<15%). Some lines may have been missed.")
+
+    # Filter out line<=0 props (scraper artifacts — no real sportsbook line)
+    props = [p for p in props if p.get('line', 0) > 0]
+    print(f"After filtering line<=0 artifacts: {len(props)}")
 
     deduped = deduplicate_props(props)
     print(f"After deduplication (1 line per player/stat): {len(deduped)}")

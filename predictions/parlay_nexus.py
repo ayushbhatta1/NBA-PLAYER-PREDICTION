@@ -82,7 +82,7 @@ def hard_screen(results, relaxed=False):
 
         # Gap minimum
         abs_gap = r.get('abs_gap', 0)
-        stat = r.get('stat', '')
+        stat = r.get('stat', '').lower()
         if stat in COMBO_STATS:
             if abs_gap < 3.0:
                 reasons.append(f"combo gap={abs_gap} (need >=3.0)")
@@ -235,7 +235,7 @@ def profile_score(pick):
 
     # ── Context factors (10%) ──
     ctx = 5  # baseline
-    stat = pick.get('stat', '')
+    stat = pick.get('stat', '').lower()
     if stat in ['blk', 'stl']:
         ctx += 4  # historically 85%+ accuracy
     if stat in COMBO_STATS:
@@ -303,7 +303,7 @@ def analyze_correlations(scored_picks, GAMES):
                 conflicts[key] = 'CONFLICT_HIGH'
             elif team_a and team_b and team_a == team_b:
                 # v2: same-team + same stat = usage conflict (stronger than medium)
-                if a.get('stat') == b.get('stat') and a.get('stat') in ['pts', 'ast']:
+                if a.get('stat', '').lower() == b.get('stat', '').lower() and a.get('stat', '').lower() in ['pts', 'ast']:
                     conflicts[key] = 'CONFLICT_HIGH'  # anti-correlation: competing for usage
                 else:
                     conflicts[key] = 'CONFLICT_MEDIUM'
@@ -401,7 +401,7 @@ def build_nexus_parlays(scored_picks, conflicts, flags):
 
             game = pick.get('game', '')
             team = _get_player_team(pick)
-            stat = pick.get('stat', '')
+            stat = pick.get('stat', '').lower()
             direction = pick.get('direction', '')
 
             # Same-game block
@@ -788,7 +788,7 @@ def reality_check(parlay):
                 flagged_legs.add(i)
 
     # Test 8 (NEW v2): Combo stat when base stat alternative might be safer
-    combo_legs = [i for i, leg in enumerate(legs) if leg.get('stat', '') in COMBO_STATS]
+    combo_legs = [i for i, leg in enumerate(legs) if leg.get('stat', '').lower() in COMBO_STATS]
     if len(combo_legs) >= 2:
         issues.append(f"COMBO OVERLOAD: {len(combo_legs)} combo stat legs (max 1 recommended)")
         # Flag the weakest combo leg
@@ -904,7 +904,7 @@ def _greedy_select_from_indexed(indexed, conflicts, blowout_indices, target, req
 
         game = pick.get('game', '')
         team = _get_player_team(pick)
-        stat = pick.get('stat', '')
+        stat = pick.get('stat', '').lower()
 
         if game and game in used_games:
             continue
@@ -1238,7 +1238,7 @@ def hard_screen_8leg(results):
         reasons = []
 
         # Base stats only
-        stat = r.get('stat', '')
+        stat = r.get('stat', '').lower()
         if stat in COMBO_STATS:
             reasons.append(f"combo stat {stat} (base only)")
 
@@ -1313,7 +1313,7 @@ def _build_with_constraints(pool, target, sort_key, excluded_pairs, max_combo=1)
         player = pick.get('player', '')
         game = pick.get('game', '')
         team = _get_player_team(pick)
-        stat = pick.get('stat', '')
+        stat = pick.get('stat', '').lower()
 
         # Excluded pairs check
         if (player, stat) in excluded_pairs:
@@ -1376,7 +1376,7 @@ def _v3_evaluate_leg(pick, idx):
     season_avg = pick.get('season_avg', 0)
     line = pick.get('line', 0)
     direction = pick.get('direction', '')
-    stat = pick.get('stat', '')
+    stat = pick.get('stat', '').lower()
     streak = pick.get('streak_status', 'NEUTRAL')
 
     # Gap analysis
@@ -1954,7 +1954,7 @@ def devil_floor_test(proposals):
 def devil_combo_killer(proposals):
     """Flag any combo stat legs."""
     def test(leg):
-        if leg.get('stat', '') in COMBO_STATS:
+        if leg.get('stat', '').lower() in COMBO_STATS:
             return 3
         return 0
     return _devil_evaluate_proposals(proposals, test, 'COMBO_STAT')
@@ -2894,7 +2894,7 @@ def soft_screen(results):
         if 30 <= l5_hr < 40:
             soft_fails.append(f"L5HR={l5_hr}% (30-39)")
 
-        stat = r.get('stat', '')
+        stat = r.get('stat', '').lower()
         abs_gap = r.get('abs_gap', 0)
         if stat not in COMBO_STATS and 1.0 <= abs_gap < 1.5:
             soft_fails.append(f"gap={abs_gap:.1f} (1.0-1.49)")
@@ -2981,7 +2981,7 @@ def soft_screen_aggressive(results):
             hard_kills.append(f"L5HR={l5_hr}%")
 
         # Allow combos with gap >= 5.0 (relaxed from base-stats-only)
-        stat = r.get('stat', '')
+        stat = r.get('stat', '').lower()
         abs_gap = r.get('abs_gap', 0)
         if stat in COMBO_STATS and abs_gap < 5.0:
             hard_kills.append(f"combo gap={abs_gap:.1f} (<5.0)")

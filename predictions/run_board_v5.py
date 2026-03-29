@@ -161,7 +161,8 @@ def run_pipeline(picks, GAMES, pass_num=1):
 
     for i, pick in enumerate(picks):
         player = pick['player']
-        stat = pick['stat']
+        stat = pick['stat'].lower()
+        pick['stat'] = stat
         line = pick['line']
         game = pick.get('game', '')
         team_abr = pick.get('team', '')
@@ -269,7 +270,7 @@ def improved_build_parlays(results):
                   and r.get('l10_hit_rate', 0) >= 60]
     flex = [r for r in results if r.get('direction') == 'OVER' and 'error' not in r
             and r.get('l10_hit_rate', 0) >= 50]
-    anchors = [r for r in results if r.get('stat') in ['blk', 'stl']
+    anchors = [r for r in results if r.get('stat', '').lower() in ['blk', 'stl']
                and 'error' not in r and r.get('l10_hit_rate', 0) >= 60]
 
     all_candidates = core_over + core_under + flex + anchors
@@ -289,9 +290,9 @@ def improved_build_parlays(results):
         organic = gap - abs(r.get('injury_adjustment', 0))
         score = gap * 0.4 + hr * 0.25 + l5_hr * 0.15 + organic * 0.2
 
-        if r.get('stat') in ['pra', 'pr', 'pa', 'ra'] and gap < 4.0:
+        if r.get('stat', '').lower() in ['pra', 'pr', 'pa', 'ra'] and gap < 4.0:
             score *= 0.7
-        if r.get('stat') in ['blk', 'stl']:
+        if r.get('stat', '').lower() in ['blk', 'stl']:
             score *= 1.2
         if r.get('streak_status') == 'HOT':
             score *= 1.1
@@ -509,7 +510,7 @@ def agent_evaluate_leg(candidate, idx, GAMES):
         score -= 8
 
     # ── COMBO STAT RISK ──
-    if stat in ['pra', 'pr', 'pa', 'ra']:
+    if stat.lower() in ['pra', 'pr', 'pa', 'ra']:
         verdict['reasons_against'].append(f"Combo stat ({stat.upper()}) — higher variance than base stats")
         score -= 5
         if abs_gap < 4:
@@ -889,10 +890,10 @@ def agent_contrarian(results, GAMES):
 
 def agent_blk_stl_anchor(results, GAMES):
     """Build a parlay anchored by BLK/STL picks (85%+ accuracy historically)."""
-    anchors = [r for r in results if r.get('stat') in ['blk', 'stl']
+    anchors = [r for r in results if r.get('stat', '').lower() in ['blk', 'stl']
                and 'error' not in r
                and r.get('l10_hit_rate', 0) >= 60]
-    others = [r for r in results if r.get('stat') not in ['blk', 'stl'] and 'error' not in r
+    others = [r for r in results if r.get('stat', '').lower() not in ['blk', 'stl'] and 'error' not in r
               and r.get('l10_hit_rate', 0) >= 70]
     anchors.sort(key=lambda x: x.get('abs_gap', 0), reverse=True)
     others.sort(key=lambda x: x.get('abs_gap', 0), reverse=True)

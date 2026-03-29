@@ -106,6 +106,9 @@ def merge_boards(pp_props: list[dict], ud_props: list[dict]) -> list[dict]:
             merged.append(entry)
 
     # Print summary
+    # Filter out line<=0 props (scraper artifacts)
+    merged = [p for p in merged if p.get("line", 0) > 0]
+
     total = len(merged)
     print(f"\n=== Board Merge Summary ===")
     print(f"ParlayPlay props:  {len(pp_props)}")

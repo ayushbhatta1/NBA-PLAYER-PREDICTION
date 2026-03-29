@@ -507,7 +507,7 @@ def _generate_synthetic_records(player_games, sample_cap=50000):
         weights = np.array([r['_weight'] for r in all_records], dtype=np.float64)
         # Boost base stats over combos
         for i, r in enumerate(all_records):
-            if r['stat'] not in COMBO_STATS:
+            if r['stat'].lower() not in COMBO_STATS:
                 weights[i] *= 1.5
         probs = weights / weights.sum()
         indices = rng.choice(len(all_records), size=sample_cap, replace=False, p=probs)
@@ -839,7 +839,7 @@ def engineer_features(records):
                     break
 
         # Categorical encodings
-        stat = r.get('stat', '')
+        stat = r.get('stat', '').lower()
         stat_ordinal = STAT_ORDINAL.get(stat, 0)
         direction_binary = 1 if direction == 'OVER' else 0
         is_home_binary = 1 if r.get('is_home') else 0
