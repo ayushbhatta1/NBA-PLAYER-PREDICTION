@@ -302,6 +302,7 @@ def analyze_player(player_name, stat, line, opponent=None, is_home=None,
         game: Game label string (e.g., "HOU@DEN")
     """
     fetcher = get_fetcher()
+    stat = stat.lower()  # Normalize: board may send uppercase (PR/PA/RA)
 
     # ── PLAYER INJURY CHECK ──
     if player_injury_status and player_injury_status.lower() in ['out', 'dnp']:

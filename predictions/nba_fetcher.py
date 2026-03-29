@@ -480,7 +480,7 @@ class NBAFetcher:
             'ra': ['REB', 'AST'],
             'stl_blk': ['STL', 'BLK'],
         }
-        cols = stat_cols.get(stat, ['PTS'])
+        cols = stat_cols.get(stat.lower(), ['PTS'])
         if len(cols) == 1:
             return df[cols[0]].astype(float)
         else:
