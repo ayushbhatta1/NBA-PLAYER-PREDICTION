@@ -149,6 +149,38 @@ def run_pipeline(picks, GAMES, pass_num=1):
     prefetch_time = time.time() - prefetch_start
     print(f"  Pre-fetched: {hits} cached, {fetched} from API ({prefetch_time:.1f}s)")
 
+    # ═══ FIX: Resolve team+game from cached game logs when board lacks them ═══
+    _team_to_game = {}
+    for _gk, _gv in GAMES.items():
+        _team_to_game[_gv.get('away_abr', '')] = _gk
+        _team_to_game[_gv.get('home_abr', '')] = _gk
+
+    needs_team = [p for p in picks if not p.get('team') or p['team'] == '?']
+    if needs_team:
+        _player_team_cache = {}
+        resolved_count = 0
+        for _pname in list(dict.fromkeys(p['player'] for p in needs_team)):
+            try:
+                _pid = fetcher._resolve_player(_pname)
+                if _pid and _pid in fetcher._gamelog_cache:
+                    _df = fetcher._gamelog_cache[_pid]
+                    if len(_df) > 0:
+                        _matchup = str(_df.iloc[0].get('MATCHUP', ''))
+                        if _matchup:
+                            _player_team_cache[_pname] = _matchup.split(' ')[0]
+            except Exception:
+                pass
+
+        for p in needs_team:
+            _t = _player_team_cache.get(p['player'])
+            if _t:
+                p['team'] = _t
+                if not p.get('game') and _t in _team_to_game:
+                    p['game'] = _team_to_game[_t]
+                    resolved_count += 1
+        if resolved_count:
+            print(f"  [FIX] Resolved team+game from game logs for {resolved_count}/{len(picks)} picks")
+
     # Filter out line=0 props (scraper artifacts — no real sportsbook line)
     valid_picks = [p for p in picks if p.get('line', 0) > 0]
     if len(valid_picks) < len(picks):
@@ -192,6 +224,7 @@ def run_pipeline(picks, GAMES, pass_num=1):
                 game=game,
                 same_team_out_count=same_team_out_count,
             )
+            result['team'] = team_abr
             results.append(result)
         except Exception as e:
             results.append({
@@ -1402,11 +1435,28 @@ def main():
         print(f"\n  XGBoost scoring failed: {e}")
         traceback.print_exc()
 
-    # (REMOVED: focused XGB, MLP, secondary_models, broken ensemble — MLP AUC 0.388 actively hurts)
-    # XGBoost is the only model that matters. Set ensemble_prob = xgb_prob for downstream compat.
+    # ═══ PHASE 4c-ML: MLP Neural Network Scoring ═══
+    try:
+        from mlp_model import score_props as mlp_score_props
+        results = mlp_score_props(results)
+        mlp_scored = sum(1 for r in results if r.get('mlp_prob') is not None)
+        print(f"\n  MLP scoring: {mlp_scored}/{len(results)} props scored")
+    except (ImportError, FileNotFoundError) as e:
+        print(f"\n  MLP not available: {e}")
+    except Exception as e:
+        import traceback
+        print(f"\n  MLP scoring failed: {e}")
+        traceback.print_exc()
+
+    # ═══ Ensemble: 60% XGBoost + 40% MLP (fallback to XGBoost-only) ═══
     for r in results:
-        if r.get('xgb_prob') is not None:
-            r['ensemble_prob'] = r['xgb_prob']
+        xgb = r.get('xgb_prob')
+        mlp = r.get('mlp_prob')
+        if xgb is not None and mlp is not None:
+            r['ensemble_prob'] = round(0.6 * xgb + 0.4 * mlp, 4)
+            r['models_used'] = 2
+        elif xgb is not None:
+            r['ensemble_prob'] = xgb
             r['models_used'] = 1
 
     # ═══ PHASE 4b: PRE-GAME AVAILABILITY CHECK ═══
