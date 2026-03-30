@@ -53,7 +53,7 @@ MODEL_PATH = os.path.join(PREDICTIONS_DIR, 'cache', 'meta_learner.pkl')
 META_PATH = os.path.join(PREDICTIONS_DIR, 'cache', 'meta_learner_meta.json')
 
 TIER_ORDINAL = {'S': 5, 'A': 4, 'B': 3, 'C': 2, 'D': 1, 'F': 0}
-COMBO_STATS = {'pra', 'pr', 'pa', 'ra'}
+COMBO_STATS = {'pra', 'pr', 'pa', 'ra', 'stl_blk'}
 
 # Stat type ordinal encoding for stat_ordinal feature
 STAT_ORDINAL = {

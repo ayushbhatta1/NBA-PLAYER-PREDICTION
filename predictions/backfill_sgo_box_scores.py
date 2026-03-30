@@ -44,6 +44,7 @@ COMBO_STATS = {
     'pr': ['pts', 'reb'],
     'pa': ['pts', 'ast'],
     'ra': ['reb', 'ast'],
+    'stl_blk': ['stl', 'blk'],
 }
 
 # SGO abbreviation → team_rankings nickname

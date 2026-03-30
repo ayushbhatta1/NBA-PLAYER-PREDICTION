@@ -100,6 +100,18 @@ def grade_date(date_str, predictions_file=None):
         margin = actual_val - line
         proj_error = proj - actual_val if proj else 0
 
+        # Push = actual equals line (void, neither hit nor miss)
+        if actual_val == line:
+            results.append({
+                **p,
+                'actual': actual_val,
+                'result': 'PUSH',
+                'margin': 0.0,
+                'projection_error': round(proj_error, 1),
+            })
+            # Don't include pushes in proj_errors — they're voided picks
+            continue
+
         if direction == 'OVER':
             hit = actual_val > line
             over_total += 1

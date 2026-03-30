@@ -126,6 +126,16 @@ def grade_shadow_parlays(date_str):
                 has_dnp = True
                 continue
 
+            # Push = actual equals line (void leg)
+            if actual_val == line:
+                leg_results.append({
+                    'player': player, 'stat': stat, 'line': line,
+                    'direction': direction, 'actual': actual_val,
+                    'result': 'PUSH',
+                    'margin': 0.0,
+                })
+                continue
+
             if direction == 'OVER':
                 hit = actual_val > line
             else:
@@ -141,9 +151,15 @@ def grade_shadow_parlays(date_str):
                 'margin': round(actual_val - line, 1),
             })
 
+        # Count active legs (exclude DNP and PUSH)
+        push_count = sum(1 for lr in leg_results if lr['result'] == 'PUSH')
+        active_legs = len(legs) - push_count
+
         if has_dnp:
             parlay_result = 'DNP'
-        elif hits == len(legs):
+        elif active_legs == 0:
+            parlay_result = 'PUSH'
+        elif hits == active_legs:
             parlay_result = 'HIT'
         else:
             parlay_result = 'MISS'
@@ -152,6 +168,7 @@ def grade_shadow_parlays(date_str):
             **sp,
             'result': parlay_result,
             'legs_hit': hits,
+            'legs_total': active_legs,
             'leg_results': leg_results,
         })
 

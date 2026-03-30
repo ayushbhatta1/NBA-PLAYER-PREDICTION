@@ -118,6 +118,16 @@ def grade_primary_parlays(date_str):
                 has_dnp = True
                 continue
 
+            # Push = actual equals line (void leg)
+            if actual_val == line:
+                leg_results.append({
+                    'player': player, 'stat': stat, 'line': line,
+                    'direction': direction, 'actual': actual_val,
+                    'result': 'PUSH',
+                    'margin': 0.0,
+                })
+                continue
+
             if direction == 'OVER':
                 hit = actual_val > line
             else:
@@ -133,9 +143,15 @@ def grade_primary_parlays(date_str):
                 'margin': round(actual_val - line, 1),
             })
 
+        # Count active legs (exclude DNP and PUSH)
+        push_count = sum(1 for lr in leg_results if lr['result'] == 'PUSH')
+        active_legs = len(legs) - push_count
+
         if has_dnp:
             parlay_result = 'DNP'
-        elif hits == len(legs):
+        elif active_legs == 0:
+            parlay_result = 'PUSH'
+        elif hits == active_legs:
             parlay_result = 'HIT'
         else:
             parlay_result = 'MISS'
@@ -145,7 +161,7 @@ def grade_primary_parlays(date_str):
             'method': parlay.get('method', ''),
             'result': parlay_result,
             'legs_hit': hits,
-            'legs_total': len(legs),
+            'legs_total': active_legs,
             'leg_results': leg_results,
         }
 
@@ -189,10 +205,7 @@ def update_tracker(date_str, graded):
         tracker = {
             'last_updated': None,
             'daily_results': [],
-            'cumulative': {
-                'safe': {'wins': 0, 'losses': 0, 'dnp': 0, 'total_legs_hit': 0, 'total_legs': 0},
-                'aggressive': {'wins': 0, 'losses': 0, 'dnp': 0, 'total_legs_hit': 0, 'total_legs': 0},
-            },
+            'cumulative': {},
         }
 
     # Remove existing entry for this date (re-grade support)
@@ -211,8 +224,16 @@ def update_tracker(date_str, graded):
     tracker['daily_results'].append(day_entry)
     tracker['daily_results'].sort(key=lambda d: d['date'])
 
-    # Recalculate cumulative stats
-    for parlay_type in ('safe', 'aggressive'):
+    # Discover all parlay types dynamically from daily results
+    all_parlay_types = set()
+    for day in tracker['daily_results']:
+        for key in day:
+            if key != 'date':
+                all_parlay_types.add(key)
+
+    # Recalculate cumulative stats for every discovered type
+    tracker['cumulative'] = {}
+    for parlay_type in sorted(all_parlay_types):
         wins = losses = dnp = total_legs_hit = total_legs = 0
         for day in tracker['daily_results']:
             entry = day.get(parlay_type, {})
@@ -245,9 +266,9 @@ def update_tracker(date_str, graded):
 
     # Print cumulative
     print(f"\n  CUMULATIVE RECORD ({tracker['total_days']} days)")
-    for ptype in ('safe', 'aggressive'):
+    for ptype in sorted(tracker['cumulative']):
         c = tracker['cumulative'][ptype]
-        print(f"    {ptype.upper():12s}  {c['wins']}W-{c['losses']}L  "
+        print(f"    {ptype.upper():20s}  {c['wins']}W-{c['losses']}L  "
               f"({c['win_rate']}%)  legs: {c['total_legs_hit']}/{c['total_legs']} "
               f"({c['leg_hit_rate']}%)")
 

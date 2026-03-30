@@ -29,7 +29,7 @@ from datetime import datetime
 from collections import defaultdict
 
 # Combo stats reference
-COMBO_STATS = {'pra', 'pr', 'pa', 'ra'}
+COMBO_STATS = {'pra', 'pr', 'pa', 'ra', 'stl_blk'}
 
 # Base stats that are safer for parlays
 BASE_STATS = {'pts', 'reb', 'ast', '3pm', 'stl', 'blk'}
@@ -1004,6 +1004,11 @@ def finalize_parlays(viable_parlays, all_rejected):
 
 def _get_player_team(pick):
     """Extract team abbreviation from game context."""
+    # Prefer explicit team field if populated
+    team = pick.get('team')
+    if team:
+        return team
+    # Fall back to is_home/game parsing
     game = pick.get('game', '')
     is_home = pick.get('is_home')
     if not game or '@' not in game:
@@ -1059,6 +1064,10 @@ def _nexus_leg(pick):
         'screen_multiplier': pick.get('screen_multiplier', 1.0),
         'spread': pick.get('spread'),
         'is_b2b': pick.get('is_b2b', False),
+        # model probabilities (for grading tools)
+        'ensemble_prob': pick.get('ensemble_prob'),
+        'xgb_prob': pick.get('xgb_prob'),
+        'mlp_prob': pick.get('mlp_prob'),
     }
 
 
@@ -2867,6 +2876,10 @@ def soft_screen(results):
         soft_fails = []
 
         # ── HARD KILLS (non-negotiable) ──
+        tier = r.get('tier', 'F')
+        if tier in ('D', 'F'):
+            hard_kills.append(f"tier={tier}")
+
         injury = r.get('player_injury_status', '')
         if injury and injury.lower() in ['out', 'doubtful']:
             hard_kills.append(f"injury={injury}")
@@ -3939,8 +3952,8 @@ def _build_shadow_parlays(pool):
                     'result': 'no_build',
                     'legs_hit': None,
                 })
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"    Shadow constructor error: {e}")
 
     # Shadow constructors (12-22)
     for shadow_fn in SHADOW_CONSTRUCTORS:
@@ -3973,8 +3986,8 @@ def _build_shadow_parlays(pool):
                     'result': 'no_build',
                     'legs_hit': None,
                 })
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"    Shadow constructor {shadow_fn.__name__} error: {e}")
 
     return shadow_parlays
 

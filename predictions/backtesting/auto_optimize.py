@@ -34,7 +34,7 @@ OUTPUT_DIR = BASE
 RESULTS_PATH = os.path.join(OUTPUT_DIR, 'auto_optimize_results.json')
 RECOMMENDED_PATH = os.path.join(OUTPUT_DIR, 'recommended_configs.json')
 
-COMBO_STATS = {'pra', 'pr', 'pa', 'ra'}
+COMBO_STATS = {'pra', 'pr', 'pa', 'ra', 'stl_blk'}
 ALL_STATS = ['pts', 'reb', 'ast', 'blk', 'stl', 'pra', 'pr', 'pa', 'ra']
 BASE_STATS = ['pts', 'reb', 'ast', 'blk', 'stl']
 

@@ -149,16 +149,17 @@ def run_pipeline(picks, GAMES, pass_num=1):
     prefetch_time = time.time() - prefetch_start
     print(f"  Pre-fetched: {hits} cached, {fetched} from API ({prefetch_time:.1f}s)")
 
-    # ═══ FIX: Resolve team+game from cached game logs when board lacks them ═══
+    # ═══ FIX: Resolve team+game for every prop ═══
+    # Build team abbreviation → game key map from today's GAMES dict
     _team_to_game = {}
     for _gk, _gv in GAMES.items():
         _team_to_game[_gv.get('away_abr', '')] = _gk
         _team_to_game[_gv.get('home_abr', '')] = _gk
 
+    # Step 1: Resolve team from game logs when board lacks it
     needs_team = [p for p in picks if not p.get('team') or p['team'] == '?']
     if needs_team:
         _player_team_cache = {}
-        resolved_count = 0
         for _pname in list(dict.fromkeys(p['player'] for p in needs_team)):
             try:
                 _pid = fetcher._resolve_player(_pname)
@@ -171,15 +172,24 @@ def run_pipeline(picks, GAMES, pass_num=1):
             except Exception:
                 pass
 
+        team_resolved = 0
         for p in needs_team:
             _t = _player_team_cache.get(p['player'])
             if _t:
                 p['team'] = _t
-                if not p.get('game') and _t in _team_to_game:
-                    p['game'] = _team_to_game[_t]
-                    resolved_count += 1
-        if resolved_count:
-            print(f"  [FIX] Resolved team+game from game logs for {resolved_count}/{len(picks)} picks")
+                team_resolved += 1
+        if team_resolved:
+            print(f"  [FIX] Resolved team from game logs for {team_resolved}/{len(picks)} picks")
+
+    # Step 2: Resolve game key for ALL props that have team but no game
+    # MCP scrapers provide team but omit game — this maps team→game via GAMES dict
+    game_resolved = 0
+    for p in picks:
+        if not p.get('game') and p.get('team') and p['team'] in _team_to_game:
+            p['game'] = _team_to_game[p['team']]
+            game_resolved += 1
+    if game_resolved:
+        print(f"  [FIX] Resolved game key from team for {game_resolved}/{len(picks)} picks")
 
     # Filter out line=0 props (scraper artifacts — no real sportsbook line)
     valid_picks = [p for p in picks if p.get('line', 0) > 0]
@@ -1306,6 +1316,19 @@ def main():
                 fixed_teams += 1
     if fixed_teams:
         print(f"  [FIX] Extracted team from game field for {fixed_teams}/{len(picks)} picks")
+
+    # ═══ FIX: Map team→game when board has team but no game (MCP scrapers) ═══
+    _pre_team_to_game = {}
+    for _gk, _gv in GAMES.items():
+        _pre_team_to_game[_gv.get('away_abr', '')] = _gk
+        _pre_team_to_game[_gv.get('home_abr', '')] = _gk
+    pre_game_resolved = 0
+    for p in picks:
+        if not p.get('game') and p.get('team') and p['team'] in _pre_team_to_game:
+            p['game'] = _pre_team_to_game[p['team']]
+            pre_game_resolved += 1
+    if pre_game_resolved:
+        print(f"  [FIX] Resolved game key from team for {pre_game_resolved}/{len(picks)} picks")
 
     # ═══ FIX: Deduplicate picks (parse_board sometimes produces dupes) ═══
     seen = set()

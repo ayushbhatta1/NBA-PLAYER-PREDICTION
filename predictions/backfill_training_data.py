@@ -40,6 +40,7 @@ COMBO_STATS = {
     'pr': ['PTS', 'REB'],
     'pa': ['PTS', 'AST'],
     'ra': ['REB', 'AST'],
+    'stl_blk': ['STL', 'BLK'],
 }
 
 # Tier thresholds from analyze_v3.py

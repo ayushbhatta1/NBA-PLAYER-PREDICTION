@@ -215,7 +215,7 @@ def _primary_score(p):
     model_keys = ['xgb_prob', 'mlp_prob', 'rf_prob', 'lgbm_prob', 'catboost_prob', 'knn_prob', 'logreg_prob']
     probs = [p.get(k) for k in model_keys if p.get(k) is not None]
     consensus_adj = 0.0
-    if len(probs) >= 3:
+    if len(probs) >= 2:
         above = sum(1 for v in probs if v > 0.5)
         std = float(np.std(probs)) if len(probs) > 1 else 0
         # Strong consensus bonus (all agree)
@@ -263,6 +263,11 @@ def _sort_fn(sort_key):
 
 def _get_player_team(pick):
     """Extract team abbreviation from game context."""
+    # Prefer explicit team field if populated
+    team = pick.get('team')
+    if team:
+        return team
+    # Fall back to is_home/game parsing
     game = pick.get('game', '')
     is_home = pick.get('is_home')
     if not game or '@' not in game:
@@ -923,9 +928,9 @@ def build_primary_safe(pool):
         stat = p.get('stat', '').lower()
 
         # Stat-specific thresholds
-        if stat in ['pts', 'reb', 'ast', 'stl', 'blk']:  # Base stats
+        if stat in ['pts', 'reb', 'ast', 'stl', 'blk', '3pm']:  # Base stats
             max_gap = 7.0
-        else:  # Combo stats (pra, pr, pa, ra, 3pm)
+        else:  # Combo stats (pra, pr, pa, ra)
             max_gap = 12.0
 
         if gap > max_gap:
@@ -942,11 +947,16 @@ def build_primary_safe(pool):
     )
 
     def _pick_from(candidates, picks, used_games, n_target):
+        used_players = set(p.get('player', '') for p in picks)
         for p in candidates:
+            player = p.get('player', '')
+            if player and player in used_players:
+                continue
             g = p.get('game', '')
             if g and g in used_games:
                 continue
             picks.append(p)
+            used_players.add(player)
             if g:
                 used_games.add(g)
             if len(picks) >= n_target:
@@ -1132,11 +1142,16 @@ def build_2leg_safe(pool):
     )
 
     def _pick_from(candidates, picks, used_games, n_target):
+        used_players = set(p.get('player', '') for p in picks)
         for p in candidates:
+            player = p.get('player', '')
+            if player and player in used_players:
+                continue
             g = p.get('game', '')
             if g and g in used_games:
                 continue
             picks.append(p)
+            used_players.add(player)
             if g:
                 used_games.add(g)
             if len(picks) >= n_target:
@@ -1991,9 +2006,13 @@ def build_sweep_optimized_v1(pool):
     picks = []
     used_games = set()
     used_teams = set()
+    used_players = set()
     for p in candidates:
         if len(picks) >= 3:
             break
+        player = p.get('player', '')
+        if player and player in used_players:
+            continue
         game = p.get('game', '')
         team = None
         if '@' in game:
@@ -2007,6 +2026,7 @@ def build_sweep_optimized_v1(pool):
         if team and team in used_teams:
             continue
         picks.append(p)
+        used_players.add(player)
         if game:
             used_games.add(game)
         if team:
@@ -2330,14 +2350,18 @@ def build_sweep_optimized(pool):
         p['_sweep_version'] = 'v2'
         candidates.append(p)
 
-    # ── Selection: top 3 with game + team diversity ───────────────────
+    # ── Selection: top 3 with game + player + team diversity ────────────
     candidates.sort(key=lambda p: p.get('_sweep_score', 0), reverse=True)
     picks = []
     used_games = set()
     used_teams = set()
+    used_players = set()
     for p in candidates:
         if len(picks) >= 3:
             break
+        player = p.get('player', '')
+        if player and player in used_players:
+            continue
         game = p.get('game', '')
         team = None
         if '@' in game:
@@ -2353,6 +2377,7 @@ def build_sweep_optimized(pool):
         if team and team in used_teams:
             continue
         picks.append(p)
+        used_players.add(player)
         if game:
             used_games.add(game)
         if team:

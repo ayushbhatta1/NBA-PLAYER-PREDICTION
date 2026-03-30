@@ -42,7 +42,7 @@ PREDICTIONS_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(PREDICTIONS_DIR, 'xgb_model.json')
 META_PATH = os.path.join(PREDICTIONS_DIR, 'xgb_model_meta.json')
 
-COMBO_STATS = {'pra', 'pr', 'pa', 'ra'}
+COMBO_STATS = {'pra', 'pr', 'pa', 'ra', 'stl_blk'}
 
 # Stat type ordinal encoding by historical hit rate (higher = better)
 STAT_ORDINAL = {

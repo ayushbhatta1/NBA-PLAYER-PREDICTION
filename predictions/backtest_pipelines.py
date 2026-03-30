@@ -24,7 +24,7 @@ DATES = [
     ("2026-03-14", "predictions/2026-03-14/v4_graded_392_lines.json"),
 ]
 
-COMBO_STATS = {"pra", "pr", "pa", "ra"}
+COMBO_STATS = {"pra", "pr", "pa", "ra", "stl_blk"}
 BOOST_STATS = {"blk", "stl"}
 
 
