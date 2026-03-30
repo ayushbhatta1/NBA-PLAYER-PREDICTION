@@ -1,0 +1,1018 @@
+{
+  "total_input": 828,
+  "players_removed": [
+    {
+      "player": "Aaron Nesmith",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Aaron Nesmith",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Aaron Nesmith",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Aaron Nesmith",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Robert Williams III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Robert Williams III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Robert Williams III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Robert Williams III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "reason": "GTD/Questionable: Questionable"
+    }
+  ],
+  "games_postponed": [],
+  "gtd_flagged": [
+    {
+      "player": "Aaron Nesmith",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Aaron Nesmith",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Aaron Nesmith",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Aaron Nesmith",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Andrew Nembhard",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "stat": "blk",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bilal Coulibaly",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "blk",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Dejounte Murray",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarace Walker",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jayson Tatum",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "stat": "blk",
+      "status": "Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Neemias Queta",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Norman Powell",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Pascal Siakam",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Robert Williams III",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Robert Williams III",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Robert Williams III",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Robert Williams III",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Trey Murphy III",
+      "stat": "stl",
+      "status": "Questionable"
+    }
+  ],
+  "total_removed": 112,
+  "total_remaining": 716
+}

@@ -1,0 +1,172 @@
+{
+  "date": "2026-03-30",
+  "generated_at": "2026-03-29T23:12:37.444084",
+  "method": "nexus_v4_secondary",
+  "parlays": {
+    "safe": {
+      "name": "NEXUS SAFE 3-LEG",
+      "method": "nexus_v4",
+      "legs": [
+        {
+          "player": "Quentin Grimes",
+          "stat": "pts",
+          "line": 8.5,
+          "direction": "OVER",
+          "tier": "S",
+          "gap": 6.3,
+          "projection": 14.8,
+          "l10_hit_rate": 100,
+          "l5_hit_rate": 80,
+          "season_avg": 13.8,
+          "mins_30plus_pct": 51,
+          "game": "",
+          "is_home": null,
+          "streak": "COLD",
+          "matchup_note": "",
+          "nexus_score": 74.0,
+          "historical_rating": "DANGEROUS",
+          "historical_detail": "role player OVER (mins=51%) \u2014 ~40% historical",
+          "l10_values": [
+            8.0,
+            13.0,
+            25.0,
+            27.0,
+            12.0,
+            31.0,
+            28.0,
+            14.0,
+            23.0,
+            17.0
+          ],
+          "l10_floor": 8.0,
+          "l10_miss_count": 1,
+          "player_injury_status": null,
+          "scout_venue": {
+            "venue_altitude": 0,
+            "travel_zone_diff": 0,
+            "travel_distance": 0
+          },
+          "scout_efficiency": {
+            "l10_avg_plus_minus": 1.0,
+            "l10_avg_pf": 2.2,
+            "foul_trouble_risk": false,
+            "efficiency_trend": 4.6
+          },
+          "screen_tier": "CORE",
+          "screen_multiplier": 1.0,
+          "spread": null,
+          "is_b2b": false
+        },
+        {
+          "player": "Matas Buzelis",
+          "stat": "pr",
+          "line": 19.5,
+          "direction": "OVER",
+          "tier": "S",
+          "gap": 6.2,
+          "projection": 25.7,
+          "l10_hit_rate": 90,
+          "l5_hit_rate": 80,
+          "season_avg": 22.2,
+          "mins_30plus_pct": 60,
+          "game": "",
+          "is_home": null,
+          "streak": "NEUTRAL",
+          "matchup_note": "",
+          "nexus_score": 67.0,
+          "historical_rating": "NEUTRAL",
+          "historical_detail": "decent profile",
+          "l10_values": [
+            39.0,
+            24.0,
+            26.0,
+            27.0,
+            18.0,
+            26.0,
+            36.0,
+            29.0,
+            28.0,
+            47.0
+          ],
+          "l10_floor": 18.0,
+          "l10_miss_count": 1,
+          "player_injury_status": null,
+          "scout_venue": {
+            "venue_altitude": 0,
+            "travel_zone_diff": 0,
+            "travel_distance": 0
+          },
+          "scout_efficiency": {
+            "l10_avg_plus_minus": -4.8,
+            "l10_avg_pf": 1.8,
+            "foul_trouble_risk": false,
+            "efficiency_trend": 0.2
+          },
+          "screen_tier": "CORE",
+          "screen_multiplier": 1.0,
+          "spread": null,
+          "is_b2b": false
+        },
+        {
+          "player": "Nickeil Alexander-Walker",
+          "stat": "pts",
+          "line": 17.5,
+          "direction": "OVER",
+          "tier": "A",
+          "gap": 3.5,
+          "projection": 21.0,
+          "l10_hit_rate": 100,
+          "l5_hit_rate": 80,
+          "season_avg": 20.5,
+          "mins_30plus_pct": 86,
+          "game": "",
+          "is_home": null,
+          "streak": "NEUTRAL",
+          "matchup_note": "",
+          "nexus_score": 62.0,
+          "historical_rating": "NEUTRAL",
+          "historical_detail": "decent profile",
+          "l10_values": [
+            27.0,
+            20.0,
+            21.0,
+            26.0,
+            17.0,
+            21.0,
+            22.0,
+            41.0,
+            20.0,
+            18.0
+          ],
+          "l10_floor": 17.0,
+          "l10_miss_count": 1,
+          "player_injury_status": null,
+          "scout_venue": {
+            "venue_altitude": 0,
+            "travel_zone_diff": 0,
+            "travel_distance": 0
+          },
+          "scout_efficiency": {
+            "l10_avg_plus_minus": 13.5,
+            "l10_avg_pf": 2.3,
+            "foul_trouble_risk": false,
+            "efficiency_trend": 0.5
+          },
+          "screen_tier": "CORE",
+          "screen_multiplier": 1.0,
+          "spread": null,
+          "is_b2b": false
+        }
+      ],
+      "legs_total": 3,
+      "confidence": 67.5,
+      "description": "NEXUS v4 LOCK 3-Leg (strategy: anti_blowout)",
+      "constructor": "anti_blowout",
+      "reality_check": {
+        "status": "APPROVED",
+        "attempt": 1,
+        "issues": []
+      }
+    }
+  }
+}

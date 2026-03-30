@@ -1,0 +1,174 @@
+{
+  "date": "2026-03-29",
+  "generated_at": "2026-03-29T00:43:47.756820",
+  "method": "nexus_v4_secondary",
+  "parlays": {
+    "safe": {
+      "name": "NEXUS SAFE 3-LEG",
+      "method": "nexus_v4",
+      "legs": [
+        {
+          "player": "Karl-Anthony Towns",
+          "stat": "pr",
+          "line": 27.5,
+          "direction": "OVER",
+          "tier": "S",
+          "gap": 5.1,
+          "projection": 32.6,
+          "l10_hit_rate": 90,
+          "l5_hit_rate": 80,
+          "season_avg": 32.0,
+          "mins_30plus_pct": 68,
+          "game": "",
+          "is_home": null,
+          "streak": "NEUTRAL",
+          "matchup_note": "",
+          "nexus_score": 65.0,
+          "historical_rating": "NEUTRAL",
+          "historical_detail": "",
+          "l10_values": [
+            16.0,
+            35.0,
+            42.0,
+            41.0,
+            33.0,
+            29.0,
+            28.0,
+            47.0,
+            41.0,
+            30.0
+          ],
+          "l10_floor": 16.0,
+          "l10_miss_count": 1,
+          "player_injury_status": null,
+          "scout_venue": {
+            "venue_altitude": 0,
+            "travel_zone_diff": 0,
+            "travel_distance": 0
+          },
+          "scout_efficiency": {
+            "l10_avg_plus_minus": 3.2,
+            "l10_avg_pf": 3.2,
+            "foul_trouble_risk": false,
+            "efficiency_trend": -0.4
+          },
+          "screen_tier": "CORE",
+          "screen_multiplier": 1.0,
+          "spread": null,
+          "is_b2b": false
+        },
+        {
+          "player": "Scottie Barnes",
+          "stat": "stl",
+          "line": 1.5,
+          "direction": "UNDER",
+          "tier": "C",
+          "gap": -0.1,
+          "projection": 1.4,
+          "l10_hit_rate": 57,
+          "l5_hit_rate": 80,
+          "season_avg": 1.4,
+          "mins_30plus_pct": 90,
+          "game": "",
+          "is_home": null,
+          "streak": "NEUTRAL",
+          "matchup_note": "",
+          "nexus_score": 39.7,
+          "historical_rating": "NEUTRAL",
+          "historical_detail": "",
+          "l10_values": [
+            2.0,
+            2.0,
+            1.0,
+            2.0,
+            2.0,
+            1.0,
+            1.0,
+            1.0,
+            3.0,
+            1.0
+          ],
+          "l10_floor": 1.0,
+          "l10_miss_count": 5,
+          "player_injury_status": null,
+          "scout_venue": {
+            "venue_altitude": 0,
+            "travel_zone_diff": 0,
+            "travel_distance": 0
+          },
+          "scout_efficiency": {
+            "l10_avg_plus_minus": 3.9,
+            "l10_avg_pf": 2.5,
+            "foul_trouble_risk": false,
+            "efficiency_trend": -1.9
+          },
+          "screen_tier": "FLEX",
+          "screen_multiplier": 0.85,
+          "spread": null,
+          "is_b2b": false
+        },
+        {
+          "player": "Ryan Rollins",
+          "stat": "stl",
+          "line": 1.5,
+          "direction": "UNDER",
+          "tier": "C",
+          "gap": -0.0,
+          "projection": 1.5,
+          "l10_hit_rate": 43,
+          "l5_hit_rate": 60,
+          "season_avg": 1.5,
+          "mins_30plus_pct": 70,
+          "game": "",
+          "is_home": null,
+          "streak": "HOT",
+          "matchup_note": "",
+          "nexus_score": 39.3,
+          "historical_rating": "NEUTRAL",
+          "historical_detail": "",
+          "l10_values": [
+            1.0,
+            2.0,
+            2.0,
+            3.0,
+            0.0,
+            0.0,
+            3.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "l10_floor": 0.0,
+          "l10_miss_count": 6,
+          "player_injury_status": null,
+          "scout_venue": {
+            "venue_altitude": 0,
+            "travel_zone_diff": 0,
+            "travel_distance": 0
+          },
+          "scout_efficiency": {
+            "l10_avg_plus_minus": -7.0,
+            "l10_avg_pf": 2.5,
+            "foul_trouble_risk": false,
+            "efficiency_trend": -6.8
+          },
+          "screen_tier": "CORE",
+          "screen_multiplier": 1.0,
+          "spread": null,
+          "is_b2b": false
+        }
+      ],
+      "legs_total": 3,
+      "confidence": 46.6,
+      "description": "NEXUS v4 RELAXED 3-Leg (no evaluator gate, no devils)",
+      "constructor": "",
+      "reality_check": {
+        "status": "RELAXED",
+        "attempt": 0,
+        "issues": [
+          "Used relaxed fallback"
+        ]
+      }
+    }
+  }
+}

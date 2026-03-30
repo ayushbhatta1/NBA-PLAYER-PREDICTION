@@ -1,0 +1,40 @@
+{
+  "date": "2026-03-29",
+  "total_lines": 828,
+  "errors": 8,
+  "tier_distribution": {
+    "B": 148,
+    "D": 263,
+    "C": 222,
+    "F": 117,
+    "A": 51,
+    "S": 19,
+    "SKIP": 8
+  },
+  "pipeline_version": "v15+arena+scanner",
+  "backtest_passes": 3,
+  "research_method": "parallel_agents",
+  "games_researched": 9,
+  "v5_features": [
+    "Parallel research agents (1 per team, concurrent)",
+    "Auto injury report fetch",
+    "Auto spread/odds from ESPN",
+    "Auto B2B detection from schedule",
+    "Auto breaking news scan",
+    "No manual game context required",
+    "UNDER penalty removed",
+    "Reasoning on every pick"
+  ],
+  "game_contexts": {
+    "LAC@MIL": "Clippers without Yanic Konan Niederhauser, Bradley Beal | Bucks without Gary Harris, Kevin Porter Jr., Kyle Kuzma (+1 more) | Bucks on B2B | Clippers big favorite (14.5) | Clippers on W4 streak | Bucks on L3 skid | Clippers compressed schedule (3 in 7d) | Bucks terrible D (rank 26)",
+    "MIA@IND": "Heat without Terry Rozier | Pacers without Ivica Zubac, Johnny Furphy, Tyrese Haliburton | Heat compressed schedule (3 in 7d) | Pacers compressed schedule (3 in 7d) | FAST pace game (proj 103.0) | Pacers terrible D (rank 27)",
+    "SAC@BKN": "Kings without Russell Westbrook, Keegan Murray, Drew Eubanks (+3 more) | Nets without Danny Wolf, Michael Porter Jr., Egor Demin (+1 more) | Kings on B2B | Nets on B2B | Kings on L3 skid | Nets on L5 skid | Nets compressed schedule (4 in 7d) | Kings terrible D (rank 28) | \u26a0 B2B flag set but rest days = 1 for Nets",
+    "BOS@CHA": "Celtics without Nikola Vucevic | Hornets without Tidjane Salaun | Hornets on B2B | Celtics compressed schedule (3 in 7d) | SLOW pace game (proj 96.7) | Celtics elite D (rank 4)",
+    "ORL@TOR": "Magic without Anthony Black, Franz Wagner, Jonathan Isaac | Raptors without Immanuel Quickley, Chucky Hepburn | Raptors compressed schedule (4 in 7d)",
+    "WAS@POR": "Wizards without Trae Young, Tre Johnson, Alex Sarr (+4 more) | Trail Blazers without Vit Krejci, Jerami Grant, Shaedon Sharpe (+1 more) | Trail Blazers big favorite (15.5) | Wizards compressed schedule (3 in 7d) | Trail Blazers compressed schedule (4 in 7d) | FAST pace game (proj 102.2) | Wizards terrible D (rank 30)",
+    "HOU@NOP": "Rockets without Steven Adams, Fred VanVleet | Pelicans without Bryce McGowens | Pelicans on L4 skid | Rockets compressed schedule (3 in 7d) | Pelicans compressed schedule (3 in 7d)",
+    "NYK@OKC": "Knicks without Miles McBride, Landry Shamet, Kevin McCullar Jr. | Thunder without Thomas Sorber | Thunder compressed schedule (3 in 7d) | Knicks elite D (rank 5) | Thunder elite D (rank 1)",
+    "GSW@DEN": "Warriors without Quinten Post, Seth Curry, Al Horford (+3 more) | Nuggets big favorite (11.5) | Warriors on W3 streak | Nuggets on W5 streak | Warriors compressed schedule (3 in 7d) | Nuggets compressed schedule (4 in 7d)"
+  },
+  "timestamp": "2026-03-29T00:43:47.775173"
+}

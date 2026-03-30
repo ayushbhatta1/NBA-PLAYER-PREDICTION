@@ -1,0 +1,631 @@
+{
+  "total_input": 760,
+  "players_removed": [
+    {
+      "player": "Ausar Thompson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Marvin Bagley III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Marvin Bagley III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Marvin Bagley",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Marvin Bagley III",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Marvin Bagley",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Marvin Bagley",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Tre Johnson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Tre Johnson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Tre Johnson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Tre Johnson",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "reason": "GTD/Questionable: Questionable"
+    }
+  ],
+  "games_postponed": [],
+  "gtd_flagged": [
+    {
+      "player": "Ausar Thompson",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ausar Thompson",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ayo Dosunmu",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Bub Carrington",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "blk",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Derrick White",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jaylen Brown",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Marvin Bagley III",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Marvin Bagley III",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Marvin Bagley",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Marvin Bagley III",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Marvin Bagley",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Marvin Bagley",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Tre Johnson",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Tre Johnson",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Tre Johnson",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Tre Johnson",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "stat": "3pm",
+      "status": "Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "stat": "pra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Walter Clayton Jr.",
+      "stat": "reb",
+      "status": "Questionable"
+    }
+  ],
+  "total_removed": 69,
+  "total_remaining": 691
+}

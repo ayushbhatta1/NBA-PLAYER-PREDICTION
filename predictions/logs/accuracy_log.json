@@ -1,0 +1,995 @@
+{
+  "dates": {
+    "2026-03-10": {
+      "date": "2026-03-10",
+      "graded": "2026-03-10T22:46:47.410781",
+      "overall": "12/20 (60%)",
+      "picks": [
+        {
+          "player": "Cade Cunningham",
+          "stat": "AST",
+          "line": 9.5,
+          "grade": "STRONG",
+          "actual": "15 AST",
+          "actual_val": 15,
+          "hit": true,
+          "game": "DET 138 - BKN 100",
+          "note": "SMASHED! 15 dimes in a blowout. +5.5 over line."
+        },
+        {
+          "player": "Jalen Duren",
+          "stat": "PTS",
+          "line": 17.5,
+          "grade": "RISKY",
+          "actual": "26 PTS",
+          "actual_val": 26,
+          "hit": true,
+          "game": "DET 138 - BKN 100",
+          "note": "SMASHED! 26pts. We said 'too volatile' \u2014 wrong."
+        },
+        {
+          "player": "Cooper Flagg",
+          "stat": "R+A",
+          "line": 11.5,
+          "grade": "RISKY",
+          "actual": "12reb + 5ast = 17 R+A",
+          "actual_val": 17,
+          "hit": true,
+          "game": "DAL 112 - ATL 124",
+          "note": "SMASHED! We said 'trending down' \u2014 wrong. 17 R+A."
+        },
+        {
+          "player": "Dyson Daniels",
+          "stat": "R+A",
+          "line": 12.5,
+          "grade": "RISKY",
+          "actual": "7reb + 10ast = 17 R+A",
+          "actual_val": 17,
+          "hit": true,
+          "game": "DAL 112 - ATL 124",
+          "note": "SMASHED! 10 assists. We said 'hot streak may cool' \u2014 nope."
+        },
+        {
+          "player": "Jaylen Brown",
+          "stat": "R+A",
+          "line": 11.5,
+          "grade": "LOCK",
+          "actual": "2reb + 7ast = 9 R+A (EJECTED 15min)",
+          "actual_val": 9,
+          "hit": false,
+          "game": "BOS 116 - SAS 125",
+          "note": "EJECTED! 2 technicals arguing with refs. Only 15 min. Can't predict this."
+        },
+        {
+          "player": "Victor Wembanyama",
+          "stat": "BLK",
+          "line": 3.5,
+          "grade": "LOCK",
+          "actual": "2 BLK (39pts, 8 threes)",
+          "actual_val": 2,
+          "hit": false,
+          "game": "SAS 125 - BOS 116",
+          "note": "Only 2 blocks. Went full offense mode \u2014 39pts on 8/15 from 3. Streak broken."
+        },
+        {
+          "player": "De'Aaron Fox",
+          "stat": "AST",
+          "line": 5.5,
+          "grade": "STRONG",
+          "actual": "9 AST (25pts)",
+          "actual_val": 9,
+          "hit": true,
+          "game": "SAS 125 - BOS 116",
+          "note": "HIT. Fox now on SPURS. 9 assists, clean."
+        },
+        {
+          "player": "Devin Booker",
+          "stat": "PTS",
+          "line": 25.5,
+          "grade": "FADE",
+          "actual": "27 PTS",
+          "actual_val": 27,
+          "hit": true,
+          "game": "PHX 129 - MIL 114",
+          "note": "HIT \u2014 but we told you to FADE this. Would've been a winner."
+        },
+        {
+          "player": "Kyle Kuzma",
+          "stat": "PRA",
+          "line": 18.5,
+          "grade": "LOCK",
+          "actual": "33pts + 3reb + 3ast = 39 PRA",
+          "actual_val": 39,
+          "hit": true,
+          "game": "MIL 114 - PHX 129",
+          "note": "NUCLEAR! Season-high 33pts. +20.5 over line. Now on Bucks."
+        },
+        {
+          "player": "Brandon Ingram",
+          "stat": "AST",
+          "line": 3.5,
+          "grade": "STRONG",
+          "actual": "3 AST",
+          "actual_val": 3,
+          "hit": false,
+          "game": "TOR 99 - HOU 113",
+          "note": "MISS. Exactly on the line (3 ast = under O3.5). Bad game \u2014 only 9pts on 36min."
+        },
+        {
+          "player": "Matas Buzelis",
+          "stat": "REB",
+          "line": 5.5,
+          "grade": "STRONG",
+          "actual": "6 REB (career-high 41pts!)",
+          "actual_val": 6,
+          "hit": true,
+          "game": "CHI 130 - GSW 124 OT",
+          "note": "Barely hit (+0.5). But scored 41 POINTS \u2014 career high!"
+        },
+        {
+          "player": "Josh Giddey",
+          "stat": "R+A",
+          "line": 16.5,
+          "grade": "LOCK*",
+          "actual": "13reb + 17ast = 30 R+A",
+          "actual_val": 30,
+          "hit": true,
+          "game": "CHI 130 - GSW 124 OT",
+          "note": "TRIPLE DOUBLE! +13.5 over line. Originally graded FADE, upgraded to LOCK after analyst context."
+        },
+        {
+          "player": "Brandin Podziemski",
+          "stat": "REB",
+          "line": 6.5,
+          "grade": "STRONG",
+          "actual": "2 REB",
+          "actual_val": 2,
+          "hit": false,
+          "game": "GSW 124 - CHI 130 OT",
+          "note": "Bad miss. Only 2 reb, 9pts. Awful night."
+        },
+        {
+          "player": "Draymond Green",
+          "stat": "AST",
+          "line": 5.5,
+          "grade": "RISKY",
+          "actual": "4 AST",
+          "actual_val": 4,
+          "hit": false,
+          "game": "GSW 124 - CHI 130 OT",
+          "note": "MISS. 4 assists. Correct to avoid."
+        },
+        {
+          "player": "Brandon Miller",
+          "stat": "REB",
+          "line": 4.5,
+          "grade": "STRONG+",
+          "actual": "9 REB (23pts)",
+          "actual_val": 9,
+          "hit": true,
+          "game": "CHA 103 - POR 101",
+          "note": "HIT! +4.5 over line. Analyst's pace-up angle was perfect."
+        },
+        {
+          "player": "LaMelo Ball",
+          "stat": "AST",
+          "line": 7.5,
+          "grade": "FADE",
+          "actual": "4 AST",
+          "actual_val": 4,
+          "hit": false,
+          "game": "CHA 103 - POR 101",
+          "note": "FADE was correct. Only 4 assists despite pace-up spot."
+        },
+        {
+          "player": "Grayson Allen",
+          "stat": "AST",
+          "line": 4.5,
+          "grade": "RISKY",
+          "actual": "2 AST",
+          "actual_val": 2,
+          "hit": false,
+          "game": "PHX 129 - MIL 114",
+          "note": "MISS. Only 2 assists. Correct to avoid."
+        },
+        {
+          "player": "Anthony Edwards",
+          "stat": "PTS",
+          "line": 28.5,
+          "grade": "STRONG-ROAD",
+          "actual": "14 PTS (2/15 FG, 1/10 3PT)",
+          "actual_val": 14,
+          "hit": false,
+          "game": "LAL 120 - MIN 106",
+          "note": "DISASTER. 13.3% from field. Wolves blown out. Road splits worthless when you go 2/15."
+        },
+        {
+          "player": "Ty Jerome",
+          "stat": "P+A",
+          "line": 21.5,
+          "grade": "STRONG",
+          "actual": "26pts + 8ast = 34 P+A",
+          "actual_val": 34,
+          "hit": true,
+          "game": "MEM 129 - PHI 139",
+          "note": "SMASHED! +12.5 over line. Ejected late but already crushed it."
+        },
+        {
+          "player": "Onyeka Okongwu",
+          "stat": "R+A",
+          "line": 10.5,
+          "grade": "RISKY\u2192LEAN",
+          "actual": "9reb + 2ast = 11 R+A",
+          "actual_val": 11,
+          "hit": true,
+          "game": "ATL 124 - DAL 112",
+          "note": "Barely hit (+0.5). Analyst was right about weak paint matchup."
+        }
+      ],
+      "parlay_main_5leg": {
+        "hit": false,
+        "legs_hit": 3,
+        "legs_total": 5
+      },
+      "parlay_analyst_3leg": {
+        "hit": false,
+        "legs_hit": 2,
+        "legs_total": 3
+      },
+      "historic_note": "Bam Adebayo scored 83 points \u2014 2nd most in NBA history"
+    },
+    "2026-03-11": {
+      "pipeline_version": "v3",
+      "games": 6,
+      "predictions_graded": 8,
+      "accuracy": 37.5,
+      "over_accuracy": 25.0,
+      "under_accuracy": 50.0,
+      "projection_mae": 5.9,
+      "by_tier": {
+        "S": {
+          "total": 3,
+          "hits": 2,
+          "accuracy": 66.7
+        },
+        "A": {
+          "total": 1,
+          "hits": 0,
+          "accuracy": 0.0
+        },
+        "B": {
+          "total": 0,
+          "hits": 0,
+          "accuracy": 0
+        },
+        "C": {
+          "total": 0,
+          "hits": 0,
+          "accuracy": 0
+        },
+        "D": {
+          "total": 0,
+          "hits": 0,
+          "accuracy": 0
+        },
+        "F": {
+          "total": 4,
+          "hits": 1,
+          "accuracy": 25.0
+        }
+      },
+      "notes": "First v3 run. S tier 2/3 (67%). Keyonte George illness MISS. Banchero injury boost HIT."
+    }
+  },
+  "entries": [
+    {
+      "date": "2026-03-11",
+      "pipeline": "v3",
+      "total_lines": 252,
+      "hits": 178,
+      "accuracy_pct": 70.6,
+      "over_count": 78,
+      "over_hits": 43,
+      "over_accuracy": 55.1,
+      "under_count": 174,
+      "under_hits": 135,
+      "under_accuracy": 77.6,
+      "tier_accuracy": {
+        "S": {
+          "total": 17,
+          "hits": 15,
+          "pct": 88.2
+        },
+        "A": {
+          "total": 21,
+          "hits": 15,
+          "pct": 71.4
+        },
+        "B": {
+          "total": 10,
+          "hits": 6,
+          "pct": 60.0
+        },
+        "C": {
+          "total": 7,
+          "hits": 3,
+          "pct": 42.9
+        },
+        "D": {
+          "total": 6,
+          "hits": 4,
+          "pct": 66.7
+        },
+        "F": {
+          "total": 191,
+          "hits": 135,
+          "pct": 70.7
+        }
+      },
+      "mae": 3.21,
+      "data_source": "nba_api live + nbainjuries",
+      "games": 6,
+      "timestamp": "2026-03-11T23:10:34.882041"
+    },
+    {
+      "date": "2026-03-13",
+      "pipeline": "v4",
+      "total_lines": 819,
+      "hits": 332,
+      "accuracy_pct": 44.0,
+      "over_accuracy": 40.3,
+      "under_accuracy": 77.3,
+      "tier_accuracy": {
+        "F": {
+          "hits": 135,
+          "total": 283,
+          "accuracy": 47.7
+        },
+        "S": {
+          "hits": 21,
+          "total": 47,
+          "accuracy": 44.7
+        },
+        "A": {
+          "hits": 33,
+          "total": 84,
+          "accuracy": 39.3
+        },
+        "D": {
+          "hits": 62,
+          "total": 145,
+          "accuracy": 42.8
+        },
+        "B": {
+          "hits": 43,
+          "total": 112,
+          "accuracy": 38.4
+        },
+        "C": {
+          "hits": 38,
+          "total": 84,
+          "accuracy": 45.2
+        }
+      },
+      "mae": 6.7,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-13T21:54:05.775323"
+    },
+    {
+      "date": "2026-03-14",
+      "pipeline": "v4",
+      "total_lines": 445,
+      "hits": 222,
+      "accuracy_pct": 56.6,
+      "over_accuracy": 53.1,
+      "under_accuracy": 62.1,
+      "tier_accuracy": {
+        "F": {
+          "hits": 120,
+          "total": 227,
+          "accuracy": 52.9
+        },
+        "B": {
+          "hits": 22,
+          "total": 32,
+          "accuracy": 68.8
+        },
+        "C": {
+          "hits": 15,
+          "total": 30,
+          "accuracy": 50.0
+        },
+        "S": {
+          "hits": 24,
+          "total": 45,
+          "accuracy": 53.3
+        },
+        "A": {
+          "hits": 18,
+          "total": 26,
+          "accuracy": 69.2
+        },
+        "D": {
+          "hits": 23,
+          "total": 32,
+          "accuracy": 71.9
+        }
+      },
+      "mae": 3.2,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-15T22:29:07.523314"
+    },
+    {
+      "date": "2026-03-15",
+      "pipeline": "v4",
+      "total_lines": 380,
+      "hits": 142,
+      "accuracy_pct": 56.3,
+      "over_accuracy": 54.5,
+      "under_accuracy": 60.8,
+      "tier_accuracy": {
+        "F": {
+          "hits": 44,
+          "total": 90,
+          "accuracy": 48.9
+        },
+        "D": {
+          "hits": 15,
+          "total": 24,
+          "accuracy": 62.5
+        },
+        "C": {
+          "hits": 19,
+          "total": 33,
+          "accuracy": 57.6
+        },
+        "A": {
+          "hits": 35,
+          "total": 51,
+          "accuracy": 68.6
+        },
+        "S": {
+          "hits": 15,
+          "total": 24,
+          "accuracy": 62.5
+        },
+        "B": {
+          "hits": 14,
+          "total": 30,
+          "accuracy": 46.7
+        }
+      },
+      "mae": NaN,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-15T23:19:02.905552"
+    },
+    {
+      "date": "2026-03-16",
+      "pipeline": "v4",
+      "total_lines": 888,
+      "hits": 428,
+      "accuracy_pct": 50.4,
+      "over_accuracy": 43.2,
+      "under_accuracy": 60.6,
+      "tier_accuracy": {
+        "F": {
+          "hits": 310,
+          "total": 614,
+          "accuracy": 50.5
+        },
+        "A": {
+          "hits": 10,
+          "total": 26,
+          "accuracy": 38.5
+        },
+        "S": {
+          "hits": 18,
+          "total": 28,
+          "accuracy": 64.3
+        },
+        "D": {
+          "hits": 52,
+          "total": 100,
+          "accuracy": 52.0
+        },
+        "C": {
+          "hits": 20,
+          "total": 50,
+          "accuracy": 40.0
+        },
+        "B": {
+          "hits": 18,
+          "total": 32,
+          "accuracy": 56.2
+        }
+      },
+      "mae": 3.8,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-16T22:38:08.039249"
+    },
+    {
+      "date": "2026-03-17",
+      "pipeline": "v4",
+      "total_lines": 663,
+      "hits": 274,
+      "accuracy_pct": 43.0,
+      "over_accuracy": 38.2,
+      "under_accuracy": 64.9,
+      "tier_accuracy": {
+        "F": {
+          "hits": 89,
+          "total": 239,
+          "accuracy": 37.2
+        },
+        "A": {
+          "hits": 38,
+          "total": 75,
+          "accuracy": 50.7
+        },
+        "B": {
+          "hits": 32,
+          "total": 82,
+          "accuracy": 39.0
+        },
+        "S": {
+          "hits": 37,
+          "total": 57,
+          "accuracy": 64.9
+        },
+        "C": {
+          "hits": 30,
+          "total": 81,
+          "accuracy": 37.0
+        },
+        "D": {
+          "hits": 48,
+          "total": 103,
+          "accuracy": 46.6
+        }
+      },
+      "mae": 6.0,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-17T21:45:55.646623"
+    },
+    {
+      "date": "2026-03-18",
+      "pipeline": "v4",
+      "total_lines": 272,
+      "hits": 78,
+      "accuracy_pct": 34.8,
+      "over_accuracy": 35.3,
+      "under_accuracy": 16.7,
+      "tier_accuracy": {
+        "F": {
+          "hits": 29,
+          "total": 74,
+          "accuracy": 39.2
+        },
+        "D": {
+          "hits": 19,
+          "total": 45,
+          "accuracy": 42.2
+        },
+        "A": {
+          "hits": 9,
+          "total": 32,
+          "accuracy": 28.1
+        },
+        "C": {
+          "hits": 9,
+          "total": 28,
+          "accuracy": 32.1
+        },
+        "S": {
+          "hits": 2,
+          "total": 13,
+          "accuracy": 15.4
+        },
+        "B": {
+          "hits": 10,
+          "total": 32,
+          "accuracy": 31.2
+        }
+      },
+      "mae": 5.2,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-18T21:17:10.114586"
+    },
+    {
+      "date": "2026-03-19",
+      "pipeline": "v4",
+      "total_lines": 459,
+      "hits": 199,
+      "accuracy_pct": 48.3,
+      "over_accuracy": 45.1,
+      "under_accuracy": 55.6,
+      "tier_accuracy": {
+        "C": {
+          "hits": 16,
+          "total": 51,
+          "accuracy": 31.4
+        },
+        "F": {
+          "hits": 60,
+          "total": 123,
+          "accuracy": 48.8
+        },
+        "A": {
+          "hits": 37,
+          "total": 78,
+          "accuracy": 47.4
+        },
+        "D": {
+          "hits": 36,
+          "total": 64,
+          "accuracy": 56.2
+        },
+        "B": {
+          "hits": 32,
+          "total": 60,
+          "accuracy": 53.3
+        },
+        "S": {
+          "hits": 18,
+          "total": 36,
+          "accuracy": 50.0
+        }
+      },
+      "mae": 5.6,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-19T22:37:54.969264"
+    },
+    {
+      "date": "2026-03-20",
+      "pipeline": "v4",
+      "total_lines": 129,
+      "hits": 61,
+      "accuracy_pct": 48.4,
+      "over_accuracy": 42.7,
+      "under_accuracy": 62.2,
+      "tier_accuracy": {
+        "F": {
+          "hits": 21,
+          "total": 37,
+          "accuracy": 56.8
+        },
+        "D": {
+          "hits": 13,
+          "total": 25,
+          "accuracy": 52.0
+        },
+        "A": {
+          "hits": 4,
+          "total": 16,
+          "accuracy": 25.0
+        },
+        "B": {
+          "hits": 8,
+          "total": 20,
+          "accuracy": 40.0
+        },
+        "C": {
+          "hits": 13,
+          "total": 21,
+          "accuracy": 61.9
+        },
+        "S": {
+          "hits": 2,
+          "total": 7,
+          "accuracy": 28.6
+        }
+      },
+      "mae": 4.9,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-21T09:22:14.014059"
+    },
+    {
+      "date": "2026-03-21",
+      "pipeline": "v4",
+      "total_lines": 658,
+      "hits": 221,
+      "accuracy_pct": 49.8,
+      "over_accuracy": 47.8,
+      "under_accuracy": 56.6,
+      "tier_accuracy": {
+        "S": {
+          "hits": 65,
+          "total": 154,
+          "accuracy": 42.2
+        },
+        "B": {
+          "hits": 33,
+          "total": 63,
+          "accuracy": 52.4
+        },
+        "D": {
+          "hits": 31,
+          "total": 52,
+          "accuracy": 59.6
+        },
+        "C": {
+          "hits": 26,
+          "total": 52,
+          "accuracy": 50.0
+        },
+        "F": {
+          "hits": 43,
+          "total": 75,
+          "accuracy": 57.3
+        },
+        "A": {
+          "hits": 23,
+          "total": 48,
+          "accuracy": 47.9
+        }
+      },
+      "mae": 7.1,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-22T13:05:01.369789"
+    },
+    {
+      "date": "2026-03-23",
+      "pipeline": "v4",
+      "total_lines": 498,
+      "hits": 248,
+      "accuracy_pct": 55.2,
+      "over_accuracy": 59.4,
+      "under_accuracy": 54.9,
+      "tier_accuracy": {
+        "C": {
+          "hits": 40,
+          "total": 77,
+          "accuracy": 51.9
+        },
+        "A": {
+          "hits": 56,
+          "total": 107,
+          "accuracy": 52.3
+        },
+        "D": {
+          "hits": 9,
+          "total": 15,
+          "accuracy": 60.0
+        },
+        "B": {
+          "hits": 69,
+          "total": 110,
+          "accuracy": 62.7
+        },
+        "S": {
+          "hits": 73,
+          "total": 136,
+          "accuracy": 53.7
+        },
+        "F": {
+          "hits": 1,
+          "total": 4,
+          "accuracy": 25.0
+        }
+      },
+      "mae": 6.5,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-24T08:58:00.973465"
+    },
+    {
+      "date": "2026-03-24",
+      "pipeline": "v4",
+      "total_lines": 293,
+      "hits": 82,
+      "accuracy_pct": 45.8,
+      "over_accuracy": 42.9,
+      "under_accuracy": 46.1,
+      "tier_accuracy": {
+        "C": {
+          "hits": 38,
+          "total": 71,
+          "accuracy": 53.5
+        },
+        "D": {
+          "hits": 3,
+          "total": 11,
+          "accuracy": 27.3
+        },
+        "S": {
+          "hits": 14,
+          "total": 32,
+          "accuracy": 43.8
+        },
+        "A": {
+          "hits": 11,
+          "total": 29,
+          "accuracy": 37.9
+        },
+        "B": {
+          "hits": 16,
+          "total": 34,
+          "accuracy": 47.1
+        },
+        "F": {
+          "hits": 0,
+          "total": 2,
+          "accuracy": 0.0
+        }
+      },
+      "mae": 6.2,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-25T20:32:00.773025"
+    },
+    {
+      "date": "2026-03-26",
+      "pipeline": "v4",
+      "total_lines": 351,
+      "hits": 173,
+      "accuracy_pct": 51.8,
+      "over_accuracy": 0,
+      "under_accuracy": 51.8,
+      "tier_accuracy": {
+        "C": {
+          "hits": 57,
+          "total": 115,
+          "accuracy": 49.6
+        },
+        "A": {
+          "hits": 18,
+          "total": 34,
+          "accuracy": 52.9
+        },
+        "B": {
+          "hits": 23,
+          "total": 50,
+          "accuracy": 46.0
+        },
+        "D": {
+          "hits": 45,
+          "total": 78,
+          "accuracy": 57.7
+        },
+        "F": {
+          "hits": 12,
+          "total": 18,
+          "accuracy": 66.7
+        },
+        "S": {
+          "hits": 18,
+          "total": 39,
+          "accuracy": 46.2
+        }
+      },
+      "mae": 3.5,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-26T23:40:13.829942"
+    },
+    {
+      "date": "2026-03-27",
+      "pipeline": "v4",
+      "total_lines": 330,
+      "hits": 31,
+      "accuracy_pct": 52.5,
+      "over_accuracy": 0,
+      "under_accuracy": 52.5,
+      "tier_accuracy": {
+        "D": {
+          "hits": 14,
+          "total": 23,
+          "accuracy": 60.9
+        },
+        "C": {
+          "hits": 10,
+          "total": 17,
+          "accuracy": 58.8
+        },
+        "A": {
+          "hits": 2,
+          "total": 7,
+          "accuracy": 28.6
+        },
+        "B": {
+          "hits": 2,
+          "total": 7,
+          "accuracy": 28.6
+        },
+        "S": {
+          "hits": 1,
+          "total": 2,
+          "accuracy": 50.0
+        },
+        "F": {
+          "hits": 2,
+          "total": 3,
+          "accuracy": 66.7
+        }
+      },
+      "mae": 3.5,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-27T22:41:03.373631"
+    },
+    {
+      "date": "2026-03-28",
+      "pipeline": "v4",
+      "total_lines": 191,
+      "hits": 127,
+      "accuracy_pct": 70.6,
+      "over_accuracy": 83.8,
+      "under_accuracy": 46.0,
+      "tier_accuracy": {
+        "S": {
+          "hits": 103,
+          "total": 134,
+          "accuracy": 76.9
+        },
+        "B": {
+          "hits": 7,
+          "total": 11,
+          "accuracy": 63.6
+        },
+        "A": {
+          "hits": 15,
+          "total": 29,
+          "accuracy": 51.7
+        },
+        "C": {
+          "hits": 2,
+          "total": 6,
+          "accuracy": 33.3
+        },
+        "D": {
+          "hits": 0,
+          "total": 0,
+          "accuracy": 0
+        },
+        "F": {
+          "hits": 0,
+          "total": 0,
+          "accuracy": 0
+        }
+      },
+      "mae": 7.2,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-28T23:27:44.188612"
+    },
+    {
+      "date": "2026-03-29",
+      "pipeline": "v4",
+      "total_lines": 828,
+      "hits": 448,
+      "accuracy_pct": 57.8,
+      "over_accuracy": 40.9,
+      "under_accuracy": 58.8,
+      "tier_accuracy": {
+        "F": {
+          "hits": 56,
+          "total": 100,
+          "accuracy": 56.0
+        },
+        "D": {
+          "hits": 138,
+          "total": 246,
+          "accuracy": 56.1
+        },
+        "C": {
+          "hits": 121,
+          "total": 216,
+          "accuracy": 56.0
+        },
+        "B": {
+          "hits": 87,
+          "total": 143,
+          "accuracy": 60.8
+        },
+        "A": {
+          "hits": 35,
+          "total": 51,
+          "accuracy": 68.6
+        },
+        "S": {
+          "hits": 11,
+          "total": 19,
+          "accuracy": 57.9
+        }
+      },
+      "mae": 4.1,
+      "data_source": "nba_api live",
+      "timestamp": "2026-03-29T23:03:15.492694"
+    }
+  ]
+}

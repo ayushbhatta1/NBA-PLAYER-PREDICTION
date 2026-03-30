@@ -1,0 +1,5824 @@
+[
+  {
+    "player": "Ace Bailey",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ace Bailey",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "UTA",
+    "source": "underdog"
+  },
+  {
+    "player": "Ace Bailey",
+    "stat": "pa",
+    "line": 20.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ace Bailey",
+    "stat": "pr",
+    "line": 23.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ace Bailey",
+    "stat": "pra",
+    "line": 25.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 25.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Ace Bailey",
+    "stat": "pts",
+    "line": 18.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 18.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Ace Bailey",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Ace Bailey",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Ajay Mitchell",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ajay Mitchell",
+    "stat": "pa",
+    "line": 17.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ajay Mitchell",
+    "stat": "pr",
+    "line": 14.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ajay Mitchell",
+    "stat": "pra",
+    "line": 21.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ajay Mitchell",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ajay Mitchell",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ajay Mitchell",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Alexandre Sarr",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Alexandre Sarr",
+    "stat": "blk",
+    "line": 0.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Alexandre Sarr",
+    "stat": "pa",
+    "line": 14.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Alexandre Sarr",
+    "stat": "pr",
+    "line": 17.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Alexandre Sarr",
+    "stat": "pra",
+    "line": 19.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Alexandre Sarr",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Alexandre Sarr",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Alexandre Sarr",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Andrew Wiggins",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Andrew Wiggins",
+    "stat": "pr",
+    "line": 17.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Andrew Wiggins",
+    "stat": "pts",
+    "line": 13.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Andrew Wiggins",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Andrew Wiggins",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Anthony Edwards",
+    "stat": "3pm",
+    "line": 3.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Anthony Edwards",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Anthony Edwards",
+    "stat": "pa",
+    "line": 32.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Anthony Edwards",
+    "stat": "pr",
+    "line": 32.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Anthony Edwards",
+    "stat": "pra",
+    "line": 37.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 36.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Anthony Edwards",
+    "stat": "pts",
+    "line": 28.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 28.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Anthony Edwards",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Anthony Edwards",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Anthony Edwards",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "pa",
+    "line": 14.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "pr",
+    "line": 18.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "pra",
+    "line": 21.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "pa",
+    "line": 36.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "pr",
+    "line": 34.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "pra",
+    "line": 41.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "pts",
+    "line": 29.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "ra",
+    "line": 11.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ayo Dosunmu",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ayo Dosunmu",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Ayo Dosunmu",
+    "stat": "pa",
+    "line": 21.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ayo Dosunmu",
+    "stat": "pr",
+    "line": 20.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ayo Dosunmu",
+    "stat": "pra",
+    "line": 25.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 25.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Ayo Dosunmu",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 16.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Ayo Dosunmu",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Ayo Dosunmu",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "pa",
+    "line": 25.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "pr",
+    "line": 32.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "pra",
+    "line": 35.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "pts",
+    "line": 21.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "ra",
+    "line": 13.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "reb",
+    "line": 10.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "pa",
+    "line": 13.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "pr",
+    "line": 14.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "pra",
+    "line": 17.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "ra",
+    "line": 5.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brandon Williams",
+    "stat": "3pm",
+    "line": 0.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brandon Williams",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Brandon Williams",
+    "stat": "pa",
+    "line": 14.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brandon Williams",
+    "stat": "pr",
+    "line": 13.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brandon Williams",
+    "stat": "pra",
+    "line": 16.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 16.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Brandon Williams",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 10.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Brandon Williams",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brandon Williams",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Brice Sensabaugh",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brice Sensabaugh",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brice Sensabaugh",
+    "stat": "pa",
+    "line": 22.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brice Sensabaugh",
+    "stat": "pr",
+    "line": 23.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brice Sensabaugh",
+    "stat": "pra",
+    "line": 25.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brice Sensabaugh",
+    "stat": "pts",
+    "line": 20.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brice Sensabaugh",
+    "stat": "ra",
+    "line": 5.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Brice Sensabaugh",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bronny James",
+    "stat": "pts",
+    "line": 6.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "pa",
+    "line": 15.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "pr",
+    "line": 13.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "pra",
+    "line": 18.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Caris LeVert",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Caris LeVert",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Caris LeVert",
+    "stat": "pa",
+    "line": 12.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Caris LeVert",
+    "stat": "pr",
+    "line": 12.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Caris LeVert",
+    "stat": "pra",
+    "line": 15.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Caris LeVert",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Caris LeVert",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Caris LeVert",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cason Wallace",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cason Wallace",
+    "stat": "pa",
+    "line": 10.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cason Wallace",
+    "stat": "pr",
+    "line": 11.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cason Wallace",
+    "stat": "pra",
+    "line": 14.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cason Wallace",
+    "stat": "pts",
+    "line": 7.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cason Wallace",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cason Wallace",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cason Wallace",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cedric Coward",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cedric Coward",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cedric Coward",
+    "stat": "pa",
+    "line": 17.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cedric Coward",
+    "stat": "pr",
+    "line": 20.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cedric Coward",
+    "stat": "pra",
+    "line": 23.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 23.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cedric Coward",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 14.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cedric Coward",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cedric Coward",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cedric Coward",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Chet Holmgren",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Chet Holmgren",
+    "stat": "blk",
+    "line": 1.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Chet Holmgren",
+    "stat": "pr",
+    "line": 23.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Chet Holmgren",
+    "stat": "pts",
+    "line": 15.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Chet Holmgren",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "CJ McCollum",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "CJ McCollum",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "CJ McCollum",
+    "stat": "pa",
+    "line": 20.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "CJ McCollum",
+    "stat": "pr",
+    "line": 20.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "CJ McCollum",
+    "stat": "pra",
+    "line": 24.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 23.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "CJ McCollum",
+    "stat": "pts",
+    "line": 16.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 16.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "CJ McCollum",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "CJ McCollum",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "CJ McCollum",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cody Williams",
+    "stat": "3pm",
+    "line": 0.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cody Williams",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cody Williams",
+    "stat": "pa",
+    "line": 15.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cody Williams",
+    "stat": "pr",
+    "line": 16.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cody Williams",
+    "stat": "pra",
+    "line": 19.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 19.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cody Williams",
+    "stat": "pts",
+    "line": 12.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cody Williams",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cody Williams",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Collin Gillespie",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Collin Gillespie",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Collin Gillespie",
+    "stat": "pa",
+    "line": 16.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Collin Gillespie",
+    "stat": "pr",
+    "line": 15.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Collin Gillespie",
+    "stat": "pra",
+    "line": 20.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 20.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Collin Gillespie",
+    "stat": "pts",
+    "line": 12.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Collin Gillespie",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Collin Gillespie",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Collin Gillespie",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Collin Sexton",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Collin Sexton",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Collin Sexton",
+    "stat": "pa",
+    "line": 19.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Collin Sexton",
+    "stat": "pr",
+    "line": 19.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Collin Sexton",
+    "stat": "pra",
+    "line": 22.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 22.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Collin Sexton",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 16.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Collin Sexton",
+    "stat": "ra",
+    "line": 4.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Collin Sexton",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "3pm",
+    "line": 0.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "blk",
+    "line": 0.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "pa",
+    "line": 27.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "pr",
+    "line": 29.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "pra",
+    "line": 34.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 34.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "pts",
+    "line": 22.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 22.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "ra",
+    "line": 12.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 6.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "blk",
+    "line": 0.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "pa",
+    "line": 12.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "pr",
+    "line": 18.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "pra",
+    "line": 20.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 20.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 10.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "reb",
+    "line": 7.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "pa",
+    "line": 22.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "pr",
+    "line": 20.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "pra",
+    "line": 24.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "pts",
+    "line": 16.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "pa",
+    "line": 15.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "pr",
+    "line": 11.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "pra",
+    "line": 18.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "pts",
+    "line": 8.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "De'Aaron Fox",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "De'Aaron Fox",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 6.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "De'Aaron Fox",
+    "stat": "pa",
+    "line": 22.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "De'Aaron Fox",
+    "stat": "pr",
+    "line": 19.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "De'Aaron Fox",
+    "stat": "pra",
+    "line": 26.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 25.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "De'Aaron Fox",
+    "stat": "pts",
+    "line": 16.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 16.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "De'Aaron Fox",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 9.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "De'Aaron Fox",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "De'Aaron Fox",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Deandre Ayton",
+    "stat": "blk",
+    "line": 0.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Deandre Ayton",
+    "stat": "pr",
+    "line": 23.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Deandre Ayton",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Deandre Ayton",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dennis Schroder",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dennis Schroder",
+    "stat": "pa",
+    "line": 14.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dennis Schroder",
+    "stat": "pr",
+    "line": 12.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dennis Schroder",
+    "stat": "pra",
+    "line": 16.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dennis Schroder",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dennis Schroder",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dennis Schroder",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "BOS",
+    "source": "parlayplay",
+    "alt_line": 4.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "blk",
+    "line": 1.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "pa",
+    "line": 22.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "pr",
+    "line": 21.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "pra",
+    "line": 26.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 26.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 17.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 9.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 6.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "pa",
+    "line": 31.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "pr",
+    "line": 29.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "pra",
+    "line": 35.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 35.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "pts",
+    "line": 25.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 25.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "PHX",
+    "source": "parlayplay",
+    "alt_line": 9.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Devin Vassell",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Devin Vassell",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Devin Vassell",
+    "stat": "pa",
+    "line": 15.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Devin Vassell",
+    "stat": "pr",
+    "line": 16.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Devin Vassell",
+    "stat": "pra",
+    "line": 19.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 19.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Devin Vassell",
+    "stat": "pts",
+    "line": 13.5,
+    "team": "SAS",
+    "source": "parlayplay",
+    "alt_line": 12.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Devin Vassell",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Devin Vassell",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Dominick Barlow",
+    "stat": "pts",
+    "line": 4.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dominick Barlow",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "pa",
+    "line": 32.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "pr",
+    "line": 31.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "pra",
+    "line": 36.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 36.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "pts",
+    "line": 26.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 26.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 9.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Donte DiVincenzo",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Donte DiVincenzo",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Donte DiVincenzo",
+    "stat": "pa",
+    "line": 16.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Donte DiVincenzo",
+    "stat": "pr",
+    "line": 16.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Donte DiVincenzo",
+    "stat": "pra",
+    "line": 20.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 20.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Donte DiVincenzo",
+    "stat": "pts",
+    "line": 12.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Donte DiVincenzo",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Donte DiVincenzo",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Donte DiVincenzo",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dylan Harper",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dylan Harper",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Dylan Harper",
+    "stat": "pa",
+    "line": 17.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dylan Harper",
+    "stat": "pr",
+    "line": 16.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dylan Harper",
+    "stat": "pra",
+    "line": 20.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 20.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Dylan Harper",
+    "stat": "pts",
+    "line": 12.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Dylan Harper",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Dylan Harper",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Dyson Daniels",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Dyson Daniels",
+    "stat": "pa",
+    "line": 9.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dyson Daniels",
+    "stat": "pr",
+    "line": 16.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Dyson Daniels",
+    "stat": "pra",
+    "line": 21.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 20.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Dyson Daniels",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 10.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Dyson Daniels",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 10.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Dyson Daniels",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Dyson Daniels",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "3pm",
+    "line": 0.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "blk",
+    "line": 1.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "pa",
+    "line": 21.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "pr",
+    "line": 27.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "pra",
+    "line": 30.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 30.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "pts",
+    "line": 18.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 18.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "ra",
+    "line": 12.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "reb",
+    "line": 9.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 9.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "GG Jackson",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "GG Jackson",
+    "stat": "pa",
+    "line": 19.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "GG Jackson",
+    "stat": "pr",
+    "line": 23.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "GG Jackson",
+    "stat": "pra",
+    "line": 24.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 24.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "GG Jackson",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 17.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "GG Jackson",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "GG Jackson",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "GG Jackson",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "3pm",
+    "line": 3.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "pa",
+    "line": 19.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "pr",
+    "line": 18.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "pra",
+    "line": 22.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 22.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "pts",
+    "line": 16.5,
+    "team": "PHX",
+    "source": "parlayplay",
+    "alt_line": 15.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Harrison Barnes",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Harrison Barnes",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Harrison Barnes",
+    "stat": "pa",
+    "line": 9.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Harrison Barnes",
+    "stat": "pr",
+    "line": 10.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Harrison Barnes",
+    "stat": "pra",
+    "line": 12.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Harrison Barnes",
+    "stat": "pts",
+    "line": 7.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Harrison Barnes",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "SAS",
+    "source": "parlayplay",
+    "alt_line": 2.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Harrison Barnes",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Isaac Okoro",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Isaac Okoro",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Isaac Okoro",
+    "stat": "pa",
+    "line": 10.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Isaac Okoro",
+    "stat": "pr",
+    "line": 11.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Isaac Okoro",
+    "stat": "pra",
+    "line": 13.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 13.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Isaac Okoro",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Isaac Okoro",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jake LaRavia",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jake LaRavia",
+    "stat": "pr",
+    "line": 16.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jake LaRavia",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jake LaRavia",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "pa",
+    "line": 24.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "pr",
+    "line": 25.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "pra",
+    "line": 29.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 29.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "pts",
+    "line": 21.5,
+    "team": "PHX",
+    "source": "parlayplay",
+    "alt_line": 20.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jalen Johnson",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Johnson",
+    "stat": "ast",
+    "line": 7.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jalen Johnson",
+    "stat": "pa",
+    "line": 29.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Johnson",
+    "stat": "pr",
+    "line": 30.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Johnson",
+    "stat": "pra",
+    "line": 38.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 38.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jalen Johnson",
+    "stat": "pts",
+    "line": 21.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 21.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jalen Johnson",
+    "stat": "ra",
+    "line": 16.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 16.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jalen Johnson",
+    "stat": "reb",
+    "line": 9.5,
+    "team": "ATL",
+    "source": "parlayplay",
+    "alt_line": 8.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Jalen Johnson",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "pa",
+    "line": 20.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "pr",
+    "line": 20.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "pra",
+    "line": 24.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "pts",
+    "line": 15.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "James Harden",
+    "stat": "3pm",
+    "line": 3.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "James Harden",
+    "stat": "ast",
+    "line": 8.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "James Harden",
+    "stat": "pa",
+    "line": 29.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "James Harden",
+    "stat": "pr",
+    "line": 25.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "James Harden",
+    "stat": "pra",
+    "line": 33.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 33.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "James Harden",
+    "stat": "pts",
+    "line": 20.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 20.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "James Harden",
+    "stat": "ra",
+    "line": 13.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "James Harden",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "James Harden",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "pa",
+    "line": 32.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "pr",
+    "line": 34.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "pra",
+    "line": 39.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 39.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "pts",
+    "line": 27.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 27.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "ra",
+    "line": 12.5,
+    "team": "BOS",
+    "source": "parlayplay",
+    "alt_line": 11.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 6.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "pa",
+    "line": 28.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "pr",
+    "line": 32.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "pra",
+    "line": 37.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 37.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "pts",
+    "line": 23.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 23.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "ra",
+    "line": 14.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 13.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Joel Embiid",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Joel Embiid",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Joel Embiid",
+    "stat": "pa",
+    "line": 32.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Joel Embiid",
+    "stat": "pr",
+    "line": 35.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Joel Embiid",
+    "stat": "pra",
+    "line": 39.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Joel Embiid",
+    "stat": "pts",
+    "line": 28.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Joel Embiid",
+    "stat": "ra",
+    "line": 11.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Joel Embiid",
+    "stat": "reb",
+    "line": 7.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "John Konchar",
+    "stat": "pr",
+    "line": 9.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "John Konchar",
+    "stat": "pts",
+    "line": 5.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "John Konchar",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jonathan Kuminga",
+    "stat": "pr",
+    "line": 11.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jonathan Kuminga",
+    "stat": "pts",
+    "line": 7.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jonathan Kuminga",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jordan Goodwin",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jordan Goodwin",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 1.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jordan Goodwin",
+    "stat": "pa",
+    "line": 10.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jordan Goodwin",
+    "stat": "pr",
+    "line": 14.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Jordan Goodwin",
+    "stat": "pra",
+    "line": 16.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 16.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jordan Goodwin",
+    "stat": "pts",
+    "line": 8.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jordan Goodwin",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Jordan Goodwin",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Josh Giddey",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Josh Giddey",
+    "stat": "ast",
+    "line": 10.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 9.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Josh Giddey",
+    "stat": "pa",
+    "line": 26.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Josh Giddey",
+    "stat": "pr",
+    "line": 24.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Josh Giddey",
+    "stat": "pra",
+    "line": 34.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 34.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Josh Giddey",
+    "stat": "pts",
+    "line": 16.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 16.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Josh Giddey",
+    "stat": "ra",
+    "line": 17.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 17.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Josh Giddey",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Josh Giddey",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Julian Champagnie",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Julian Champagnie",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Julian Champagnie",
+    "stat": "pa",
+    "line": 12.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Julian Champagnie",
+    "stat": "pr",
+    "line": 14.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Julian Champagnie",
+    "stat": "pra",
+    "line": 17.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 17.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Julian Champagnie",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 9.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Julian Champagnie",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Julian Champagnie",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Julius Randle",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Julius Randle",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Julius Randle",
+    "stat": "pa",
+    "line": 26.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Julius Randle",
+    "stat": "pr",
+    "line": 28.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Julius Randle",
+    "stat": "pra",
+    "line": 33.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 33.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Julius Randle",
+    "stat": "pts",
+    "line": 21.5,
+    "team": "MIN",
+    "source": "parlayplay",
+    "alt_line": 20.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Julius Randle",
+    "stat": "ra",
+    "line": 12.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Julius Randle",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 6.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Julius Randle",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Keldon Johnson",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Keldon Johnson",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Keldon Johnson",
+    "stat": "pa",
+    "line": 15.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Keldon Johnson",
+    "stat": "pr",
+    "line": 18.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Keldon Johnson",
+    "stat": "pra",
+    "line": 20.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 19.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Keldon Johnson",
+    "stat": "pts",
+    "line": 13.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 13.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Keldon Johnson",
+    "stat": "ra",
+    "line": 4.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Keldon Johnson",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Kelly Oubre Jr.",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Kelly Oubre Jr.",
+    "stat": "pr",
+    "line": 13.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Kelly Oubre Jr.",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Kelly Oubre Jr.",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Keon Ellis",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Keon Ellis",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Keon Ellis",
+    "stat": "pa",
+    "line": 10.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Keon Ellis",
+    "stat": "pr",
+    "line": 11.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Keon Ellis",
+    "stat": "pra",
+    "line": 14.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 14.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Keon Ellis",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Keon Ellis",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Kevin Huerter",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Kevin Huerter",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Kevin Huerter",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Khaman Maluach",
+    "stat": "pra",
+    "line": 10.5,
+    "team": "PHX",
+    "source": "underdog"
+  },
+  {
+    "player": "Khaman Maluach",
+    "stat": "pts",
+    "line": 5.5,
+    "team": "PHX",
+    "source": "underdog"
+  },
+  {
+    "player": "Khaman Maluach",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "PHX",
+    "source": "underdog"
+  },
+  {
+    "player": "Khris Middleton",
+    "stat": "3pm",
+    "line": 0.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Khris Middleton",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Khris Middleton",
+    "stat": "pr",
+    "line": 10.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Khris Middleton",
+    "stat": "pra",
+    "line": 11.5,
+    "team": "DAL",
+    "source": "underdog"
+  },
+  {
+    "player": "Khris Middleton",
+    "stat": "pts",
+    "line": 8.5,
+    "team": "DAL",
+    "source": "parlayplay",
+    "alt_line": 7.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Khris Middleton",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Klay Thompson",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Klay Thompson",
+    "stat": "pa",
+    "line": 10.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Klay Thompson",
+    "stat": "pr",
+    "line": 11.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Klay Thompson",
+    "stat": "pra",
+    "line": 12.5,
+    "team": "DAL",
+    "source": "underdog"
+  },
+  {
+    "player": "Klay Thompson",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 9.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Klay Thompson",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Kyle Filipowski",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Kyle Filipowski",
+    "stat": "pa",
+    "line": 15.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Kyle Filipowski",
+    "stat": "pr",
+    "line": 20.5,
+    "team": "UTA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Kyle Filipowski",
+    "stat": "pra",
+    "line": 23.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 23.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Kyle Filipowski",
+    "stat": "pts",
+    "line": 12.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Kyle Filipowski",
+    "stat": "ra",
+    "line": 11.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 10.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Kyle Filipowski",
+    "stat": "reb",
+    "line": 7.5,
+    "team": "UTA",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "ast",
+    "line": 8.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "pa",
+    "line": 32.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "pr",
+    "line": 31.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "pra",
+    "line": 40.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "pts",
+    "line": 24.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "ra",
+    "line": 15.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "reb",
+    "line": 7.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luguentz Dort",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luguentz Dort",
+    "stat": "pr",
+    "line": 9.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luguentz Dort",
+    "stat": "pts",
+    "line": 6.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luguentz Dort",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luke Kennard",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luke Kennard",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luke Kennard",
+    "stat": "pa",
+    "line": 14.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luke Kennard",
+    "stat": "pr",
+    "line": 14.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luke Kennard",
+    "stat": "pra",
+    "line": 17.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luke Kennard",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luke Kennard",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luke Kennard",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luke Kornet",
+    "stat": "pr",
+    "line": 11.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Luke Kornet",
+    "stat": "pra",
+    "line": 12.5,
+    "team": "SAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Luke Kornet",
+    "stat": "pts",
+    "line": 5.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Luke Kornet",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "SAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Luke Kornet",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Marvin Bagley III",
+    "stat": "pa",
+    "line": 10.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Marvin Bagley III",
+    "stat": "pr",
+    "line": 15.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Marvin Bagley",
+    "stat": "pra",
+    "line": 16.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 16.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Marvin Bagley III",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "DAL",
+    "source": "parlayplay",
+    "alt_line": 8.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Marvin Bagley",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Marvin Bagley",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 6.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Matas Buzelis",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Matas Buzelis",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Matas Buzelis",
+    "stat": "blk",
+    "line": 1.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Matas Buzelis",
+    "stat": "pa",
+    "line": 20.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Matas Buzelis",
+    "stat": "pr",
+    "line": 19.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Matas Buzelis",
+    "stat": "pra",
+    "line": 26.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 26.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Matas Buzelis",
+    "stat": "pts",
+    "line": 18.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 18.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Matas Buzelis",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Matas Buzelis",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 6.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "pa",
+    "line": 12.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "pr",
+    "line": 12.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "pra",
+    "line": 15.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 15.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 10.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "ra",
+    "line": 4.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "3pm",
+    "line": 0.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "pa",
+    "line": 20.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "pr",
+    "line": 21.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "pra",
+    "line": 25.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 25.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "pts",
+    "line": 16.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 16.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "DAL",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Naz Reid",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Naz Reid",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Naz Reid",
+    "stat": "blk",
+    "line": 0.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Naz Reid",
+    "stat": "pa",
+    "line": 15.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Naz Reid",
+    "stat": "pr",
+    "line": 20.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Naz Reid",
+    "stat": "pra",
+    "line": 22.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 22.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Naz Reid",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 14.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Naz Reid",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Naz Reid",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "blk",
+    "line": 1.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "pa",
+    "line": 12.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "pr",
+    "line": 19.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "pra",
+    "line": 21.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 21.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 10.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 10.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Nick Richards",
+    "stat": "pa",
+    "line": 9.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Nick Richards",
+    "stat": "pr",
+    "line": 15.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Nick Richards",
+    "stat": "pra",
+    "line": 17.5,
+    "team": "CHI",
+    "source": "parlayplay",
+    "alt_line": 16.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Nick Richards",
+    "stat": "pts",
+    "line": 8.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Nick Richards",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Nick Richards",
+    "stat": "reb",
+    "line": 7.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Nickeil Alexander-Walker",
+    "stat": "3pm",
+    "line": 3.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Nickeil Alexander-Walker",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Nickeil Alexander-Walker",
+    "stat": "pa",
+    "line": 21.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Nickeil Alexander-Walker",
+    "stat": "pr",
+    "line": 20.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Nickeil Alexander-Walker",
+    "stat": "pra",
+    "line": 24.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 24.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Nickeil Alexander-Walker",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 17.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Nickeil Alexander-Walker",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Nickeil Alexander-Walker",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "ATL",
+    "source": "parlayplay",
+    "alt_line": 2.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Nickeil Alexander-Walker",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Onyeka Okongwu",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Onyeka Okongwu",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Onyeka Okongwu",
+    "stat": "blk",
+    "line": 0.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Onyeka Okongwu",
+    "stat": "pa",
+    "line": 14.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Onyeka Okongwu",
+    "stat": "pr",
+    "line": 19.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Onyeka Okongwu",
+    "stat": "pra",
+    "line": 21.5,
+    "team": "ATL",
+    "source": "parlayplay",
+    "alt_line": 20.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Onyeka Okongwu",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 11.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Onyeka Okongwu",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "ATL",
+    "source": "parlayplay",
+    "alt_line": 8.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Onyeka Okongwu",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "ATL",
+    "source": "underdog",
+    "alt_line": 6.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Onyeka Okongwu",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "pa",
+    "line": 11.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "pr",
+    "line": 15.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "pra",
+    "line": 18.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 18.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "pts",
+    "line": 8.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "PHX",
+    "source": "parlayplay",
+    "alt_line": 9.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 6.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "pa",
+    "line": 14.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "pr",
+    "line": 19.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "pra",
+    "line": 21.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "pts",
+    "line": 12.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "DAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul George",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul George",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul George",
+    "stat": "pa",
+    "line": 20.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul George",
+    "stat": "pr",
+    "line": 23.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul George",
+    "stat": "pra",
+    "line": 26.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul George",
+    "stat": "pts",
+    "line": 16.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul George",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul George",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul George",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul Reed",
+    "stat": "pr",
+    "line": 22.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul Reed",
+    "stat": "pts",
+    "line": 13.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Paul Reed",
+    "stat": "reb",
+    "line": 9.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "pa",
+    "line": 23.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "pr",
+    "line": 21.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "pra",
+    "line": 27.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 27.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 17.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "BOS",
+    "source": "parlayplay",
+    "alt_line": 8.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "PJ Washington",
+    "stat": "pra",
+    "line": 21.5,
+    "team": "DAL",
+    "source": "underdog"
+  },
+  {
+    "player": "PJ Washington",
+    "stat": "pts",
+    "line": 12.5,
+    "team": "DAL",
+    "source": "underdog"
+  },
+  {
+    "player": "PJ Washington",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "DAL",
+    "source": "underdog"
+  },
+  {
+    "player": "PJ Washington",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "DAL",
+    "source": "underdog"
+  },
+  {
+    "player": "Quentin Grimes",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Quentin Grimes",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Quentin Grimes",
+    "stat": "pa",
+    "line": 11.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Quentin Grimes",
+    "stat": "pr",
+    "line": 11.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Quentin Grimes",
+    "stat": "pra",
+    "line": 14.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Quentin Grimes",
+    "stat": "pts",
+    "line": 8.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Quentin Grimes",
+    "stat": "ra",
+    "line": 5.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Quentin Grimes",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Rasheer Fleming",
+    "stat": "blk",
+    "line": 0.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Rasheer Fleming",
+    "stat": "pr",
+    "line": 10.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Rasheer Fleming",
+    "stat": "pra",
+    "line": 11.5,
+    "team": "PHX",
+    "source": "underdog"
+  },
+  {
+    "player": "Rasheer Fleming",
+    "stat": "pts",
+    "line": 6.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 6.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Rasheer Fleming",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "PHX",
+    "source": "underdog"
+  },
+  {
+    "player": "Rayan Rupert",
+    "stat": "pra",
+    "line": 16.5,
+    "team": "MEM",
+    "source": "underdog"
+  },
+  {
+    "player": "Rayan Rupert",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "MEM",
+    "source": "underdog"
+  },
+  {
+    "player": "Rayan Rupert",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "MEM",
+    "source": "underdog"
+  },
+  {
+    "player": "Ron Holland II",
+    "stat": "pr",
+    "line": 18.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Ron Holland II",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "DET",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Royce O'Neale",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Royce O'Neale",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Royce O'Neale",
+    "stat": "pa",
+    "line": 12.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Royce O'Neale",
+    "stat": "pr",
+    "line": 14.5,
+    "team": "PHX",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Royce O'Neale",
+    "stat": "pra",
+    "line": 16.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 16.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Royce O'Neale",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "PHX",
+    "source": "parlayplay",
+    "alt_line": 8.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Royce O'Neale",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 7.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Royce O'Neale",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "PHX",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Rudy Gobert",
+    "stat": "ast",
+    "line": 1.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Rudy Gobert",
+    "stat": "blk",
+    "line": 1.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Rudy Gobert",
+    "stat": "pa",
+    "line": 14.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Rudy Gobert",
+    "stat": "pr",
+    "line": 25.5,
+    "team": "MIN",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Rudy Gobert",
+    "stat": "pra",
+    "line": 27.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 27.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Rudy Gobert",
+    "stat": "pts",
+    "line": 13.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Rudy Gobert",
+    "stat": "ra",
+    "line": 14.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 13.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Rudy Gobert",
+    "stat": "reb",
+    "line": 12.5,
+    "team": "MIN",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Rui Hachimura",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Rui Hachimura",
+    "stat": "pr",
+    "line": 17.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Rui Hachimura",
+    "stat": "pts",
+    "line": 13.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Rui Hachimura",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "LAL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Sam Hauser",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Sam Hauser",
+    "stat": "pr",
+    "line": 12.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Sam Hauser",
+    "stat": "pra",
+    "line": 13.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Sam Hauser",
+    "stat": "pts",
+    "line": 8.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Sam Hauser",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "BOS",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Sam Hauser",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "BOS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "pa",
+    "line": 16.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "pr",
+    "line": 16.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "pra",
+    "line": 19.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 19.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 13.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "ra",
+    "line": 5.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "CLE",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "pa",
+    "line": 36.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "pr",
+    "line": 33.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "pra",
+    "line": 40.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "pts",
+    "line": 29.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "stl",
+    "line": 0.5,
+    "team": "OKC",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Stephon Castle",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Stephon Castle",
+    "stat": "ast",
+    "line": 8.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Stephon Castle",
+    "stat": "pa",
+    "line": 24.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Stephon Castle",
+    "stat": "pr",
+    "line": 20.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Stephon Castle",
+    "stat": "pra",
+    "line": 29.5,
+    "team": "SAS",
+    "source": "parlayplay",
+    "alt_line": 28.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Stephon Castle",
+    "stat": "pts",
+    "line": 15.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 15.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Stephon Castle",
+    "stat": "ra",
+    "line": 13.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 13.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Stephon Castle",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 4.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Stephon Castle",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Taylor Hendricks",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Taylor Hendricks",
+    "stat": "pa",
+    "line": 13.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Taylor Hendricks",
+    "stat": "pr",
+    "line": 17.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Taylor Hendricks",
+    "stat": "pra",
+    "line": 20.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 20.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Taylor Hendricks",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 11.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Taylor Hendricks",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "MEM",
+    "source": "underdog"
+  },
+  {
+    "player": "Taylor Hendricks",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Thomas Bryant",
+    "stat": "pr",
+    "line": 11.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Thomas Bryant",
+    "stat": "pts",
+    "line": 7.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Thomas Bryant",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "CLE",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tre Johnson",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tre Johnson",
+    "stat": "pr",
+    "line": 13.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tre Johnson",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tre Johnson",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tre Jones",
+    "stat": "3pm",
+    "line": 0.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tre Jones",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "CHI",
+    "source": "parlayplay",
+    "alt_line": 4.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Tre Jones",
+    "stat": "pa",
+    "line": 18.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tre Jones",
+    "stat": "pr",
+    "line": 16.5,
+    "team": "CHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tre Jones",
+    "stat": "pra",
+    "line": 21.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 21.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Tre Jones",
+    "stat": "pts",
+    "line": 12.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 12.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Tre Jones",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Tre Jones",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "CHI",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "pa",
+    "line": 26.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "pr",
+    "line": 26.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "pra",
+    "line": 30.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "pts",
+    "line": 21.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "MIA",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyrese Maxey",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyrese Maxey",
+    "stat": "ast",
+    "line": 7.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyrese Maxey",
+    "stat": "pa",
+    "line": 34.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyrese Maxey",
+    "stat": "pr",
+    "line": 30.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyrese Maxey",
+    "stat": "pra",
+    "line": 38.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyrese Maxey",
+    "stat": "pts",
+    "line": 24.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyrese Maxey",
+    "stat": "ra",
+    "line": 11.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyrese Maxey",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Tyrese Maxey",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Victor Wembanyama",
+    "stat": "3pm",
+    "line": 2.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Victor Wembanyama",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 3.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Victor Wembanyama",
+    "stat": "blk",
+    "line": 3.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Victor Wembanyama",
+    "stat": "pa",
+    "line": 29.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Victor Wembanyama",
+    "stat": "pr",
+    "line": 38.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Victor Wembanyama",
+    "stat": "pra",
+    "line": 42.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 42.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Victor Wembanyama",
+    "stat": "pts",
+    "line": 26.5,
+    "team": "SAS",
+    "source": "underdog",
+    "alt_line": 26.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Victor Wembanyama",
+    "stat": "ra",
+    "line": 15.5,
+    "team": "SAS",
+    "source": "parlayplay",
+    "alt_line": 14.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Victor Wembanyama",
+    "stat": "reb",
+    "line": 12.5,
+    "team": "SAS",
+    "source": "parlayplay",
+    "alt_line": 11.5,
+    "alt_source": "underdog"
+  },
+  {
+    "player": "Victor Wembanyama",
+    "stat": "stl",
+    "line": 1.5,
+    "team": "SAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "VJ Edgecombe",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "VJ Edgecombe",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "VJ Edgecombe",
+    "stat": "pa",
+    "line": 17.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "VJ Edgecombe",
+    "stat": "pr",
+    "line": 18.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "VJ Edgecombe",
+    "stat": "pra",
+    "line": 22.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "VJ Edgecombe",
+    "stat": "pts",
+    "line": 13.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "VJ Edgecombe",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "VJ Edgecombe",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "PHI",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Walter Clayton Jr.",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Walter Clayton Jr.",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 5.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Walter Clayton Jr.",
+    "stat": "pa",
+    "line": 16.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Walter Clayton Jr.",
+    "stat": "pr",
+    "line": 13.5,
+    "team": "MEM",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Walter Clayton Jr.",
+    "stat": "pra",
+    "line": 19.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 19.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Walter Clayton Jr.",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 10.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Walter Clayton Jr.",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 8.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Walter Clayton Jr.",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "MEM",
+    "source": "underdog",
+    "alt_line": 2.5,
+    "alt_source": "parlayplay"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "3pm",
+    "line": 1.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "pa",
+    "line": 16.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "pr",
+    "line": 16.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "pra",
+    "line": 19.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "pts",
+    "line": 13.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "ra",
+    "line": 6.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "WAS",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Zaccharie Risacher",
+    "stat": "pr",
+    "line": 8.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Zaccharie Risacher",
+    "stat": "pts",
+    "line": 5.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  },
+  {
+    "player": "Zaccharie Risacher",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "ATL",
+    "source": "parlayplay"
+  }
+]

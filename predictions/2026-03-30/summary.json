@@ -1,0 +1,39 @@
+{
+  "date": "2026-03-30",
+  "total_lines": 760,
+  "errors": 28,
+  "tier_distribution": {
+    "C": 189,
+    "B": 132,
+    "D": 200,
+    "F": 92,
+    "SKIP": 28,
+    "S": 66,
+    "A": 53
+  },
+  "pipeline_version": "v15+arena+scanner",
+  "backtest_passes": 3,
+  "research_method": "parallel_agents",
+  "games_researched": 8,
+  "v5_features": [
+    "Parallel research agents (1 per team, concurrent)",
+    "Auto injury report fetch",
+    "Auto spread/odds from ESPN",
+    "Auto B2B detection from schedule",
+    "Auto breaking news scan",
+    "No manual game context required",
+    "UNDER penalty removed",
+    "Reasoning on every pick"
+  ],
+  "game_contexts": {
+    "PHI@MIA": "76ers without Johni Broome | Heat without Terry Rozier | Heat on B2B | 76ers compressed schedule (3 in 7d) | FAST pace game (proj 102.4)",
+    "BOS@ATL": "Celtics without Nikola Vucevic | Celtics on B2B | Celtics on W3 streak | Hawks compressed schedule (4 in 7d) | Celtics elite D (rank 4)",
+    "PHX@MEM": "Suns without Mark Williams, Dillon Brooks, Haywood Highsmith (+1 more) | Grizzlies without Jaylen Wells, Ty Jerome, Zach Edey (+5 more) | Suns big favorite (13.5) | Grizzlies compressed schedule (4 in 7d)",
+    "CHI@SAS": "Bulls without Mac McClung, Anfernee Simons, Nick Richards (+4 more) | Spurs without David Jones Garcia | Spurs big favorite (17.5) | Bulls on L3 skid | Spurs on W5 streak | Bulls compressed schedule (4 in 7d) | Spurs compressed schedule (3 in 7d) | FAST pace game (proj 101.8) | Spurs elite D (rank 3)",
+    "MIN@DAL": "Timberwolves without Jaden McDaniels, Anthony Edwards | Mavericks without Caleb Martin, Daniel Gafford, Kyrie Irving (+1 more) | FAST pace game (proj 101.9)",
+    "CLE@UTA": "Cavaliers without Craig Porter Jr., Max Strus, Jarrett Allen (+2 more) | Jazz without Isaiah Collier, Keyonte George, Lauri Markkanen (+3 more) | Cavaliers big favorite (17.5) | Jazz on L5 skid | Jazz compressed schedule (4 in 7d) | FAST pace game (proj 101.8) | Jazz terrible D (rank 30)",
+    "DET@OKC": "Pistons without Isaiah Stewart, Cade Cunningham | Thunder without Thomas Sorber | Thunder on B2B | Thunder big favorite (12.5) | Pistons compressed schedule (4 in 7d) | Pistons elite D (rank 2) | Thunder elite D (rank 1)",
+    "WAS@LAL": "Wizards without Trae Young, Kyshawn George, Anthony Davis (+2 more) | Lakers without Adou Thiero, Marcus Smart | Wizards on B2B | Lakers big favorite (15.5) | Rest edge: Lakers (2d) vs Wizards (0d) | Wizards terrible D (rank 29)"
+  },
+  "timestamp": "2026-03-29T23:12:37.462681"
+}

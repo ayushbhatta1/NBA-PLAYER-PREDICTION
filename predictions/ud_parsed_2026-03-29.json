@@ -1,0 +1,2627 @@
+[
+  {
+    "player": "Kawhi Leonard",
+    "stat": "pts",
+    "line": 28.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Kawhi Leonard",
+    "stat": "pra",
+    "line": 39.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Kawhi Leonard",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Kawhi Leonard",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Kawhi Leonard",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Darius Garland",
+    "stat": "pts",
+    "line": 19.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Darius Garland",
+    "stat": "pra",
+    "line": 29.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Darius Garland",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Darius Garland",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Darius Garland",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Kyle Kuzma",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Kyle Kuzma",
+    "stat": "pra",
+    "line": 18.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Kyle Kuzma",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Kyle Kuzma",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Myles Turner",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Myles Turner",
+    "stat": "pra",
+    "line": 16.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Myles Turner",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Brook Lopez",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Brook Lopez",
+    "stat": "pra",
+    "line": 16.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Brook Lopez",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Brook Lopez",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Brook Lopez",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Derrick Jones Jr.",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Derrick Jones Jr.",
+    "stat": "pra",
+    "line": 14.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Derrick Jones Jr.",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Bennedict Mathurin",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Bennedict Mathurin",
+    "stat": "pra",
+    "line": 25.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Bennedict Mathurin",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Bennedict Mathurin",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "LAC",
+    "source": "underdog"
+  },
+  {
+    "player": "Ousmane Dieng",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "pts",
+    "line": 19.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Ousmane Dieng",
+    "stat": "pra",
+    "line": 19.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "pra",
+    "line": 30.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Ousmane Dieng",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Ousmane Dieng",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Ousmane Dieng",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "ra",
+    "line": 11.5,
+    "team": "MIL",
+    "source": "underdog"
+  },
+  {
+    "player": "Pascal Siakam",
+    "stat": "pts",
+    "line": 21.5,
+    "team": "IND",
+    "source": "underdog"
+  },
+  {
+    "player": "Pascal Siakam",
+    "stat": "pra",
+    "line": 31.5,
+    "team": "IND",
+    "source": "underdog"
+  },
+  {
+    "player": "Pascal Siakam",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "IND",
+    "source": "underdog"
+  },
+  {
+    "player": "Pascal Siakam",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "IND",
+    "source": "underdog"
+  },
+  {
+    "player": "Pascal Siakam",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "IND",
+    "source": "underdog"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "pts",
+    "line": 22.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "pra",
+    "line": 36.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "reb",
+    "line": 10.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Bam Adebayo",
+    "stat": "ra",
+    "line": 14.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "pts",
+    "line": 20.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Andrew Wiggins",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "pra",
+    "line": 30.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Andrew Wiggins",
+    "stat": "pra",
+    "line": 18.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Andrew Wiggins",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Tyler Herro",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Andrew Nembhard",
+    "stat": "pts",
+    "line": 15.5,
+    "team": "IND",
+    "source": "underdog"
+  },
+  {
+    "player": "Andrew Nembhard",
+    "stat": "pra",
+    "line": 27.5,
+    "team": "IND",
+    "source": "underdog"
+  },
+  {
+    "player": "Andrew Nembhard",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "IND",
+    "source": "underdog"
+  },
+  {
+    "player": "Andrew Nembhard",
+    "stat": "ast",
+    "line": 8.5,
+    "team": "IND",
+    "source": "underdog"
+  },
+  {
+    "player": "Andrew Nembhard",
+    "stat": "ra",
+    "line": 11.5,
+    "team": "IND",
+    "source": "underdog"
+  },
+  {
+    "player": "Norman Powell",
+    "stat": "pts",
+    "line": 18.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Norman Powell",
+    "stat": "pra",
+    "line": 25.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Norman Powell",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Norman Powell",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "pts",
+    "line": 8.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "pra",
+    "line": 17.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Davion Mitchell",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "MIA",
+    "source": "underdog"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "pts",
+    "line": 22.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "pra",
+    "line": 35.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Jayson Tatum",
+    "stat": "ra",
+    "line": 13.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "pts",
+    "line": 20.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "pts",
+    "line": 27.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "pra",
+    "line": 32.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "pra",
+    "line": 38.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Jaylen Brown",
+    "stat": "ra",
+    "line": 11.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "ra",
+    "line": 11.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "pra",
+    "line": 26.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Derrick White",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "pts",
+    "line": 19.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Coby White",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Miles Bridges",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "pra",
+    "line": 28.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Miles Bridges",
+    "stat": "pra",
+    "line": 23.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Coby White",
+    "stat": "pra",
+    "line": 20.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Miles Bridges",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Coby White",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Coby White",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Miles Bridges",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Miles Bridges",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "pra",
+    "line": 26.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Payton Pritchard",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "pra",
+    "line": 26.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Baylor Scheierman",
+    "stat": "pts",
+    "line": 6.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Moussa Diabate",
+    "stat": "pts",
+    "line": 7.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Baylor Scheierman",
+    "stat": "pra",
+    "line": 14.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Moussa Diabate",
+    "stat": "pra",
+    "line": 19.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "pra",
+    "line": 20.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Moussa Diabate",
+    "stat": "reb",
+    "line": 9.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Baylor Scheierman",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Baylor Scheierman",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Baylor Scheierman",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Moussa Diabate",
+    "stat": "ra",
+    "line": 11.5,
+    "team": "CHA",
+    "source": "underdog"
+  },
+  {
+    "player": "Neemias Queta",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "BOS",
+    "source": "underdog"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "pts",
+    "line": 18.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "pra",
+    "line": 33.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "reb",
+    "line": 7.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "ra",
+    "line": 14.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "pts",
+    "line": 24.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Desmond Bane",
+    "stat": "pts",
+    "line": 21.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Desmond Bane",
+    "stat": "pra",
+    "line": 29.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "pra",
+    "line": 38.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Desmond Bane",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Desmond Bane",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "ra",
+    "line": 13.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Desmond Bane",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "pts",
+    "line": 22.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "pra",
+    "line": 30.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "pts",
+    "line": 13.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "pra",
+    "line": 23.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "pts",
+    "line": 21.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "pra",
+    "line": 30.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "pra",
+    "line": 21.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "reb",
+    "line": 7.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "pra",
+    "line": 21.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Ja'Kobe Walter",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Ja'Kobe Walter",
+    "stat": "pra",
+    "line": 15.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Ja'Kobe Walter",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "TOR",
+    "source": "underdog"
+  },
+  {
+    "player": "Tristan da Silva",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Tristan da Silva",
+    "stat": "pra",
+    "line": 17.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Tristan da Silva",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Tristan da Silva",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "ORL",
+    "source": "underdog"
+  },
+  {
+    "player": "Scoot Henderson",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Jrue Holiday",
+    "stat": "pts",
+    "line": 18.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Jrue Holiday",
+    "stat": "pra",
+    "line": 29.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Scoot Henderson",
+    "stat": "pra",
+    "line": 24.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Scoot Henderson",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Jrue Holiday",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Jrue Holiday",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Scoot Henderson",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Jrue Holiday",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Scoot Henderson",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Deni Avdija",
+    "stat": "pts",
+    "line": 25.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Deni Avdija",
+    "stat": "pra",
+    "line": 40.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Deni Avdija",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Deni Avdija",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Deni Avdija",
+    "stat": "ra",
+    "line": 13.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "pra",
+    "line": 19.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Bub Carrington",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "pts",
+    "line": 13.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "pra",
+    "line": 19.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Bilal Coulibaly",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "pts",
+    "line": 15.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "pra",
+    "line": 33.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "reb",
+    "line": 14.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "ra",
+    "line": 16.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "pra",
+    "line": 21.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Tristan Vukcevic",
+    "stat": "pts",
+    "line": 12.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Sidy Cissoko",
+    "stat": "pts",
+    "line": 6.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Sidy Cissoko",
+    "stat": "pra",
+    "line": 11.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Tristan Vukcevic",
+    "stat": "pra",
+    "line": 18.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "pra",
+    "line": 24.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Sidy Cissoko",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "POR",
+    "source": "underdog"
+  },
+  {
+    "player": "Tristan Vukcevic",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Will Riley",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "WAS",
+    "source": "underdog"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "pts",
+    "line": 25.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Zion Williamson",
+    "stat": "pts",
+    "line": 21.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Zion Williamson",
+    "stat": "pra",
+    "line": 28.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "pra",
+    "line": 35.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Zion Williamson",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Zion Williamson",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Zion Williamson",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "pts",
+    "line": 19.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "pra",
+    "line": 34.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "ra",
+    "line": 15.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Dejounte Murray",
+    "stat": "pts",
+    "line": 15.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "pts",
+    "line": 15.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Dejounte Murray",
+    "stat": "pra",
+    "line": 26.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "pra",
+    "line": 24.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Dejounte Murray",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "reb",
+    "line": 7.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Dejounte Murray",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Dejounte Murray",
+    "stat": "ra",
+    "line": 11.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "pra",
+    "line": 22.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Trey Murphy III",
+    "stat": "pts",
+    "line": 20.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "pts",
+    "line": 18.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "pra",
+    "line": 32.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Trey Murphy III",
+    "stat": "pra",
+    "line": 29.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Trey Murphy III",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Trey Murphy III",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "ra",
+    "line": 12.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Trey Murphy III",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Tari Eason",
+    "stat": "pts",
+    "line": 8.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Herb Jones",
+    "stat": "pts",
+    "line": 9.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Tari Eason",
+    "stat": "pra",
+    "line": 16.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Herb Jones",
+    "stat": "pra",
+    "line": 15.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Tari Eason",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Herb Jones",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Herb Jones",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Tari Eason",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "HOU",
+    "source": "underdog"
+  },
+  {
+    "player": "Saddiq Bey",
+    "stat": "pts",
+    "line": 18.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Saddiq Bey",
+    "stat": "pra",
+    "line": 26.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Saddiq Bey",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Saddiq Bey",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Saddiq Bey",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "NOP",
+    "source": "underdog"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "pts",
+    "line": 30.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "pra",
+    "line": 40.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "pts",
+    "line": 24.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "pra",
+    "line": 34.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "pra",
+    "line": 30.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "reb",
+    "line": 10.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "ra",
+    "line": 12.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Chet Holmgren",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "pts",
+    "line": 17.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "pra",
+    "line": 26.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Chet Holmgren",
+    "stat": "pra",
+    "line": 24.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Chet Holmgren",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Chet Holmgren",
+    "stat": "ra",
+    "line": 9.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Jalen Williams",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "OG Anunoby",
+    "stat": "pts",
+    "line": 15.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "OG Anunoby",
+    "stat": "pra",
+    "line": 22.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "OG Anunoby",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "pts",
+    "line": 12.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "pra",
+    "line": 23.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "pra",
+    "line": 18.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "reb",
+    "line": 6.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Lu Dort",
+    "stat": "pts",
+    "line": 6.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Lu Dort",
+    "stat": "pra",
+    "line": 9.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Lu Dort",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Mitchell Robinson",
+    "stat": "pts",
+    "line": 4.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Mitchell Robinson",
+    "stat": "pra",
+    "line": 12.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Mitchell Robinson",
+    "stat": "reb",
+    "line": 7.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Mitchell Robinson",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "NYK",
+    "source": "underdog"
+  },
+  {
+    "player": "Isaiah Hartenstein",
+    "stat": "pts",
+    "line": 7.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Isaiah Hartenstein",
+    "stat": "pra",
+    "line": 18.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Isaiah Hartenstein",
+    "stat": "reb",
+    "line": 8.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Isaiah Hartenstein",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Isaiah Hartenstein",
+    "stat": "ra",
+    "line": 11.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Ajay Mitchell",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Ajay Mitchell",
+    "stat": "pra",
+    "line": 17.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Ajay Mitchell",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Ajay Mitchell",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "OKC",
+    "source": "underdog"
+  },
+  {
+    "player": "Nikola Jokic",
+    "stat": "pts",
+    "line": 25.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Nikola Jokic",
+    "stat": "pra",
+    "line": 50.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Nikola Jokic",
+    "stat": "reb",
+    "line": 13.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Nikola Jokic",
+    "stat": "ast",
+    "line": 11.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Nikola Jokic",
+    "stat": "ra",
+    "line": 24.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Jamal Murray",
+    "stat": "pts",
+    "line": 23.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Jamal Murray",
+    "stat": "pra",
+    "line": 34.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Jamal Murray",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Jamal Murray",
+    "stat": "ast",
+    "line": 6.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Jamal Murray",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Draymond Green",
+    "stat": "pts",
+    "line": 8.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Kristaps Porzingis",
+    "stat": "pts",
+    "line": 19.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Draymond Green",
+    "stat": "pra",
+    "line": 19.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Kristaps Porzingis",
+    "stat": "pra",
+    "line": 27.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Draymond Green",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Kristaps Porzingis",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Kristaps Porzingis",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Draymond Green",
+    "stat": "ast",
+    "line": 5.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Draymond Green",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Kristaps Porzingis",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandin Podziemski",
+    "stat": "pts",
+    "line": 15.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Aaron Gordon",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Aaron Gordon",
+    "stat": "pra",
+    "line": 22.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandin Podziemski",
+    "stat": "pra",
+    "line": 26.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Aaron Gordon",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandin Podziemski",
+    "stat": "reb",
+    "line": 5.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Aaron Gordon",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandin Podziemski",
+    "stat": "ast",
+    "line": 4.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Brandin Podziemski",
+    "stat": "ra",
+    "line": 10.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Aaron Gordon",
+    "stat": "ra",
+    "line": 7.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Cam Johnson",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Cam Johnson",
+    "stat": "pra",
+    "line": 16.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Cam Johnson",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Cam Johnson",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Christian Braun",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Christian Braun",
+    "stat": "pra",
+    "line": 17.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Christian Braun",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "De'Anthony Melton",
+    "stat": "pts",
+    "line": 14.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "De'Anthony Melton",
+    "stat": "pra",
+    "line": 20.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "De'Anthony Melton",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "De'Anthony Melton",
+    "stat": "ast",
+    "line": 2.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Tim Hardaway Jr.",
+    "stat": "pts",
+    "line": 10.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Tim Hardaway Jr.",
+    "stat": "pra",
+    "line": 14.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Tim Hardaway Jr.",
+    "stat": "reb",
+    "line": 2.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Peyton Watson",
+    "stat": "pts",
+    "line": 11.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Peyton Watson",
+    "stat": "pra",
+    "line": 17.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Peyton Watson",
+    "stat": "reb",
+    "line": 3.5,
+    "team": "DEN",
+    "source": "underdog"
+  },
+  {
+    "player": "Gui Santos",
+    "stat": "pts",
+    "line": 16.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Gui Santos",
+    "stat": "pra",
+    "line": 24.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Gui Santos",
+    "stat": "reb",
+    "line": 4.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Gui Santos",
+    "stat": "ast",
+    "line": 3.5,
+    "team": "GSW",
+    "source": "underdog"
+  },
+  {
+    "player": "Gui Santos",
+    "stat": "ra",
+    "line": 8.5,
+    "team": "GSW",
+    "source": "underdog"
+  }
+]

@@ -1,0 +1,216 @@
+{
+  "last_updated": "2026-03-29T23:03:21.766201",
+  "daily_results": [
+    {
+      "date": "2026-03-16",
+      "safe": {
+        "result": "DNP",
+        "legs_hit": 2,
+        "legs_total": 3
+      },
+      "aggressive": {
+        "result": "MISS",
+        "legs_hit": 4,
+        "legs_total": 7
+      }
+    },
+    {
+      "date": "2026-03-18",
+      "safe": {
+        "result": "DNP",
+        "legs_hit": 0,
+        "legs_total": 3
+      },
+      "aggressive": {
+        "result": "MISS",
+        "legs_hit": 0,
+        "legs_total": 3
+      }
+    },
+    {
+      "date": "2026-03-19",
+      "safe": {
+        "result": "DNP",
+        "legs_hit": 0,
+        "legs_total": 3
+      },
+      "aggressive": {
+        "result": "DNP",
+        "legs_hit": 2,
+        "legs_total": 7
+      }
+    },
+    {
+      "date": "2026-03-20",
+      "safe": {
+        "result": "MISS",
+        "legs_hit": 1,
+        "legs_total": 3
+      }
+    },
+    {
+      "date": "2026-03-21",
+      "safe": {
+        "result": "DNP",
+        "legs_hit": 0,
+        "legs_total": 3
+      },
+      "aggressive": {
+        "result": "DNP",
+        "legs_hit": 0,
+        "legs_total": 6
+      }
+    },
+    {
+      "date": "2026-03-23",
+      "sweep_optimized": {
+        "result": "MISS",
+        "legs_hit": 2,
+        "legs_total": 3
+      },
+      "blk_2leg": {
+        "result": "MISS",
+        "legs_hit": 1,
+        "legs_total": 2
+      },
+      "blk_3leg": {
+        "result": "MISS",
+        "legs_hit": 2,
+        "legs_total": 3
+      },
+      "safe_2leg": {
+        "result": "HIT",
+        "legs_hit": 2,
+        "legs_total": 2
+      },
+      "safe": {
+        "result": "HIT",
+        "legs_hit": 3,
+        "legs_total": 3
+      },
+      "floor_5leg": {
+        "result": "MISS",
+        "legs_hit": 3,
+        "legs_total": 5
+      },
+      "floor_6leg": {
+        "result": "MISS",
+        "legs_hit": 4,
+        "legs_total": 6
+      },
+      "aggressive": {
+        "result": "MISS",
+        "legs_hit": 5,
+        "legs_total": 8
+      }
+    },
+    {
+      "date": "2026-03-26",
+      "sweep_optimized": {
+        "result": "MISS",
+        "legs_hit": 1,
+        "legs_total": 3
+      },
+      "safe_2leg": {
+        "result": "MISS",
+        "legs_hit": 0,
+        "legs_total": 2
+      },
+      "safe": {
+        "result": "MISS",
+        "legs_hit": 0,
+        "legs_total": 3
+      },
+      "aggressive": {
+        "result": "MISS",
+        "legs_hit": 5,
+        "legs_total": 8
+      }
+    },
+    {
+      "date": "2026-03-27",
+      "sweep_optimized": {
+        "result": "DNP",
+        "legs_hit": 0,
+        "legs_total": 3
+      },
+      "safe_2leg": {
+        "result": "DNP",
+        "legs_hit": 0,
+        "legs_total": 2
+      },
+      "safe": {
+        "result": "DNP",
+        "legs_hit": 0,
+        "legs_total": 3
+      },
+      "aggressive": {
+        "result": "DNP",
+        "legs_hit": 2,
+        "legs_total": 8
+      }
+    },
+    {
+      "date": "2026-03-28",
+      "safe_2leg": {
+        "result": "MISS",
+        "legs_hit": 0,
+        "legs_total": 2
+      },
+      "safe": {
+        "result": "MISS",
+        "legs_hit": 0,
+        "legs_total": 3
+      },
+      "aggressive": {
+        "result": "MISS",
+        "legs_hit": 1,
+        "legs_total": 2
+      }
+    },
+    {
+      "date": "2026-03-29",
+      "sweep_optimized": {
+        "result": "HIT",
+        "legs_hit": 3,
+        "legs_total": 3
+      },
+      "safe_2leg": {
+        "result": "HIT",
+        "legs_hit": 2,
+        "legs_total": 2
+      },
+      "safe": {
+        "result": "HIT",
+        "legs_hit": 3,
+        "legs_total": 3
+      },
+      "aggressive": {
+        "result": "HIT",
+        "legs_hit": 8,
+        "legs_total": 8
+      }
+    }
+  ],
+  "cumulative": {
+    "safe": {
+      "wins": 2,
+      "losses": 3,
+      "dnp": 5,
+      "win_rate": 40.0,
+      "total_legs_hit": 9,
+      "total_legs": 30,
+      "leg_hit_rate": 30.0
+    },
+    "aggressive": {
+      "wins": 1,
+      "losses": 5,
+      "dnp": 3,
+      "win_rate": 16.7,
+      "total_legs_hit": 27,
+      "total_legs": 57,
+      "leg_hit_rate": 47.4
+    }
+  },
+  "total_days": 10
+}
