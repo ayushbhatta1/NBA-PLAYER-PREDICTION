@@ -1,0 +1,3838 @@
+[
+  {
+    "player": "Desmond Bane",
+    "stat": "pts",
+    "line": 17.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Desmond Bane",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Desmond Bane",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Desmond Bane",
+    "stat": "pr",
+    "line": 23.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Desmond Bane",
+    "stat": "pa",
+    "line": 23.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Desmond Bane",
+    "stat": "ra",
+    "line": 7.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Desmond Bane",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "pts",
+    "line": 18.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "pr",
+    "line": 23.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "pa",
+    "line": 21.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "ra",
+    "line": 8.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Kon Knueppel",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "reb",
+    "line": 9.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "pts",
+    "line": 17.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "pr",
+    "line": 28.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "pa",
+    "line": 20.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "ra",
+    "line": 13.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Karl-Anthony Towns",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "pts",
+    "line": 25.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "ast",
+    "line": 4.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "pr",
+    "line": 30.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "pa",
+    "line": 30.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Kevin Durant",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Luka Doncic",
+    "stat": "ast",
+    "line": 6.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Luka Doncic",
+    "stat": "pts",
+    "line": 33.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Luka Doncic",
+    "stat": "reb",
+    "line": 7.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Luka Doncic",
+    "stat": "pr",
+    "line": 41.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Luka Doncic",
+    "stat": "pa",
+    "line": 41.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Luka Doncic",
+    "stat": "ra",
+    "line": 15.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Luka Doncic",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Luka Doncic",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Kawhi Leonard",
+    "stat": "pts",
+    "line": 28.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Kawhi Leonard",
+    "stat": "reb",
+    "line": 6.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Kawhi Leonard",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Kawhi Leonard",
+    "stat": "pr",
+    "line": 35.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Kawhi Leonard",
+    "stat": "pa",
+    "line": 32.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Kawhi Leonard",
+    "stat": "ra",
+    "line": 10.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Kawhi Leonard",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "pts",
+    "line": 23.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "reb",
+    "line": 8.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "ast",
+    "line": 5.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "pr",
+    "line": 31.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "pa",
+    "line": 28.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "ra",
+    "line": 13.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Paolo Banchero",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jevon Carter",
+    "stat": "pts",
+    "line": 6.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jevon Carter",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jevon Carter",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jevon Carter",
+    "stat": "pr",
+    "line": 9.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jevon Carter",
+    "stat": "pa",
+    "line": 9.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "pts",
+    "line": 14.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "ast",
+    "line": 5.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "pr",
+    "line": 17.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "pa",
+    "line": 19.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Jalen Suggs",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "pts",
+    "line": 10.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "reb",
+    "line": 7.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "ast",
+    "line": 1.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "pr",
+    "line": 18.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "pa",
+    "line": 12.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Wendell Carter Jr.",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Tristan Da Silva",
+    "stat": "pts",
+    "line": 10.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Tristan Da Silva",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Tristan Da Silva",
+    "stat": "pr",
+    "line": 15.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Tristan Da Silva",
+    "stat": "pa",
+    "line": 13.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Tristan Da Silva",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Tristan Da Silva",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "PHX@ORL",
+    "team": "ORL"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "pts",
+    "line": 26.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "ast",
+    "line": 5.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "pr",
+    "line": 30.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "pa",
+    "line": 32.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Devin Booker",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "pts",
+    "line": 21.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "pr",
+    "line": 26.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "pa",
+    "line": 25.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "ra",
+    "line": 7.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Jalen Green",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "pts",
+    "line": 13.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "pr",
+    "line": 16.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "pa",
+    "line": 16.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Grayson Allen",
+    "stat": "ra",
+    "line": 5.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "pts",
+    "line": 9.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "reb",
+    "line": 6.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "pr",
+    "line": 16.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "pa",
+    "line": 12.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Oso Ighodaro",
+    "stat": "blk",
+    "line": 1.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Dillon Brooks",
+    "stat": "pts",
+    "line": 14.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Dillon Brooks",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Dillon Brooks",
+    "stat": "pr",
+    "line": 17.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Dillon Brooks",
+    "stat": "pa",
+    "line": 14.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Dillon Brooks",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "PHX@ORL",
+    "team": "PHX"
+  },
+  {
+    "player": "Nicolas Claxton",
+    "stat": "pts",
+    "line": 9.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nicolas Claxton",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nicolas Claxton",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nicolas Claxton",
+    "stat": "pr",
+    "line": 14.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nicolas Claxton",
+    "stat": "pa",
+    "line": 11.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nicolas Claxton",
+    "stat": "ra",
+    "line": 7.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nicolas Claxton",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nicolas Claxton",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nolan Traor\u00e9",
+    "stat": "pts",
+    "line": 11.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nolan Traor\u00e9",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nolan Traor\u00e9",
+    "stat": "ast",
+    "line": 4.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nolan Traor\u00e9",
+    "stat": "pr",
+    "line": 13.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nolan Traor\u00e9",
+    "stat": "pa",
+    "line": 16.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Nolan Traor\u00e9",
+    "stat": "ra",
+    "line": 7.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Ziaire Williams",
+    "stat": "pts",
+    "line": 11.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Ziaire Williams",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Ziaire Williams",
+    "stat": "pr",
+    "line": 14.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Ziaire Williams",
+    "stat": "pa",
+    "line": 12.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Ziaire Williams",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Drake Powell",
+    "stat": "pts",
+    "line": 8.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Drake Powell",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Drake Powell",
+    "stat": "pr",
+    "line": 11.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Drake Powell",
+    "stat": "ra",
+    "line": 3.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Drake Powell",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Noah Clowney",
+    "stat": "pts",
+    "line": 10.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Noah Clowney",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Noah Clowney",
+    "stat": "pr",
+    "line": 13.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "Noah Clowney",
+    "stat": "ra",
+    "line": 4.5,
+    "game": "CHA@BKN",
+    "team": "BKN"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "pts",
+    "line": 19.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "ast",
+    "line": 6.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "pr",
+    "line": 24.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "pa",
+    "line": 26.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "ra",
+    "line": 11.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "LaMelo Ball",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Coby White",
+    "stat": "pts",
+    "line": 14.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Coby White",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Coby White",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Coby White",
+    "stat": "pr",
+    "line": 17.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Coby White",
+    "stat": "pa",
+    "line": 18.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Coby White",
+    "stat": "ra",
+    "line": 6.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Coby White",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Miles Bridges",
+    "stat": "pts",
+    "line": 14.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Miles Bridges",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Miles Bridges",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Miles Bridges",
+    "stat": "pr",
+    "line": 20.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Miles Bridges",
+    "stat": "pa",
+    "line": 17.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Miles Bridges",
+    "stat": "ra",
+    "line": 8.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "pts",
+    "line": 20.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "pr",
+    "line": 25.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "pa",
+    "line": 23.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "ra",
+    "line": 8.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Brandon Miller",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Grant Williams",
+    "stat": "pts",
+    "line": 5.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Grant Williams",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Grant Williams",
+    "stat": "pr",
+    "line": 9.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Moussa Diabate",
+    "stat": "pts",
+    "line": 8.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Moussa Diabate",
+    "stat": "reb",
+    "line": 9.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Moussa Diabate",
+    "stat": "pr",
+    "line": 17.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Moussa Diabate",
+    "stat": "ra",
+    "line": 11.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Moussa Diabate",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "CHA@BKN",
+    "team": "CHA"
+  },
+  {
+    "player": "Jalen Duren",
+    "stat": "pts",
+    "line": 21.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Jalen Duren",
+    "stat": "reb",
+    "line": 11.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Jalen Duren",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Jalen Duren",
+    "stat": "pr",
+    "line": 32.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Jalen Duren",
+    "stat": "pa",
+    "line": 23.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Jalen Duren",
+    "stat": "ra",
+    "line": 13.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Jalen Duren",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Jalen Duren",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "pts",
+    "line": 14.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "ast",
+    "line": 5.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "pr",
+    "line": 18.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "pa",
+    "line": 21.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Daniss Jenkins",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Duncan Robinson",
+    "stat": "pts",
+    "line": 10.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Duncan Robinson",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Duncan Robinson",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Duncan Robinson",
+    "stat": "pr",
+    "line": 14.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Duncan Robinson",
+    "stat": "pa",
+    "line": 13.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Duncan Robinson",
+    "stat": "ra",
+    "line": 4.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Duncan Robinson",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Kevin Huerter",
+    "stat": "pts",
+    "line": 9.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Kevin Huerter",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Kevin Huerter",
+    "stat": "ast",
+    "line": 1.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Kevin Huerter",
+    "stat": "pr",
+    "line": 12.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Kevin Huerter",
+    "stat": "pa",
+    "line": 11.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "pts",
+    "line": 9.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "pr",
+    "line": 15.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "pa",
+    "line": 12.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "ra",
+    "line": 8.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Ausar Thompson",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Tobias Harris",
+    "stat": "pts",
+    "line": 13.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Tobias Harris",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Tobias Harris",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Tobias Harris",
+    "stat": "pr",
+    "line": 19.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Tobias Harris",
+    "stat": "pa",
+    "line": 17.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Tobias Harris",
+    "stat": "ra",
+    "line": 8.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Tobias Harris",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Tobias Harris",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "DET"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "pts",
+    "line": 18.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "reb",
+    "line": 7.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "ast",
+    "line": 6.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "pr",
+    "line": 25.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "pa",
+    "line": 25.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "ra",
+    "line": 14.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Scottie Barnes",
+    "stat": "blk",
+    "line": 1.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "pts",
+    "line": 20.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "pr",
+    "line": 25.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "pa",
+    "line": 24.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "ra",
+    "line": 7.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Brandon Ingram",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "pts",
+    "line": 20.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "pr",
+    "line": 25.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "pa",
+    "line": 23.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "ra",
+    "line": 8.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "RJ Barrett",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jamal Shead",
+    "stat": "pts",
+    "line": 7.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jamal Shead",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jamal Shead",
+    "stat": "ast",
+    "line": 6.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jamal Shead",
+    "stat": "pr",
+    "line": 10.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jamal Shead",
+    "stat": "pa",
+    "line": 14.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jamal Shead",
+    "stat": "ra",
+    "line": 8.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jamal Shead",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "pts",
+    "line": 10.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "reb",
+    "line": 8.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "pr",
+    "line": 19.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "pa",
+    "line": 13.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "ra",
+    "line": 10.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jakob Poeltl",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Ja'Kobe Walter",
+    "stat": "pts",
+    "line": 10.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Ja'Kobe Walter",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Ja'Kobe Walter",
+    "stat": "pr",
+    "line": 13.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Ja'Kobe Walter",
+    "stat": "pa",
+    "line": 11.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Ja'Kobe Walter",
+    "stat": "ra",
+    "line": 4.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Sandro Mamukelashvili",
+    "stat": "pts",
+    "line": 8.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Sandro Mamukelashvili",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Sandro Mamukelashvili",
+    "stat": "pr",
+    "line": 12.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Sandro Mamukelashvili",
+    "stat": "pa",
+    "line": 10.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Sandro Mamukelashvili",
+    "stat": "ra",
+    "line": 5.5,
+    "game": "TOR@DET",
+    "team": "TOR"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "pts",
+    "line": 24.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "ast",
+    "line": 6.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "pr",
+    "line": 27.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "pa",
+    "line": 31.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Jalen Brunson",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Jose Alvarado",
+    "stat": "pts",
+    "line": 5.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Jose Alvarado",
+    "stat": "pa",
+    "line": 8.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Jose Alvarado",
+    "stat": "ra",
+    "line": 4.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Jose Alvarado",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mitchell Robinson",
+    "stat": "pts",
+    "line": 4.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mitchell Robinson",
+    "stat": "reb",
+    "line": 7.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mitchell Robinson",
+    "stat": "ast",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mitchell Robinson",
+    "stat": "pr",
+    "line": 12.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mitchell Robinson",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mitchell Robinson",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "pts",
+    "line": 12.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "reb",
+    "line": 6.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "ast",
+    "line": 4.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "pr",
+    "line": 19.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "pa",
+    "line": 17.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "ra",
+    "line": 11.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Josh Hart",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "OG Anunoby",
+    "stat": "pts",
+    "line": 15.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "OG Anunoby",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "OG Anunoby",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "OG Anunoby",
+    "stat": "pr",
+    "line": 20.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "OG Anunoby",
+    "stat": "pa",
+    "line": 17.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "OG Anunoby",
+    "stat": "ra",
+    "line": 6.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "OG Anunoby",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "OG Anunoby",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "pts",
+    "line": 12.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "pr",
+    "line": 16.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "pa",
+    "line": 16.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "ra",
+    "line": 6.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Mikal Bridges",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "NYK"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "pts",
+    "line": 18.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "reb",
+    "line": 8.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "ast",
+    "line": 5.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "pr",
+    "line": 27.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "pa",
+    "line": 24.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "ra",
+    "line": 14.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Alperen Sengun",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "pts",
+    "line": 13.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "pr",
+    "line": 16.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "pa",
+    "line": 17.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "ra",
+    "line": 7.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Reed Sheppard",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "pts",
+    "line": 14.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "reb",
+    "line": 6.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "ast",
+    "line": 1.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "pr",
+    "line": 20.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "pa",
+    "line": 16.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "ra",
+    "line": 8.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "pts",
+    "line": 15.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "reb",
+    "line": 7.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "ast",
+    "line": 4.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "pr",
+    "line": 23.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "pa",
+    "line": 20.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "ra",
+    "line": 12.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Amen Thompson",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Tari Eason",
+    "stat": "pts",
+    "line": 8.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Tari Eason",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Tari Eason",
+    "stat": "ast",
+    "line": 1.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Tari Eason",
+    "stat": "pr",
+    "line": 13.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Tari Eason",
+    "stat": "pa",
+    "line": 9.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Tari Eason",
+    "stat": "ra",
+    "line": 6.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Tari Eason",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "NYK@HOU",
+    "team": "HOU"
+  },
+  {
+    "player": "Myles Turner",
+    "stat": "pts",
+    "line": 11.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Myles Turner",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Myles Turner",
+    "stat": "ast",
+    "line": 1.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Myles Turner",
+    "stat": "pr",
+    "line": 16.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Myles Turner",
+    "stat": "pa",
+    "line": 13.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Myles Turner",
+    "stat": "ra",
+    "line": 6.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Myles Turner",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "pts",
+    "line": 20.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "ast",
+    "line": 6.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "pr",
+    "line": 25.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "pa",
+    "line": 27.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "ra",
+    "line": 11.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ryan Rollins",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ousmane Dieng",
+    "stat": "pts",
+    "line": 13.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ousmane Dieng",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ousmane Dieng",
+    "stat": "ast",
+    "line": 3.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ousmane Dieng",
+    "stat": "pr",
+    "line": 18.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ousmane Dieng",
+    "stat": "pa",
+    "line": 17.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Ousmane Dieng",
+    "stat": "ra",
+    "line": 8.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Kyle Kuzma",
+    "stat": "pts",
+    "line": 13.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Kyle Kuzma",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Kyle Kuzma",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Kyle Kuzma",
+    "stat": "pr",
+    "line": 17.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Kyle Kuzma",
+    "stat": "pa",
+    "line": 15.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Kyle Kuzma",
+    "stat": "ra",
+    "line": 6.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Kyle Kuzma",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Taurean Prince",
+    "stat": "pts",
+    "line": 9.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Taurean Prince",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Taurean Prince",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Taurean Prince",
+    "stat": "pr",
+    "line": 13.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Taurean Prince",
+    "stat": "pa",
+    "line": 12.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Taurean Prince",
+    "stat": "ra",
+    "line": 5.5,
+    "game": "DAL@MIL",
+    "team": "MIL"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "pts",
+    "line": 22.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "reb",
+    "line": 6.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "ast",
+    "line": 5.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "pr",
+    "line": 28.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "pa",
+    "line": 27.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "ra",
+    "line": 11.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Cooper Flagg",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Dwight Powell",
+    "stat": "pts",
+    "line": 4.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Dwight Powell",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Dwight Powell",
+    "stat": "pr",
+    "line": 10.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "pts",
+    "line": 13.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "reb",
+    "line": 8.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "ast",
+    "line": 1.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "pr",
+    "line": 21.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "pa",
+    "line": 15.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Daniel Gafford",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "pts",
+    "line": 11.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "ast",
+    "line": 1.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "pr",
+    "line": 14.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Max Christie",
+    "stat": "pa",
+    "line": 14.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "pts",
+    "line": 14.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "reb",
+    "line": 6.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "ast",
+    "line": 1.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "pr",
+    "line": 21.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "pa",
+    "line": 16.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "P.J. Washington",
+    "stat": "ra",
+    "line": 8.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "pts",
+    "line": 16.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "ast",
+    "line": 4.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "pr",
+    "line": 21.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "pa",
+    "line": 21.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "Naji Marshall",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "DAL@MIL",
+    "team": "DAL"
+  },
+  {
+    "player": "James Harden",
+    "stat": "pts",
+    "line": 20.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "James Harden",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "James Harden",
+    "stat": "ast",
+    "line": 8.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "James Harden",
+    "stat": "pr",
+    "line": 24.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "James Harden",
+    "stat": "pa",
+    "line": 28.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "James Harden",
+    "stat": "ra",
+    "line": 13.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "James Harden",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "pts",
+    "line": 25.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "ast",
+    "line": 5.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "pr",
+    "line": 29.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "pa",
+    "line": 30.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Donovan Mitchell",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "pts",
+    "line": 17.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "reb",
+    "line": 8.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "pr",
+    "line": 25.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "pa",
+    "line": 20.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "ra",
+    "line": 11.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Evan Mobley",
+    "stat": "blk",
+    "line": 1.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Jarrett Allen",
+    "stat": "pts",
+    "line": 11.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Jarrett Allen",
+    "stat": "reb",
+    "line": 6.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Jarrett Allen",
+    "stat": "ast",
+    "line": 1.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Jarrett Allen",
+    "stat": "pr",
+    "line": 18.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Jarrett Allen",
+    "stat": "pa",
+    "line": 13.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Jarrett Allen",
+    "stat": "ra",
+    "line": 8.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Jarrett Allen",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "pts",
+    "line": 11.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "pr",
+    "line": 14.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "pa",
+    "line": 13.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "ra",
+    "line": 4.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Sam Merrill",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Max Strus",
+    "stat": "pts",
+    "line": 9.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "Max Strus",
+    "stat": "pr",
+    "line": 13.5,
+    "game": "CLE@LAL",
+    "team": "CLE"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "pts",
+    "line": 18.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "ast",
+    "line": 6.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "pr",
+    "line": 24.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "pa",
+    "line": 25.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "ra",
+    "line": 12.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "LeBron James",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "pts",
+    "line": 22.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "ast",
+    "line": 4.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "pr",
+    "line": 26.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "pa",
+    "line": 27.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Austin Reaves",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Deandre Ayton",
+    "stat": "pts",
+    "line": 9.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Deandre Ayton",
+    "stat": "reb",
+    "line": 7.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Deandre Ayton",
+    "stat": "pr",
+    "line": 17.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Deandre Ayton",
+    "stat": "pa",
+    "line": 10.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Deandre Ayton",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Deandre Ayton",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Jaxson Hayes",
+    "stat": "pts",
+    "line": 7.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Jaxson Hayes",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Jaxson Hayes",
+    "stat": "pr",
+    "line": 11.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Jaxson Hayes",
+    "stat": "pa",
+    "line": 7.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Rui Hachimura",
+    "stat": "pts",
+    "line": 9.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Rui Hachimura",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Rui Hachimura",
+    "stat": "ast",
+    "line": 0.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Rui Hachimura",
+    "stat": "pr",
+    "line": 12.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Rui Hachimura",
+    "stat": "pa",
+    "line": 9.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Rui Hachimura",
+    "stat": "ra",
+    "line": 3.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Rui Hachimura",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "CLE@LAL",
+    "team": "LAL"
+  },
+  {
+    "player": "Deni Avdija",
+    "stat": "pts",
+    "line": 24.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Deni Avdija",
+    "stat": "reb",
+    "line": 6.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Deni Avdija",
+    "stat": "ast",
+    "line": 6.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Deni Avdija",
+    "stat": "pr",
+    "line": 31.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Deni Avdija",
+    "stat": "pa",
+    "line": 31.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Deni Avdija",
+    "stat": "ra",
+    "line": 13.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Scoot Henderson",
+    "stat": "pts",
+    "line": 16.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Scoot Henderson",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Scoot Henderson",
+    "stat": "ast",
+    "line": 4.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Scoot Henderson",
+    "stat": "pr",
+    "line": 19.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Scoot Henderson",
+    "stat": "pa",
+    "line": 21.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Scoot Henderson",
+    "stat": "ra",
+    "line": 7.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "pts",
+    "line": 13.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "reb",
+    "line": 12.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "pr",
+    "line": 26.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "pa",
+    "line": 15.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "ra",
+    "line": 14.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "stl",
+    "line": 0.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Donovan Clingan",
+    "stat": "blk",
+    "line": 1.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Robert Williams III",
+    "stat": "pts",
+    "line": 7.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Robert Williams III",
+    "stat": "reb",
+    "line": 6.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Robert Williams III",
+    "stat": "pr",
+    "line": 13.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Jrue Holiday",
+    "stat": "pts",
+    "line": 16.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Jrue Holiday",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Jrue Holiday",
+    "stat": "ast",
+    "line": 5.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Jrue Holiday",
+    "stat": "pr",
+    "line": 20.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Jrue Holiday",
+    "stat": "pa",
+    "line": 21.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Jrue Holiday",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "pts",
+    "line": 13.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "ast",
+    "line": 2.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "pr",
+    "line": 18.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "pa",
+    "line": 15.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "ra",
+    "line": 7.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Toumani Camara",
+    "stat": "stl",
+    "line": 1.5,
+    "game": "POR@LAC",
+    "team": "POR"
+  },
+  {
+    "player": "Darius Garland",
+    "stat": "pts",
+    "line": 19.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Darius Garland",
+    "stat": "reb",
+    "line": 2.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Darius Garland",
+    "stat": "ast",
+    "line": 6.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Darius Garland",
+    "stat": "pr",
+    "line": 22.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Darius Garland",
+    "stat": "pa",
+    "line": 27.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Darius Garland",
+    "stat": "ra",
+    "line": 9.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Brook Lopez",
+    "stat": "pts",
+    "line": 10.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Brook Lopez",
+    "stat": "reb",
+    "line": 4.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Brook Lopez",
+    "stat": "pr",
+    "line": 15.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Brook Lopez",
+    "stat": "pa",
+    "line": 12.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Brook Lopez",
+    "stat": "ra",
+    "line": 6.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Brook Lopez",
+    "stat": "blk",
+    "line": 1.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "John Collins",
+    "stat": "pts",
+    "line": 12.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "John Collins",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "John Collins",
+    "stat": "pr",
+    "line": 18.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "John Collins",
+    "stat": "pa",
+    "line": 13.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "John Collins",
+    "stat": "ra",
+    "line": 6.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "John Collins",
+    "stat": "blk",
+    "line": 0.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Derrick Jones Jr.",
+    "stat": "pts",
+    "line": 9.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Derrick Jones Jr.",
+    "stat": "reb",
+    "line": 3.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Derrick Jones Jr.",
+    "stat": "pr",
+    "line": 12.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Derrick Jones Jr.",
+    "stat": "pa",
+    "line": 10.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Bennedict Mathurin",
+    "stat": "pts",
+    "line": 18.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Bennedict Mathurin",
+    "stat": "reb",
+    "line": 5.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Bennedict Mathurin",
+    "stat": "ast",
+    "line": 1.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Bennedict Mathurin",
+    "stat": "pr",
+    "line": 23.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Bennedict Mathurin",
+    "stat": "pa",
+    "line": 20.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  },
+  {
+    "player": "Bennedict Mathurin",
+    "stat": "ra",
+    "line": 7.5,
+    "game": "POR@LAC",
+    "team": "LAC"
+  }
+]

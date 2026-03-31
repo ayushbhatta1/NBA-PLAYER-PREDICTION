@@ -1,0 +1,462 @@
+{
+  "PHX@ORL": {
+    "away": "Suns",
+    "home": "Magic",
+    "away_abr": "PHX",
+    "home_abr": "ORL",
+    "spread": -1.5,
+    "away_out": [
+      "Dillon Brooks",
+      "Mark Williams",
+      "Haywood Highsmith",
+      "Amir Coffey"
+    ],
+    "home_out": [
+      "Anthony Black",
+      "Jonathan Isaac",
+      "Franz Wagner"
+    ],
+    "away_questionable": [
+      "Grayson Allen"
+    ],
+    "home_questionable": [],
+    "away_b2b": true,
+    "home_b2b": false,
+    "notes": "Suns without Dillon Brooks, Mark Williams, Haywood Highsmith (+1 more) | Magic without Anthony Black, Jonathan Isaac, Franz Wagner | Suns on B2B | Magic compressed schedule (3 in 7d)",
+    "over_under": 224.5,
+    "away_probable": [],
+    "home_probable": [],
+    "away_news": [],
+    "home_news": [],
+    "away_form": {
+      "last5": "3-2",
+      "streak": "W2",
+      "avg_scored": 122.6,
+      "avg_allowed": 109.0
+    },
+    "home_form": {
+      "last5": "1-4",
+      "streak": "L1",
+      "avg_scored": 113.8,
+      "avg_allowed": 125.0
+    },
+    "away_rest_days": 0,
+    "home_rest_days": 1,
+    "away_schedule_density": "b2b",
+    "home_schedule_density": "compressed",
+    "pace": {
+      "away_pace": 98.1,
+      "home_pace": 100.0,
+      "projected": 99.0,
+      "label": "average",
+      "projected_total": 226.6
+    },
+    "away_defense": {
+      "rating": 112.8,
+      "rank": 10,
+      "opp_ppg": 111.1,
+      "label": "good"
+    },
+    "home_defense": {
+      "rating": 114.2,
+      "rank": 16,
+      "opp_ppg": 115.1,
+      "label": "average"
+    },
+    "verification_warnings": [
+      "7 players OUT between both teams but spread is only 1.5 \u2014 check if spread is stale"
+    ]
+  },
+  "CHA@BKN": {
+    "away": "Hornets",
+    "home": "Nets",
+    "away_abr": "CHA",
+    "home_abr": "BKN",
+    "spread": 17.5,
+    "away_out": [],
+    "home_out": [
+      "Danny Wolf",
+      "Terance Mann",
+      "Michael Porter Jr.",
+      "Egor Demin",
+      "Day'Ron Sharpe"
+    ],
+    "away_questionable": [],
+    "home_questionable": [],
+    "away_b2b": false,
+    "home_b2b": false,
+    "notes": "Nets without Danny Wolf, Terance Mann, Michael Porter Jr. (+2 more) | Hornets big favorite (17.5) | Hornets compressed schedule (4 in 7d) | Nets compressed schedule (3 in 7d)",
+    "over_under": 219.5,
+    "away_probable": [],
+    "home_probable": [],
+    "away_news": [],
+    "home_news": [],
+    "away_form": {
+      "last5": "3-2",
+      "streak": "L2",
+      "avg_scored": 117.0,
+      "avg_allowed": 105.2
+    },
+    "home_form": {
+      "last5": "1-4",
+      "streak": "W1",
+      "avg_scored": 108.4,
+      "avg_allowed": 116.8
+    },
+    "away_rest_days": 1,
+    "home_rest_days": 1,
+    "away_schedule_density": "compressed",
+    "home_schedule_density": "compressed",
+    "pace": {
+      "away_pace": 97.8,
+      "home_pace": 97.5,
+      "projected": 97.7,
+      "label": "average",
+      "projected_total": 221.6
+    },
+    "away_defense": {
+      "rating": 113.8,
+      "rank": 14,
+      "opp_ppg": 111.7,
+      "label": "average"
+    },
+    "home_defense": {
+      "rating": 117.8,
+      "rank": 25,
+      "opp_ppg": 115.4,
+      "label": "poor"
+    }
+  },
+  "TOR@DET": {
+    "away": "Raptors",
+    "home": "Pistons",
+    "away_abr": "TOR",
+    "home_abr": "DET",
+    "spread": -2.5,
+    "away_out": [
+      "Jamison Battle",
+      "Immanuel Quickley",
+      "Chucky Hepburn"
+    ],
+    "home_out": [
+      "Duncan Robinson",
+      "Tobias Harris",
+      "Jalen Duren",
+      "Isaiah Stewart",
+      "Cade Cunningham"
+    ],
+    "away_questionable": [
+      "Collin Murray-Boyles",
+      "Brandon Ingram",
+      "RJ Barrett"
+    ],
+    "home_questionable": [],
+    "away_b2b": false,
+    "home_b2b": true,
+    "notes": "Raptors without Jamison Battle, Immanuel Quickley, Chucky Hepburn | Pistons without Duncan Robinson, Tobias Harris, Jalen Duren (+2 more) | Pistons on B2B | Raptors compressed schedule (3 in 7d) | Pistons elite D (rank 2)",
+    "over_under": 220.5,
+    "away_probable": [],
+    "home_probable": [],
+    "away_news": [],
+    "home_news": [],
+    "away_form": {
+      "last5": "3-2",
+      "streak": "W2",
+      "avg_scored": 118.6,
+      "avg_allowed": 111.8
+    },
+    "home_form": {
+      "last5": "3-2",
+      "streak": "L1",
+      "avg_scored": 118.0,
+      "avg_allowed": 109.8
+    },
+    "away_rest_days": 1,
+    "home_rest_days": 0,
+    "away_schedule_density": "compressed",
+    "home_schedule_density": "b2b",
+    "pace": {
+      "away_pace": 99.3,
+      "home_pace": 100.0,
+      "projected": 99.7,
+      "label": "average",
+      "projected_total": 230.5
+    },
+    "away_defense": {
+      "rating": 112.1,
+      "rank": 6,
+      "opp_ppg": 112.0,
+      "label": "good"
+    },
+    "home_defense": {
+      "rating": 108.7,
+      "rank": 2,
+      "opp_ppg": 109.5,
+      "label": "elite"
+    },
+    "verification_warnings": [
+      "8 players OUT between both teams but spread is only 2.5 \u2014 check if spread is stale"
+    ]
+  },
+  "NYK@HOU": {
+    "away": "Knicks",
+    "home": "Rockets",
+    "away_abr": "NYK",
+    "home_abr": "HOU",
+    "spread": 1.5,
+    "away_out": [
+      "Landry Shamet"
+    ],
+    "home_out": [
+      "Steven Adams",
+      "Fred VanVleet"
+    ],
+    "away_questionable": [
+      "Miles McBride"
+    ],
+    "home_questionable": [],
+    "away_b2b": false,
+    "home_b2b": false,
+    "notes": "Knicks without Landry Shamet | Rockets without Steven Adams, Fred VanVleet | Knicks compressed schedule (3 in 7d) | Rockets compressed schedule (3 in 7d)",
+    "over_under": 217.5,
+    "away_probable": [],
+    "home_probable": [],
+    "away_news": [],
+    "home_news": [],
+    "away_form": {
+      "last5": "3-2",
+      "streak": "L2",
+      "avg_scored": 112.4,
+      "avg_allowed": 109.2
+    },
+    "home_form": {
+      "last5": "3-2",
+      "streak": "W2",
+      "avg_scored": 121.6,
+      "avg_allowed": 115.0
+    },
+    "away_rest_days": 1,
+    "home_rest_days": 1,
+    "away_schedule_density": "compressed",
+    "home_schedule_density": "compressed",
+    "pace": {
+      "away_pace": 98.1,
+      "home_pace": 96.9,
+      "projected": 97.5,
+      "label": "average",
+      "projected_total": 229.2
+    },
+    "away_defense": {
+      "rating": 112.2,
+      "rank": 8,
+      "opp_ppg": 110.5,
+      "label": "good"
+    },
+    "home_defense": {
+      "rating": 112.2,
+      "rank": 7,
+      "opp_ppg": 110.1,
+      "label": "good"
+    }
+  },
+  "DAL@MIL": {
+    "away": "Mavericks",
+    "home": "Bucks",
+    "away_abr": "DAL",
+    "home_abr": "MIL",
+    "spread": 1.5,
+    "away_out": [
+      "Caleb Martin",
+      "Kyrie Irving",
+      "Dereck Lively II"
+    ],
+    "home_out": [
+      "Gary Harris",
+      "Thanasis Antetokounmpo",
+      "Kyle Kuzma",
+      "Bobby Portis",
+      "Giannis Antetokounmpo",
+      "Kevin Porter Jr."
+    ],
+    "away_questionable": [
+      "P.J. Washington",
+      "Naji Marshall",
+      "Marvin Bagley III"
+    ],
+    "home_questionable": [
+      "Ryan Rollins"
+    ],
+    "away_b2b": true,
+    "home_b2b": false,
+    "notes": "Mavericks without Caleb Martin, Kyrie Irving, Dereck Lively II | Bucks without Gary Harris, Thanasis Antetokounmpo, Kyle Kuzma (+3 more) | Mavericks on B2B | Bucks on L4 skid | Bucks compressed schedule (3 in 7d) | Bucks terrible D (rank 27)",
+    "over_under": 228.5,
+    "away_probable": [],
+    "home_probable": [],
+    "away_news": [],
+    "home_news": [],
+    "away_form": {
+      "last5": "1-4",
+      "streak": "L1",
+      "avg_scored": 118.2,
+      "avg_allowed": 126.8
+    },
+    "home_form": {
+      "last5": "1-4",
+      "streak": "L4",
+      "avg_scored": 102.2,
+      "avg_allowed": 123.6
+    },
+    "away_rest_days": 0,
+    "home_rest_days": 1,
+    "away_schedule_density": "b2b",
+    "home_schedule_density": "compressed",
+    "pace": {
+      "away_pace": 102.4,
+      "home_pace": 98.4,
+      "projected": 100.4,
+      "label": "average",
+      "projected_total": 222.6
+    },
+    "away_defense": {
+      "rating": 115.0,
+      "rank": 18,
+      "opp_ppg": 119.0,
+      "label": "average"
+    },
+    "home_defense": {
+      "rating": 118.2,
+      "rank": 27,
+      "opp_ppg": 116.9,
+      "label": "terrible"
+    },
+    "verification_warnings": [
+      "9 players OUT between both teams but spread is only 1.5 \u2014 check if spread is stale"
+    ]
+  },
+  "CLE@LAL": {
+    "away": "Cavaliers",
+    "home": "Lakers",
+    "away_abr": "CLE",
+    "home_abr": "LAL",
+    "spread": -2.5,
+    "away_out": [
+      "Jaylon Tyson",
+      "Dean Wade"
+    ],
+    "home_out": [
+      "Adou Thiero",
+      "Marcus Smart"
+    ],
+    "away_questionable": [
+      "Max Strus",
+      "Jarrett Allen"
+    ],
+    "home_questionable": [],
+    "away_b2b": true,
+    "home_b2b": true,
+    "notes": "Cavaliers without Jaylon Tyson, Dean Wade | Lakers without Adou Thiero, Marcus Smart | Cavaliers on B2B | Lakers on B2B | Lakers on W3 streak",
+    "over_under": 236.5,
+    "away_probable": [],
+    "home_probable": [],
+    "away_news": [],
+    "home_news": [],
+    "away_form": {
+      "last5": "4-1",
+      "streak": "W2",
+      "avg_scored": 124.2,
+      "avg_allowed": 119.6
+    },
+    "home_form": {
+      "last5": "4-1",
+      "streak": "W3",
+      "avg_scored": 117.6,
+      "avg_allowed": 109.4
+    },
+    "away_rest_days": 0,
+    "home_rest_days": 0,
+    "away_schedule_density": "b2b",
+    "home_schedule_density": "b2b",
+    "pace": {
+      "away_pace": 100.7,
+      "home_pace": 99.3,
+      "projected": 100.0,
+      "label": "average",
+      "projected_total": 235.4
+    },
+    "away_defense": {
+      "rating": 113.9,
+      "rank": 15,
+      "opp_ppg": 115.1,
+      "label": "average"
+    },
+    "home_defense": {
+      "rating": 115.5,
+      "rank": 20,
+      "opp_ppg": 114.7,
+      "label": "average"
+    }
+  },
+  "POR@LAC": {
+    "away": "Trail Blazers",
+    "home": "Clippers",
+    "away_abr": "POR",
+    "home_abr": "LAC",
+    "spread": -5.5,
+    "away_out": [
+      "Jerami Grant",
+      "Vit Krejci",
+      "Shaedon Sharpe",
+      "Damian Lillard"
+    ],
+    "home_out": [
+      "Isaiah Jackson",
+      "Yanic Konan Niederhauser",
+      "Bradley Beal"
+    ],
+    "away_questionable": [],
+    "home_questionable": [],
+    "away_b2b": false,
+    "home_b2b": false,
+    "notes": "Trail Blazers without Jerami Grant, Vit Krejci, Shaedon Sharpe (+1 more) | Clippers without Isaiah Jackson, Yanic Konan Niederhauser, Bradley Beal | Clippers on W5 streak | Trail Blazers compressed schedule (3 in 7d) | Clippers compressed schedule (3 in 7d)",
+    "over_under": 227.5,
+    "away_probable": [],
+    "home_probable": [],
+    "away_news": [],
+    "home_news": [],
+    "away_form": {
+      "last5": "3-2",
+      "streak": "W1",
+      "avg_scored": 118.4,
+      "avg_allowed": 102.8
+    },
+    "home_form": {
+      "last5": "5-0",
+      "streak": "W5",
+      "avg_scored": 125.4,
+      "avg_allowed": 109.4
+    },
+    "away_rest_days": 1,
+    "home_rest_days": 1,
+    "away_schedule_density": "compressed",
+    "home_schedule_density": "compressed",
+    "pace": {
+      "away_pace": 102.0,
+      "home_pace": 97.2,
+      "projected": 99.6,
+      "label": "average",
+      "projected_total": 228.3
+    },
+    "away_defense": {
+      "rating": 113.6,
+      "rank": 12,
+      "opp_ppg": 116.1,
+      "label": "average"
+    },
+    "home_defense": {
+      "rating": 115.1,
+      "rank": 19,
+      "opp_ppg": 112.5,
+      "label": "average"
+    }
+  }
+}

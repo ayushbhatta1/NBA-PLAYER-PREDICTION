@@ -1,0 +1,469 @@
+{
+  "total_input": 548,
+  "players_removed": [
+    {
+      "player": "Grayson Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Grayson Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Grayson Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Grayson Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Grayson Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Grayson Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Max Strus",
+      "reason": "GTD/Questionable: Questionable"
+    },
+    {
+      "player": "Max Strus",
+      "reason": "GTD/Questionable: Questionable"
+    }
+  ],
+  "games_postponed": [],
+  "gtd_flagged": [
+    {
+      "player": "Grayson Allen",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Grayson Allen",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Grayson Allen",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Grayson Allen",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Grayson Allen",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Grayson Allen",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Brandon Ingram",
+      "stat": "blk",
+      "status": "Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "RJ Barrett",
+      "stat": "blk",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Ryan Rollins",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "P.J. Washington",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Naji Marshall",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "stat": "reb",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "stat": "ast",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "stat": "pr",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "stat": "pa",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "stat": "ra",
+      "status": "Questionable"
+    },
+    {
+      "player": "Jarrett Allen",
+      "stat": "stl",
+      "status": "Questionable"
+    },
+    {
+      "player": "Max Strus",
+      "stat": "pts",
+      "status": "Questionable"
+    },
+    {
+      "player": "Max Strus",
+      "stat": "pr",
+      "status": "Questionable"
+    }
+  ],
+  "total_removed": 51,
+  "total_remaining": 497
+}

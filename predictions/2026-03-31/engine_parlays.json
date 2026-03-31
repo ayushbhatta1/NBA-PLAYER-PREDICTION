@@ -1,0 +1,183 @@
+{
+  "date": "2026-03-31",
+  "generated_at": "2026-03-31T09:53:15.101941",
+  "method": "nexus_v4_secondary",
+  "parlays": {
+    "safe": {
+      "name": "NEXUS SAFE 3-LEG",
+      "method": "nexus_v4",
+      "legs": [
+        {
+          "player": "Luka Doncic",
+          "stat": "pts",
+          "line": 33.5,
+          "direction": "OVER",
+          "tier": "S",
+          "gap": 7.5,
+          "projection": 41.0,
+          "l10_hit_rate": 60,
+          "l5_hit_rate": 60,
+          "season_avg": 33.7,
+          "mins_30plus_pct": 90,
+          "game": "CLE@LAL",
+          "is_home": true,
+          "streak": "NEUTRAL",
+          "matchup_note": "DEF RTG 113.9",
+          "nexus_score": 66.0,
+          "historical_rating": "NEUTRAL",
+          "historical_detail": "",
+          "l10_values": [
+            41.0,
+            43.0,
+            32.0,
+            33.0,
+            60.0,
+            40.0,
+            36.0,
+            30.0,
+            51.0,
+            31.0
+          ],
+          "l10_floor": 30.0,
+          "l10_miss_count": 4,
+          "player_injury_status": null,
+          "scout_venue": {
+            "venue_altitude": 340,
+            "travel_zone_diff": 3,
+            "travel_distance": 2047
+          },
+          "scout_efficiency": {
+            "l10_avg_plus_minus": 8.8,
+            "l10_avg_pf": 2.4,
+            "foul_trouble_risk": false,
+            "efficiency_trend": 1.0
+          },
+          "screen_tier": "CORE",
+          "screen_multiplier": 1.0,
+          "spread": 2.5,
+          "is_b2b": true,
+          "ensemble_prob": 0.4875,
+          "xgb_prob": 0.4989,
+          "mlp_prob": 0.3415
+        },
+        {
+          "player": "Desmond Bane",
+          "stat": "reb",
+          "line": 3.5,
+          "direction": "OVER",
+          "tier": "S",
+          "gap": 4.2,
+          "projection": 7.7,
+          "l10_hit_rate": 50,
+          "l5_hit_rate": 60,
+          "season_avg": 4.1,
+          "mins_30plus_pct": 88,
+          "game": "PHX@ORL",
+          "is_home": true,
+          "streak": "NEUTRAL",
+          "matchup_note": "DEF RTG 112.8",
+          "nexus_score": 60.0,
+          "historical_rating": "NEUTRAL",
+          "historical_detail": "",
+          "l10_values": [
+            3.0,
+            0.0,
+            7.0,
+            6.0,
+            4.0,
+            7.0,
+            3.0,
+            2.0,
+            4.0,
+            1.0
+          ],
+          "l10_floor": 0.0,
+          "l10_miss_count": 5,
+          "player_injury_status": null,
+          "scout_venue": {
+            "venue_altitude": 82,
+            "travel_zone_diff": 2,
+            "travel_distance": 1842
+          },
+          "scout_efficiency": {
+            "l10_avg_plus_minus": -6.9,
+            "l10_avg_pf": 3.1,
+            "foul_trouble_risk": false,
+            "efficiency_trend": -0.3
+          },
+          "screen_tier": "CORE",
+          "screen_multiplier": 1.0,
+          "spread": 1.5,
+          "is_b2b": false,
+          "ensemble_prob": 0.4248,
+          "xgb_prob": 0.326,
+          "mlp_prob": 0.5299
+        },
+        {
+          "player": "Toumani Camara",
+          "stat": "stl",
+          "line": 1.5,
+          "direction": "UNDER",
+          "tier": "S",
+          "gap": -6.3,
+          "projection": 7.8,
+          "l10_hit_rate": 40,
+          "l5_hit_rate": 60,
+          "season_avg": 1.1,
+          "mins_30plus_pct": 78,
+          "game": "POR@LAC",
+          "is_home": false,
+          "streak": "HOT",
+          "matchup_note": "Pace-UP spot (pace 97.2, rank 3) | DEF RTG 115.1",
+          "nexus_score": 59.0,
+          "historical_rating": "NEUTRAL",
+          "historical_detail": "",
+          "l10_values": [
+            3.0,
+            1.0,
+            2.0,
+            2.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            3.0
+          ],
+          "l10_floor": 0.0,
+          "l10_miss_count": 6,
+          "player_injury_status": null,
+          "scout_venue": {
+            "venue_altitude": 340,
+            "travel_zone_diff": 0,
+            "travel_distance": 833
+          },
+          "scout_efficiency": {
+            "l10_avg_plus_minus": 7.0,
+            "l10_avg_pf": 2.5,
+            "foul_trouble_risk": false,
+            "efficiency_trend": 0.6
+          },
+          "screen_tier": "CORE",
+          "screen_multiplier": 1.0,
+          "spread": -5.5,
+          "is_b2b": false,
+          "ensemble_prob": 0.5546,
+          "xgb_prob": 0.5561,
+          "mlp_prob": 0.5527
+        }
+      ],
+      "legs_total": 3,
+      "confidence": 61.6,
+      "description": "NEXUS v4 RELAXED 3-Leg (no evaluator gate, no devils)",
+      "constructor": "",
+      "reality_check": {
+        "status": "RELAXED",
+        "attempt": 0,
+        "issues": [
+          "Used relaxed fallback"
+        ]
+      }
+    }
+  }
+}

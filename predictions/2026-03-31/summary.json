@@ -1,0 +1,38 @@
+{
+  "date": "2026-03-31",
+  "total_lines": 548,
+  "errors": 35,
+  "tier_distribution": {
+    "C": 111,
+    "S": 83,
+    "A": 96,
+    "B": 159,
+    "D": 50,
+    "F": 14,
+    "SKIP": 35
+  },
+  "pipeline_version": "v15+arena+scanner",
+  "backtest_passes": 3,
+  "research_method": "parallel_agents",
+  "games_researched": 7,
+  "v5_features": [
+    "Parallel research agents (1 per team, concurrent)",
+    "Auto injury report fetch",
+    "Auto spread/odds from ESPN",
+    "Auto B2B detection from schedule",
+    "Auto breaking news scan",
+    "No manual game context required",
+    "UNDER penalty removed",
+    "Reasoning on every pick"
+  ],
+  "game_contexts": {
+    "PHX@ORL": "Suns without Dillon Brooks, Mark Williams, Haywood Highsmith (+1 more) | Magic without Anthony Black, Jonathan Isaac, Franz Wagner | Suns on B2B | Magic compressed schedule (3 in 7d)",
+    "CHA@BKN": "Nets without Danny Wolf, Terance Mann, Michael Porter Jr. (+2 more) | Hornets big favorite (17.5) | Hornets compressed schedule (4 in 7d) | Nets compressed schedule (3 in 7d)",
+    "TOR@DET": "Raptors without Jamison Battle, Immanuel Quickley, Chucky Hepburn | Pistons without Duncan Robinson, Tobias Harris, Jalen Duren (+2 more) | Pistons on B2B | Raptors compressed schedule (3 in 7d) | Pistons elite D (rank 2)",
+    "NYK@HOU": "Knicks without Landry Shamet | Rockets without Steven Adams, Fred VanVleet | Knicks compressed schedule (3 in 7d) | Rockets compressed schedule (3 in 7d)",
+    "DAL@MIL": "Mavericks without Caleb Martin, Kyrie Irving, Dereck Lively II | Bucks without Gary Harris, Thanasis Antetokounmpo, Kyle Kuzma (+3 more) | Mavericks on B2B | Bucks on L4 skid | Bucks compressed schedule (3 in 7d) | Bucks terrible D (rank 27)",
+    "CLE@LAL": "Cavaliers without Jaylon Tyson, Dean Wade | Lakers without Adou Thiero, Marcus Smart | Cavaliers on B2B | Lakers on B2B | Lakers on W3 streak",
+    "POR@LAC": "Trail Blazers without Jerami Grant, Vit Krejci, Shaedon Sharpe (+1 more) | Clippers without Isaiah Jackson, Yanic Konan Niederhauser, Bradley Beal | Clippers on W5 streak | Trail Blazers compressed schedule (3 in 7d) | Clippers compressed schedule (3 in 7d)"
+  },
+  "timestamp": "2026-03-31T09:53:15.120831"
+}
