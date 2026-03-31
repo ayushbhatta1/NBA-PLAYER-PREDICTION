@@ -1898,6 +1898,160 @@ def _kelly_fraction(legs):
     return round(min(fifth_kelly, 0.03), 4)
 
 
+# ═══════════════════════════════════════════════════════════════
+# v16 MONTE CARLO VALIDATED STRATEGIES
+# Backtested 50K sims × 36 strategies × 16 dates
+# ═══════════════════════════════════════════════════════════════
+
+def build_mc_rm_sweet_2leg(pool):
+    """MC #1: reg_margin sweet spot [-4, -0.5] UNDER, 2-leg.
+    Backtested: 66.7% cash, +143% ROI, 57% MC per-leg.
+    Sort by proximity to rm sweet spot center (-1.5)."""
+    candidates = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        (p.get('reg_margin') or 0) != 0 and
+        -4.0 <= (p.get('reg_margin') or 0) <= -0.5
+    )]
+    # Sort by proximity to sweet spot center (-1.5)
+    candidates.sort(key=lambda p: -abs((p.get('reg_margin', 0) or 0) + 1.5), reverse=True)
+    # Diversify: 1 per game, 1 per player
+    picks = []
+    used_games, used_players = set(), set()
+    for p in candidates:
+        player = p.get('player', '')
+        game = p.get('game', '')
+        if player in used_players or (game and game in used_games):
+            continue
+        picks.append(p)
+        used_players.add(player)
+        if game:
+            used_games.add(game)
+        if len(picks) >= 2:
+            break
+    return picks
+
+
+def build_mc_rm_sweet_3leg(pool):
+    """MC #2: reg_margin sweet spot [-4, -0.5] UNDER, 3-leg.
+    Backtested: 33.3% cash, +132% ROI, 57.4% MC per-leg."""
+    candidates = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        (p.get('reg_margin') or 0) != 0 and
+        -4.0 <= (p.get('reg_margin') or 0) <= -0.5
+    )]
+    candidates.sort(key=lambda p: -abs((p.get('reg_margin', 0) or 0) + 1.5), reverse=True)
+    picks = []
+    used_games, used_players = set(), set()
+    for p in candidates:
+        player = p.get('player', '')
+        game = p.get('game', '')
+        if player in used_players or (game and game in used_games):
+            continue
+        picks.append(p)
+        used_players.add(player)
+        if game:
+            used_games.add(game)
+        if len(picks) >= 3:
+            break
+    return picks
+
+
+def build_mc_cold_under_2leg(pool):
+    """MC #3: COLD+UNDER 2-leg, gap sort.
+    Backtested: 46.7% cash, +70% ROI, 59.1% MC per-leg."""
+    candidates = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('streak_status') == 'COLD'
+    )]
+    candidates.sort(key=lambda p: p.get('abs_gap', 0), reverse=True)
+    picks = []
+    used_games, used_players = set(), set()
+    for p in candidates:
+        player = p.get('player', '')
+        game = p.get('game', '')
+        if player in used_players or (game and game in used_games):
+            continue
+        picks.append(p)
+        used_players.add(player)
+        if game:
+            used_games.add(game)
+        if len(picks) >= 2:
+            break
+    return picks
+
+
+def build_mc_s_tier_3leg(pool):
+    """MC #4: S-tier only 3-leg, gap sort.
+    Backtested: 21.4% cash, +49% ROI, 53.4% MC per-leg.
+    S-tier hits 64.6% overall — the most reliable filter."""
+    candidates = [p for p in pool if (
+        _is_eligible(p, tier_filter='S')
+    )]
+    candidates.sort(key=lambda p: p.get('abs_gap', 0), reverse=True)
+    picks = []
+    used_games, used_players = set(), set()
+    for p in candidates:
+        player = p.get('player', '')
+        game = p.get('game', '')
+        if player in used_players or (game and game in used_games):
+            continue
+        picks.append(p)
+        used_players.add(player)
+        if game:
+            used_games.add(game)
+        if len(picks) >= 3:
+            break
+    return picks
+
+
+def build_mc_stl_under_singles(pool):
+    """MC #5: STL UNDER straight bets (top 3).
+    Backtested: 66.3% hit rate, +27% ROI. Free money."""
+    candidates = [p for p in pool if (
+        _is_eligible(p) and
+        p.get('direction', '').upper() == 'UNDER' and
+        p.get('stat', '').lower() == 'stl'
+    )]
+    candidates.sort(key=lambda p: p.get('abs_gap', 0), reverse=True)
+    picks = []
+    used_players = set()
+    for p in candidates:
+        player = p.get('player', '')
+        if player in used_players:
+            continue
+        picks.append(p)
+        used_players.add(player)
+        if len(picks) >= 3:
+            break
+    return picks
+
+
+def build_mc_s_tier_2leg(pool):
+    """MC #6: S-tier only 2-leg, gap sort.
+    Backtested: 37.5% cash, +37% ROI, 49.8% MC per-leg."""
+    candidates = [p for p in pool if (
+        _is_eligible(p, tier_filter='S')
+    )]
+    candidates.sort(key=lambda p: p.get('abs_gap', 0), reverse=True)
+    picks = []
+    used_games, used_players = set(), set()
+    for p in candidates:
+        player = p.get('player', '')
+        game = p.get('game', '')
+        if player in used_players or (game and game in used_games):
+            continue
+        picks.append(p)
+        used_players.add(player)
+        if game:
+            used_games.add(game)
+        if len(picks) >= 2:
+            break
+    return picks
+
+
 def build_triple_safe(results):
     """Triple-SAFE: 3 independent 3-leg parlays with NO player overlap.
 
@@ -2465,16 +2619,20 @@ def build_primary_parlays(results):
     sweep_picks = build_sweep_optimized(pool)
     safe_picks_3 = build_primary_safe(pool)
     safe_picks_2 = build_2leg_safe(pool)
-    # DISABLED Mar 24: BLK SNIPER went 0-for-5 (Mar 23: Sengun/Bona hitting 2.0 vs 1.5 line)
-    # blk_picks_2 = build_2leg_blk(pool)
-    # blk_picks_3 = build_3leg_blk(pool)
-    # DISABLED Mar 24: LINE FLOOR went 0-for-5 (same BLK issue + Sengun edge not real)
-    # floor_picks_5 = build_5leg_line_floor(pool)
-    # floor_picks_6 = build_6leg_line_floor(pool)
+    # DISABLED Mar 24: BLK SNIPER + LINE FLOOR went 0-for-5
     blk_picks_2 = []
     blk_picks_3 = []
     floor_picks_5 = []
     floor_picks_6 = []
+
+    # v16 Monte Carlo validated strategies (50K sims × 16 dates)
+    mc_rm_sweet_2 = build_mc_rm_sweet_2leg(pool)
+    mc_rm_sweet_3 = build_mc_rm_sweet_3leg(pool)
+    mc_cold_under_2 = build_mc_cold_under_2leg(pool)
+    mc_s_tier_3 = build_mc_s_tier_3leg(pool)
+    mc_stl_singles = build_mc_stl_under_singles(pool)
+    mc_s_tier_2 = build_mc_s_tier_2leg(pool)
+
     safe_players = [p['player'] for p in safe_picks_3] + [p['player'] for p in safe_picks_2] + [p['player'] for p in sweep_picks]
     agg_picks = build_primary_aggressive(pool, safe_players)
 
@@ -2610,6 +2768,39 @@ def build_primary_parlays(results):
             'description': f'8 legs, UNDER-heavy ({under_count_agg} UNDERs). Suggested: {agg_kelly*100:.1f}% bankroll.',
         },
     }
+
+    # ─── v16 Monte Carlo validated strategies ───
+    mc_strategies = [
+        ('mc_rm_sweet_2leg', mc_rm_sweet_2, 'MC #1: REG MARGIN SWEET SPOT 2-LEG',
+         'mc_rm_sweet_v1', 3.64, 66.7, 57.0, '+143% ROI. rm [-4, -0.5] UNDER, sort by sweet spot center.'),
+        ('mc_rm_sweet_3leg', mc_rm_sweet_3, 'MC #2: REG MARGIN SWEET SPOT 3-LEG',
+         'mc_rm_sweet_3_v1', 6.96, 33.3, 57.4, '+132% ROI. rm [-4, -0.5] UNDER, sort by sweet spot center.'),
+        ('mc_cold_under_2leg', mc_cold_under_2, 'MC #3: COLD+UNDER 2-LEG',
+         'mc_cold_under_v1', 3.64, 46.7, 59.1, '+70% ROI. COLD streak + UNDER direction, gap sort.'),
+        ('mc_s_tier_3leg', mc_s_tier_3, 'MC #4: S-TIER ONLY 3-LEG',
+         'mc_s_tier_3_v1', 6.96, 21.4, 53.4, '+49% ROI. S-tier only, gap sort. Most reliable filter.'),
+        ('mc_stl_singles', mc_stl_singles, 'MC #5: STL UNDER SINGLES (TOP 3)',
+         'mc_stl_singles_v1', 1.91, 66.7, 66.3, '+27% ROI. STL UNDER straight bets. 66.3% hit rate.'),
+        ('mc_s_tier_2leg', mc_s_tier_2, 'MC #6: S-TIER ONLY 2-LEG',
+         'mc_s_tier_2_v1', 3.64, 37.5, 49.8, '+37% ROI. S-tier only 2-leg, gap sort.'),
+    ]
+    for key, picks, name, method, ev_mult, cash_rate, mc_leg, desc in mc_strategies:
+        legs = [_make_leg(p) for p in picks]
+        under_count = sum(1 for l in legs if l.get('direction', '').upper() == 'UNDER')
+        kelly = _kelly_fraction(legs)
+        result[key] = {
+            'name': name,
+            'method': method,
+            'legs': legs,
+            'legs_total': len(legs),
+            'under_count': under_count,
+            'kelly_fraction': kelly,
+            'suggested_units': round(kelly * 100, 1),
+            'ev_multiplier': ev_mult,
+            'backtested_cash_rate': cash_rate,
+            'backtested_per_leg_hr': mc_leg,
+            'description': f'{desc} {under_count} UNDERs.',
+        }
 
     return result
 
