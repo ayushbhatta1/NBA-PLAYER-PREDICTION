@@ -952,20 +952,22 @@ def build_primary_safe(pool):
             return False
         return True
 
-    # v16: reg_margin sweet-spot filter for SAFE legs
-    # Data shows: rm [-3, -1] = 57% HR, rm < -3 = 49% (overconfident), rm > 0 = 46% (disagrees)
-    # Require regression to be in the sweet spot OR moderately negative. Reject extremes both ways.
-    def _reg_margin_ok(p, threshold=-1.0):
-        """Check that regression margin is in the reliable range for UNDER picks.
-        Rejects: rm > threshold (regression doesn't confirm UNDER enough)
-        Rejects: rm < -5.0 (regression overconfident — book likely knows something)"""
+    # v16: reg_margin guard rails for SAFE legs
+    # Full backtest (1991 UNDER props, Mar 24-30):
+    #   rm [-1, -0.5) = 60.1% (BEST)  |  rm [-4, 0) = 53-60% (all good)
+    #   rm < -4 = 42-44% (BAD — overconfident)  |  rm > 2 = 47.4% (BAD — disagrees)
+    # Only reject the extremes. Everything in [-4, 2) is productive.
+    def _reg_margin_ok(p, threshold=2.0):
+        """Reject regression extremes that empirically underperform.
+        Keeps the productive middle: rm [-4, 2) at 53-60% HR.
+        Rejects: rm < -4 (overconfident, 42-44%) and rm > 2 (disagrees, 47%)."""
         rm = p.get('reg_margin')
         if rm is None:
             return True  # no regression data = don't filter
-        if rm > threshold:
-            return False  # too close to/above line
         if rm < -4.0:
-            return False  # extreme overconfidence — 49% HR vs 57% in sweet spot
+            return False  # extreme overconfidence — 42% HR
+        if rm > threshold:
+            return False  # regression strongly disagrees with UNDER
         return True
 
     # ALL passes: UNDER + L10 HR >= 60% + NOT HOT + regression margin confirms
@@ -975,7 +977,7 @@ def build_primary_safe(pool):
         (p.get('l10_hit_rate', 0) or 0) >= 60 and
         not _is_hot(p) and
         _gap_sanity(p) and
-        _reg_margin_ok(p, -1.5)
+        _reg_margin_ok(p)
     )
 
     def _pick_from(candidates, picks, used_games, n_target):
@@ -1004,7 +1006,7 @@ def build_primary_safe(pool):
         not _is_hot(p) and
         p.get('streak_status') == 'COLD' and
         ((p.get('line', 0) or 0) - (p.get('l10_avg', 0) or 0)) >= 3.0 and
-        _reg_margin_ok(p, -1.0)
+        _reg_margin_ok(p)
     )]
     p0a.sort(key=_sim_sort, reverse=True)
     if _pick_from(p0a, picks, used_games, 3):
@@ -1020,7 +1022,7 @@ def build_primary_safe(pool):
         ((p.get('line', 0) or 0) - (p.get('l10_avg', 0) or 0)) >= 2.0 and
         (p.get('l5_avg', 0) or 0) > 0 and (p.get('l10_avg', 0) or 0) > 0 and
         (p.get('l5_avg', 0) or 0) < (p.get('l10_avg', 0) or 0) and
-        _reg_margin_ok(p, -1.0)
+        _reg_margin_ok(p)
     )]
     p0b.sort(key=_sim_sort, reverse=True)
     if _pick_from(p0b, picks, used_games, 3):
@@ -1034,7 +1036,7 @@ def build_primary_safe(pool):
         not _is_hot(p) and
         p.get('streak_status') == 'COLD' and
         ((p.get('line', 0) or 0) - (p.get('l10_avg', 0) or 0)) >= 2.0 and
-        _reg_margin_ok(p, -1.0) and
+        _reg_margin_ok(p) and
         p not in picks
     )]
     p0c.sort(key=_sim_sort, reverse=True)
@@ -1097,10 +1099,12 @@ def build_primary_safe(pool):
         return picks
 
     # Pass 5: Any UNDER with L10 HR >= 55% (survival — avoid DNP)
+    # v16: still apply reg_margin guard rails even in survival
     p5 = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
         (p.get('l10_hit_rate', 0) or 0) >= 55 and
+        _reg_margin_ok(p) and
         p not in picks
     )]
     p5.sort(key=_sim_sort, reverse=True)
@@ -1118,9 +1122,11 @@ def build_primary_safe(pool):
         return picks
 
     # Pass 6: Any UNDER (absolute survival)
+    # v16: still apply reg_margin guard rails
     p6 = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
+        _reg_margin_ok(p) and
         p not in picks
     )]
     p6.sort(key=_sim_sort, reverse=True)
@@ -1772,16 +1778,22 @@ def build_primary_aggressive(pool, safe_players):
 
     # Quality floor for all legs
     # v10.1: Block OVERs in high-spread games (blowout benching)
-    # v16: reg_margin filter — require regression confirmation for direction
+    # v16: reg_margin guard rails — reject extremes that empirically underperform
     def _agg_reg_ok(p):
         rm = p.get('reg_margin')
         if rm is None:
             return True
         d = p.get('direction', '').upper()
         if d == 'UNDER':
-            return rm <= -1.0  # regression must project at least 1.0 below line
+            if rm < -4.0:
+                return False  # overconfident extreme (42% HR)
+            if rm > 3.0:
+                return False  # regression strongly disagrees
         else:  # OVER
-            return rm >= 1.0   # regression must project at least 1.0 above line
+            if rm > 4.0:
+                return False  # overconfident extreme
+            if rm < -3.0:
+                return False  # regression strongly disagrees
         return True
 
     filtered = [p for p in pool if (

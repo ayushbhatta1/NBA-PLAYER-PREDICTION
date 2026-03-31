@@ -1471,18 +1471,23 @@ def main():
         print(f"\n  MLP scoring failed: {e}")
         traceback.print_exc()
 
-    # ═══ Ensemble: 60% XGBoost + 40% Sim (v16: replaced MLP — sim AUC 0.564 > MLP dead/redundant) ═══
-    # MLP uses same 136 features as XGB → redundant. Sim uses Monte Carlo on L10 distributions → real diversity.
+    # ═══ Ensemble: 3-way when all available, fallback to pairs ═══
+    # Backtest (3238 props): xgb+mlp 55.1% > xgb+sim 54.4% > xgb alone 54.1% > sim alone 50.6%
+    # v16: MLP primary partner (proven +1pp), sim as fallback when MLP dead
     for r in results:
         xgb = r.get('xgb_prob')
-        sim = r.get('sim_prob')
         mlp = r.get('mlp_prob')
-        if xgb is not None and sim is not None:
-            r['ensemble_prob'] = round(0.6 * xgb + 0.4 * sim, 4)
-            r['models_used'] = 2
+        sim = r.get('sim_prob')
+        if xgb is not None and mlp is not None and sim is not None:
+            # 3-way: XGB dominant, MLP secondary, sim tertiary
+            r['ensemble_prob'] = round(0.50 * xgb + 0.30 * mlp + 0.20 * sim, 4)
+            r['models_used'] = 3
         elif xgb is not None and mlp is not None:
-            # Fallback to MLP if sim unavailable
             r['ensemble_prob'] = round(0.6 * xgb + 0.4 * mlp, 4)
+            r['models_used'] = 2
+        elif xgb is not None and sim is not None:
+            # Fallback when MLP is dead — sim fills the gap
+            r['ensemble_prob'] = round(0.6 * xgb + 0.4 * sim, 4)
             r['models_used'] = 2
         elif xgb is not None:
             r['ensemble_prob'] = xgb

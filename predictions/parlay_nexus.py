@@ -1363,16 +1363,15 @@ def _build_with_constraints(pool, target, sort_key, excluded_pairs, max_combo=1)
         if team and team in used_teams:
             continue
 
-        # v16: Regression margin filter — reject razor-thin margins
-        # For SAFE (target <= 5), require |reg_margin| >= 1.0 confirming direction
-        # For AGG (target > 5), softer threshold of 0.5
+        # v16: Regression margin guard rails — reject extremes that underperform
+        # Backtest: rm < -4 = 42% HR (overconfident), rm > 2 = 47% (disagrees)
         rm = pick.get('reg_margin')
-        if rm is not None and target <= 5:
+        if rm is not None:
             direction = pick.get('direction', '').upper()
-            if direction == 'UNDER' and rm > -1.0:
-                continue  # regression doesn't confirm UNDER strongly enough
-            elif direction == 'OVER' and rm < 1.0:
-                continue  # regression doesn't confirm OVER strongly enough
+            if direction == 'UNDER' and (rm < -4.0 or rm > 2.0):
+                continue  # extreme overconfidence or strong disagreement
+            elif direction == 'OVER' and (rm > 4.0 or rm < -2.0):
+                continue
 
         # Combo limit
         if stat in COMBO_STATS:
