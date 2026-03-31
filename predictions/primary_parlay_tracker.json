@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-29T23:03:21.766201",
+  "last_updated": "2026-03-30T23:35:33.420136",
   "daily_results": [
     {
       "date": "2026-03-16",
@@ -190,27 +190,104 @@
         "legs_hit": 8,
         "legs_total": 8
       }
+    },
+    {
+      "date": "2026-03-30",
+      "sweep_optimized": {
+        "result": "MISS",
+        "legs_hit": 2,
+        "legs_total": 3
+      },
+      "safe_2leg": {
+        "result": "MISS",
+        "legs_hit": 1,
+        "legs_total": 2
+      },
+      "safe": {
+        "result": "MISS",
+        "legs_hit": 1,
+        "legs_total": 3
+      },
+      "aggressive": {
+        "result": "DNP",
+        "legs_hit": 3,
+        "legs_total": 8
+      }
     }
   ],
   "cumulative": {
-    "safe": {
-      "wins": 2,
-      "losses": 3,
-      "dnp": 5,
-      "win_rate": 40.0,
-      "total_legs_hit": 9,
-      "total_legs": 30,
-      "leg_hit_rate": 30.0
-    },
     "aggressive": {
       "wins": 1,
       "losses": 5,
-      "dnp": 3,
+      "dnp": 4,
       "win_rate": 16.7,
-      "total_legs_hit": 27,
-      "total_legs": 57,
-      "leg_hit_rate": 47.4
+      "total_legs_hit": 30,
+      "total_legs": 65,
+      "leg_hit_rate": 46.2
+    },
+    "blk_2leg": {
+      "wins": 0,
+      "losses": 1,
+      "dnp": 0,
+      "win_rate": 0.0,
+      "total_legs_hit": 1,
+      "total_legs": 2,
+      "leg_hit_rate": 50.0
+    },
+    "blk_3leg": {
+      "wins": 0,
+      "losses": 1,
+      "dnp": 0,
+      "win_rate": 0.0,
+      "total_legs_hit": 2,
+      "total_legs": 3,
+      "leg_hit_rate": 66.7
+    },
+    "floor_5leg": {
+      "wins": 0,
+      "losses": 1,
+      "dnp": 0,
+      "win_rate": 0.0,
+      "total_legs_hit": 3,
+      "total_legs": 5,
+      "leg_hit_rate": 60.0
+    },
+    "floor_6leg": {
+      "wins": 0,
+      "losses": 1,
+      "dnp": 0,
+      "win_rate": 0.0,
+      "total_legs_hit": 4,
+      "total_legs": 6,
+      "leg_hit_rate": 66.7
+    },
+    "safe": {
+      "wins": 2,
+      "losses": 4,
+      "dnp": 5,
+      "win_rate": 33.3,
+      "total_legs_hit": 10,
+      "total_legs": 33,
+      "leg_hit_rate": 30.3
+    },
+    "safe_2leg": {
+      "wins": 2,
+      "losses": 3,
+      "dnp": 1,
+      "win_rate": 40.0,
+      "total_legs_hit": 5,
+      "total_legs": 12,
+      "leg_hit_rate": 41.7
+    },
+    "sweep_optimized": {
+      "wins": 1,
+      "losses": 3,
+      "dnp": 1,
+      "win_rate": 25.0,
+      "total_legs_hit": 8,
+      "total_legs": 15,
+      "leg_hit_rate": 53.3
     }
   },
-  "total_days": 10
+  "total_days": 11
 }

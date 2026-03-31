@@ -170,17 +170,16 @@ COMBO_GAP_PENALTY = 0.5  # subtract from abs_gap before tier grading for combos
 # ParlayPlay lines are systematically set high — UNDER is the structural edge.
 # Key stat splits: BLK UNDER 74.8%, STL 68%, 3PM 63.3%, AST 61%, REB 59.7%
 MARKET_LINE_WEIGHT = 0.35   # Default blend; dynamically adjusted by hit rate in analyze_player()
-OVER_BIAS_CORRECTION = 0.02  # 2% systematic downward shift (was 5% — too aggressive, crushed all gaps to 0)
+OVER_BIAS_CORRECTION = 0.01  # v16: 1% systematic downward shift (was 2%). UNDER edge decayed: 70.1% early Mar → 52.4% late Mar.
 THIN_GAP_UNDER_THRESHOLD = 1.5  # Gaps 0-1.5 flip to UNDER (was 3.0 — made OVER impossible, 0% OVERs)
 OVER_CONFIRMATION_HR = 55  # L10 HR must be >= this to allow OVER call (was 65 — too strict with gap threshold)
 
-# v15: Stat-specific UNDER bias — only apply to truly extreme stats (BLK/STL)
-# Other stats were over-corrected: PTS/AST/PA don't need extra penalties
+# v16: Stat-specific UNDER bias — halved. UNDER edge eroding as season enters playoff push.
+# Early March BLK UNDER 74.8%, late March BLK UNDER ~55%. Corrections were over-fitted to peak period.
 STAT_UNDER_EXTRA_CORRECTION = {
-    'blk': 0.04,      # BLK goes UNDER 74.8% — keep but reduce (was 0.06)
-    'stl': 0.02,      # STL goes UNDER 68% — keep but reduce (was 0.04)
-    'stl_blk': 0.04,  # STL+BLK combo — reduce (was 0.06)
-    # Removed: 3pm (0.03), pa (0.02), ast (0.015) — over-correction made all gaps negative
+    'blk': 0.02,      # BLK goes UNDER ~60% late season (was 0.04)
+    'stl': 0.01,      # STL goes UNDER ~55% late season (was 0.02)
+    'stl_blk': 0.02,  # STL+BLK combo (was 0.04)
 }
 
 # Injury status severity weights (for tier downgrade)

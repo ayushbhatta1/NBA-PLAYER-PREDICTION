@@ -243,6 +243,9 @@ def _sort_fn(sort_key):
         return lambda p: p.get('mlp_prob', 0) or 0
     elif sort_key == 'ensemble_prob':
         return lambda p: p.get('ensemble_prob', p.get('xgb_prob', 0)) or 0
+    elif sort_key == 'reg_margin':
+        # v16: Sort by absolute regression margin (higher = more confident)
+        return lambda p: abs(p.get('reg_margin', 0) or 0)
     elif sort_key == 'gap':
         return lambda p: p.get('abs_gap', 0)
     elif sort_key == 'hr_weighted':
@@ -843,12 +846,24 @@ def _sim_sort(p):
     if l5 > 0 and l10 > 0 and l5 < l10:
         s += 5
 
-    # #4: Regression margin — when regression model also confirms UNDER
+    # #4: Regression margin — PROMOTED to co-dominant signal (v16)
+    # Mar 30 data: sweet spot is rm [-3, -1] at 57% HR. Extreme <-3 drops to 49% (overconfident).
+    # Key insight: regression TOO confident = book knows something model doesn't.
     reg_margin = p.get('reg_margin', 0) or 0
-    if reg_margin < -3:
-        s += 8   # strong regression confirmation
-    elif reg_margin < -1.5:
-        s += 4
+    if -3 <= reg_margin < -2:
+        s += 12  # sweet spot — best hit rate zone (56-58%)
+    elif -2 <= reg_margin < -1.5:
+        s += 11  # sweet spot
+    elif -1.5 <= reg_margin < -1:
+        s += 10  # sweet spot
+    elif reg_margin < -4:
+        s += 4   # extreme — regression overconfident, treat cautiously
+    elif reg_margin < -3:
+        s += 6   # strong but approaching overconfident territory
+    elif -1 <= reg_margin < -0.5:
+        s += 3
+    elif reg_margin > 0:
+        s -= 8   # regression DISAGREES with UNDER — major red flag
 
     # #5: Multi-model consensus — independent models agreeing
     votes = 0
@@ -937,13 +952,30 @@ def build_primary_safe(pool):
             return False
         return True
 
-    # ALL passes: UNDER + L10 HR >= 60% + NOT HOT (HOT = trap, 0 HOT = 34.6% vs 14.4%)
+    # v16: reg_margin sweet-spot filter for SAFE legs
+    # Data shows: rm [-3, -1] = 57% HR, rm < -3 = 49% (overconfident), rm > 0 = 46% (disagrees)
+    # Require regression to be in the sweet spot OR moderately negative. Reject extremes both ways.
+    def _reg_margin_ok(p, threshold=-1.0):
+        """Check that regression margin is in the reliable range for UNDER picks.
+        Rejects: rm > threshold (regression doesn't confirm UNDER enough)
+        Rejects: rm < -5.0 (regression overconfident — book likely knows something)"""
+        rm = p.get('reg_margin')
+        if rm is None:
+            return True  # no regression data = don't filter
+        if rm > threshold:
+            return False  # too close to/above line
+        if rm < -4.0:
+            return False  # extreme overconfidence — 49% HR vs 57% in sweet spot
+        return True
+
+    # ALL passes: UNDER + L10 HR >= 60% + NOT HOT + regression margin confirms
     base_filter = lambda p: (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
         (p.get('l10_hit_rate', 0) or 0) >= 60 and
         not _is_hot(p) and
-        _gap_sanity(p)
+        _gap_sanity(p) and
+        _reg_margin_ok(p, -1.5)
     )
 
     def _pick_from(candidates, picks, used_games, n_target):
@@ -963,21 +995,22 @@ def build_primary_safe(pool):
                 return True
         return len(picks) >= n_target
 
-    # Pass 0A (STRONGEST): line > L10 avg by 3+ AND COLD
+    # Pass 0A (STRONGEST): line > L10 avg by 3+ AND COLD + regression confirms
     # Validated on 46K real-line records: 72.5% HR (726 picks, no data leakage)
-    # Logic: book set line 3+ above recent production + player in cold streak
+    # v16: Added reg_margin filter — no razor-thin regression margins in SAFE
     p0a = [p for p in pool if (
         _is_eligible(p) and
         p.get('direction', '').upper() == 'UNDER' and
         not _is_hot(p) and
         p.get('streak_status') == 'COLD' and
-        ((p.get('line', 0) or 0) - (p.get('l10_avg', 0) or 0)) >= 3.0
+        ((p.get('line', 0) or 0) - (p.get('l10_avg', 0) or 0)) >= 3.0 and
+        _reg_margin_ok(p, -1.0)
     )]
     p0a.sort(key=_sim_sort, reverse=True)
     if _pick_from(p0a, picks, used_games, 3):
         return picks
 
-    # Pass 0B: line > L10 avg by 2+ AND COLD + L5 declining
+    # Pass 0B: line > L10 avg by 2+ AND COLD + L5 declining + regression confirms
     # 70.8% HR on 987 picks — triple confirmation (line gap + cold + trend)
     p0b = [p for p in pool if (
         _is_eligible(p) and
@@ -986,13 +1019,14 @@ def build_primary_safe(pool):
         p.get('streak_status') == 'COLD' and
         ((p.get('line', 0) or 0) - (p.get('l10_avg', 0) or 0)) >= 2.0 and
         (p.get('l5_avg', 0) or 0) > 0 and (p.get('l10_avg', 0) or 0) > 0 and
-        (p.get('l5_avg', 0) or 0) < (p.get('l10_avg', 0) or 0)
+        (p.get('l5_avg', 0) or 0) < (p.get('l10_avg', 0) or 0) and
+        _reg_margin_ok(p, -1.0)
     )]
     p0b.sort(key=_sim_sort, reverse=True)
     if _pick_from(p0b, picks, used_games, 3):
         return picks
 
-    # Pass 0C: line > L10 avg by 2+ AND COLD (relax L5 declining)
+    # Pass 0C: line > L10 avg by 2+ AND COLD (relax L5 declining) + regression confirms
     # 71.6% HR on 1211 picks
     p0c = [p for p in pool if (
         _is_eligible(p) and
@@ -1000,6 +1034,7 @@ def build_primary_safe(pool):
         not _is_hot(p) and
         p.get('streak_status') == 'COLD' and
         ((p.get('line', 0) or 0) - (p.get('l10_avg', 0) or 0)) >= 2.0 and
+        _reg_margin_ok(p, -1.0) and
         p not in picks
     )]
     p0c.sort(key=_sim_sort, reverse=True)
@@ -1737,13 +1772,26 @@ def build_primary_aggressive(pool, safe_players):
 
     # Quality floor for all legs
     # v10.1: Block OVERs in high-spread games (blowout benching)
+    # v16: reg_margin filter — require regression confirmation for direction
+    def _agg_reg_ok(p):
+        rm = p.get('reg_margin')
+        if rm is None:
+            return True
+        d = p.get('direction', '').upper()
+        if d == 'UNDER':
+            return rm <= -1.0  # regression must project at least 1.0 below line
+        else:  # OVER
+            return rm >= 1.0   # regression must project at least 1.0 above line
+        return True
+
     filtered = [p for p in pool if (
         _is_eligible(p) and
         p.get('mins_30plus_pct', 0) >= 55 and
         p.get('l10_hit_rate', 0) >= 50 and
         p.get('xgb_prob', 0) >= 0.52 and
         p.get('player', '') not in excluded and
-        not (p.get('direction', '').upper() == 'OVER' and abs(p.get('spread', 0) or 0) >= 15)
+        not (p.get('direction', '').upper() == 'OVER' and abs(p.get('spread', 0) or 0) >= 15) and
+        _agg_reg_ok(p)
     )]
 
     # Split: UNDERs + OVERs (no tier gating)

@@ -177,7 +177,7 @@ def profile_score(pick):
     else:
         score += 2
 
-    # ── Season avg margin (20%) — the Bam killer ──
+    # ── Season avg margin (10%) — the Bam killer (v16: reduced from 20%, reg_margin takes 10%) ──
     season_avg = pick.get('season_avg', 0)
     line = pick.get('line', 0)
     direction = pick.get('direction', '')
@@ -187,13 +187,35 @@ def profile_score(pick):
         margin = line - season_avg
 
     if margin >= 4:
-        score += 20
+        score += 10
     elif margin >= 2:
-        score += 14
+        score += 7
     elif margin >= 0:
-        score += 8
+        score += 4
     else:
         score += 0  # season avg on wrong side of line
+
+    # ── Regression margin (10%) — v16: strongest single predictor ──
+    # Sweet spot: |rm| 1-3 at 57% HR. Extreme |rm| > 3 drops to 49% (overconfident).
+    reg_margin = pick.get('reg_margin')
+    if reg_margin is not None:
+        # For UNDER, negative reg_margin is good. For OVER, positive is good.
+        if direction == 'OVER':
+            rm_directional = reg_margin
+        else:
+            rm_directional = -reg_margin
+        if 1.0 <= rm_directional <= 3.0:
+            score += 10  # sweet spot — best empirical hit rate
+        elif 0.5 <= rm_directional < 1.0:
+            score += 5
+        elif rm_directional > 3.0:
+            score += 4   # overconfident — book knows something (penalized vs sweet spot)
+        elif rm_directional < -1:
+            score -= 5  # regression DISAGREES with direction — danger
+        else:
+            score += 2
+    else:
+        score += 3  # neutral if no data
 
     # ── Consistency (25%) — v2: L5 weighted MORE than L10 ──
     l10_hr = pick.get('l10_hit_rate', 50)
@@ -1306,6 +1328,7 @@ def _build_with_constraints(pool, target, sort_key, excluded_pairs, max_combo=1)
     """
     Shared builder with diversification constraints.
     No same-game, max 1 player per parlay, max max_combo combo stats, no same-team.
+    v16: reg_margin filter — regression must confirm direction for SAFE legs.
     excluded_pairs: set of (player, stat) to exclude for non-overlap.
     """
     if not pool:
@@ -1339,6 +1362,17 @@ def _build_with_constraints(pool, target, sort_key, excluded_pairs, max_combo=1)
         # No same-team
         if team and team in used_teams:
             continue
+
+        # v16: Regression margin filter — reject razor-thin margins
+        # For SAFE (target <= 5), require |reg_margin| >= 1.0 confirming direction
+        # For AGG (target > 5), softer threshold of 0.5
+        rm = pick.get('reg_margin')
+        if rm is not None and target <= 5:
+            direction = pick.get('direction', '').upper()
+            if direction == 'UNDER' and rm > -1.0:
+                continue  # regression doesn't confirm UNDER strongly enough
+            elif direction == 'OVER' and rm < 1.0:
+                continue  # regression doesn't confirm OVER strongly enough
 
         # Combo limit
         if stat in COMBO_STATS:

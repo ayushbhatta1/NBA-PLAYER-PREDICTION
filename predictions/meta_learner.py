@@ -863,16 +863,21 @@ def score_meta(results, model_path=None):
 
 
 def _fallback_ensemble(results):
-    """Apply the hardcoded 0.6*xgb + 0.4*mlp blend as fallback."""
+    """Apply the hardcoded 0.6*xgb + 0.4*sim blend as fallback.
+    v16: sim_prob replaces mlp_prob (sim AUC 0.564 > MLP dead/redundant)."""
     for r in results:
         _fallback_single(r)
 
 
 def _fallback_single(r):
-    """Apply fallback ensemble to a single prop dict."""
+    """Apply fallback ensemble to a single prop dict.
+    v16: Prefers sim_prob over mlp_prob for genuine model diversity."""
     xgb_p = r.get('xgb_prob')
+    sim_p = r.get('sim_prob')
     mlp_p = r.get('mlp_prob')
-    if xgb_p is not None and mlp_p is not None:
+    if xgb_p is not None and sim_p is not None:
+        r['ensemble_prob'] = round(0.6 * float(xgb_p) + 0.4 * float(sim_p), 4)
+    elif xgb_p is not None and mlp_p is not None:
         r['ensemble_prob'] = round(0.6 * float(xgb_p) + 0.4 * float(mlp_p), 4)
     elif xgb_p is not None:
         r['ensemble_prob'] = float(xgb_p)
