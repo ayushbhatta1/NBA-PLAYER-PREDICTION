@@ -24,6 +24,9 @@ RATE_LIMIT = 0.15
 CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cache", "kalshi")
 
 
+REQUEST_TIMEOUT = 20  # seconds; urlopen has no timeout by default and can hang
+
+
 class KalshiClient:
     """Kalshi exchange API client."""
 
@@ -45,7 +48,7 @@ class KalshiClient:
         req = Request(f"{self.base}/login", data=data, method="POST")
         req.add_header("Content-Type", "application/json")
         try:
-            resp = urlopen(req)
+            resp = urlopen(req, timeout=REQUEST_TIMEOUT)
             result = json.loads(resp.read())
             self.token = result.get("token")
             print(f"  [Kalshi] Logged in, token obtained")
@@ -72,7 +75,7 @@ class KalshiClient:
         req.add_header("Accept", "application/json")
 
         try:
-            resp = urlopen(req)
+            resp = urlopen(req, timeout=REQUEST_TIMEOUT)
             return json.loads(resp.read())
         except HTTPError as e:
             body = e.read().decode()

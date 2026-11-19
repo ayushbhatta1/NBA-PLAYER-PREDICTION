@@ -115,7 +115,11 @@ class SGOClient:
         params["apiKey"] = self.api_key
         url = f"{BASE_URL}/{endpoint}"
         resp = self.session.get(url, params=params, timeout=30)
-        resp.raise_for_status()
+        if not resp.ok:
+            # requests' own error message includes the full URL, which carries
+            # the API key as a query parameter; raise without it.
+            raise requests.HTTPError(
+                f"SGO {endpoint} failed: HTTP {resp.status_code}", response=resp)
         return resp.json()
 
     def _get_all_pages(self, endpoint, params=None):

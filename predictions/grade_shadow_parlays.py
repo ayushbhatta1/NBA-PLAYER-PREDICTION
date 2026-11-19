@@ -10,8 +10,10 @@ Usage: python3 grade_shadow_parlays.py 2026-03-13
 import sys
 import json
 import os
-import unicodedata
 from datetime import datetime
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from box_score_match import find_actual  # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -19,47 +21,15 @@ PREDICTIONS_DIR = os.path.dirname(os.path.abspath(__file__))
 TRACKER_FILE = os.path.join(PREDICTIONS_DIR, 'shadow_parlay_tracker.json')
 
 
-def _norm(s):
-    nfkd = unicodedata.normalize('NFKD', s)
-    return ''.join(c for c in nfkd if not unicodedata.combining(c)).lower().strip()
 
 
 def _find_actual(player_name, stat, actuals, team=None):
-    """Find a player's actual stat value with fuzzy matching.
+    """Actual stat for a player; None when unmatched, ambiguous or DNP.
 
-    When team is provided and fuzzy matching (not exact), prefer the match
-    whose team matches to disambiguate players with similar names.
+    See box_score_match.py: players who did not play are voided, and a fuzzy
+    name match must be unambiguous.
     """
-    p_norm = _norm(player_name)
-    p_parts = p_norm.split()
-
-    def _get_val(stats_dict):
-        val = stats_dict.get(stat)
-        if val is None:
-            val = stats_dict.get(stat.lower())
-        return val
-
-    fuzzy_matches = []
-
-    for name, stats in actuals.items():
-        n_norm = _norm(name)
-        if p_norm == n_norm:
-            return _get_val(stats)
-        n_parts = n_norm.split()
-        if len(p_parts) >= 2 and len(n_parts) >= 2:
-            if p_parts[-1] == n_parts[-1] and p_parts[0][0] == n_parts[0][0]:
-                fuzzy_matches.append((name, stats))
-
-    if not fuzzy_matches:
-        return None
-
-    if team:
-        team_upper = team.upper()
-        for name, stats in fuzzy_matches:
-            if stats.get('team', '').upper() == team_upper:
-                return _get_val(stats)
-
-    return _get_val(fuzzy_matches[0][1])
+    return find_actual(player_name, stat, actuals, team=team)
 
 
 def grade_shadow_parlays(date_str):

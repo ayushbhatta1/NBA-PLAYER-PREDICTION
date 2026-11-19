@@ -1326,19 +1326,18 @@ def grade_board(predictions_file, game_date):
             results.append({**pred, 'actual': None, 'result': 'SKIP', 'margin': None})
             continue
 
-        # Find player in actuals (fuzzy match)
-        actual_stats = None
-        for name, stats in actuals.items():
-            if _fuzzy_name_match(player, name):
-                actual_stats = stats
-                break
+        # Find player in actuals: unambiguous match only, DNP players voided
+        from box_score_match import find_actual
+        actual_val = find_actual(player, stat, actuals, team=pred.get('team', ''))
 
-        if actual_stats is None:
+        if actual_val is None:
             results.append({**pred, 'actual': None, 'result': 'DNP', 'margin': None})
             continue
 
-        actual_val = actual_stats.get(stat, 0)
         margin = actual_val - line
+        if actual_val == line:
+            results.append({**pred, 'actual': actual_val, 'result': 'PUSH', 'margin': 0.0})
+            continue
 
         if direction == 'OVER':
             hit = actual_val > line
