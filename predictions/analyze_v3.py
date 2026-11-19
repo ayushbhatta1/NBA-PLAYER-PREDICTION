@@ -810,8 +810,12 @@ def analyze_player(player_name, stat, line, opponent=None, is_home=None,
     # OVER picks: use legacy gap-based tiers (rare — only ~0.3% of picks)
     under_conf_score = 0.0
     if direction == "UNDER":
+        # Score with the signed gap (projection minus line), as the backtest in
+        # backtest_direction.py does. `gap` was flipped negative above for
+        # display, which made a projection ABOVE the line look like a strong
+        # UNDER signal and pushed those picks into higher tiers.
         under_conf_score = under_confidence_score(
-            player_data, stat, gap, streak_status,
+            player_data, stat, adjusted_proj - line, streak_status,
             is_b2b=is_b2b, spread=spread, is_home=is_home
         )
         tier = "SKIP"
