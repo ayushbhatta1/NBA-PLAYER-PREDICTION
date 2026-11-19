@@ -4,7 +4,7 @@ Sports Game Odds API client for NBA player props.
 Fetches real sportsbook lines (FanDuel, DraftKings, BetMGM, Caesars, ESPN BET).
 
 API: https://api.sportsgameodds.com/v2/
-Auth: apiKey query parameter
+Auth: x-api-key header (kept out of URLs so it never shows up in logs or errors)
 Counting: 1 credit = 1 event (game), not per prop line
 
 NOTE: Player props are only available on upcoming/live games.
@@ -52,6 +52,7 @@ class SGOClient:
         if not self.api_key:
             raise ValueError("No SGO API key. Set SGO_API_KEY env var or add to .env")
         self.session = requests.Session()
+        self.session.headers["x-api-key"] = self.api_key
         self.cache_dir = os.path.join(os.path.dirname(__file__), "cache", "sgo")
         os.makedirs(self.cache_dir, exist_ok=True)
         self.quota_tracker_path = os.path.join(self.cache_dir, "quota_tracker.json")
@@ -110,14 +111,12 @@ class SGOClient:
 
     def _get(self, endpoint, params=None):
         """Make authenticated GET request."""
-        if params is None:
-            params = {}
-        params["apiKey"] = self.api_key
         url = f"{BASE_URL}/{endpoint}"
-        resp = self.session.get(url, params=params, timeout=30)
+        # The key travels in the session's x-api-key header, not the query
+        # string, and the caller's params dict is left untouched.
+        resp = self.session.get(url, params=dict(params or {}), timeout=30)
         if not resp.ok:
-            # requests' own error message includes the full URL, which carries
-            # the API key as a query parameter; raise without it.
+            # Keep the error short and free of request details.
             raise requests.HTTPError(
                 f"SGO {endpoint} failed: HTTP {resp.status_code}", response=resp)
         return resp.json()
