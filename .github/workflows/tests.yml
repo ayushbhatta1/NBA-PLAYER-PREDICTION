@@ -10,5 +10,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python -m pip install pytest pandas numpy
+      - run: python -m pip install pytest pandas numpy requests scikit-learn
       - run: python -m pytest -q tests
