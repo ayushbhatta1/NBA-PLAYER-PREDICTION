@@ -82,9 +82,13 @@ def _pearson(x, y):
 
 def _pick_prob(pick):
     """Best available individual probability for a pick."""
-    return pick.get('ensemble_prob',
-                    pick.get('xgb_prob',
-                             pick.get('xgb_prob_calibrated', 0.50)))
+    # Calibrated before raw: xgb_model always sets xgb_prob alongside
+    # xgb_prob_calibrated, so raw-first never reached the calibrated value.
+    for key in ('ensemble_prob', 'xgb_prob_calibrated', 'xgb_prob'):
+        value = pick.get(key)
+        if value is not None:
+            return float(value)
+    return 0.50
 
 
 # ---------------------------------------------------------------------------
