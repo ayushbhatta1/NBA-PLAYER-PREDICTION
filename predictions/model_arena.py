@@ -226,7 +226,7 @@ def _prepare_data(records, source_label):
 
     Uses walk-forward: first 70% of dates = train, last 30% = test.
 
-    Returns (X_train, y_train, X_test, y_test, dates_train, dates_test, sample_weights_train).
+    Returns (X_train, y_train, X_test, y_test, sample_weights_train, dates_train).
     """
     X, y, dates = engineer_features(records)
 
@@ -261,6 +261,7 @@ def _prepare_data(records, source_label):
     X_train, y_train = X[train_mask], y[train_mask]
     X_test, y_test = X[test_mask], y[test_mask]
     sw_train = sample_weights[train_mask]
+    dates_train = np.array(dates)[train_mask]
 
     print(f"\n  Walk-forward split:")
     print(f"    Train: {len(y_train):,} samples ({sorted(train_dates)[0] if train_dates else '?'} -> "
@@ -269,7 +270,7 @@ def _prepare_data(records, source_label):
           f"{sorted(test_dates)[-1] if test_dates else '?'})")
     print(f"    Train hit rate: {y_train.mean():.1%}, Test hit rate: {y_test.mean():.1%}")
 
-    return X_train, y_train, X_test, y_test, sw_train
+    return X_train, y_train, X_test, y_test, sw_train, dates_train
 
 
 # =====================================================================
@@ -467,7 +468,8 @@ def select_top_models(results, max_models=5):
 # STACKING ENSEMBLE
 # =====================================================================
 
-def build_ensemble(top_results, X_train, y_train, X_test, y_test, sample_weights_train=None):
+def build_ensemble(top_results, X_train, y_train, X_test, y_test, sample_weights_train=None,
+                   groups_train=None):
     """Build a stacking meta-learner from out-of-fold predictions.
 
     Process:
@@ -488,12 +490,21 @@ def build_ensemble(top_results, X_train, y_train, X_test, y_test, sample_weights
     print(f"\n  Building stacking ensemble from {n_models} models: {model_names}")
 
     K = 5
-    kf = KFold(n_splits=K, shuffle=True, random_state=42)
+    # Props from the same date share games, injuries and lines. A shuffled KFold
+    # puts same-day props on both sides of a fold, so out-of-fold predictions
+    # look better than they will on a new day and the meta-learner over-trusts
+    # the base models. Keep each date inside a single fold when dates are known.
+    if groups_train is not None and len(set(groups_train)) >= K:
+        from sklearn.model_selection import GroupKFold
+        fold_splits = list(GroupKFold(n_splits=K).split(X_train, y_train, groups_train))
+        print(f"    Out-of-fold split: grouped by date ({len(set(groups_train))} dates)")
+    else:
+        fold_splits = list(KFold(n_splits=K, shuffle=True, random_state=42).split(X_train))
 
     # Out-of-fold prediction matrix
     oof_preds = np.zeros((len(y_train), n_models))
 
-    for fold_idx, (fold_train_idx, fold_val_idx) in enumerate(kf.split(X_train)):
+    for fold_idx, (fold_train_idx, fold_val_idx) in enumerate(fold_splits):
         X_fold_train = X_train[fold_train_idx]
         y_fold_train = y_train[fold_train_idx]
         X_fold_val = X_train[fold_val_idx]
@@ -806,7 +817,7 @@ def train_arena(board_file=None, max_models=5):
     print(f"  Source: {source_label}, {len(records):,} records")
 
     # Prepare features and split
-    X_train, y_train, X_test, y_test, sw_train = _prepare_data(records, source_label)
+    X_train, y_train, X_test, y_test, sw_train, dates_train = _prepare_data(records, source_label)
 
     if len(y_test) < 20:
         print(f"  ERROR: Test set too small ({len(y_test)} samples). Need at least 20.")
@@ -842,7 +853,8 @@ def train_arena(board_file=None, max_models=5):
     # Build stacking ensemble
     if len(top_results) >= 2:
         meta_learner, meta_scaler, final_models, ensemble_metrics = build_ensemble(
-            top_results, X_train, y_train, X_test, y_test, sw_train
+            top_results, X_train, y_train, X_test, y_test, sw_train,
+            groups_train=dates_train,
         )
     else:
         # Fallback: single model, no stacking
@@ -898,7 +910,7 @@ def eval_arena(board_file=None):
     if records is None:
         return None
 
-    X_train, y_train, X_test, y_test, sw_train = _prepare_data(records, source_label)
+    X_train, y_train, X_test, y_test, sw_train, dates_train = _prepare_data(records, source_label)
 
     if len(y_test) < 20:
         print(f"  ERROR: Test set too small ({len(y_test)} samples)")

@@ -360,12 +360,22 @@ def _get_prop_odds(prop):
     return DEFAULT_ODDS
 
 
+PROB_KEYS = ('ensemble_prob', 'xgb_prob_calibrated', 'xgb_prob', 'focused_prob')
+
+
 def _get_prop_prob(prop):
-    """Best available probability estimate for a prop."""
-    return prop.get('ensemble_prob',
-                    prop.get('xgb_prob',
-                             prop.get('xgb_prob_calibrated',
-                                      prop.get('focused_prob', 0.50))))
+    """Best available probability estimate for a prop.
+
+    The calibrated XGBoost probability comes before the raw one. xgb_model
+    always sets xgb_prob when it sets xgb_prob_calibrated, so with the raw
+    key first the calibrated value was never used. Keys set to None count
+    as missing.
+    """
+    for key in PROB_KEYS:
+        value = prop.get(key)
+        if value is not None:
+            return float(value)
+    return 0.50
 
 
 # ---------------------------------------------------------------------------

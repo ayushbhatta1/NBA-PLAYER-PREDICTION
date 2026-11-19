@@ -810,8 +810,12 @@ def analyze_player(player_name, stat, line, opponent=None, is_home=None,
     # OVER picks: use legacy gap-based tiers (rare — only ~0.3% of picks)
     under_conf_score = 0.0
     if direction == "UNDER":
+        # Score with the signed gap (projection minus line), as the backtest in
+        # backtest_direction.py does. `gap` was flipped negative above for
+        # display, which made a projection ABOVE the line look like a strong
+        # UNDER signal and pushed those picks into higher tiers.
         under_conf_score = under_confidence_score(
-            player_data, stat, gap, streak_status,
+            player_data, stat, adjusted_proj - line, streak_status,
             is_b2b=is_b2b, spread=spread, is_home=is_home
         )
         tier = "SKIP"
@@ -1326,19 +1330,18 @@ def grade_board(predictions_file, game_date):
             results.append({**pred, 'actual': None, 'result': 'SKIP', 'margin': None})
             continue
 
-        # Find player in actuals (fuzzy match)
-        actual_stats = None
-        for name, stats in actuals.items():
-            if _fuzzy_name_match(player, name):
-                actual_stats = stats
-                break
+        # Find player in actuals: unambiguous match only, DNP players voided
+        from box_score_match import find_actual
+        actual_val = find_actual(player, stat, actuals, team=pred.get('team', ''))
 
-        if actual_stats is None:
+        if actual_val is None:
             results.append({**pred, 'actual': None, 'result': 'DNP', 'margin': None})
             continue
 
-        actual_val = actual_stats.get(stat, 0)
         margin = actual_val - line
+        if actual_val == line:
+            results.append({**pred, 'actual': actual_val, 'result': 'PUSH', 'margin': 0.0})
+            continue
 
         if direction == 'OVER':
             hit = actual_val > line

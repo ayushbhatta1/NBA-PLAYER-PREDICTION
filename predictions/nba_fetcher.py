@@ -145,6 +145,33 @@ TEAM_ABR = {
 }
 
 
+
+def _parse_minutes(raw):
+    """Box-score minutes in any format nba_api returns -> float, or None.
+
+    Handles ISO durations ("PT34M12.00S"), clock strings ("34:12"), plain
+    numbers, and blanks. Returns None (unknown) rather than 0 when the value
+    can't be read, so an unreadable field is never mistaken for a DNP.
+    """
+    if raw is None:
+        return None
+    if isinstance(raw, (int, float)):
+        return float(raw)
+    s = str(raw).strip()
+    if not s:
+        return 0.0  # the V3 box score leaves minutes blank for DNP players
+    try:
+        if s.startswith('PT') and 'M' in s:
+            m_part, rest = s[2:].split('M', 1)
+            sec = rest.replace('S', '') or '0'
+            return int(m_part) + float(sec) / 60
+        if ':' in s:
+            m_part, sec = s.split(':', 1)
+            return int(m_part) + float(sec or 0) / 60
+        return float(s)
+    except ValueError:
+        return None
+
 class NBAFetcher:
     """Live NBA data fetcher using nba_api"""
 
@@ -654,15 +681,14 @@ class NBAFetcher:
                     continue
 
                 stats = ps.get('statistics', {})
-                mins_raw = stats.get('minutes', 'PT00M00.00S')
-                mins = 0
-                if isinstance(mins_raw, str) and 'M' in str(mins_raw):
-                    try:
-                        m_part = str(mins_raw).split('PT')[1].split('M')[0]
-                        s_part = str(mins_raw).split('M')[1].replace('S', '')
-                        mins = int(m_part) + float(s_part) / 60
-                    except Exception:
-                        mins = 0
+                mins = _parse_minutes(stats.get('minutes'))
+                comment = str(ps.get('comment', '') or '').strip().upper()
+                status = str(ps.get('status', '') or '').strip().upper()
+                played = not (
+                    status == 'INACTIVE'
+                    or comment.startswith(('DNP', 'DND', 'NWT'))
+                    or (mins is not None and mins <= 0)
+                )
 
                 pts = int(stats.get('points', 0) or 0)
                 reb = int(stats.get('reboundsTotal', 0) or 0)
@@ -674,7 +700,8 @@ class NBAFetcher:
                 all_players[name] = {
                     'pts': pts, 'reb': reb, 'ast': ast,
                     '3pm': fg3m, 'stl': stl, 'blk': blk,
-                    'min': round(mins, 1),
+                    'min': round(mins, 1) if mins is not None else None,
+                    'played': played,
                     'pra': pts + reb + ast,
                     'pr': pts + reb,
                     'pa': pts + ast,

@@ -6,10 +6,11 @@ Now uses nba_api live box scores instead of static CSV database.
 Usage: python3 grade_results.py 2026-03-12
 """
 import sys, json, os
-from datetime import datetime
 from collections import defaultdict
+from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from box_score_match import find_actual  # noqa: E402
 
 
 def grade_date(date_str, predictions_file=None):
@@ -219,51 +220,12 @@ def grade_date(date_str, predictions_file=None):
 
 
 def _find_actual(player_name, stat, actuals, team=None):
-    """Find a player's actual stat value with fuzzy matching.
+    """Actual stat for a player; None when unmatched, ambiguous or DNP.
 
-    When team is provided and fuzzy matching (not exact), prefer the match
-    whose team matches to disambiguate players with similar names.
+    See box_score_match.py: players who did not play are voided, and a fuzzy
+    name match must be unambiguous.
     """
-    import unicodedata
-    def _norm(s):
-        nfkd = unicodedata.normalize('NFKD', s)
-        return ''.join(c for c in nfkd if not unicodedata.combining(c)).lower().strip()
-
-    def _get_val(stats_dict):
-        val = stats_dict.get(stat)
-        if val is None:
-            val = stats_dict.get(stat.lower())
-        return val
-
-    p_norm = _norm(player_name)
-    p_parts = p_norm.split()
-
-    # Collect fuzzy matches for disambiguation
-    fuzzy_matches = []
-
-    for name, stats in actuals.items():
-        n_norm = _norm(name)
-        # Exact match — return immediately
-        if p_norm == n_norm:
-            return _get_val(stats)
-        # Last name + first initial
-        n_parts = n_norm.split()
-        if len(p_parts) >= 2 and len(n_parts) >= 2:
-            if p_parts[-1] == n_parts[-1] and p_parts[0][0] == n_parts[0][0]:
-                fuzzy_matches.append((name, stats))
-
-    if not fuzzy_matches:
-        return None
-
-    # If team provided, prefer match with matching team
-    if team:
-        team_upper = team.upper()
-        for name, stats in fuzzy_matches:
-            if stats.get('team', '').upper() == team_upper:
-                return _get_val(stats)
-
-    # Fallback to first fuzzy match
-    return _get_val(fuzzy_matches[0][1])
+    return find_actual(player_name, stat, actuals, team=team)
 
 
 def _fallback_csv_actuals(date_str):
@@ -290,7 +252,10 @@ def _fallback_csv_actuals(date_str):
             pts = int(row['points'])
             reb = int(row['reboundsTotal'])
             ast = int(row['assists'])
+            mins = pd.to_numeric(row.get('numMinutes'), errors='coerce')
             actuals[name] = {
+                'min': None if pd.isna(mins) else float(mins),
+                'team': str(row.get('playerteamName', '') or ''),
                 'pts': pts, 'reb': reb, 'ast': ast,
                 '3pm': int(row['threePointersMade']),
                 'stl': int(row['steals']), 'blk': int(row['blocks']),
